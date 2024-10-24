@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Card, Text, Box, Grid, Anchor } from "@mantine/core";
 import { Eye, Info } from "phosphor-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomBreadcrumbs from "../../../../components/Breadcrumbs"; // Updated import
 import "./ApplicationView.css"; // Import the CSS file
 
@@ -56,6 +56,12 @@ function ApplicationCard({
   attorney,
   borderColor,
 }) {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  // Function to handle the click and navigate to /applicant/applications/status-view
+  const handleViewDetails = () => {
+    navigate("/patent/applicant/applications/status-view"); // Updated route
+  };
   return (
     <Card
       className="application-card"
@@ -78,6 +84,7 @@ function ApplicationCard({
           variant="outline"
           leftIcon={<Info size={16} />}
           className="button"
+          onClick={handleViewDetails}
         >
           View Details
         </Button>
@@ -109,16 +116,28 @@ function ViewApplicationsPage() {
 
       {/* Tab options */}
       <Box className="tab-container">
-        <Anchor component={Link} to="/submitnewapplication" underline={false}>
+        <Anchor
+          component={Link}
+          to="/patent/applicant/applications/submit"
+          underline={false}
+        >
           Submit New Application
         </Anchor>
         <Text size="sm" className="active">
           View Applications
         </Text>
-        <Anchor component={Link} to="/saveddraftspage" underline={false}>
+        <Anchor
+          component={Link}
+          to="/patent/applicant/drafts"
+          underline={false}
+        >
           Saved Drafts
         </Anchor>
-        <Anchor component={Link} to="/notifications" underline={false}>
+        <Anchor
+          component={Link}
+          to="/patent/applicant/notifications"
+          underline={false}
+        >
           Notifications
         </Anchor>
       </Box>

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+
 import {
   TextInput,
   Button,
@@ -127,6 +128,7 @@ function ApplicationForm() {
     console.log("General Questions:", generalQuestions);
     console.log("IPR Ownership Questions:", iprOwnershipQuestions);
     alert("Form submitted successfully!");
+    navigate("/patent/applicant/applications");
   };
 
   // Function to go to the next page of the form
@@ -154,7 +156,7 @@ function ApplicationForm() {
     localStorage.setItem("savedDrafts", JSON.stringify(savedDrafts));
 
     alert("Draft saved successfully!");
-    navigate("/saved-drafts"); // Navigate to the Saved Drafts page
+    navigate("/patent/applicant/drafts"); // Navigate to the Saved Drafts page
   };
 
   return (

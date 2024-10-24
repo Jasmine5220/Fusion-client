@@ -86,13 +86,25 @@ function NotificationsPage() {
       <Text className="page-title">Notifications</Text>
       {/* Tab options (implemented with react-router navigation links) */}
       <Box className="tab-container">
-        <Anchor component={Link} to="/submitnewapplication" underline={false}>
+        <Anchor
+          component={Link}
+          to="/patent/applicant/applications/submit"
+          underline={false}
+        >
           Submit New Application
         </Anchor>
-        <Anchor component={Link} to="/viewapplicationspage" underline={false}>
+        <Anchor
+          component={Link}
+          to="/patent/applicant/applications"
+          underline={false}
+        >
           View Applications
         </Anchor>
-        <Anchor component={Link} to="/saveddraftspage" underline={false}>
+        <Anchor
+          component={Link}
+          to="/patent/applicant/drafts"
+          underline={false}
+        >
           Saved Drafts
         </Anchor>
         <Text size="sm" className="active">

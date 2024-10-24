@@ -30,7 +30,7 @@ export default function App() {
 
         {/* Patent-related routes */}
         <Route path="/patent/*" element={<PatentRoutes />} />
-        
+
         {/* Dashboard, profile, and other pages */}
         <Route
           path="/dashboard"
@@ -56,7 +56,7 @@ export default function App() {
             </Layout>
           }
         />
-      
+
         {/* Account-related routes */}
         <Route path="/accounts/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<ForgotPassword />} />

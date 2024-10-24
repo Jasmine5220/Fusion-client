@@ -70,17 +70,29 @@ function SavedDraftsPage() {
       <Text className="page-title">Saved Drafts</Text>
       {/* Tab options */}
       <Box className="tab-container">
-        <Anchor component={Link} to="/submitnewapplication" underline={false}>
+        <Anchor
+          component={Link}
+          to="/patent/applicant/applications/submit"
+          underline={false}
+        >
           Submit New Application
         </Anchor>
-        <Anchor component={Link} to="/viewapplicationspage" underline={false}>
+        <Anchor
+          component={Link}
+          to="/patent/applicant/applications"
+          underline={false}
+        >
           View Applications
         </Anchor>
         <Text size="sm" className="active">
           Saved Drafts
         </Text>
 
-        <Anchor component={Link} to="/notifications" underline={false}>
+        <Anchor
+          component={Link}
+          to="/patent/applicant/notifications"
+          underline={false}
+        >
           Notifications
         </Anchor>
       </Box>

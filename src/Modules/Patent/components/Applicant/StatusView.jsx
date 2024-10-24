@@ -1,7 +1,74 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./StatusView.css";
-import PropTypes from "prop-types"; // Import PropTypes
-import { Progress, Tooltip } from "@mantine/core"; // Import Mantine Progress and Tooltip
+import PropTypes from "prop-types";
+import { Progress, Text, Group, Box } from "@mantine/core";
+
+// Simulate fetching status from backend
+const fetchApplicationStatus = async () => {
+  // Replace this with actual backend API call
+  return "Attorney Assignment"; // Default for now
+};
+
+function PatentProgressBar({ currentStatus }) {
+  // Determine progress based on status
+  const progressMapping = {
+    "Patent Application Submission": 1,
+    "PCC Admin Review": 2,
+    "Director Initial Review": 3,
+    "Attorney Assignment": 4, // Default until this step for now
+    "Patentability Check": 5,
+    "Final Approval by Director": 6,
+    "Final Contract Completion": 7,
+  };
+
+  const currentStep = progressMapping[currentStatus] || 1;
+
+  return (
+    <Box style={{ width: "80%", margin: "0 auto" }}>
+      <Progress
+        sections={[
+          { value: 15, color: currentStep >= 1 ? "green" : "gray" }, // Patent Application Submission
+          { value: 12, color: currentStep >= 2 ? "green" : "gray" }, // PCC Admin Review
+          { value: 12, color: currentStep >= 3 ? "green" : "gray" }, // Director Initial Review
+          { value: 12, color: currentStep >= 4 ? "green" : "gray" }, // Attorney Assignment
+          { value: 12, color: currentStep >= 5 ? "green" : "gray" }, // Patentability Check
+          { value: 12, color: currentStep >= 6 ? "green" : "gray" }, // Final Approval by Director
+          { value: 12, color: currentStep >= 7 ? "green" : "gray" }, // Final Contract Completion
+        ]}
+        size={10}
+        radius="md"
+      />
+
+      <Group position="apart" mt="md">
+        <Text size="xs" align="center" style={{ width: "15%" }}>
+          Patent Application <br /> Submission
+        </Text>
+        <Text size="xs" align="center" style={{ width: "12%" }}>
+          PCC Admin <br /> Review
+        </Text>
+        <Text size="xs" align="center" style={{ width: "12%" }}>
+          Director <br /> Initial Review
+        </Text>
+        <Text size="xs" align="center" style={{ width: "12%" }}>
+          Assignment of <br /> Attorney
+        </Text>
+        <Text size="xs" align="center" style={{ width: "12%" }}>
+          Patentability <br /> Check
+        </Text>
+        <Text size="xs" align="center" style={{ width: "12%" }}>
+          Final Approval <br /> by Director
+        </Text>
+        <Text size="xs" align="center" style={{ width: "12%" }}>
+          Final Contract <br /> Completion
+        </Text>
+      </Group>
+    </Box>
+  );
+}
+
+PatentProgressBar.propTypes = {
+  currentStatus: PropTypes.string,
+};
 
 function PatentApplication(props) {
   const {
@@ -13,9 +80,21 @@ function PatentApplication(props) {
     phoneNumber = "N/A",
     email = "N/A",
     inventors = [],
-    status,
     statusImage,
   } = props;
+
+  const [currentStatus, setCurrentStatus] = useState(
+    "Patent Application Submission",
+  );
+
+  useEffect(() => {
+    const getStatus = async () => {
+      const status = await fetchApplicationStatus(); // Fetch status from backend
+      setCurrentStatus(status);
+    };
+
+    getStatus();
+  }, []);
 
   return (
     <div
@@ -27,22 +106,22 @@ function PatentApplication(props) {
 
       <div style={{ marginBottom: "20px" }}>
         <p>
-          <strong>Date:</strong> {date}
+          <strong>Date: </strong> {date}
         </p>
         <p>
-          <strong>Application No.:</strong> {applicationNumber}
+          <strong>Application No.: </strong> {applicationNumber}
         </p>
         <p>
-          <strong>Token No.:</strong> {tokenNumber}
+          <strong>Token No.: </strong> {tokenNumber}
         </p>
         <p>
-          <strong>Attorney Name:</strong> {attorneyName}
+          <strong>Attorney Name: </strong> {attorneyName}
         </p>
         <p>
-          <strong>Phone No.:</strong> {phoneNumber}
+          <strong>Phone No.: </strong> {phoneNumber}
         </p>
         <p>
-          <strong>Email ID:</strong> {email}
+          <strong>Email ID: </strong> {email}
         </p>
       </div>
 
@@ -80,7 +159,7 @@ function PatentApplication(props) {
 
       <div style={{ marginTop: "20px" }}>
         <p>
-          <strong>Status of Application:</strong> {status}
+          <strong>Status of Application:</strong> {currentStatus}
         </p>
         {statusImage && (
           <img
@@ -93,35 +172,8 @@ function PatentApplication(props) {
 
       <div style={{ marginTop: "20px" }}>
         <h3>Application Progress</h3>
-        <Progress.Root size={25}>
-          <Tooltip label="Documents – 33Gb">
-            <Progress.Section value={20} color="Green">
-              <Progress.Label>Application Submit</Progress.Label>
-            </Progress.Section>
-          </Tooltip>
-
-          <Tooltip label="Photos – 28Gb">
-            <Progress.Section value={20} color="cyan">
-              <Progress.Label>PCC Review</Progress.Label>
-            </Progress.Section>
-          </Tooltip>
-
-          <Tooltip label="Other – 15Gb">
-            <Progress.Section value={20} color="orange">
-              <Progress.Label>Director Review</Progress.Label>
-            </Progress.Section>
-          </Tooltip>
-          <Tooltip label="Other – 15Gb">
-            <Progress.Section value={15} color="yellow">
-              <Progress.Label>PCC Review</Progress.Label>
-            </Progress.Section>
-          </Tooltip>
-          <Tooltip label="Other – 15Gb">
-            <Progress.Section value={15} color="blue">
-              <Progress.Label>Attorney Assigned</Progress.Label>
-            </Progress.Section>
-          </Tooltip>
-        </Progress.Root>
+        {/* Render the progress bar and pass the current status */}
+        <PatentProgressBar currentStatus={currentStatus} />
       </div>
     </div>
   );
@@ -137,16 +189,14 @@ PatentApplication.propTypes = {
   email: PropTypes.string,
   inventors: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
-      email: PropTypes.string,
-      phone: PropTypes.string,
+      names: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
     }),
   ),
-  status: PropTypes.string,
   statusImage: PropTypes.string,
 };
 
-// Default props (if any)
 PatentApplication.defaultProps = {
   attorneyName: "N/A",
   phoneNumber: "N/A",
@@ -155,4 +205,40 @@ PatentApplication.defaultProps = {
   statusImage: null,
 };
 
-export default PatentApplication;
+// Sample usage with inventors
+function SampleInventorsApp() {
+  // Sample inventor array
+  const inventors = [
+    {
+      names: "Ashish Kumar Bhoi",
+      email: "ashish@gmail.com",
+      phone: "123-456-7890",
+    },
+    {
+      names: "Shreyas Katkar",
+      email: "shreyas@gmail.com",
+      phone: "987-654-3210",
+    },
+    {
+      names: "Aman Kheria",
+      email: "kheria@gmail.com",
+      phone: "555-123-4567",
+    },
+  ];
+
+  return (
+    <PatentApplication
+      title="Innovative Gadget"
+      date="24/10/2024"
+      applicationNumber="123456789"
+      tokenNumber="987654321"
+      attorneyName="XYZ"
+      phoneNumber="555-987-6543"
+      email="attorney@example.com"
+      inventors={inventors} // Passing the inventors array
+      statusImage=""
+    />
+  );
+}
+
+export default SampleInventorsApp;

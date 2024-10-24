@@ -15,7 +15,7 @@ function ApplicantDashboard() {
         <Grid.Col span={6} sm={6} md={3}>
           <Box className="dashboard-card">
             <NavLink
-              to="/submitnewapplication"
+              to="/patent/applicant/applications/submit"
               className="dashboard-link"
               activeclassname="active-link"
             >
@@ -31,7 +31,7 @@ function ApplicantDashboard() {
         <Grid.Col span={6} sm={6} md={3}>
           <Box className="dashboard-card">
             <NavLink
-              to="/viewapplicationspage"
+              to="/patent/applicant/applications"
               className="dashboard-link"
               activeclassname="active-link"
             >
@@ -47,7 +47,7 @@ function ApplicantDashboard() {
         <Grid.Col span={6} sm={6} md={3}>
           <Box className="dashboard-card">
             <NavLink
-              to="/saveddraftspage"
+              to="/patent/applicant/drafts"
               className="dashboard-link"
               activeclassname="active-link"
             >
@@ -61,7 +61,7 @@ function ApplicantDashboard() {
         <Grid.Col span={6} sm={6} md={3}>
           <Box className="dashboard-card">
             <NavLink
-              to="/notifications"
+              to="/patent/applicant/notifications"
               className="dashboard-link"
               activeclassname="active-link"
             >

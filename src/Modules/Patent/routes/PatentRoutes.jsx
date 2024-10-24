@@ -29,7 +29,7 @@ export default function PatentRoutes() {
     <Routes>
       {/* Applicant-related routes */}
       <Route
-        path="/applicantdashboard"
+        path="/applicant/dashboard"
         element={
           <Layout>
             <ApplicantDashboard />
@@ -37,7 +37,7 @@ export default function PatentRoutes() {
         }
       />
       <Route
-        path="/viewapplicationspage"
+        path="/applicant/applications"
         element={
           <Layout>
             <ViewApplicationsPage />
@@ -45,7 +45,7 @@ export default function PatentRoutes() {
         }
       />
       <Route
-        path="/saveddraftspage"
+        path="/applicant/drafts"
         element={
           <Layout>
             <SavedDraftsPage />
@@ -53,7 +53,7 @@ export default function PatentRoutes() {
         }
       />
       <Route
-        path="/submitnewapplication"
+        path="/applicant/applications/submit"
         element={
           <Layout>
             <SubmitNewApplication />
@@ -61,7 +61,7 @@ export default function PatentRoutes() {
         }
       />
       <Route
-        path="/notifications"
+        path="/applicant/notifications"
         element={
           <Layout>
             <NotificationsPage />
@@ -69,7 +69,7 @@ export default function PatentRoutes() {
         }
       />
       <Route
-        path="/applicationform"
+        path="/applicant/applications/submit/new"
         element={
           <Layout>
             <ApplicationForm />
@@ -77,7 +77,7 @@ export default function PatentRoutes() {
         }
       />
       <Route
-        path="/status-view"
+        path="/applicant/applications/status-view"
         element={
           <Layout>
             <StatusView />
