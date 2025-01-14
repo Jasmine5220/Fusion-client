@@ -73,5 +73,20 @@
 
 .download {
   margin-top: 32px;
+  margin-left: 509px;
   text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: 1px solid #3182ce;
+  background-color: #ffffff;
+  color:#3182ce; /* White text */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.download:hover{
+  background-color: #0073e6;
+  color: #ffffff;
+  transform: scale(1.02);
 }

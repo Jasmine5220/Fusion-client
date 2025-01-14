@@ -8,19 +8,24 @@
   margin-bottom: 10px;
   margin-top: -20px;
 }
- 
+
 /* General card styling */
 .saved-draft-card {
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
   text-align: left;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height : 150px;
+  padding: 16px;
+  height: 250px; /* Fixed height for consistency */
+}
+/* Card hover effect */
+.saved-draft-card:hover {
+  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.2); /* Slight elevation on hover */
+  transform: scale(1.02); /* Slight scaling effect */
 }
 
 /* Grid container for cards */
@@ -32,35 +37,45 @@
   max-width: 90%;
 }
 
-/* View Draft button */
+/* View Draft Button styling */
 .viewDraftButton {
-  margin-top: 16px;
-  background-color: #fff;
-  color: #0073e6;
-  border: 1px solid #0073e6
+  margin-top: auto; /* Pushes button to the bottom */
+  background-color: #ffffff;
+  color: #3182ce;
+
+  font-size: 14px;
+  padding: 8px 16px;
+  border: 1px solid #3182ce;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  text-align: center;
+  cursor: pointer;
+
 }
+
 .viewDraftButton:hover {
   background-color: #0073e6;
-  color: #fff;
+  color: #ffffff;
+  transform: scale(1.02);
 }
+
 /* Card title styling */
 .card-title {
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 600;
-  margin-bottom: 2px;
-  text-align: left;
+  margin-bottom: 8px;
 }
 
 /* Card details styling */
 .card-details {
-  font-size: 14px; 
+  font-size: 14px;
   color: #6b7280;
   font-weight: 400;
+  margin-bottom: 12px;
 }
-
 /* Responsive behavior */
 @media (max-width: 768px) {
-  .application-container {
+  .draft-app-container {
     grid-template-columns: 1fr; /* Single column on smaller screens */
   }
 }

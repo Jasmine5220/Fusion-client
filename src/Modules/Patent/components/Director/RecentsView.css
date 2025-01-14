@@ -32,8 +32,9 @@
 
 
 .buttonone:hover{
-    background-color: #225ea8;
-    color: white;
+    background-color: #0073e6;
+    color: #ffffff;
+    transform: scale(1.02);
 }
   
 /* Responsive behavior for smaller screens */
