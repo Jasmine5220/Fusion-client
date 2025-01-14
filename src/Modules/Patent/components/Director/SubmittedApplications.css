@@ -64,12 +64,12 @@
 
 /* Button Hover Effect */
 .view-detail-button:hover {
-  background-color: #225ea8; /* Darker blue on hover */
+  background-color:   #0073e6;; /* Darker blue on hover */
   transform: translateY(-2px); /* Slight lift on hover */
 }
 
 .view-det-button:hover{
-  background-color: #3182ce;
+  background-color:   #0073e6;
   transform: translateY(-2px);
   color: white;
 }
@@ -124,7 +124,7 @@
 
 .dashboard-button:hover,
 .view-details-button:hover {
-  background-color: #225ea8;
+  background-color: #0073e6;
   /* Darker blue on hover */
   transform: translateY(-2px);
   /* Slight lift effect */

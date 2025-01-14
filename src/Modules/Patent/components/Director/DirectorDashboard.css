@@ -87,16 +87,18 @@ body {
   font-weight: 600;
   padding: 12px 24px;
   border-radius: 6px;
-  border: none;
+ 
   background-color: #3182ce; /* Blue buttons */
+  border: 1px solid #3182ce;
   color: #fff; /* White text */
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .dashboard-button:hover {
-  background-color: #225ea8; /* Darker blue */
-  transform: translateY(-2px); /* Slight lift effect */
+  background-color: #0073e6; /* Darker blue */
+  color: #ffffff;
+  transform: scale(1.02);
 }
 
 /* Specific Button Variants */
@@ -119,7 +121,9 @@ body {
 .view-reviewed-applications-button:hover,
 .view-active-applications-button:hover,
 .view-notifications-button:hover {
-  background-color: #225ea8; /* Darker blue */
+  background-color: #0073e6;
+  color: #ffffff;
+  transform: scale(1.02);
 }
 
 /* Table Styling */
@@ -140,6 +144,11 @@ th {
 td {
   padding: 12px 16px;
   border-bottom: 1px solid #e2e8f0; /* Light border */
+}
+.button-one:hover{
+  background-color: #0073e6;
+  color: #ffffff;
+  transform: scale(1.02);
 }
 
 /* Responsive Design */

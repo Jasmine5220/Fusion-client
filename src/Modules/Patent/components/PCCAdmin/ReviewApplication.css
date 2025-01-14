@@ -49,7 +49,7 @@
   color: #1c7ed6;
   font-weight: 700;
   font-size: 14px;
-  border-bottom: 2px solid #1c7ed6;
+  border-bottom: 2px solid #ffffff;
 }
 
 .fusionTableHeader th {
@@ -79,10 +79,11 @@
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
-/* .viewButton:hover {
-  color: #155a9e;
-  transform: scale(1.1);
-} */
+ .viewButton:hover {
+  background-color: #0073e6;
+  color: #ffffff;
+  transform: scale(1.02);
+} 
 
 /* Card Styling */
 .r-app-container {
@@ -125,11 +126,21 @@
 }
 
 .r-button {
-  color: #0073e6;
-    background-color: #ffffff;
-    border: 1px solid #0073e6;
-    font-weight: 500;
-    padding: 1px;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: 1px solid #3182ce;
+  background-color: #ffffff;
+  color:#3182ce; /* White text */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.r-button:hover{
+  
+  background-color: #0073e6;
+  color: #ffffff;
+  transform: scale(1.02);
 }
 
 /* Responsive Design for Cards */

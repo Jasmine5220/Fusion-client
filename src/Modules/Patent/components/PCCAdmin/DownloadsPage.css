@@ -44,4 +44,9 @@
  
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+.download-button:hover{
+  background-color: #0073e6;
+  color: #ffffff;
+  transform: scale(1.02);
+}
 

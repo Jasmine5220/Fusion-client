@@ -70,6 +70,7 @@ function ManageAttorneyAssignment() {
                 <td>
                   <Button
                     variant="outline"
+                    className="view"
                     color="blue"
                     onClick={() => handleViewDetails(attorney.AttorneyID)}
                     leftIcon={<PencilSimple />}

@@ -171,17 +171,18 @@ function InsightsPage() {
         </div>
       </div>
 
-      <div className="download">
+      
         <Button
           radius="md"
           size="md"
+          className="download"
           variant="outline"
           leftIcon={<DownloadSimple size={16} />}
           onClick={handleDownload}
         >
           Download CSV
         </Button>
-      </div>
+      
     </Paper>
     </Container>
   );

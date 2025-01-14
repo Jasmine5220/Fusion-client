@@ -54,8 +54,9 @@ body {
 }
 
 .button:hover {
-  background-color: #225ea8; /* Darker blue on hover */
-  transform: translateY(-2px); /* Slight lift on hover */
+  background-color: #0073e6;
+  color: #ffffff;
+  transform: scale(1.02);
 }
 
 /* Button Container */
