@@ -1,0 +1,36 @@
+/* RecentApplications.css */
+
+/* General layout and padding */
+.applications-container {
+    padding: 16px 0; /* Adjust as needed */
+}
+
+/* Page Title */
+.page-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2d3748;
+    margin: 24px 0; /* Adjust as needed */
+}
+
+/* Application card styling */
+.application-card {
+    padding: 16px;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px; /* Space between cards */
+}
+
+/* Notification title */
+.notification-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Button styling */
+.application-card .button {
+    margin-top: 16px;
+    width: 100%; /* Make button full width */
+}

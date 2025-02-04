@@ -1,0 +1,183 @@
+/* General Container */
+.outerContainer {
+  max-width: 100%;
+  padding: 32px;
+  background-color: #f9fafc;
+  margin-left: 25px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: left;
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  color: black;
+  padding-left: 30px;
+}
+
+.title span {
+  color: black;
+}
+
+.content {
+  text-align: left;
+}
+.description{
+  text-align: left;
+}
+/* Responsive Text Adjustments */
+.content .description {
+  font-size: 14px;
+  color: #555;
+  align-items: center;
+}
+
+/* Responsive Table */
+.styledTable {
+  width: 100%;
+  font-size: 14px;
+  background-color: #ffffff;
+  border-spacing: 0 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.fusionTableHeader th {
+  padding: 14px 18px;
+  text-align: left;
+}
+
+.tableRow {
+  background-color: #ffffff;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.viewButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* Card Styling */
+.r-app-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: flex-start;
+}
+
+.r-application-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: calc(50% - 32px); /* Default width for medium screens */
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 280px;
+}
+
+.r-application-card:hover {
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+.card-header {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.r-card-details {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.r-button {
+  color: #0073e6;
+  background-color: #ffffff;
+  border: 1px solid #0073e6;
+  font-weight: 500;
+  padding: 1px;
+}
+
+/* Responsive Design */
+
+/* Small devices (up to 768px) */
+@media (max-width: 768px) {
+  .outerContainer {
+    padding: 16px; /* Reduced padding for smaller screens */
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .title {
+    font-size: 22px; /* Adjusted font size */
+    padding-left: 16px;
+  }
+
+  .r-app-container {
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .r-application-card {
+    width: 100%; /* Full width for small devices */
+    padding: 20px;
+    height: auto; /* Allow dynamic height */
+  }
+
+  .card-header {
+    font-size: 1.2rem;
+  }
+
+  .r-card-details {
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra small devices (up to 480px) */
+@media (max-width: 480px) {
+  .outerContainer {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 20px;
+    padding-left: 8px;
+  }
+
+  .content .description {
+    font-size: 13px; /* Slightly smaller font for compact screens */
+  }
+
+  .r-application-card {
+    padding: 16px;
+  }
+
+  .card-header {
+    font-size: 1.1rem;
+  }
+
+  .r-card-details {
+    font-size: 0.8rem;
+  }
+
+  .r-button {
+    padding: 4px 8px;
+    font-size: 0.8rem; /* Adjusted button text size */
+  }
+}
+  
