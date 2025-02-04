@@ -1,0 +1,70 @@
+/* CSS for the whole page */
+body {
+    background-color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
+  
+  /* Styling for the main container */
+  .mainbox {
+    background-color: white;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 1050px;
+    margin: 0 auto;
+  }
+  
+  /* Title Styling */
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+ 
+  
+  /* Table Headers */
+  table th {
+    background-color: #f2f2f2;
+    color: #333;
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-weight: bold;
+  }
+  
+  /* Table Data */
+  table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    color: #555;
+  }
+  
+  /* Table Row Hover Effect */
+  table tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Table Row Alternating Colors */
+  table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Styling for Paragraphs */
+  p {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Status Image Styling */
+
+  
+  /* Styling for Inventor Details Heading */
+  h3 {
+    color: #333;
+    margin-top: 30px;
+  }
+  
+  
