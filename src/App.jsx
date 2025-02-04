@@ -12,6 +12,7 @@ import ForgotPassword from "./pages/forgotPassword";
 import AcademicPage from "./Modules/Academic/index";
 import ValidateAuth from "./helper/validateauth";
 import InactivityHandler from "./helper/inactivityhandler";
+import PatentRoutes from "./Modules/Patent/routes/PatentRoutes";
 
 export default function App() {
   const location = useLocation();
@@ -55,6 +56,8 @@ export default function App() {
             </Layout>
           }
         />
+
+        <Route path="/patent/*" element={<PatentRoutes />} />
         <Route path="/accounts/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
       </Routes>
