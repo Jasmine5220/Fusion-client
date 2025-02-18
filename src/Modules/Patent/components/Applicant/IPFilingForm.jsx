@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Text, Card, Button, Stepper } from "@mantine/core";
 import { CheckCircle, ArrowRight, DownloadSimple } from "phosphor-react";
 import "../../style/Applicant/IPFilingForm.css";
@@ -21,10 +21,25 @@ function IPFilingForm() {
     },
   ];
 
-  // const [formIII] = React.useState(null);
-  const [currentStep, setCurrentStep] = React.useState(5); // Assume the process is completed
+  const [currentStep, setCurrentStep] = useState(5); // Assume the process is completed
+  const [isMobile, setIsMobile] = useState(false); // State to track if the device is mobile
 
-  return (
+  // Function to check if the screen is mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // 768px is a common breakpoint for mobile devices
+    };
+
+    handleResize(); // Check on initial render
+    window.addEventListener("resize", handleResize); // Add event listener for window resize
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Cleanup event listener
+    };
+  }, []);
+
+  // Desktop Version
+  const DesktopForm = () => (
     <Container className="form-container" size="lg">
       <Text className="form-title">Intellectual Property Filing Form</Text>
 
@@ -73,8 +88,7 @@ function IPFilingForm() {
         <div className="form-field">
           <Text className="field-heading">Problem in the area:</Text>
           <Text className="field-value">
-            Lack of efficient and affordable disease detection tools for
-            farmers.
+            Lack of efficient and affordable disease detection tools for farmers.
           </Text>
         </div>
         <div className="form-field">
@@ -238,6 +252,224 @@ function IPFilingForm() {
       </div>
     </Container>
   );
+
+  // Mobile Version
+  const MobileForm = () => (
+    <Container className="mobile-form-container" size="sm">
+      <Text className="mobile-form-title">Intellectual Property Filing Form</Text>
+
+      {/* Administrative and Technical Details */}
+      <Card className="mobile-form-section">
+        <Text className="mobile-section-title">
+          Section I: Administrative and Technical Details
+        </Text>
+
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Title of Application:</Text>
+          <Text className="mobile-field-value">
+            AI-Based Disease Detection in Crops
+          </Text>
+        </div>
+
+        <Text className="mobile-field-group-title">
+          1. Please list inventor(s) who have contributed:
+        </Text>
+        {inventors.map((inventor, index) => (
+          <div key={index} className="mobile-inventor-container">
+            <Text className="mobile-inventor-title">Inventor {index + 1}</Text>
+            <div className="mobile-form-field">
+              <Text className="mobile-field-heading">Name:</Text>
+              <Text className="mobile-field-value">{inventor.name}</Text>
+            </div>
+            <div className="mobile-form-field">
+              <Text className="mobile-field-heading">Email:</Text>
+              <Text className="mobile-field-value">{inventor.email}</Text>
+            </div>
+            <div className="mobile-form-field">
+              <Text className="mobile-field-heading">Contact Address:</Text>
+              <Text className="mobile-field-value">{inventor.address}</Text>
+            </div>
+            <div className="mobile-form-field">
+              <Text className="mobile-field-heading">Mobile:</Text>
+              <Text className="mobile-field-value">{inventor.mobile}</Text>
+            </div>
+          </div>
+        ))}
+
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Area of the invention:</Text>
+          <Text className="mobile-field-value">Agricultural Technology and AI</Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Problem in the area:</Text>
+          <Text className="mobile-field-value">
+            Lack of efficient and affordable disease detection tools for farmers.
+          </Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Objective of your invention:</Text>
+          <Text className="mobile-field-value">
+            To develop an affordable and accurate AI-driven tool for disease
+            diagnosis in crops.
+          </Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Novelty:</Text>
+          <Text className="mobile-field-value">
+            The first AI model optimized for real-time, edge-device use in the
+            field.
+          </Text>
+        </div>
+      </Card>
+
+      {/* IPR Ownership Section */}
+      <Card className="mobile-form-section">
+        <Text className="mobile-section-title">Section II: IPR Ownership</Text>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">
+            Significant use of funds/facilities:
+          </Text>
+          <Text className="mobile-field-value">
+            Yes, using IIITDM Jabalpur's research facilities.
+          </Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Source of funding:</Text>
+          <Text className="mobile-field-value">Institute's research grant</Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">
+            Journal/Conference Presentation:
+          </Text>
+          <Text className="mobile-field-value">
+            Presented at AI & Agriculture 2024 Conference.
+          </Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">MOU or Agreement Details:</Text>
+          <Text className="mobile-field-value">
+            Sponsored under IIITDM Research Fund (MOU #12345).
+          </Text>
+        </div>
+      </Card>
+
+      {/* Commercialization Section */}
+      <Card className="mobile-form-section">
+        <Text className="mobile-section-title">Section III: Commercialization</Text>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Target Companies:</Text>
+          <Text className="mobile-field-value">
+            Monsanto India, Agrotech Pvt Ltd, and Agribots Inc.
+          </Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Development Stage:</Text>
+          <Text className="mobile-field-value">Partially developed</Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">
+            Uploaded duly filled and signed Form-III:
+          </Text>
+          <div className="mobile-field-value">
+            <Button
+              component="a"
+              href="https://example.com/sample.pdf"
+              target="_blank"
+              download="Form-III.pdf"
+              color="blue"
+              className="mobile-down-button"
+            >
+              View Form-III
+            </Button>
+          </div>
+        </div>
+      </Card>
+
+      {/* Dates */}
+      <Card className="mobile-form-section">
+        <Text className="mobile-section-title">Dates and Status</Text>
+
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Submission Date:</Text>
+          <Text className="mobile-field-value">15 November 2024</Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Forwarded to Director:</Text>
+          <Text className="mobile-field-value">16 November 2024</Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Approved Date:</Text>
+          <Text className="mobile-field-value">17 November 2024</Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Attorney Assigned:</Text>
+          <Text className="mobile-field-value">18 November 2024</Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Report Generated:</Text>
+          <Text className="mobile-field-value">19 November 2024</Text>
+        </div>
+        <div className="mobile-form-field">
+          <Text className="mobile-field-heading">Filed Date:</Text>
+          <Text className="mobile-field-value">20 November 2024</Text>
+        </div>
+      </Card>
+
+      {/* Status Bar */}
+      <Card className="mobile-form-section">
+        <Text className="mobile-section-title">Application Progress</Text>
+        <Stepper
+          active={currentStep}
+          onStepClick={setCurrentStep}
+          className="mobile-status-bar"
+          size="sm"
+          color="blue"
+          orientation="vertical"
+        >
+          <Stepper.Step
+            icon={<CheckCircle size={16} />}
+            label="Step 1"
+            description="Application Submitted"
+          />
+          <Stepper.Step
+            icon={<ArrowRight size={16} />}
+            label="Step 2"
+            description="Forwarded for Director's Approval"
+          />
+          <Stepper.Step
+            icon={<CheckCircle size={16} />}
+            label="Step 3"
+            description="Director's Approval Received"
+          />
+          <Stepper.Step
+            icon={<ArrowRight size={16} />}
+            label="Step 4"
+            description="Forwarded to Attorney"
+          />
+          <Stepper.Step
+            icon={<CheckCircle size={16} />}
+            label="Step 5"
+            description="Patentability Search Report Generated"
+          />
+          <Stepper.Step
+            icon={<CheckCircle size={16} />}
+            label="Step 6"
+            description="Patent Filed"
+          />
+        </Stepper>
+      </Card>
+
+      {/* Form Actions */}
+      <div className="mobile-form-actions">
+        <Button leftIcon={<DownloadSimple size={18} />} className="mobile-down-button">
+          Download Form
+        </Button>
+      </div>
+    </Container>
+  );
+
+  // Render the appropriate form based on screen width
+  return isMobile ? <MobileForm /> : <DesktopForm />;
 }
 
 export default IPFilingForm;

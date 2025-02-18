@@ -26,7 +26,7 @@ function SubmitNewApplication({ setActiveTab }) {
           className="submit-button"
           onClick={handleSubmit}
         >
-          Submit New Patent Application
+          Start Application
         </Button>
       </Card>
     </Box>
