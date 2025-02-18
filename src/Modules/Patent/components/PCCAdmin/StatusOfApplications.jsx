@@ -76,7 +76,7 @@ function StatusOfApplications() {
           </Text>
           <Box
             className="outerContainer"
-            style={{ marginLeft: "64px", marginRight: "64px" }}
+            // style={{ marginLeft: "64px", marginRight: "64px" }}
           >
             <ScrollArea>
               <Table

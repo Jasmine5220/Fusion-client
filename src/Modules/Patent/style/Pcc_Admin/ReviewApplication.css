@@ -7,6 +7,7 @@
   border-radius: 8px;
   margin-bottom: 10px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 .title {
@@ -27,14 +28,20 @@
 .content {
   text-align: left;
 }
-.description{
+
+.description {
   text-align: left;
-}
-/* Responsive Text Adjustments */
-.content .description {
+  margin-left: 32px; /* Default margin for desktop */
+  margin-right: 32px; /* Default margin for desktop */
   font-size: 14px;
   color: #555;
-  align-items: center;
+}
+
+/* Wrapper for horizontal scrolling */
+.tableWrapper {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  width: 100%;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
 }
 
 /* Responsive Table */
@@ -66,53 +73,6 @@
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
-/* Card Styling */
-.r-app-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  justify-content: flex-start;
-}
-
-.r-application-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: calc(50% - 32px); /* Default width for medium screens */
-  padding: 24px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  height: 280px;
-}
-
-.r-application-card:hover {
-  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.15);
-  transform: translateY(-5px);
-}
-
-.card-header {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.r-card-details {
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 6px;
-}
-
-.r-button {
-  color: #0073e6;
-  background-color: #ffffff;
-  border: 1px solid #0073e6;
-  font-weight: 500;
-  padding: 1px;
-}
-
 /* Responsive Design */
 
 /* Small devices (up to 768px) */
@@ -121,6 +81,8 @@
     padding: 16px; /* Reduced padding for smaller screens */
     margin-left: 0;
     margin-right: 0;
+    max-width: 100vw; /* Ensure container doesn't exceed viewport width */
+    overflow-x: hidden; /* Prevent horizontal overflow */
   }
 
   .title {
@@ -128,23 +90,34 @@
     padding-left: 16px;
   }
 
-  .r-app-container {
-    gap: 16px;
-    justify-content: center;
+  .description {
+    margin-left: 24px !important; /* Adjusted margin for smaller screens */
+    margin-right: 16px !important; /* Adjusted margin for smaller screens */
+    font-size: 13px; /* Smaller font size for mobile */
   }
 
-  .r-application-card {
-    width: 100%; /* Full width for small devices */
-    padding: 20px;
-    height: auto; /* Allow dynamic height */
+  .tableWrapper {
+    overflow-x: auto; /* Ensure horizontal scrolling */
+    width: 100%; /* Take full width of the container */
+    margin-left: 0; /* Reset negative margin */
   }
 
-  .card-header {
-    font-size: 1.2rem;
+  .styledTable {
+    min-width: 100%; /* Allow table to shrink to fit the screen */
   }
 
-  .r-card-details {
-    font-size: 0.85rem;
+  .fusionTableHeader th {
+    padding: 10px 12px; /* Reduced padding for smaller screens */
+    font-size: 12px; /* Smaller font size for headers */
+  }
+
+  .tableRow td {
+    padding: 10px 12px; /* Reduced padding for smaller screens */
+    font-size: 12px; /* Smaller font size for table cells */
+  }
+
+  .viewButton {
+    font-size: 12px; /* Smaller font size for button */
   }
 }
 
@@ -152,6 +125,8 @@
 @media (max-width: 480px) {
   .outerContainer {
     padding: 12px;
+    max-width: 100vw; /* Ensure container doesn't exceed viewport width */
+    overflow-x: hidden; /* Prevent horizontal overflow */
   }
 
   .title {
@@ -159,25 +134,31 @@
     padding-left: 8px;
   }
 
-  .content .description {
-    font-size: 13px; /* Slightly smaller font for compact screens */
+  .description {
+    margin-left: 16px !important; /* Further reduced margin for very small screens */
+    margin-right: 8px !important; /* Further reduced margin for very small screens */
+    font-size: 12px; /* Even smaller font size for compact screens */
   }
 
-  .r-application-card {
-    padding: 16px;
+  .tableWrapper {
+    margin-left: 0; /* Reset negative margin */
   }
 
-  .card-header {
-    font-size: 1.1rem;
+  .styledTable {
+    min-width: 100%; /* Allow table to shrink to fit the screen */
   }
 
-  .r-card-details {
-    font-size: 0.8rem;
+  .fusionTableHeader th {
+    padding: 8px 10px; /* Further reduced padding for very small screens */
+    font-size: 11px; /* Smaller font size for headers */
   }
 
-  .r-button {
-    padding: 4px 8px;
-    font-size: 0.8rem; /* Adjusted button text size */
+  .tableRow td {
+    padding: 8px 10px; /* Further reduced padding for very small screens */
+    font-size: 11px; /* Smaller font size for table cells */
+  }
+
+  .viewButton {
+    font-size: 11px; /* Smaller font size for button */
   }
 }
-  
