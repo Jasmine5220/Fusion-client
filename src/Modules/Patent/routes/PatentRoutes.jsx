@@ -3,14 +3,14 @@ import { Route, Routes } from "react-router-dom";
 import { Layout } from "../../../components/layout";
 
 // Applicant-related imports
-import ApplicantMainDashboard from "../components/Applicant/ApplicantMainDashboard";
 import ApplicantDashboard from "../components/Applicant/ApplicantDashboard";
-import ViewApplicationsPage from "../components/Applicant/ApplicationView";
-import SavedDraftsPage from "../components/Applicant/ApplicationDraft";
-import SubmitNewApplication from "../components/Applicant/ApplicantSubmit";
+import ApplicantMainDashboard from "../components/Applicant/ApplicantMainDashboard";
 import NotificationsPage from "../components/Applicant/ApplicantNotifications";
-import IPFilingForm from "../components/Applicant/IPFilingForm";
+import SubmitNewApplication from "../components/Applicant/ApplicantSubmit";
+import SavedDraftsPage from "../components/Applicant/ApplicationDraft";
 import ApplicationForm from "../components/Applicant/ApplicationForm";
+import ViewApplicationsPage from "../components/Applicant/ApplicationView";
+import IPFilingForm from "../components/Applicant/IPFilingForm";
 import StatusView from "../components/Applicant/StatusView";
 
 // Director-related imports

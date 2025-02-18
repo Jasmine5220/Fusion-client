@@ -4,9 +4,14 @@ import { Tabs, Button, Flex, Text } from "@mantine/core";
 import CustomBreadcrumbs from "../../components/Breadcrumbs";
 import classes from "../Dashboard/Dashboard.module.css";
 import ApplicantDashboard from "./components/Applicant/ApplicantDashboard";
+import ApplicantNotifications from "./components/Applicant/ApplicantNotifications";
+import ApplicantSubmit from "./components/Applicant/ApplicantSubmit";
+import ApplicantDraft from "./components/Applicant/ApplicantDraft";
 import ApplicationForm from "./components/Applicant/ApplicationForm";
-import StatusView from "./components/Applicant/StatusView";
+import ApplicationView from "./components/Applicant/ApplicationView";
 import AttorneyDetails from "./components/Applicant/AttorneyDetails";
+import IPFillingForm from "./components/Applicant/IPFillingForm";
+import StatusView from "./components/Applicant/StatusView";
 import ModifyApplication from "./components/Applicant/ModifyApplication";
 import PCCAdminDashboard from "./components/PCCAdmin/PCCAdminDashboard";
 import ApplicationReview from "./components/PCCAdmin/ApplicationReview";
@@ -16,7 +21,6 @@ import ManageAttorneyAssignment from "./components/PCCAdmin/ManageAttorneyAssign
 import DirectorDashboard from "./components/Director/DirectorDashboard";
 import ReviewedApplication from "./components/Director/ReviewedApplications";
 import RequestModifications from "./components/Director/RequestModifications";
-import ApplicationView from "./components/Applicant/ApplicationView";
 import DownloadsPage from "./components/PCCAdmin/DownloadsPage";
 import InsightsPage from "./components/PCCAdmin/InsightsPage";
 

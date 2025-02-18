@@ -50,13 +50,7 @@ function SavedDraftCard({
   onViewDraft,
 }) {
   return (
-    <Card
-      className="saved-draft-card"
-      style={{
-        padding: "16px",
-        marginBottom: "16px",
-      }}
-    >
+    <Card className="saved-draft-card">
       <Text className="card-title" weight={600} size="lg">
         {title}
       </Text>
@@ -109,19 +103,18 @@ function SavedDraftsPage() {
       </Text>
 
       {/* Saved draft cards */}
-      <Grid className="draft-app-container">
+      <Box className="draft-app-container">
         {savedDraftsData.map((draft, index) => (
-          <Grid.Col span={6} key={index}>
-            <SavedDraftCard
-              title={draft.title}
-              savedDate={draft.savedDate}
-              savedTime={draft.savedTime}
-              description={draft.description}
-              onViewDraft={() => handleViewDraft(draft)}
-            />
-          </Grid.Col>
+          <SavedDraftCard
+            key={index}
+            title={draft.title}
+            savedDate={draft.savedDate}
+            savedTime={draft.savedTime}
+            description={draft.description}
+            onViewDraft={() => handleViewDraft(draft)}
+          />
         ))}
-      </Grid>
+      </Box>
 
       {/* Modal to display the saved draft content */}
       <Modal
