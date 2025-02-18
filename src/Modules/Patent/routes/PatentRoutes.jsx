@@ -26,28 +26,17 @@ import RecentsView from "../components/Director/RecentsView.jsx";
 
 // PCCAdmin-related imports
 import PCCAdminMainDashboard from "../components/PCCAdmin/PCCAdminMainDashboard";
-// import FeedbackViewer from "../components/PCCAdmin/FeedbackViewer.jsx";
-// import ForwardToDirector from "../components/PCCAdmin/ForwardToDirector.jsx";
-import ManageAttorney from "../components/PCCAdmin/ManageAttorneyAssignment.jsx";
-import DirectorStatusView from "../components/Director/StatusView";
+import PCCAdminDashboard from "../components/PCCAdmin/PCCAdminDashboard.jsx";
+import NotifyApplicant from "../components/PCCAdmin/NotifyApplicant";
 import ReviewAppComponent from "../components/PCCAdmin/ReviewComponent.jsx";
-// import ForwardDetails from "../components/PCCAdmin/ForwardDetails.jsx";
 import DownloadsPage from "../components/PCCAdmin/DownloadsPage.jsx";
 import InsightsPage from "../components/PCCAdmin/InsightsPage.jsx";
-// import PCCAdminDashboard from './components/PCCAdmin/PCCAdminDashboard';
+import ManageAttorney from "../components/PCCAdmin/ManageAttorneyAssignment.jsx";
+import DirectorStatusView from "../components/Director/StatusView";
+import PCCAdminStatusView from "../components/PCCAdmin/PCCAStatusView.jsx";
 // import ReviewApplication from './components/PCCAdmin/ReviewApplication';
 // import AttorneyDetails from "./components/PCCAdmin/AttorneyDetails";
-// eslint-disable-next-line import/no-unresolved
 // import ManageAttorney from "./components/PCCAdmin/ManageAttorney";
-// eslint-disable-next-line import/no-unresolved
-import NotifyApplicant from "../components/PCCAdmin/NotifyApplicant";
-import PCCAdminDashboard from "../components/PCCAdmin/PCCAdminDashboard.jsx";
-import PCCAdminStatusView from "../components/PCCAdmin/PCCAStatusView.jsx";
-// import PCCAdminMainDashboard from "../components/PCCAdmin/PCCAdminMainDashboard";
-// import PCCAdminDashboard from '../components/PCCAdmin/PCCAdminDashboard';
-// import ReviewApplication from '../components/PCCAdmin/ReviewApplication';
-// import AttorneyDetails from "../components/PCCAdmin/AttorneyDetails";
-// import ManageAttorney from "../components/PCCAdmin/ManageAttorney";
 
 export default function PatentRoutes() {
   // Function to handle setActiveTab if needed

@@ -18,11 +18,12 @@ import ApplicationReview from "./components/PCCAdmin/ApplicationReview";
 import NotifyApplicant from "./components/PCCAdmin/NotifyApplicant";
 import ForwardToDirector from "./components/PCCAdmin/ForwardToDirector";
 import ManageAttorneyAssignment from "./components/PCCAdmin/ManageAttorneyAssignment";
+import DownloadsPage from "./components/PCCAdmin/DownloadsPage";
+import InsightsPage from "./components/PCCAdmin/InsightsPage";
 import DirectorDashboard from "./components/Director/DirectorDashboard";
 import ReviewedApplication from "./components/Director/ReviewedApplications";
 import RequestModifications from "./components/Director/RequestModifications";
-import DownloadsPage from "./components/PCCAdmin/DownloadsPage";
-import InsightsPage from "./components/PCCAdmin/InsightsPage";
+
 
 function PatentPage() {
   const [activeTab, setActiveTab] = useState("0");

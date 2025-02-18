@@ -2,7 +2,6 @@ import React from "react";
 import "../../style/Director/StatusView.css";
 import PropTypes from "prop-types";
 
-// Component for displaying patent application details
 function PatentApplication(props) {
   const {
     title,
@@ -14,6 +13,7 @@ function PatentApplication(props) {
     phoneNumber = "N/A",
     email = "N/A",
     inventors = [],
+    additionalInfo = "No additional information provided.",
   } = props;
 
   return (
@@ -79,6 +79,18 @@ function PatentApplication(props) {
           ))}
         </tbody>
       </table>
+
+      {/* Additional Info Section */}
+      <div className="info-container">
+        <h3>Note From PCC Admin:</h3>
+        <p>{additionalInfo}</p>
+      </div>
+
+      {/* Buttons */}
+      <div className="button-container">
+        <button className="accept-btn">Accept</button>
+        <button className="reject-btn">Reject</button>
+      </div>
     </div>
   );
 }
@@ -99,6 +111,7 @@ PatentApplication.propTypes = {
       phone: PropTypes.string.isRequired,
     }),
   ),
+  additionalInfo: PropTypes.string,
 };
 
 // Sample usage with inventors
@@ -133,6 +146,7 @@ function SampleInventorsApp() {
       phoneNumber="555-987-6543"
       email="attorney@example.com"
       inventors={inventors} // Passing the inventors array
+      additionalInfo="This patent application aims to provide a unique solution for visually impaired individuals using innovative technology."
     />
   );
 }
