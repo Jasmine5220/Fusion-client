@@ -4,7 +4,7 @@ import { Tabs, Button, Flex, Text } from "@mantine/core";
 import CustomBreadcrumbs from "../../components/Breadcrumbs";
 import classes from "../Dashboard/Dashboard.module.css";
 import ApplicantDashboard from "./components/Applicant/ApplicantDashboard";
-import ApplicantNotifications from "./components/Applicant/ApplicantNotifications";
+// import ApplicantNotifications from "./components/Applicant/ApplicantNotifications";
 import ApplicantSubmit from "./components/Applicant/ApplicantSubmit";
 import ApplicantDraft from "./components/Applicant/ApplicantDraft";
 import ApplicationForm from "./components/Applicant/ApplicationForm";
@@ -18,8 +18,8 @@ import ApplicationReview from "./components/PCCAdmin/ApplicationReview";
 import NotifyApplicant from "./components/PCCAdmin/NotifyApplicant";
 import ForwardToDirector from "./components/PCCAdmin/ForwardToDirector";
 import ManageAttorneyAssignment from "./components/PCCAdmin/ManageAttorneyAssignment";
-import DownloadsPage from "./components/PCCAdmin/DownloadsPage";
 import InsightsPage from "./components/PCCAdmin/InsightsPage";
+import DownloadsPage from "./components/PCCAdmin/DownloadsPage";
 import DirectorDashboard from "./components/Director/DirectorDashboard";
 import ReviewedApplication from "./components/Director/ReviewedApplications";
 import RequestModifications from "./components/Director/RequestModifications";
@@ -44,7 +44,7 @@ function PatentPage() {
     { title: "Request Modifications", component: <RequestModifications /> },
     { title: "ApplicationView", component: <ApplicationView /> },
     { title: "DownloadsPage", component: <DownloadsPage /> },
-    { title: "InsightsPage", component: <InsightsPage /> },
+    // { title: "InsightsPage", component: <InsightsPage /> },
   ];
 
   const handleTabChange = (direction) => {

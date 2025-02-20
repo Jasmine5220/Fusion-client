@@ -30,7 +30,7 @@ import PCCAdminDashboard from "../components/PCCAdmin/PCCAdminDashboard.jsx";
 import NotifyApplicant from "../components/PCCAdmin/NotifyApplicant";
 import ReviewAppComponent from "../components/PCCAdmin/ReviewComponent.jsx";
 import DownloadsPage from "../components/PCCAdmin/DownloadsPage.jsx";
-import InsightsPage from "../components/PCCAdmin/InsightsPage.jsx";
+// import InsightsPage from "../components/PCCAdmin/InsightsPage.jsx";
 import ManageAttorney from "../components/PCCAdmin/ManageAttorneyAssignment.jsx";
 import DirectorStatusView from "../components/Director/StatusView";
 import PCCAdminStatusView from "../components/PCCAdmin/PCCAStatusView.jsx";
@@ -260,14 +260,7 @@ export default function PatentRoutes() {
           </Layout>
         }
       />
-      <Route
-        path="/pccAdmin/insights"
-        element={
-          <Layout>
-            <InsightsPage />
-          </Layout>
-        }
-      />
+      
 
       <Route
         path="/pccAdmin/application/view-details"

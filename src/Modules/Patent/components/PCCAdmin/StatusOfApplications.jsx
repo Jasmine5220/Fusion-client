@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button, ScrollArea, Table, Title, Text } from "@mantine/core";
 import { Eye } from "@phosphor-icons/react";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { StatusOfApplicationData } from "./StatusOfApplicationsData";
 import SampleAppDetails from "./PCCAStatusView";
@@ -9,7 +8,6 @@ import "../../style/Pcc_Admin/StatusOfApplications.css";
 
 function StatusOfApplications() {
   const [selectedApplication, setSelectedApplication] = useState(null);
-  const navigate = useNavigate();
 
   const columnNames = [
     "Token Number",
@@ -54,30 +52,18 @@ function StatusOfApplications() {
   ));
 
   return (
-    <Box>
+    <Box className="status-applications-container">
       {!selectedApplication ? (
         // List view of applications in table format
         <>
-          <Title
-            order={2}
-            className="title"
-            style={{ marginLeft: "32px", marginTop: "0px" }}
-          >
+          <Title order={2} className="title">
             Status of Applications
           </Title>
-          <Text
-            size="md"
-            color="dimmed"
-            className="description"
-            style={{ marginLeft: "64px" }}
-          >
+          <Text size="md" color="dimmed" className="description">
             Below is the list of recent patent applications with their current
             status. Click on "View" for more information on each application.
           </Text>
-          <Box
-            className="outerContainer"
-            // style={{ marginLeft: "64px", marginRight: "64px" }}
-          >
+          <Box className="outerContainer">
             <ScrollArea>
               <Table
                 highlightOnHover
