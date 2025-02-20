@@ -3,104 +3,85 @@
   font-size: 26px;
   font-weight: bold;
   text-align: center;
-  margin: 0 auto;
-  margin-top: 10px;
-  margin-bottom: 0px;
+  margin: 20px auto;
+}
+
+/* Combined Section */
+.combined-section {
+  max-width: 95%;
+  margin: 20px auto;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #2d3748;
 }
 
 /* Overview Section */
 .overview-section {
-  padding: 32px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  margin: 32px auto;
-  width: 85%;
-  background-color: #ffffff;
-  line-height: 1.6;
-}
-
-.overview-icon {
-  margin-left: 8px;
-  vertical-align: middle;
-  color: #4c6ef5;
+  margin-bottom: 32px;
 }
 
 .overview-title {
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.overview-icon {
+  color: #4c6ef5;
 }
 
 .overview-text {
   font-size: 14px;
   color: #374151;
-  margin-bottom: 1rem;
   line-height: 1.75;
 }
 
-/* Divider styling */
-/* .overview-section .mantine-Divider-root {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  background-color: #d1d5db;
-  height: 1px;
-} */
-
-.insights-page {
-  width: 80vw; 
-  margin: 0;
-  /* Match the width of the overview section */
-  /* margin: 32px auto; */
-       /* Center align and match margin */
-  padding: 32px; /* Match padding */
-  border-radius: 8px; /* Match border-radius */
-  background-color: #ffffff; /* Same background color */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Match the shadow */
-  line-height: 1.6; /* Add similar line-height for consistency */
+/* Insights Section */
+.insights-section {
+  margin-top: 32px;
 }
 
-/* Title within white box */
-.insights-page .page-title {
+.page-title {
   font-size: 26px;
   font-weight: 700;
   margin-bottom: 16px;
   text-align: left;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #e5e7eb; /* Adds a subtle separation */
   color: #333;
 }
 
-/* Description */
-.insights-page .description {
+.description {
   font-size: 14px;
   color: #333;
   margin-bottom: 32px;
   text-align: left;
 }
 
-/* Filter Section */
-.insights-page .filter {
+.filter {
   margin-bottom: 32px;
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-/* Content Section */
-.insights-page .content {
+.content {
   display: flex;
+  flex-wrap: wrap;
   gap: 32px;
   margin-top: 16px;
 }
 
-/* Chart Section */
-.insights-page .chart-section {
+.chart-section {
   flex: 1;
   text-align: center;
 }
 
-/* Table Section */
-.insights-page .table-section {
+.table-section {
   flex: 1;
   padding: 20px;
   border-radius: 12px;
@@ -108,61 +89,63 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Legend Styling */
-.insights-page .legend {
+.legend {
   display: flex;
   justify-content: center;
   gap: 16px;
   margin-top: 16px;
 }
 
-.insights-page .legend-item {
+.legend-item {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.insights-page .legend-color {
+.legend-color {
   width: 16px;
   height: 16px;
   border-radius: 50%;
 }
 
-.insights-page .legend-label {
+.legend-label {
   font-size: 14px;
   color: #333;
 }
 
-/* Download Button - Match Dashboard Button Styling */
-.insights-page .download button {
+/* Download Section */
+.download-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.download-button {
   color: #0073e6;
   background-color: #ffffff;
   border: 1px solid #0073e6;
   font-weight: 500;
-  padding: 8px 16px; /* Ensure padding matches */
-  border-radius: 4px; /* Same border-radius */
+  padding: 8px 16px;
+  border-radius: 4px;
   transition: background-color 0.2s ease, color 0.2s ease;
   cursor: pointer;
 }
 
-.insights-page .download button:hover {
+.download-button:hover {
   background-color: #0073e6;
   color: #ffffff;
 }
 
-/* Remove any default Mantine or browser styles */
-.insights-page .download button {
-  /* all: unset;  */
-  /* Optional: Reset all styles */
-  display: inline-block; /* Ensure it behaves like a button */
-  text-align: center;
-  line-height: 1.5;
-  box-shadow: none; /* Remove Mantine box-shadow */
+/* Dashboard Cards */
+.dashboard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 32px 0;
 }
 
-
-/* General card styling */
-.dashboard-card {
+/* Dashboard Cards */
+.dashboard-cards {
   background-color: #fff;
   padding: 32px;
   border-radius: 10px;
@@ -171,6 +154,8 @@
   transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
   text-align: left;
   cursor: pointer;
+  flex: 1 1 calc(50% - 12px); /* Two cards per row on larger screens */
+
 }
 
 .dashboard-card:hover {
@@ -188,17 +173,19 @@
   gap: 0.5rem;
 }
 
-.dashboard-grid {
-  padding: 1rem;
-}
-
 /* Card Divider */
 .card-divider {
-  margin: 8px 0;
-  background-color: #e5e7eb;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
-/* Button Style */
+/* Responsive Behavior */
+@media (max-width: 768px) {
+  .dashboard-cards {
+    flex: 1 1 100%; /* One card per row on smaller screens */
+  }
+}
+
 .dashboard-button {
   color: #0073e6;
   background-color: #ffffff;
@@ -213,9 +200,19 @@
   color: #ffffff;
 }
 
-.insights-page .download {
-  display: flex;
-  justify-content: center; /* Align horizontally */
-  margin-top: 24px; /* Adjust spacing from other elements */
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 2fr; /* One card per row for mobile */
+  }
+
+  .dashboard-card {
+    margin-bottom: 16px;
+  }
 }
 
+@media (max-width: 480px) {
+  .dashboard-grid {
+    grid-template-columns: 2fr; /* One card per row only for very small screens */
+  }
+}

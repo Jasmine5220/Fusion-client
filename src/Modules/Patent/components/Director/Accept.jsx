@@ -2,7 +2,6 @@ import React from "react";
 import "../../style/Director/Accept.css";
 import PropTypes from "prop-types";
 
-// Component for displaying patent application details
 function PatentApplication(props) {
   const {
     title,

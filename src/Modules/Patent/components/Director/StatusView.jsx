@@ -2,7 +2,6 @@ import React from "react";
 import "../../style/Director/StatusView.css";
 import PropTypes from "prop-types";
 
-// Component for displaying patent application details
 function PatentApplication(props) {
   const {
     title,
@@ -14,17 +13,15 @@ function PatentApplication(props) {
     phoneNumber = "N/A",
     email = "N/A",
     inventors = [],
+    additionalInfo = "No additional information provided.",
   } = props;
 
   return (
-    <div
-      className="mainbox"
-      style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}
-    >
-      <h2 style={{ textAlign: "center" }}>Title of Patent Application</h2>
-      <h1 style={{ textAlign: "center" }}>{title}</h1>
+    <div className="mainbox">
+      <h2>Title of Patent Application</h2>
+      <h1>{title}</h1>
 
-      <div style={{ marginBottom: "20px" }}>
+      <div className="details-container">
         <p>
           <strong>Date: </strong> {date}
         </p>
@@ -49,36 +46,36 @@ function PatentApplication(props) {
       </div>
 
       <h3>Details of All Inventors:</h3>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th style={{ border: "1px solid black", padding: "8px" }}>
-              Inventor's Name
-            </th>
-            <th style={{ border: "1px solid black", padding: "8px" }}>
-              Email ID
-            </th>
-            <th style={{ border: "1px solid black", padding: "8px" }}>
-              Phone No.
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {inventors.map((inventor, index) => (
-            <tr key={index}>
-              <td style={{ border: "1px solid black", padding: "8px" }}>
-                {inventor.names}
-              </td>
-              <td style={{ border: "1px solid black", padding: "8px" }}>
-                {inventor.email}
-              </td>
-              <td style={{ border: "1px solid black", padding: "8px" }}>
-                {inventor.phone}
-              </td>
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Inventor's Name</th>
+              <th>Email ID</th>
+              <th>Phone No.</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {inventors.map((inventor, index) => (
+              <tr key={index}>
+                <td>{inventor.names}</td>
+                <td>{inventor.email}</td>
+                <td>{inventor.phone}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="info-container">
+        <h3>Note From PCC Admin:</h3>
+        <p>{additionalInfo}</p>
+      </div>
+
+      <div className="button-container">
+        <button className="accept-btn">Accept</button>
+        <button className="reject-btn">Reject</button>
+      </div>
     </div>
   );
 }
@@ -99,11 +96,11 @@ PatentApplication.propTypes = {
       phone: PropTypes.string.isRequired,
     }),
   ),
+  additionalInfo: PropTypes.string,
 };
 
 // Sample usage with inventors
 function SampleInventorsApp() {
-  // Sample inventor array
   const inventors = [
     {
       names: "Ashish Kumar Bhoi",
@@ -132,7 +129,8 @@ function SampleInventorsApp() {
       attorneyName="Lisa Monroe"
       phoneNumber="555-987-6543"
       email="attorney@example.com"
-      inventors={inventors} // Passing the inventors array
+      inventors={inventors}
+      additionalInfo="This patent application aims to provide a unique solution for visually impaired individuals using innovative technology."
     />
   );
 }

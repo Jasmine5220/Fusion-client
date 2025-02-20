@@ -5,23 +5,23 @@
   max-width: 1250px;
   margin: 0 auto;
   padding: 32px;
-  margin-left: 032px;
-  margin-right: 0px;
+  margin-left: 0; /* Ensure content is aligned to the left */
 }
 
 .page-heading-title {
   margin-bottom: 2px;
   margin-top: -30px;
+  margin-left: 30px; /* Shift buttons slightly to the right */
   font-size: 26px;
   color: #333;
   font-weight: 700;
-  text-align: left;
+  text-align: left; /* Ensure text is aligned to the left */
 }
 
-.attorney-page-subtitle {
+.description {
   font-size: 14px;
   color: #555;
-  text-align: left;
+  text-align: left; /* Ensure text is aligned to the left */
   margin-bottom: 32px;
 }
 
@@ -29,23 +29,30 @@
   display: flex;
   gap: 16px;
   margin-bottom: 32px;
+  flex-wrap: nowrap; /* Prevent buttons from wrapping to the next line */
+  margin-left: 30px; /* Shift buttons slightly to the right */
 }
 
-.add-new-attorney-button {
-  margin-bottom: 32px;
-  margin-left: 0px;
+.add-new-attorney-button,
+.remove-attorney-button {
+  margin-bottom: 16px;
 }
-
 
 .table-card {
   margin-bottom: 32px;
-  margin-left: 0px;
-  margin-top: -10px;
-  width: 1300px;
+  width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling on small screens */
+}
+
+/* Desktop-specific styles */
+@media (min-width: 769px) {
+  .table-card {
+    margin-left: 30px; /* Shift table slightly to the right (desktop only) */
+  }
 }
 
 .attorney-table {
-  width: 1250px;;
+  width: 100%;
   border-collapse: collapse;
   background-color: white;
 }
@@ -63,10 +70,6 @@
   font-weight: bold;
 }
 
-/* .attorney-table tr:hover {
-  background-color: #e8f0fe;
-} */
-
 .attorney-table td:first-child {
   width: 5%; /* Adjust for checkbox column */
 }
@@ -79,28 +82,108 @@
   text-align: center;
 }
 
-/* Optional: Highlight selected rows */
-.attorney-table tr.selected {
-  background-color: #fdecea;
-}
-
-/* Position the Remove Selected button on the right-hand side */
 .remove-selected-button-container {
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
 }
 
-/* Styles for Remove Selected button when no rows are selected (0 selected) */
 .remove-selected-button.no-selection {
-  border: 1px solid #228be6; /* Blue border */
-  color: #228be6; /* Blue text */
-  background-color: white; /* White background */
+  border: 1px solid #228be6;
+  color: #228be6;
+  background-color: white;
 }
 
-/* Styles for Remove Selected button when rows are selected (1 selected) */
 .remove-selected-button.selected {
-  border: 1px solid #d32f2f; /* Red border */
-  color: white; /* White text */
-  background-color: #d32f2f; /* Red background */
+  border: 1px solid #d32f2f;
+  color: white;
+  background-color: #d32f2f;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .manage-attorney-container {
+    padding: 16px;
+  }
+
+  .page-heading-title {
+    font-size: 22px;
+    margin-top: 0;
+  }
+
+  .description {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  .button-group {
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: nowrap; /* Ensure buttons stay in one row */
+    margin-left: 0; /* Reset margin for smaller screens */
+  }
+
+  .add-new-attorney-button,
+  .remove-attorney-button {
+    font-size: 12px;
+    padding: 8px 12px;
+    flex: 1; /* Allow buttons to share available space equally */
+  }
+
+  .attorney-table th,
+  .attorney-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .attorney-table td:first-child {
+    width: 10%; /* Increase width for checkbox column on mobile */
+  }
+
+  .attorney-table td:last-child {
+    width: 30%; /* Increase width for action buttons on mobile */
+  }
+
+  .remove-selected-button-container {
+    margin-top: 10px;
+  }
+
+  .remove-selected-button {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-heading-title {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 11px;
+  }
+
+  .button-group {
+    gap: 8px; /* Reduce gap between buttons */
+  }
+
+  .add-new-attorney-button,
+  .remove-attorney-button {
+    font-size: 11px; /* Slightly smaller font size for very small screens */
+    padding: 6px 10px; /* Adjust padding */
+  }
+
+  .attorney-table th,
+  .attorney-table td {
+    font-size: 11px;
+    padding: 6px;
+  }
+
+  .attorney-table td:first-child {
+    width: 15%; /* Further increase width for checkbox column */
+  }
+
+  .attorney-table td:last-child {
+    width: 35%; /* Further increase width for action buttons */
+  }
 }

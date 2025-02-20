@@ -2,11 +2,7 @@ import React from "react";
 import { Box, Button, ScrollArea, Table, Title, Text } from "@mantine/core";
 import { Eye } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
-// import PropTypes from "prop-types"; // Import PropTypes
-import {
-  NewApplicationData,
-  // ReviewedApplicationsData,
-} from "./ReviewApplicationData";
+import { NewApplicationData } from "./ReviewApplicationData";
 import "../../style/Pcc_Admin/ReviewApplication.css";
 
 function ReviewApplication() {
@@ -23,7 +19,7 @@ function ReviewApplication() {
 
   const rows = NewApplicationData.map((item, index) => (
     <tr key={index} className="tableRow">
-      <td>{item["Token Number"]}</td> {/* Token Number */}
+      <td>{item["Token Number"]}</td>
       <td>{item["Patent Title"]}</td>
       <td>{item["Submitted By"]}</td>
       <td>{item.Designation}</td>
@@ -31,7 +27,7 @@ function ReviewApplication() {
       <td>{item["Date - Time"]}</td>
       <td>
         <Button
-          variant="outline" // Changed from "fullfilled" to "filled"
+          variant="outline"
           color="blue"
           size="xs"
           onClick={() =>
@@ -55,7 +51,6 @@ function ReviewApplication() {
         className="title"
         style={{ marginLeft: "32px", marginTop: "0px" }}
       >
-        {/* <PaperPlane size={20} /> */}
         <span> New Applications</span>
       </Title>
       <Text
@@ -70,20 +65,23 @@ function ReviewApplication() {
       </Text>
       <Box
         className="outerContainer"
-        style={{ marginLeft: "64px", marginRight: "64px" }}
+        // style={{ marginLeft: "64px", marginRight: "64px" }}
       >
         <Box className="content" />
         <ScrollArea>
-          <Table highlightOnHover striped withBorder className="styledTable">
-            <thead className="fusionTableHeader">
-              <tr>
-                {columnNames.map((columnName, index) => (
-                  <th key={index}>{columnName}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>{rows}</tbody>
-          </Table>
+          {/* Wrapper for horizontal scrolling on mobile */}
+          <div className="tableWrapper">
+            <Table highlightOnHover striped withBorder className="styledTable">
+              <thead className="fusionTableHeader">
+                <tr>
+                  {columnNames.map((columnName, index) => (
+                    <th key={index}>{columnName}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>{rows}</tbody>
+            </Table>
+          </div>
         </ScrollArea>
       </Box>
     </Box>

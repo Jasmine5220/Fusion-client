@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Text, Card, Button, Stepper } from "@mantine/core";
 import { CheckCircle, ArrowRight, DownloadSimple } from "phosphor-react";
 import "../../style/Applicant/IPFilingForm.css";
@@ -21,223 +21,141 @@ function IPFilingForm() {
     },
   ];
 
-  // const [formIII] = React.useState(null);
-  const [currentStep, setCurrentStep] = React.useState(5); // Assume the process is completed
+  const [currentStep, setCurrentStep] = useState(5); // Assume the process is completed
+  const [isMobile, setIsMobile] = useState(false); // State to track if the device is mobile
 
-  return (
-    <Container className="form-container" size="lg">
-      <Text className="form-title">Intellectual Property Filing Form</Text>
+  // Function to check if the screen is mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // 768px is a common breakpoint for mobile devices
+    };
 
-      {/* Administrative and Technical Details */}
-      <Card className="form-section">
-        <Text className="section-title">
-          Section I: Administrative and Technical Details
-        </Text>
+    handleResize(); // Check on initial render
+    window.addEventListener("resize", handleResize); // Add event listener for window resize
 
-        <div className="form-field">
-          <Text className="field-heading">Title of Application:</Text>
-          <Text className="field-value">
-            AI-Based Disease Detection in Crops
-          </Text>
-        </div>
+    return () => {
+      window.removeEventListener("resize", handleResize); // Cleanup event listener
+    };
+  }, []);
 
-        <Text className="field-group-title">
+  // Common Form Section Component
+  const FormSection = ({ title, children, isMobile }) => (
+    <Card className={`form-section ${isMobile ? 'mobile-form-section' : ''}`}>
+      <Text className={`section-title ${isMobile ? 'mobile-section-title' : ''}`}>{title}</Text>
+      {children}
+    </Card>
+  );
+
+  // Common Form Field Component
+  const FormField = ({ heading, value, isMobile }) => (
+    <div className={`form-field ${isMobile ? 'mobile-form-field' : ''}`}>
+      <Text className={`field-heading ${isMobile ? 'mobile-field-heading' : ''}`}>{heading}</Text>
+      <Text className={`field-value ${isMobile ? 'mobile-field-value' : ''}`}>{value}</Text>
+    </div>
+  );
+
+  // Common Inventor Component
+  const Inventor = ({ inventor, index, isMobile }) => (
+    <div className={`inventor-container ${isMobile ? 'mobile-inventor-container' : ''}`}>
+      <Text className={`inventor-title ${isMobile ? 'mobile-inventor-title' : ''}`}>Inventor {index + 1}</Text>
+      <FormField heading="Name:" value={inventor.name} isMobile={isMobile} />
+      <FormField heading="Email:" value={inventor.email} isMobile={isMobile} />
+      <FormField heading="Contact Address:" value={inventor.address} isMobile={isMobile} />
+      <FormField heading="Mobile:" value={inventor.mobile} isMobile={isMobile} />
+    </div>
+  );
+
+  // Common Stepper Component
+  const StatusStepper = ({ currentStep, isMobile }) => (
+    <Stepper
+      active={currentStep}
+      onStepClick={setCurrentStep}
+      className={`status-bar ${isMobile ? 'mobile-status-bar' : ''}`}
+      size={isMobile ? "sm" : "md"}
+      color="blue"
+      orientation={isMobile ? "vertical" : "horizontal"}
+      iconSize={isMobile ? 16 : 24}
+    >
+      <Stepper.Step icon={<CheckCircle size={isMobile ? 16 : 18} />} label="Step 1" description="Application Submitted" />
+      <Stepper.Step icon={<ArrowRight size={isMobile ? 16 : 18} />} label="Step 2" description="Forwarded for Director's Approval" />
+      <Stepper.Step icon={<CheckCircle size={isMobile ? 16 : 18} />} label="Step 3" description="Director's Approval Received" />
+      <Stepper.Step icon={<ArrowRight size={isMobile ? 16 : 18} />} label="Step 4" description="Forwarded to Attorney" />
+      <Stepper.Step icon={<CheckCircle size={isMobile ? 16 : 18} />} label="Step 5" description="Patentability Search Report Generated" />
+      <Stepper.Step icon={<CheckCircle size={isMobile ? 16 : 18} />} label="Step 6" description="Patent Filed" />
+    </Stepper>
+  );
+
+  // Common Form Actions Component
+  const FormActions = ({ isMobile }) => (
+    <div className={`form-actions ${isMobile ? 'mobile-form-actions' : ''}`}>
+      <Button leftIcon={<DownloadSimple size={isMobile ? 18 : 20} />} className={`down-button ${isMobile ? 'mobile-down-button' : ''}`}>
+        Download Form
+      </Button>
+    </div>
+  );
+
+  // Main Form Component
+  const MainForm = ({ isMobile }) => (
+    <Container className={`form-container ${isMobile ? 'mobile-form-container' : ''}`} size={isMobile ? "sm" : "lg"}>
+      <Text className={`form-title ${isMobile ? 'mobile-form-title' : ''}`}>Intellectual Property Filing Form</Text>
+
+      <FormSection title="Section I: Administrative and Technical Details" isMobile={isMobile}>
+        <FormField heading="Title of Application:" value="AI-Based Disease Detection in Crops" isMobile={isMobile} />
+        <Text className={`field-group-title ${isMobile ? 'mobile-field-group-title' : ''}`}>
           1. Please list inventor(s) who have contributed:
         </Text>
         {inventors.map((inventor, index) => (
-          <div key={index} className="inventor-container">
-            <Text className="inventor-title">Inventor {index + 1}</Text>
-            <div className="form-field">
-              <Text className="field-heading">Name:</Text>
-              <Text className="field-value">{inventor.name}</Text>
-            </div>
-            <div className="form-field">
-              <Text className="field-heading">Email:</Text>
-              <Text className="field-value">{inventor.email}</Text>
-            </div>
-            <div className="form-field">
-              <Text className="field-heading">Contact Address:</Text>
-              <Text className="field-value">{inventor.address}</Text>
-            </div>
-            <div className="form-field">
-              <Text className="field-heading">Mobile:</Text>
-              <Text className="field-value">{inventor.mobile}</Text>
-            </div>
-          </div>
+          <Inventor key={index} inventor={inventor} index={index} isMobile={isMobile} />
         ))}
+        <FormField heading="Area of the invention:" value="Agricultural Technology and AI" isMobile={isMobile} />
+        <FormField heading="Problem in the area:" value="Lack of efficient and affordable disease detection tools for farmers." isMobile={isMobile} />
+        <FormField heading="Objective of your invention:" value="To develop an affordable and accurate AI-driven tool for disease diagnosis in crops." isMobile={isMobile} />
+        <FormField heading="Novelty:" value="The first AI model optimized for real-time, edge-device use in the field." isMobile={isMobile} />
+      </FormSection>
 
-        <div className="form-field">
-          <Text className="field-heading">Area of the invention:</Text>
-          <Text className="field-value">Agricultural Technology and AI</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Problem in the area:</Text>
-          <Text className="field-value">
-            Lack of efficient and affordable disease detection tools for
-            farmers.
-          </Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Objective of your invention:</Text>
-          <Text className="field-value">
-            To develop an affordable and accurate AI-driven tool for disease
-            diagnosis in crops.
-          </Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Novelty:</Text>
-          <Text className="field-value">
-            The first AI model optimized for real-time, edge-device use in the
-            field.
-          </Text>
-        </div>
-      </Card>
+      <FormSection title="Section II: IPR Ownership" isMobile={isMobile}>
+        <FormField heading="Significant use of funds/facilities:" value="Yes, using IIITDM Jabalpur's research facilities." isMobile={isMobile} />
+        <FormField heading="Source of funding:" value="Institute's research grant" isMobile={isMobile} />
+        <FormField heading="Journal/Conference Presentation:" value="Presented at AI & Agriculture 2024 Conference." isMobile={isMobile} />
+        <FormField heading="MOU or Agreement Details:" value="Sponsored under IIITDM Research Fund (MOU #12345)." isMobile={isMobile} />
+      </FormSection>
 
-      {/* IPR Ownership Section */}
-      <Card className="form-section">
-        <Text className="section-title">Section II: IPR Ownership</Text>
-        <div className="form-field">
-          <Text className="field-heading">
-            Significant use of funds/facilities:
-          </Text>
-          <Text className="field-value">
-            Yes, using IIITDM Jabalpur's research facilities.
-          </Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Source of funding:</Text>
-          <Text className="field-value">Institute's research grant</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">
-            Journal/Conference Presentation:
-          </Text>
-          <Text className="field-value">
-            Presented at AI & Agriculture 2024 Conference.
-          </Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">MOU or Agreement Details:</Text>
-          <Text className="field-value">
-            Sponsored under IIITDM Research Fund (MOU #12345).
-          </Text>
-        </div>
-      </Card>
+      <FormSection title="Section III: Commercialization" isMobile={isMobile}>
+        <FormField heading="Target Companies:" value="Monsanto India, Agrotech Pvt Ltd, and Agribots Inc." isMobile={isMobile} />
+        <FormField heading="Development Stage:" value="Partially developed" isMobile={isMobile} />
+        <FormField heading="Uploaded duly filled and signed Form-III:" value={
+          <Button
+            component="a"
+            href="https://example.com/sample.pdf"
+            target="_blank"
+            download="Form-III.pdf"
+            color="blue"
+            className={`down-button ${isMobile ? 'mobile-down-button' : ''}`}
+          >
+            View Form-III
+          </Button>
+        } isMobile={isMobile} />
+      </FormSection>
 
-      {/* Commercialization Section */}
-      <Card className="form-section">
-        <Text className="section-title">Section III: Commercialization</Text>
-        <div className="form-field">
-          <Text className="field-heading">Target Companies:</Text>
-          <Text className="field-value">
-            Monsanto India, Agrotech Pvt Ltd, and Agribots Inc.
-          </Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Development Stage:</Text>
-          <Text className="field-value">Partially developed</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">
-            Uploaded duly filled and signed Form-III:
-          </Text>
-          <div className="field-value">
-            <Button
-              component="a"
-              href="https://example.com/sample.pdf"
-              target="_blank"
-              download="Form-III.pdf"
-              color="blue"
-              className="down-button"
-            >
-              View Form-III
-            </Button>
-          </div>
-        </div>
-      </Card>
+      <FormSection title="Dates and Status" isMobile={isMobile}>
+        <FormField heading="Submission Date:" value="15 November 2024" isMobile={isMobile} />
+        <FormField heading="Forwarded to Director:" value="16 November 2024" isMobile={isMobile} />
+        <FormField heading="Approved Date:" value="17 November 2024" isMobile={isMobile} />
+        <FormField heading="Attorney Assigned:" value="18 November 2024" isMobile={isMobile} />
+        <FormField heading="Report Generated:" value="19 November 2024" isMobile={isMobile} />
+        <FormField heading="Filed Date:" value="20 November 2024" isMobile={isMobile} />
+      </FormSection>
 
-      {/* Dates */}
-      <Card className="form-section">
-        <Text className="section-title">Dates and Status</Text>
+      <FormSection title="Application Progress" isMobile={isMobile}>
+        <StatusStepper currentStep={currentStep} isMobile={isMobile} />
+      </FormSection>
 
-        <div className="form-field">
-          <Text className="field-heading">Submission Date:</Text>
-          <Text className="field-value">15 November 2024</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Forwarded to Director:</Text>
-          <Text className="field-value">16 November 2024</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Approved Date:</Text>
-          <Text className="field-value">17 November 2024</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Attorney Assigned:</Text>
-          <Text className="field-value">18 November 2024</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Report Generated:</Text>
-          <Text className="field-value">19 November 2024</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Filed Date:</Text>
-          <Text className="field-value">20 November 2024</Text>
-        </div>
-      </Card>
-
-      {/* Status Bar */}
-      <Card className="form-section">
-        <Text className="section-title">Application Progress</Text>
-        <Stepper
-          active={currentStep}
-          onStepClick={setCurrentStep}
-          className="status-bar"
-          size="md"
-          color="blue"
-          iconSize={24}
-        >
-          <Stepper.Step
-            icon={<CheckCircle size={18} />}
-            label="Step 1"
-            description="Application Submitted"
-          />
-          <Stepper.Step
-            icon={<ArrowRight size={18} />}
-            label="Step 2"
-            description="Forwarded for Director's Approval"
-          />
-          <Stepper.Step
-            icon={<CheckCircle size={18} />}
-            label="Step 3"
-            description="Director's Approval Received"
-          />
-          <Stepper.Step
-            icon={<ArrowRight size={18} />}
-            label="Step 4"
-            description="Forwarded to Attorney"
-          />
-          <Stepper.Step
-            icon={<CheckCircle size={18} />}
-            label="Step 5"
-            description="Patentability Search Report Generated"
-          />
-          <Stepper.Step
-            icon={<CheckCircle size={18} />}
-            label="Step 6"
-            description="Patent Filed"
-          />
-        </Stepper>
-      </Card>
-
-      {/* Form Actions */}
-      <div className="form-actions">
-        <Button leftIcon={<DownloadSimple size={20} />} className="down-button">
-          Download Form
-        </Button>
-      </div>
+      <FormActions isMobile={isMobile} />
     </Container>
   );
+
+  // Render the appropriate form based on screen width
+  return <MainForm isMobile={isMobile} />;
 }
 
 export default IPFilingForm;
