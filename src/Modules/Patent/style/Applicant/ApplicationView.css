@@ -1,95 +1,89 @@
-/* Header styling */
+/* Page title */
 .app-header-texts {
   font-size: 26px;
   font-weight: 700;
   color: #2d3748;
-  padding-left: 48px;
   letter-spacing: 0.5px;
-  margin-bottom: 15px;
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-left: 32px;
+  margin-bottom: 10px;
+  /* margin-top: -20px; */
 }
 
+/* Applications container for flex layout */
 .view-application-app-container {
-  display: grid;
-  gap: 32px;
-  margin-left: 32px;
+  margin-left: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
 }
 
-/* Application card styling */
+/* Application card */
 .application-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin: 0 10px;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  max-width: 50%;
+  flex: 1;
+  min-width: 45%;
+  max-width: 45%;
+  border-left: 6px solid #0073e6; /* Add a left border for consistency */
+  padding: 14px;
+  border-radius: 12px;
+  background-color: #f7fafc;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .application-card:hover {
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-4px);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* Card title styling */
+/* Card title */
 .app-card-header {
   font-size: 24px;
-  font-weight: 500;
+  font-weight: bold;
+  margin-bottom: 8px;
   color: #2d3748;
-  margin-bottom: 6px;
 }
 
-/* Card details text */
+/* Card details (date and time) */
 .app-card-details {
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
-  line-height: 1.4;
+  margin-bottom: 8px;
 }
 
 /* Button container */
 .button-container {
-  margin-top: 12px;
+  margin-top: 16px;
 }
 
-/* Button styling */
+/* View Application button */
 .viewApplicationButton {
   width: 100%;
-  background-color: #ffffff;
-  color: #3182ce;
-  padding: 8px;
-  border: 1px solid #3182ce;
-  border-radius: 6px;
+  background-color: #fff;
+  border: 1px solid #0073e6;
+  color: #0073e6;
   font-size: 14px;
-  font-weight: 1200;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .viewApplicationButton:hover {
   background-color: #0073e6;
-  color: #ffffff;
-  transform: scale(1.02);
+  color: #fff;
 }
 
-/* Responsive styling for smaller screens */
+/* Responsive behavior for smaller screens */
 @media (max-width: 768px) {
-  .header-texts {
-    font-size: 22px;
-    padding-left: 16px;
+  .view-application-app-container {
+    margin-left: 16px;
+    margin-right: 16px;
   }
 
   .application-card {
-    margin: 12px;
-    padding: 14px;
-    gap: 6px;
+    min-width: 100%;
+    max-width: 100%;
   }
 
-  .viewApplicationButton {
-    padding: 6px;
-    font-size: 12px;
+  .app-header-texts {
+    padding-left: 16px;
   }
 }

@@ -3,14 +3,14 @@ import { Route, Routes } from "react-router-dom";
 import { Layout } from "../../../components/layout";
 
 // Applicant-related imports
-import ApplicantMainDashboard from "../components/Applicant/ApplicantMainDashboard";
 import ApplicantDashboard from "../components/Applicant/ApplicantDashboard";
-import ViewApplicationsPage from "../components/Applicant/ApplicationView";
-import SavedDraftsPage from "../components/Applicant/ApplicationDraft";
-import SubmitNewApplication from "../components/Applicant/ApplicantSubmit";
+import ApplicantMainDashboard from "../components/Applicant/ApplicantMainDashboard";
 import NotificationsPage from "../components/Applicant/ApplicantNotifications";
-import IPFilingForm from "../components/Applicant/IPFilingForm";
+import SubmitNewApplication from "../components/Applicant/ApplicantSubmit";
+import SavedDraftsPage from "../components/Applicant/ApplicationDraft";
 import ApplicationForm from "../components/Applicant/ApplicationForm";
+import ViewApplicationsPage from "../components/Applicant/ApplicationView";
+import IPFilingForm from "../components/Applicant/IPFilingForm";
 import StatusView from "../components/Applicant/StatusView";
 
 // Director-related imports
@@ -26,28 +26,17 @@ import RecentsView from "../components/Director/RecentsView.jsx";
 
 // PCCAdmin-related imports
 import PCCAdminMainDashboard from "../components/PCCAdmin/PCCAdminMainDashboard";
-// import FeedbackViewer from "../components/PCCAdmin/FeedbackViewer.jsx";
-// import ForwardToDirector from "../components/PCCAdmin/ForwardToDirector.jsx";
+import PCCAdminDashboard from "../components/PCCAdmin/PCCAdminDashboard.jsx";
+import NotifyApplicant from "../components/PCCAdmin/NotifyApplicant";
+import ReviewAppComponent from "../components/PCCAdmin/ReviewComponent.jsx";
+import DownloadsPage from "../components/PCCAdmin/DownloadsPage.jsx";
+// import InsightsPage from "../components/PCCAdmin/InsightsPage.jsx";
 import ManageAttorney from "../components/PCCAdmin/ManageAttorneyAssignment.jsx";
 import DirectorStatusView from "../components/Director/StatusView";
-import ReviewAppComponent from "../components/PCCAdmin/ReviewComponent.jsx";
-// import ForwardDetails from "../components/PCCAdmin/ForwardDetails.jsx";
-import DownloadsPage from "../components/PCCAdmin/DownloadsPage.jsx";
-import InsightsPage from "../components/PCCAdmin/InsightsPage.jsx";
-// import PCCAdminDashboard from './components/PCCAdmin/PCCAdminDashboard';
+import PCCAdminStatusView from "../components/PCCAdmin/PCCAStatusView.jsx";
 // import ReviewApplication from './components/PCCAdmin/ReviewApplication';
 // import AttorneyDetails from "./components/PCCAdmin/AttorneyDetails";
-// eslint-disable-next-line import/no-unresolved
 // import ManageAttorney from "./components/PCCAdmin/ManageAttorney";
-// eslint-disable-next-line import/no-unresolved
-import NotifyApplicant from "../components/PCCAdmin/NotifyApplicant";
-import PCCAdminDashboard from "../components/PCCAdmin/PCCAdminDashboard.jsx";
-import PCCAdminStatusView from "../components/PCCAdmin/PCCAStatusView.jsx";
-// import PCCAdminMainDashboard from "../components/PCCAdmin/PCCAdminMainDashboard";
-// import PCCAdminDashboard from '../components/PCCAdmin/PCCAdminDashboard';
-// import ReviewApplication from '../components/PCCAdmin/ReviewApplication';
-// import AttorneyDetails from "../components/PCCAdmin/AttorneyDetails";
-// import ManageAttorney from "../components/PCCAdmin/ManageAttorney";
 
 export default function PatentRoutes() {
   // Function to handle setActiveTab if needed
@@ -271,14 +260,7 @@ export default function PatentRoutes() {
           </Layout>
         }
       />
-      <Route
-        path="/pccAdmin/insights"
-        element={
-          <Layout>
-            <InsightsPage />
-          </Layout>
-        }
-      />
+      
 
       <Route
         path="/pccAdmin/application/view-details"
