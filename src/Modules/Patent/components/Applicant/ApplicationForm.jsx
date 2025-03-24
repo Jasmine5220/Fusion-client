@@ -13,179 +13,51 @@ import {
   Checkbox,
   Grid,
   ScrollArea,
+  LoadingOverlay,
+  Alert,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom"; // For redirecting to Saved Drafts page
+import axios from "axios";
+import PropTypes from "prop-types";
 
-function ApplicationForm() {
-  const [inventors, setInventors] = useState([
-    { name: "", email: "", address: "", mobile: "" },
-  ]);
-  const [applicationTitle, setApplicationTitle] = useState("");
-  const [step, setStep] = useState(1); // Tracks the current step (or page) of the form
-  const [generalQuestions, setGeneralQuestions] = useState({
-    inventionArea: "",
-    problemArea: "",
-    objective: "",
-    novelty: "",
-    utility: "",
-    tested: "",
-    applications: "",
-  });
-  const [files, setFiles] = useState([]);
-  const [iprOwnershipQuestions, setIprOwnershipQuestions] = useState({
-    significantUse: "",
-    fundingSource: "",
-    presentationDetails: "",
-    mOUDetails: "",
-    academicResearch: "",
-  });
-
-  const [companies, setCompanies] = useState([
-    { name: "", concernedPerson: "", contact: "" },
-  ]);
-
-  // State variables for development stages
-  const [developmentStage, setDevelopmentStage] = useState({
-    embryonic: false,
-    partiallyDeveloped: false,
-    offTheShelf: false,
-  });
-
-  const [isMobile, setIsMobile] = useState(false); // State to track if the device is mobile
-
-  const navigate = useNavigate(); // To navigate to saved drafts page
-
-  // Function to check if the screen is mobile
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // 768px is a common breakpoint for mobile devices
-    };
-
-    handleResize(); // Check on initial render
-    window.addEventListener("resize", handleResize); // Add event listener for window resize
-
-    return () => {
-      window.removeEventListener("resize", handleResize); // Cleanup event listener
-    };
-  }, []);
-
-  // Function to handle adding a new inventor
-  const handleAddInventor = () => {
-    setInventors([
-      ...inventors,
-      { name: "", email: "", address: "", mobile: "" },
-    ]);
-  };
-
-  // Function to handle removing an inventor
-  const handleRemoveInventor = (index) => {
-    const updatedInventors = inventors.filter((_, i) => i !== index);
-    setInventors(updatedInventors);
-  };
-
-  // Function to handle input changes for each inventor
-  const handleInputChange = (index, field, value) => {
-    const updatedInventors = inventors.map((inventor, i) =>
-      i === index ? { ...inventor, [field]: value } : inventor,
-    );
-    setInventors(updatedInventors);
-  };
-
-  // Function to handle general question changes
-  const handleGeneralInputChange = (field, value) => {
-    setGeneralQuestions({ ...generalQuestions, [field]: value });
-  };
-
-  // Function to handle IPR ownership question changes
-  const handleIprOwnershipInputChange = (field, value) => {
-    setIprOwnershipQuestions({ ...iprOwnershipQuestions, [field]: value });
-  };
-
-  const handleNotifyInventors = () => {
-    // Logic for notifying inventors
-    alert("Inventors notified!");
-  };
-
-  const handleViewStatus = () => {
-    // Logic for viewing status
-    alert("Viewing status!");
-  };
-
-  // Method to handle input change in the company table
-  const handleCompanyInputChange = (index, field, value) => {
-    const updatedCompanies = [...companies];
-    updatedCompanies[index][field] = value;
-    setCompanies(updatedCompanies);
-  };
-
-  // Method to add a new row for company details
-  const addNewCompany = () => {
-    setCompanies([
-      ...companies,
-      { name: "", concernedPerson: "", contact: "" },
-    ]);
-  };
-
-  const removeCompany = (index) => {
-    const updatedCompanies = companies.filter((_, i) => i !== index);
-    setCompanies(updatedCompanies);
-  };
-
-  // Method to handle checkbox change for development stage
-  const handleCheckboxChange = (e) => {
-    const { value } = e.target;
-    setDevelopmentStage((prevStage) => ({
-      ...prevStage,
-      [value]: !prevStage[value],
-    }));
-  };
-
-  // Function to handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Application Title:", applicationTitle);
-    console.log("Inventor Details:", inventors);
-    console.log("General Questions:", generalQuestions);
-    console.log("IPR Ownership Questions:", iprOwnershipQuestions);
-    alert("Form submitted successfully!");
-    navigate("/patent/applicant/applications");
-  };
-
-  // Function to go to the next page of the form
-  const nextPage = () => {
-    setStep(step + 1);
-  };
-
-  // Function to go to the previous page of the form
-  const prevPage = () => {
-    setStep(step - 1);
-  };
-
-  // Function to save the draft
-  const handleSaveDraft = () => {
-    const draft = {
-      applicationTitle,
-      inventors,
-      generalQuestions,
-      iprOwnershipQuestions,
-    };
-
-    // Save the draft in localStorage (or you can use a backend API call)
-    const savedDrafts = JSON.parse(localStorage.getItem("savedDrafts")) || [];
-    savedDrafts.push(draft);
-    localStorage.setItem("savedDrafts", JSON.stringify(savedDrafts));
-
-    alert("Draft saved successfully!");
-    navigate("/patent/applicant/");
-  };
-
-  const handleDownload = () => {
-    window.open("https://example.com/sample.pdf", "_blank");
-  };
-
-  // Desktop Version
-  const DesktopForm = () => (
-    <Paper shadow="xs" p="xl" size="md" mx={32}>
+// Desktop Form Component
+function DesktopForm({
+  loading,
+  error,
+  step,
+  applicationTitle,
+  setApplicationTitle,
+  inventors,
+  handleInputChange,
+  handleRemoveInventor,
+  handleAddInventor,
+  nextPage,
+  prevPage,
+  generalQuestions,
+  handleGeneralInputChange,
+  files,
+  setFiles,
+  iprOwnershipQuestions,
+  handleIprOwnershipInputChange,
+  handleNotifyInventors,
+  handleViewStatus,
+  handleSaveDraft,
+  companies,
+  handleCompanyInputChange,
+  removeCompany,
+  addNewCompany,
+  handleCheckboxChange,
+  handleDownload,
+  handleSubmit,
+}) {
+  return (
+    <Paper shadow="xs" p="xl" size="md" mx={32} pos="relative">
+      <LoadingOverlay visible={loading} overlayBlur={2} />
+      {error && (
+        <Alert color="red" mb={20}>
+          {error}
+        </Alert>
+      )}
       <Title order={1} align="center" mb={20} style={{ fontSize: "26px" }}>
         Intellectual Property Filing Form
       </Title>
@@ -777,10 +649,103 @@ function ApplicationForm() {
       )}
     </Paper>
   );
+}
 
-  // Mobile Version
-  const MobileForm = () => (
-    <Paper shadow="xs" p="md" mx={16}>
+DesktopForm.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  step: PropTypes.number.isRequired,
+  applicationTitle: PropTypes.string.isRequired,
+  setApplicationTitle: PropTypes.func.isRequired,
+  inventors: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      email: PropTypes.string,
+      address: PropTypes.string,
+      mobile: PropTypes.string,
+    }),
+  ).isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  handleRemoveInventor: PropTypes.func.isRequired,
+  handleAddInventor: PropTypes.func.isRequired,
+  nextPage: PropTypes.func.isRequired,
+  prevPage: PropTypes.func.isRequired,
+  generalQuestions: PropTypes.shape({
+    inventionArea: PropTypes.string,
+    problemArea: PropTypes.string,
+    objective: PropTypes.string,
+    novelty: PropTypes.string,
+    utility: PropTypes.string,
+    tested: PropTypes.string,
+    applications: PropTypes.string,
+  }).isRequired,
+  handleGeneralInputChange: PropTypes.func.isRequired,
+  files: PropTypes.arrayOf(PropTypes.instanceOf(File)).isRequired,
+  setFiles: PropTypes.func.isRequired,
+  iprOwnershipQuestions: PropTypes.shape({
+    significantUse: PropTypes.string,
+    fundingSource: PropTypes.string,
+    presentationDetails: PropTypes.string,
+    mOUDetails: PropTypes.string,
+    academicResearch: PropTypes.string,
+  }).isRequired,
+  handleIprOwnershipInputChange: PropTypes.func.isRequired,
+  handleNotifyInventors: PropTypes.func.isRequired,
+  handleViewStatus: PropTypes.func.isRequired,
+  handleSaveDraft: PropTypes.func.isRequired,
+  companies: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      concernedPerson: PropTypes.string,
+      contact: PropTypes.string,
+    }),
+  ).isRequired,
+  handleCompanyInputChange: PropTypes.func.isRequired,
+  removeCompany: PropTypes.func.isRequired,
+  addNewCompany: PropTypes.func.isRequired,
+  handleCheckboxChange: PropTypes.func.isRequired,
+  handleDownload: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+};
+
+// Mobile Form Component
+function MobileForm({
+  loading,
+  error,
+  step,
+  applicationTitle,
+  setApplicationTitle,
+  inventors,
+  handleInputChange,
+  handleRemoveInventor,
+  handleAddInventor,
+  nextPage,
+  prevPage,
+  generalQuestions,
+  handleGeneralInputChange,
+  files,
+  setFiles,
+  iprOwnershipQuestions,
+  handleIprOwnershipInputChange,
+  handleNotifyInventors,
+  handleViewStatus,
+  handleSaveDraft,
+  companies,
+  handleCompanyInputChange,
+  removeCompany,
+  addNewCompany,
+  handleCheckboxChange,
+  handleDownload,
+  handleSubmit,
+}) {
+  return (
+    <Paper shadow="xs" p="md" mx={16} pos="relative">
+      <LoadingOverlay visible={loading} overlayBlur={2} />
+      {error && (
+        <Alert color="red" mb={20}>
+          {error}
+        </Alert>
+      )}
       <Title order={1} align="center" mb={20} style={{ fontSize: "1.5rem" }}>
         Intellectual Property Filing Form
       </Title>
@@ -790,7 +755,12 @@ function ApplicationForm() {
       </Text>
       {step === 1 && (
         <form>
-          <Title order={2} align="center" mb={20} style={{ fontSize: "1.25rem" }}>
+          <Title
+            order={2}
+            align="center"
+            mb={20}
+            style={{ fontSize: "1.25rem" }}
+          >
             Section - I : (Administrative and Technical Details)
           </Title>
           {/* Step 1: Title of Application */}
@@ -885,7 +855,12 @@ function ApplicationForm() {
 
       {step === 2 && (
         <form>
-          <Title order={2} align="center" mb={20} style={{ fontSize: "1.25rem" }}>
+          <Title
+            order={2}
+            align="center"
+            mb={20}
+            style={{ fontSize: "1.25rem" }}
+          >
             Section - I : (Administrative and Technical Details)
           </Title>
           <Grid gutter="sm">
@@ -999,7 +974,12 @@ function ApplicationForm() {
       {step === 3 && (
         <form>
           {/* Step 3: IPR Ownership Questions */}
-          <Title order={2} align="center" mb={20} style={{ fontSize: "1.25rem" }}>
+          <Title
+            order={2}
+            align="center"
+            mb={20}
+            style={{ fontSize: "1.25rem" }}
+          >
             Section - II : (IPR Ownership)
           </Title>
           <Grid gutter="sm">
@@ -1011,7 +991,10 @@ function ApplicationForm() {
                 minRows={4}
                 value={iprOwnershipQuestions.significantUse}
                 onChange={(e) =>
-                  handleIprOwnershipInputChange("significantUse", e.target.value)
+                  handleIprOwnershipInputChange(
+                    "significantUse",
+                    e.target.value,
+                  )
                 }
                 required
               />
@@ -1110,95 +1093,101 @@ function ApplicationForm() {
         </form>
       )}
 
-{step === 4 && (
-  <form>
-    <Title order={2} align="center" mb={20} style={{ fontSize: "1.25rem" }}>
-      Section - II : (IPR Ownership)
-    </Title>
-    <Text size="sm" mb={20}>
-      6. Please disclose the extent of contribution of each inventor in
-      the invention in percentage terms for revenue sharing.
-    </Text>
-    {inventors.map((inventor, index) => (
-      <Grid key={index} gutter="sm" mb="md">
-        <Grid.Col span={12}>
-          <TextInput
-            label={`Inventor ${index + 1} Name`}
-            placeholder="Enter Inventor Name"
-            value={inventor.name}
-            onChange={(e) =>
-              handleInputChange(index, "name", e.target.value)
-            }
-            required
-          />
-        </Grid.Col>
-        <Grid.Col span={12}>
-          <TextInput
-            label={`Inventor ${index + 1} % Share`}
-            placeholder="Enter Percentage Share"
-            value={inventor.share}
-            onChange={(e) =>
-              handleInputChange(index, "share", e.target.value)
-            }
-            required
-          />
-        </Grid.Col>
-        <Grid.Col span={12}>
-          {/* Remove Button for Mobile Version */}
-          {inventors.length > 1 && (
-            <Button
-              color="red"
-              onClick={() => handleRemoveInventor(index)}
-              fullWidth
-            >
-              Remove Inventor
+      {step === 4 && (
+        <form>
+          <Title
+            order={2}
+            align="center"
+            mb={20}
+            style={{ fontSize: "1.25rem" }}
+          >
+            Section - II : (IPR Ownership)
+          </Title>
+          <Text size="sm" mb={20}>
+            6. Please disclose the extent of contribution of each inventor in
+            the invention in percentage terms for revenue sharing.
+          </Text>
+          {inventors.map((inventor, index) => (
+            <Grid key={index} gutter="sm" mb="md">
+              <Grid.Col span={12}>
+                <TextInput
+                  label={`Inventor ${index + 1} Name`}
+                  placeholder="Enter Inventor Name"
+                  value={inventor.name}
+                  onChange={(e) =>
+                    handleInputChange(index, "name", e.target.value)
+                  }
+                  required
+                />
+              </Grid.Col>
+              <Grid.Col span={12}>
+                <TextInput
+                  label={`Inventor ${index + 1} % Share`}
+                  placeholder="Enter Percentage Share"
+                  value={inventor.share}
+                  onChange={(e) =>
+                    handleInputChange(index, "share", e.target.value)
+                  }
+                  required
+                />
+              </Grid.Col>
+              <Grid.Col span={12}>
+                {/* Remove Button for Mobile Version */}
+                {inventors.length > 1 && (
+                  <Button
+                    color="red"
+                    onClick={() => handleRemoveInventor(index)}
+                    fullWidth
+                  >
+                    Remove Inventor
+                  </Button>
+                )}
+              </Grid.Col>
+            </Grid>
+          ))}
+
+          {/* Add Button for Mobile Version */}
+          <Grid>
+            <Grid.Col span={12}>
+              <Button color="blue" onClick={handleAddInventor} fullWidth>
+                Add Inventor
+              </Button>
+            </Grid.Col>
+          </Grid>
+
+          {/* Notify Inventors and View Status Buttons */}
+          <Group position="apart" mt="md">
+            <Button color="blue" onClick={handleNotifyInventors} fullWidth>
+              Notify Inventors
             </Button>
-          )}
-        </Grid.Col>
-      </Grid>
-    ))}
+            <Button color="blue" onClick={handleViewStatus} fullWidth>
+              View Status
+            </Button>
+          </Group>
 
-    {/* Add Button for Mobile Version */}
-    <Grid>
-      <Grid.Col span={12}>
-        <Button
-          color="blue"
-          onClick={handleAddInventor}
-          fullWidth
-        >
-          Add Inventor
-        </Button>
-      </Grid.Col>
-    </Grid>
-
-    {/* Notify Inventors and View Status Buttons */}
-    <Group position="apart" mt="md">
-      <Button color="blue" onClick={handleNotifyInventors} fullWidth>
-        Notify Inventors
-      </Button>
-      <Button color="blue" onClick={handleViewStatus} fullWidth>
-        View Status
-      </Button>
-    </Group>
-
-    {/* Previous, Save Draft, and Next Buttons */}
-    <Group position="apart" mt="lg">
-      <Button color="blue" onClick={prevPage} fullWidth>
-        Previous
-      </Button>
-      <Button color="blue" onClick={nextPage} fullWidth>
-        Next
-      </Button>
-      <Button color="blue" onClick={handleSaveDraft} fullWidth>
-        Save as Draft
-      </Button>
-    </Group>
-  </form>
-)}
+          {/* Previous, Save Draft, and Next Buttons */}
+          <Group position="apart" mt="lg">
+            <Button color="blue" onClick={prevPage} fullWidth>
+              Previous
+            </Button>
+            <Button color="blue" onClick={nextPage} fullWidth>
+              Next
+            </Button>
+            <Button color="blue" onClick={handleSaveDraft} fullWidth>
+              Save as Draft
+            </Button>
+          </Group>
+        </form>
+      )}
 
       {step === 5 && (
         <form>
-          <Title order={2} align="center" mb={20} style={{ fontSize: "1.25rem" }}>
+          <Title
+            order={2}
+            align="center"
+            mb={20}
+            style={{ fontSize: "1.25rem" }}
+          >
             Section - III : (Commercialization)
           </Title>
           {/* 1. Target Companies */}
@@ -1228,7 +1217,11 @@ function ApplicationForm() {
                         placeholder="Company Name"
                         value={company.name}
                         onChange={(e) =>
-                          handleCompanyInputChange(index, "name", e.target.value)
+                          handleCompanyInputChange(
+                            index,
+                            "name",
+                            e.target.value,
+                          )
                         }
                         required
                       />
@@ -1349,9 +1342,463 @@ function ApplicationForm() {
       )}
     </Paper>
   );
+}
+
+MobileForm.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  step: PropTypes.number.isRequired,
+  applicationTitle: PropTypes.string.isRequired,
+  setApplicationTitle: PropTypes.func.isRequired,
+  inventors: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      email: PropTypes.string,
+      address: PropTypes.string,
+      mobile: PropTypes.string,
+    }),
+  ).isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  handleRemoveInventor: PropTypes.func.isRequired,
+  handleAddInventor: PropTypes.func.isRequired,
+  nextPage: PropTypes.func.isRequired,
+  prevPage: PropTypes.func.isRequired,
+  generalQuestions: PropTypes.shape({
+    inventionArea: PropTypes.string,
+    problemArea: PropTypes.string,
+    objective: PropTypes.string,
+    novelty: PropTypes.string,
+    utility: PropTypes.string,
+    tested: PropTypes.string,
+    applications: PropTypes.string,
+  }).isRequired,
+  handleGeneralInputChange: PropTypes.func.isRequired,
+  files: PropTypes.arrayOf(PropTypes.instanceOf(File)).isRequired,
+  setFiles: PropTypes.func.isRequired,
+  iprOwnershipQuestions: PropTypes.shape({
+    significantUse: PropTypes.string,
+    fundingSource: PropTypes.string,
+    presentationDetails: PropTypes.string,
+    mOUDetails: PropTypes.string,
+    academicResearch: PropTypes.string,
+  }).isRequired,
+  handleIprOwnershipInputChange: PropTypes.func.isRequired,
+  handleNotifyInventors: PropTypes.func.isRequired,
+  handleViewStatus: PropTypes.func.isRequired,
+  handleSaveDraft: PropTypes.func.isRequired,
+  companies: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      concernedPerson: PropTypes.string,
+      contact: PropTypes.string,
+    }),
+  ).isRequired,
+  handleCompanyInputChange: PropTypes.func.isRequired,
+  removeCompany: PropTypes.func.isRequired,
+  addNewCompany: PropTypes.func.isRequired,
+  handleCheckboxChange: PropTypes.func.isRequired,
+  handleDownload: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+};
+
+function ApplicationForm() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [inventors, setInventors] = useState([
+    { name: "", email: "", address: "", mobile: "" },
+  ]);
+  const [applicationTitle, setApplicationTitle] = useState("");
+  const [step, setStep] = useState(1); // Tracks the current step (or page) of the form
+  const [generalQuestions, setGeneralQuestions] = useState({
+    inventionArea: "",
+    problemArea: "",
+    objective: "",
+    novelty: "",
+    utility: "",
+    tested: "",
+    applications: "",
+  });
+  const [files, setFiles] = useState([]);
+  const [iprOwnershipQuestions, setIprOwnershipQuestions] = useState({
+    significantUse: "",
+    fundingSource: "",
+    presentationDetails: "",
+    mOUDetails: "",
+    academicResearch: "",
+  });
+
+  const [companies, setCompanies] = useState([
+    { name: "", concernedPerson: "", contact: "" },
+  ]);
+
+  // State variables for development stages
+  const [developmentStage, setDevelopmentStage] = useState({
+    embryonic: false,
+    partiallyDeveloped: false,
+    offTheShelf: false,
+  });
+
+  const [isMobile, setIsMobile] = useState(false); // State to track if the device is mobile
+
+  const navigate = useNavigate(); // To navigate to saved drafts page
+
+  // Function to check if the screen is mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // 768px is a common breakpoint for mobile devices
+    };
+
+    handleResize(); // Check on initial render
+    window.addEventListener("resize", handleResize); // Add event listener for window resize
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Cleanup event listener
+    };
+  }, []);
+
+  // Function to handle adding a new inventor
+  const handleAddInventor = () => {
+    setInventors([
+      ...inventors,
+      { name: "", email: "", address: "", mobile: "" },
+    ]);
+  };
+
+  // Function to handle removing an inventor
+  const handleRemoveInventor = (index) => {
+    const updatedInventors = inventors.filter((_, i) => i !== index);
+    setInventors(updatedInventors);
+  };
+
+  // Function to handle input changes for each inventor
+  const handleInputChange = (index, field, value) => {
+    const updatedInventors = inventors.map((inventor, i) =>
+      i === index ? { ...inventor, [field]: value } : inventor,
+    );
+    setInventors(updatedInventors);
+  };
+
+  // Function to handle general question changes
+  const handleGeneralInputChange = (field, value) => {
+    setGeneralQuestions({ ...generalQuestions, [field]: value });
+  };
+
+  // Function to handle IPR ownership question changes
+  const handleIprOwnershipInputChange = (field, value) => {
+    setIprOwnershipQuestions({ ...iprOwnershipQuestions, [field]: value });
+  };
+
+  const handleNotifyInventors = () => {
+    // Logic for notifying inventors
+    alert("Inventors notified!");
+  };
+
+  const handleViewStatus = () => {
+    // Logic for viewing status
+    alert("Viewing status!");
+  };
+
+  // Method to handle input change in the company table
+  const handleCompanyInputChange = (index, field, value) => {
+    const updatedCompanies = [...companies];
+    updatedCompanies[index][field] = value;
+    setCompanies(updatedCompanies);
+  };
+
+  // Method to add a new row for company details
+  const addNewCompany = () => {
+    setCompanies([
+      ...companies,
+      { name: "", concernedPerson: "", contact: "" },
+    ]);
+  };
+
+  const removeCompany = (index) => {
+    const updatedCompanies = companies.filter((_, i) => i !== index);
+    setCompanies(updatedCompanies);
+  };
+
+  // Method to handle checkbox change for development stage
+  const handleCheckboxChange = (e) => {
+    const { value } = e.target;
+    setDevelopmentStage((prevStage) => ({
+      ...prevStage,
+      [value]: !prevStage[value],
+    }));
+  };
+
+  // Function to handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Validate application title
+      if (!applicationTitle.trim()) {
+        throw new Error("Application title is required");
+      }
+
+      // Validate inventors
+      if (inventors.length === 0) {
+        throw new Error("At least one inventor is required");
+      }
+
+      // Check if all inventor fields are filled
+      const invalidInventor = inventors.find(
+        (inventor) =>
+          !inventor.name.trim() ||
+          !inventor.email.trim() ||
+          !inventor.address.trim() ||
+          !inventor.mobile.trim(),
+      );
+
+      if (invalidInventor) {
+        throw new Error(
+          "Please fill all inventor details (name, email, address, and mobile)",
+        );
+      }
+
+      // Validate general questions
+      const requiredGeneralFields = {
+        inventionArea: "Area of invention",
+        problemArea: "Problem in the area",
+        objective: "Objective of invention",
+        novelty: "Novelty",
+        utility: "Utility/advantages",
+        tested: "Testing status",
+        applications: "Applications",
+      };
+
+      Object.entries(requiredGeneralFields).forEach(([field, label]) => {
+        if (!generalQuestions[field].trim()) {
+          throw new Error(`${label} is required`);
+        }
+      });
+
+      // Validate IPR ownership questions
+      const requiredIprFields = {
+        significantUse: "Significant use of funds/facilities",
+        fundingSource: "Source of funding",
+        presentationDetails: "Presentation/publication details",
+        mOUDetails: "MOU details",
+        academicResearch: "Academic research involvement",
+      };
+
+      Object.entries(requiredIprFields).forEach(([field, label]) => {
+        if (!iprOwnershipQuestions[field].trim()) {
+          throw new Error(`${label} is required`);
+        }
+      });
+
+      // Validate companies
+      if (companies.length === 0) {
+        throw new Error("At least one target company is required");
+      }
+
+      // Check if all company fields are filled
+      const invalidCompany = companies.find(
+        (company) =>
+          !company.name.trim() ||
+          !company.concernedPerson.trim() ||
+          !company.contact.trim(),
+      );
+
+      if (invalidCompany) {
+        throw new Error(
+          "Please fill all company details (name, concerned person, and contact)",
+        );
+      }
+
+      // Validate development stage selection
+      if (!Object.values(developmentStage).some((value) => value)) {
+        throw new Error("Please select a development stage");
+      }
+
+      // Create the main application data
+      const applicationData = {
+        title: applicationTitle,
+        status: "PENDING",
+        decision_status: "PENDING",
+        decision_date: new Date().toISOString(),
+      };
+
+      // Create section I data
+      const sectionIData = {
+        area: generalQuestions.inventionArea,
+        problem: generalQuestions.problemArea,
+        objective: generalQuestions.objective,
+        novelty: generalQuestions.novelty,
+        advantages: generalQuestions.utility,
+        is_tested: generalQuestions.tested.toLowerCase().includes("yes"),
+        applications: generalQuestions.applications,
+      };
+
+      // Create section II data
+      const sectionIIData = {
+        existing_tech: iprOwnershipQuestions.significantUse,
+        limitation: iprOwnershipQuestions.fundingSource,
+        present_invention: iprOwnershipQuestions.presentationDetails,
+        comparison: iprOwnershipQuestions.mOUDetails,
+        differences: iprOwnershipQuestions.academicResearch,
+        trial_status: "PENDING",
+      };
+
+      // Create section III data
+      const sectionIIIData = {
+        potential_industry: companies.map((company) => company.name).join(", "),
+        potential_customer: companies
+          .map((company) => `${company.concernedPerson} (${company.contact})`)
+          .join(", "),
+        future_plans: Object.entries(developmentStage)
+          .filter(([_, value]) => value)
+          .map(([key]) => key)
+          .join(", "),
+        commercialization: "PENDING",
+        licensing_interest: "PENDING",
+      };
+
+      // Combine all data
+      const formPayload = {
+        application: applicationData,
+        section_i: sectionIData,
+        section_ii: sectionIIData,
+        section_iii: sectionIIIData,
+        inventors: inventors.map(({ name, email, address, mobile, share }) => ({
+          name,
+          email,
+          address,
+          mobile,
+          share: share || "0",
+        })),
+      };
+
+      // Make API call to submit the form
+      const authToken = localStorage.getItem("authToken");
+      const response = await axios.post(
+        "http://127.0.0.1:8000/patentsystem/applicant/applications/submit",
+        formPayload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+          withCredentials: true,
+        },
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        alert("Form submitted successfully!");
+        navigate("/patent/applicant/applications");
+      } else {
+        throw new Error(response.data?.message || "Submission failed");
+      }
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "An error occurred while submitting the form. Please try again.",
+      );
+      console.error("Form submission error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Function to go to the next page of the form
+  const nextPage = () => {
+    setStep(step + 1);
+  };
+
+  // Function to go to the previous page of the form
+  const prevPage = () => {
+    setStep(step - 1);
+  };
+
+  // Function to save the draft
+  const handleSaveDraft = () => {
+    const draft = {
+      applicationTitle,
+      inventors,
+      generalQuestions,
+      iprOwnershipQuestions,
+    };
+
+    // Save the draft in localStorage (or you can use a backend API call)
+    const savedDrafts = JSON.parse(localStorage.getItem("savedDrafts")) || [];
+    savedDrafts.push(draft);
+    localStorage.setItem("savedDrafts", JSON.stringify(savedDrafts));
+
+    alert("Draft saved successfully!");
+    navigate("/patent/applicant/");
+  };
+
+  const handleDownload = () => {
+    window.open("https://example.com/sample.pdf", "_blank");
+  };
 
   // Render the appropriate form based on screen width
-  return isMobile ? <MobileForm /> : <DesktopForm />;
+  return isMobile ? (
+    <MobileForm
+      loading={loading}
+      error={error}
+      step={step}
+      applicationTitle={applicationTitle}
+      setApplicationTitle={setApplicationTitle}
+      inventors={inventors}
+      handleInputChange={handleInputChange}
+      handleRemoveInventor={handleRemoveInventor}
+      handleAddInventor={handleAddInventor}
+      nextPage={nextPage}
+      prevPage={prevPage}
+      generalQuestions={generalQuestions}
+      handleGeneralInputChange={handleGeneralInputChange}
+      files={files}
+      setFiles={setFiles}
+      iprOwnershipQuestions={iprOwnershipQuestions}
+      handleIprOwnershipInputChange={handleIprOwnershipInputChange}
+      handleNotifyInventors={handleNotifyInventors}
+      handleViewStatus={handleViewStatus}
+      handleSaveDraft={handleSaveDraft}
+      companies={companies}
+      handleCompanyInputChange={handleCompanyInputChange}
+      removeCompany={removeCompany}
+      addNewCompany={addNewCompany}
+      handleCheckboxChange={handleCheckboxChange}
+      handleDownload={handleDownload}
+      handleSubmit={handleSubmit}
+    />
+  ) : (
+    <DesktopForm
+      loading={loading}
+      error={error}
+      step={step}
+      applicationTitle={applicationTitle}
+      setApplicationTitle={setApplicationTitle}
+      inventors={inventors}
+      handleInputChange={handleInputChange}
+      handleRemoveInventor={handleRemoveInventor}
+      handleAddInventor={handleAddInventor}
+      nextPage={nextPage}
+      prevPage={prevPage}
+      generalQuestions={generalQuestions}
+      handleGeneralInputChange={handleGeneralInputChange}
+      files={files}
+      setFiles={setFiles}
+      iprOwnershipQuestions={iprOwnershipQuestions}
+      handleIprOwnershipInputChange={handleIprOwnershipInputChange}
+      handleNotifyInventors={handleNotifyInventors}
+      handleViewStatus={handleViewStatus}
+      handleSaveDraft={handleSaveDraft}
+      companies={companies}
+      handleCompanyInputChange={handleCompanyInputChange}
+      removeCompany={removeCompany}
+      addNewCompany={addNewCompany}
+      handleCheckboxChange={handleCheckboxChange}
+      handleDownload={handleDownload}
+      handleSubmit={handleSubmit}
+    />
+  );
 }
 
 export default ApplicationForm;
