@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom"; // For redirecting to Saved Draf
 
 function ApplicationForm() {
   const [inventors, setInventors] = useState([
-    { name: "", email: "", address: "", mobile: "" },
+    { name: "", iiitdmjEmail: "", personalEmail: "", address: "", mobile: "", share: "" },
   ]);
   const [applicationTitle, setApplicationTitle] = useState("");
   const [step, setStep] = useState(1); // Tracks the current step (or page) of the form
@@ -73,7 +73,7 @@ function ApplicationForm() {
   const handleAddInventor = () => {
     setInventors([
       ...inventors,
-      { name: "", email: "", address: "", mobile: "" },
+      { name: "", iiitdmjEmail: "", personalEmail: "", address: "", mobile: "", share: "" },
     ]);
   };
 
@@ -230,11 +230,19 @@ function ApplicationForm() {
                 required
               />
               <TextInput
-                label="Email"
-                placeholder="Email of Inventor"
-                value={inventor.email}
+                label="IIITDMJ Email"
+                placeholder="IIITDMJ Email of Inventor"
+                value={inventor.iiitdmjEmail}
                 onChange={(e) =>
-                  handleInputChange(index, "email", e.target.value)
+                  handleInputChange(index, "iiitdmjEmail", e.target.value)
+                }
+              />
+              <TextInput
+                label="Personal Email"
+                placeholder="Personal Email of Inventor"
+                value={inventor.personalEmail}
+                onChange={(e) =>
+                  handleInputChange(index, "personalEmail", e.target.value)
                 }
                 required
               />
@@ -253,6 +261,15 @@ function ApplicationForm() {
                 value={inventor.mobile}
                 onChange={(e) =>
                   handleInputChange(index, "mobile", e.target.value)
+                }
+                required
+              />
+              <TextInput
+                label="Contribution Percentage"
+                placeholder="Enter percentage share"
+                value={inventor.share}
+                onChange={(e) =>
+                  handleInputChange(index, "share", e.target.value)
                 }
                 required
               />
@@ -286,6 +303,24 @@ function ApplicationForm() {
               Add Inventor
             </Button>
           </Group>
+          {/* <Text size="sm" mb={20}>
+            * All inventor(s) have to sign the revenue-sharing agreement. Once you have filled in the contribution
+            percentages, you can click the "Notify Inventors" button to send
+            notifications to all inventors involved. This notification will
+            prompt them to review their contributions and digitally sign the
+            revenue-sharing agreement. After sending the notifications, you can
+            use the "View Status" button to check which inventors have submitted
+            their contributions and consented to the agreement.
+          </Text>
+          {/* Notify Inventors and View Status Buttons 
+          <Group position="apart" mt="md">
+            <Button color="blue" onClick={handleNotifyInventors}>
+              Notify Inventors
+            </Button>
+            <Button color="blue" onClick={handleViewStatus}>
+              View Status
+            </Button>
+          </Group> */}
 
           {/* Next Button */}
           <Group position="center" mt="lg">
@@ -516,101 +551,6 @@ function ApplicationForm() {
             <Button onClick={nextPage} color="blue">
               Next
             </Button>
-          </Group>
-        </form>
-      )}
-
-      {step === 4 && (
-        <form>
-          <Title order={2} align="center" mb={20} style={{ fontSize: "24px" }}>
-            Section - II : (IPR Ownership)
-          </Title>
-          <Text size="sm" mb={20}>
-            6. Please disclose the extent of contribution of each inventor in
-            the invention in percentage terms for revenue sharing.
-          </Text>
-          {inventors.map((inventor, index) => (
-            <div
-              key={index}
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                gap: "30px",
-                marginBottom: "10px",
-              }}
-            >
-              <TextInput
-                label={`Inventor ${index + 1} Name`}
-                placeholder="Enter Inventor Name"
-                value={inventor.name}
-                onChange={(e) =>
-                  handleInputChange(index, "name", e.target.value)
-                }
-                style={{ width: "300px" }}
-                required
-              />
-              <TextInput
-                label={`Inventor ${index + 1} % Share`}
-                placeholder="Enter Percentage Share"
-                value={inventor.share}
-                onChange={(e) =>
-                  handleInputChange(index, "share", e.target.value)
-                }
-                required
-              />
-              <Group spacing="xs">
-                {inventors.length > 1 && (
-                  <Button
-                    color="blue"
-                    onClick={() => handleRemoveInventor(index)}
-                    style={{ marginTop: "25px" }}
-                  >
-                    Remove
-                  </Button>
-                )}
-                {index === inventors.length - 1 && (
-                  <Button
-                    color="blue"
-                    onClick={handleAddInventor}
-                    style={{ marginTop: "25px" }}
-                  >
-                    Add
-                  </Button>
-                )}
-              </Group>
-            </div>
-          ))}
-          <Text size="sm" mt={10}>
-            * If this column is not filled then it will be assumed that all
-            inventor(s) have equal contribution, however still all inventor(s)
-            have to sign it. Once you have filled in the contribution
-            percentages, you can click the "Notify Inventors" button to send
-            notifications to all inventors involved. This notification will
-            prompt them to review their contributions and digitally sign the
-            revenue-sharing agreement. After sending the notifications, you can
-            use the "View Status" button to check which inventors have submitted
-            their contributions and consented to the agreement.
-          </Text>
-
-          {/* Notify Inventors and View Status Buttons */}
-          <Group position="apart" mt="md">
-            <Button color="blue" onClick={handleNotifyInventors}>
-              Notify Inventors
-            </Button>
-            <Button color="blue" onClick={handleViewStatus}>
-              View Status
-            </Button>
-          </Group>
-
-          {/* Previous, Save Draft, and Next Buttons */}
-          <Group position="apart" mt="lg">
-            <Button color="blue" onClick={prevPage}>
-              Previous
-            </Button>
-            <Button color="blue" onClick={nextPage}>
-              Next
-            </Button>
             <Button color="blue" onClick={handleSaveDraft}>
               Save as Draft
             </Button>
@@ -618,7 +558,8 @@ function ApplicationForm() {
         </form>
       )}
 
-      {step === 5 && (
+
+      {step === 4 && (
         <form style={{ margin: "32px", width: "1250px", marginRight: "0px" }}>
           <Title order={2} align="center" mb={20} style={{ fontSize: "24px" }}>
             Section - III : (Commercialization)
@@ -811,7 +752,7 @@ function ApplicationForm() {
           </Text>
           {inventors.map((inventor, index) => (
             <Grid key={index} gutter="sm" mb="md">
-              <Grid.Col span={12} sm={6}>
+              <Grid.Col span={12}>
                 <TextInput
                   label={`Inventor-${index + 1} Name`}
                   placeholder="Name of Inventor"
@@ -824,16 +765,26 @@ function ApplicationForm() {
               </Grid.Col>
               <Grid.Col span={12} sm={6}>
                 <TextInput
-                  label="Email"
-                  placeholder="Email of Inventor"
-                  value={inventor.email}
+                  label="IIITDMJ Email"
+                  placeholder="IIITDMJ Email of Inventor"
+                  value={inventor.iiitdmjEmail}
                   onChange={(e) =>
-                    handleInputChange(index, "email", e.target.value)
+                    handleInputChange(index, "iiitdmjEmail", e.target.value)
+                  }
+                />
+              </Grid.Col>
+              <Grid.Col span={12} sm={6}>
+                <TextInput
+                  label="Personal Email"
+                  placeholder="Personal Email of Inventor"
+                  value={inventor.personalEmail}
+                  onChange={(e) =>
+                    handleInputChange(index, "personalEmail", e.target.value)
                   }
                   required
                 />
               </Grid.Col>
-              <Grid.Col span={12} sm={6}>
+              <Grid.Col span={12}>
                 <TextInput
                   label="Contact Address"
                   placeholder="Contact Address of Inventor"
@@ -844,13 +795,24 @@ function ApplicationForm() {
                   required
                 />
               </Grid.Col>
-              <Grid.Col span={12} sm={6}>
+              <Grid.Col span={12}>
                 <TextInput
                   label="Mobile Number"
                   placeholder="Mobile Number of Inventor"
                   value={inventor.mobile}
                   onChange={(e) =>
                     handleInputChange(index, "mobile", e.target.value)
+                  }
+                  required
+                />
+              </Grid.Col>
+              <Grid.Col span={12}>
+                <TextInput
+                  label="Contribution Percentage"
+                  placeholder="Enter percentage share"
+                  value={inventor.share}
+                  onChange={(e) =>
+                    handleInputChange(index, "share", e.target.value)
                   }
                   required
                 />
@@ -873,6 +835,25 @@ function ApplicationForm() {
               Add Inventor
             </Button>
           </Group>
+          {/* <Text size="sm" mb={20}>
+            * All inventor(s) have to sign the revenue-sharing agreement. Once you have filled in the contribution
+            percentages, you can click the "Notify Inventors" button to send
+            notifications to all inventors involved. This notification will
+            prompt them to review their contributions and digitally sign the
+            revenue-sharing agreement. After sending the notifications, you can
+            use the "View Status" button to check which inventors have submitted
+            their contributions and consented to the agreement.
+          </Text>
+
+          {/* Notify Inventors and View Status Buttons 
+          <Group position="apart" mt="md">
+            <Button color="blue" onClick={handleNotifyInventors} fullWidth>
+              Notify Inventors
+            </Button>
+            <Button color="blue" onClick={handleViewStatus} fullWidth>
+              View Status
+            </Button>
+          </Group> */}
 
           {/* Next Button */}
           <Group position="center" mt="lg">
@@ -1106,97 +1087,15 @@ function ApplicationForm() {
             <Button onClick={nextPage} color="blue" fullWidth>
               Next
             </Button>
+            <Button color="blue" onClick={handleSaveDraft} fullWidth>
+              Save as Draft
+            </Button>
           </Group>
         </form>
       )}
 
-{step === 4 && (
-  <form>
-    <Title order={2} align="center" mb={20} style={{ fontSize: "1.25rem" }}>
-      Section - II : (IPR Ownership)
-    </Title>
-    <Text size="sm" mb={20}>
-      6. Please disclose the extent of contribution of each inventor in
-      the invention in percentage terms for revenue sharing.
-    </Text>
-    {inventors.map((inventor, index) => (
-      <Grid key={index} gutter="sm" mb="md">
-        <Grid.Col span={12}>
-          <TextInput
-            label={`Inventor ${index + 1} Name`}
-            placeholder="Enter Inventor Name"
-            value={inventor.name}
-            onChange={(e) =>
-              handleInputChange(index, "name", e.target.value)
-            }
-            required
-          />
-        </Grid.Col>
-        <Grid.Col span={12}>
-          <TextInput
-            label={`Inventor ${index + 1} % Share`}
-            placeholder="Enter Percentage Share"
-            value={inventor.share}
-            onChange={(e) =>
-              handleInputChange(index, "share", e.target.value)
-            }
-            required
-          />
-        </Grid.Col>
-        <Grid.Col span={12}>
-          {/* Remove Button for Mobile Version */}
-          {inventors.length > 1 && (
-            <Button
-              color="red"
-              onClick={() => handleRemoveInventor(index)}
-              fullWidth
-            >
-              Remove Inventor
-            </Button>
-          )}
-        </Grid.Col>
-      </Grid>
-    ))}
 
-    {/* Add Button for Mobile Version */}
-    <Grid>
-      <Grid.Col span={12}>
-        <Button
-          color="blue"
-          onClick={handleAddInventor}
-          fullWidth
-        >
-          Add Inventor
-        </Button>
-      </Grid.Col>
-    </Grid>
-
-    {/* Notify Inventors and View Status Buttons */}
-    <Group position="apart" mt="md">
-      <Button color="blue" onClick={handleNotifyInventors} fullWidth>
-        Notify Inventors
-      </Button>
-      <Button color="blue" onClick={handleViewStatus} fullWidth>
-        View Status
-      </Button>
-    </Group>
-
-    {/* Previous, Save Draft, and Next Buttons */}
-    <Group position="apart" mt="lg">
-      <Button color="blue" onClick={prevPage} fullWidth>
-        Previous
-      </Button>
-      <Button color="blue" onClick={nextPage} fullWidth>
-        Next
-      </Button>
-      <Button color="blue" onClick={handleSaveDraft} fullWidth>
-        Save as Draft
-      </Button>
-    </Group>
-  </form>
-)}
-
-      {step === 5 && (
+      {step === 4 && (
         <form>
           <Title order={2} align="center" mb={20} style={{ fontSize: "1.25rem" }}>
             Section - III : (Commercialization)
