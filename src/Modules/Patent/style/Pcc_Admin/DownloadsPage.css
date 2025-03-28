@@ -1,0 +1,129 @@
+/* DownloadsPage.css */
+
+/* Use the same container styling as ManageAttorneyAssignment */
+.manage-attorney-container {
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 32px;
+  margin-left: 0; /* Ensure content is aligned to the left */
+}
+
+/* Title styling */
+.page-heading-title {
+  margin-bottom: 2px;
+  margin-top: -20px;
+  font-size: 26px;
+  color: #333;
+  font-weight: 700;
+  text-align: left;
+}
+
+/* Description styling */
+.description {
+  font-size: 14px;
+  color: #555;
+  text-align: left;
+  margin-bottom: 32px;
+}
+
+/* Card styling for table */
+.table-card {
+  padding: 24px;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Enable horizontal scrolling on small screens */
+}
+
+/* Table styling */
+.downloads-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.downloads-table th,
+.downloads-table td {
+  text-align: center;
+  font-size: 0.875rem; /* Standard text size: 14px */
+  color: #444;
+  padding: 12px;
+}
+
+/* Header styling */
+.downloads-table thead th {
+  font-weight: 600;
+  color: #222;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+/* Row hover effect */
+.downloads-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Button styling */
+.download-button {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 0.875rem; /* Match 14px size */
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Desktop-specific styles */
+@media (min-width: 769px) {
+  .manage-attorney-container {
+    margin-left: 30px; /* Shift container to the right */
+  }
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+  .manage-attorney-container {
+    padding: 16px;
+    margin-left: 0; /* Reset margin for smaller screens */
+  }
+
+  .page-heading-title {
+    font-size: 22px;
+  }
+
+  .description {
+    font-size: 12px;
+  }
+
+  .downloads-table th,
+  .downloads-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .download-button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-heading-title {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 11px;
+  }
+
+  .downloads-table th,
+  .downloads-table td {
+    font-size: 11px;
+    padding: 6px;
+  }
+
+  .download-button {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}

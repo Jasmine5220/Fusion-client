@@ -1,0 +1,125 @@
+/* Page title */
+.draft-header-text {
+  font-size: 26px;
+  font-weight: 700;
+  color: #2d3748;
+  letter-spacing: 0.5px;
+  padding-left: 32px;
+  margin-bottom: 10px;
+  margin-top: -20px;
+}
+
+/* Saved drafts container for flex layout */
+.draft-app-container {
+  margin-left: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Saved draft card */
+.saved-draft-card {
+  flex: 1;
+  min-width: 45%;
+  max-width: 45%;
+  border-left: 6px solid #ffffff; /* Add a left border for consistency */
+  padding: 14px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.saved-draft-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Card title */
+.card-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #2d3748;
+}
+
+/* Card details (date and time) */
+.card-details {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+/* Card description */
+.card-description {
+  font-size: 14px;
+  color: #4a5568;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* View Draft button */
+.viewDraftButton {
+  margin-top: 16px;
+  background-color: #fff;
+  border: 1px solid #0073e6;
+  color: #0073e6;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.viewDraftButton:hover {
+  background-color: #0073e6;
+  color: #fff;
+}
+
+/* Modal styling */
+.modal-content {
+  font-size: 14px;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.modal-details {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.modal-description {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 8px;
+}
+
+/* Download button in modal */
+.modal-download-button {
+  background-color: #0073e6;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.modal-download-button:hover {
+  background-color: #005bb5;
+}
+
+/* Responsive behavior for smaller screens */
+@media (max-width: 768px) {
+  .draft-app-container {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .saved-draft-card {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .draft-header-text {
+    padding-left: 16px;
+  }
+}

@@ -1,0 +1,75 @@
+/* Page title */
+.notif-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #2d3748;
+  letter-spacing: 0.5px;
+  padding-left: 32px;
+  margin-bottom: 10px;
+  margin-top: -20px;
+}
+
+/* Notifications container for flex layout */
+.notification-container {
+  margin-left: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Notification card */
+.notification-card {
+  flex: 1;
+  min-width: 45%;
+  max-width: 45%;
+  border-left-width: 6px;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: #f7fafc;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Notification title */
+.notification-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Notification status */
+.notification-status {
+  font-size: 14px;
+}
+
+/* Notification description */
+.notification-description {
+  font-size: 14px;
+}
+
+/* Date and time styling */
+.notification-date {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+/* Mark as Read button */
+.markReadButton {
+  margin-top: 16px;
+  background-color: #fff;
+  border: 1px solid #0073e6;
+  color: #0073e6;;
+}
+
+.markReadButton:hover {
+  background-color: #0073e6;
+  color: #fff;
+}
+
+/* Responsive behavior for smaller screens */
+@media (max-width: 768px) {
+  .notification-card {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}

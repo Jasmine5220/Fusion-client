@@ -1,0 +1,153 @@
+/* Container */
+.form-container, .mobile-form-container {
+  padding: 0;
+  margin: 0 auto;
+  background-color: #f5f7fa;
+  width: 100%;
+}
+
+/* Title */
+.form-title, .mobile-form-title {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  color: #000000;
+  margin-bottom: 16px;
+}
+
+.mobile-form-title {
+  font-size: 22px;
+}
+
+/* Section */
+.form-section, .mobile-form-section {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-form-section {
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.section-title, .mobile-section-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #0073e6;
+}
+
+.mobile-section-title {
+  font-size: 20px;
+}
+
+/* Form Fields */
+.form-field, .mobile-form-field {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.mobile-form-field {
+  flex-direction: column;
+}
+
+.field-heading, .mobile-field-heading {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  width: 30%;
+}
+
+.mobile-field-heading {
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.field-value, .mobile-field-value {
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  width: 60%;
+}
+
+.mobile-field-value {
+  width: 100%;
+}
+
+.field-group-title, .mobile-field-group-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #000000;
+}
+
+.mobile-field-group-title {
+  font-size: 14px;
+}
+
+/* Inventor Container */
+.inventor-container, .mobile-inventor-container {
+  padding: 12px;
+  border: 1px solid #f5f7fa;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background-color: #f5f7fa;
+}
+
+.mobile-inventor-container {
+  padding: 8px;
+}
+
+.inventor-title, .mobile-inventor-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #0073e6;
+  margin-bottom: 4px;
+}
+
+.mobile-inventor-title {
+  font-size: 14px;
+}
+
+/* Form Actions */
+.form-actions, .mobile-form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* Download Button */
+.down-button, .mobile-down-button {
+  background-color: #fff;
+  color: #0073e6;
+  border: 1px solid #0073e6;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 16px;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mobile-down-button {
+  padding: 8px 12px;
+}
+
+.down-button:hover, .mobile-down-button:hover {
+  background-color: #0073e6;
+  color: #fff;
+}
+
+/* Status Bar */
+.status-bar, .mobile-status-bar {
+  margin-top: 16px;
+}
+
+.mobile-status-bar {
+  margin-top: 12px;
+}

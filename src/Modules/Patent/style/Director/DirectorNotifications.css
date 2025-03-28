@@ -1,0 +1,114 @@
+/* Overall Page Background */
+body {
+  background-color: #f7f7f7; /* Light grey for overall page background */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+
+/* Page Title */
+.notif-title {
+  font-size: 26px;  /* Adjusted to 26px as per guidelines */
+  font-weight: bold;
+  color: #2d3748; /* Dark grey text */
+  margin-top: 0px;
+  margin-bottom: 10px;
+  margin-left: 32px; /* Consistent padding with sidebar */
+}
+
+/* Notifications Container for Flex Layout */
+.notifications-container {
+  padding-left: 64px; /* Consistent padding from sidebar */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Notification Card */
+.notification-card {
+  flex: 1;
+  min-width: 45%;
+  max-width: 45%;
+  padding: 32px; /* Adjusted padding for consistency */
+  border-radius: 10px; /* Rounded corners */
+  background-color: #ffffff; /* Pure white background */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Subtle elevation */
+  border: none; /* Removed border to align with guidelines */
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Remove Left Border from Notification Card */
+.notification-card {
+  border-left: none !important; /* Explicitly remove left border */
+}
+
+/* Notification Card Hover Effect */
+.notification-card:hover {
+  transform: translateY(-4px); /* Lift effect on hover */
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+}
+
+/* Notification Token */
+.notification-token {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563; /* Dark grey text */
+}
+
+/* Notification Title */
+.notification-title {
+  font-size: 18px;
+  font-weight: 550;
+  margin-bottom: 2px;
+}
+
+/* Notification Status */
+.notification-status {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+/* Notification Description */
+.notification-description {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Date and Time Styling */
+.notification-date {
+  font-size: 12px;
+  color: #6b7280; /* Light grey color for date */
+  margin-top: 2px;
+}
+
+/* Mark as Read Button */
+.mark-read-button {
+  margin-top: 16px;
+  color: #225ea8;
+  border: 1px solid #225ea8;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Button Hover Effect */
+.mark-read-button:hover {
+  background-color: #225ea8;
+    color: white;
+    border-color: #225ea8;
+}
+
+/* Responsive Behavior for Smaller Screens */
+@media (max-width: 768px) {
+  .notification-card {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .notif-title {
+    font-size: 24px; /* Adjusted font size for smaller screens */
+  }
+}

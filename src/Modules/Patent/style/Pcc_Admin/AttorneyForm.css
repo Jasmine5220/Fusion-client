@@ -1,0 +1,57 @@
+/* AttorneyForm.css */
+
+.attorney-form-container {
+  width: 100%;
+  padding: 20px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.attorney-form-header {
+  font-size: 28px;
+  color:black; /* Primary color */
+  margin-bottom: 20px;
+  font-weight: 700; /* Make it bolder */
+  text-align: center; /* Center align */
+  border-bottom: 2px solid #1c7ed6; /* Underline effect */
+  padding-bottom: 10px;
+}
+
+.attorney-detail {
+  display: flex;
+  align-items: center;
+  font-size: 16px; /* Slightly larger for readability */
+  color: #333;
+  margin: 10px 0;
+}
+
+.attorney-detail .icon {
+  color: #1c7ed6; /* Make icon color consistent */
+  margin-right: 12px;
+  font-size: 20px; /* Increase icon size slightly */
+}
+
+.comments-section {
+  margin-top: 15px;
+  font-size: 15px;
+  color: #444;
+}
+
+.created-by-badge {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 3px 12px;
+  /* padding-bottom: 5px; */
+  text-align: center;
+  justify-content: center;
+  font-size: 15px;
+  background-color: #e0e7ff; /* Light background for the badge */
+  color: #1c7ed6;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.icon:hover {
+  color: #2a7fbb;
+}
