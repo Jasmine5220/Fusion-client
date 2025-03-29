@@ -14,7 +14,7 @@ const submittedApplicationsData = [
     title: "Patent Application 2",
     date: "2024-11-2024-11-07 12:45 PM	",
     tokenNumber: "IIITDMJ/AI/20241107/002/NVV/105	",
-    Department: "SM",
+    Department: "AI",
     attorney: "Arun Prakash",
     submitter: "Aman Kheria"
 

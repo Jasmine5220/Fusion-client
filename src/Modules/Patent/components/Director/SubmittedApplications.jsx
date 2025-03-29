@@ -3,7 +3,7 @@ import { Box, Button, ScrollArea, Table, Title, Text } from "@mantine/core";
 import { Eye } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 import submittedApplicationsData from "../../data/director/submittedApplicationsData";
-import "../../style/Pcc_Admin/ReviewApplication.css";
+import "../../style/director/SubmittedApplications.css";
 
 function SubmittedApplications({ setActiveTab }) {
   const navigate = useNavigate();
