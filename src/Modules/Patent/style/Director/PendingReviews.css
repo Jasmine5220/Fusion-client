@@ -1,0 +1,92 @@
+/* Overall Page Background */
+body {
+  background-color: #f7f7f7;
+  /* Light grey overall page background */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Header Styling */
+.header-text {
+  font-size: 26px;
+  /* Adjusted to 26px as per guidelines */
+  font-weight: bold;
+  color: #2d3748;
+  /* Dark grey text */
+  letter-spacing: 0.5px;
+  padding-left: 32px;
+  /* Consistent padding with sidebar */
+}
+
+/* Application Container Styling */
+.app-container {
+  padding: 32px;
+  /* Consistent padding of 32px */
+  background-color: #f7f7f7;
+  /* Light grey for overall container */
+}
+
+/* Card Styling */
+.pending-review-card {
+  padding: 32px;
+  /* Adequate padding for content */
+  border-radius: 10px;
+  /* Rounded corners */
+  background-color: #fff;
+  /* Pure white background for cards */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  /* Subtle elevation */
+  border: none;
+  /* Ensures no borders are applied */
+}
+
+/* Remove Any Left Borders from Cards */
+.pending-review-card {
+  border-left: none !important;
+  /* Explicitly remove left border */
+}
+
+/* Button Styling */
+.button {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: none;
+  background-color: #3182ce;
+  /* Blue buttons */
+  color: #fff;
+  /* White text */
+  cursor: pointer;
+  width: 100%;
+  /* Button width set to 100% */
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+  /* Spacing between buttons */
+}
+
+/* Responsive Behavior */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 16px;
+    /* Adjust padding for smaller screens */
+  }
+
+  .button-container {
+    flex-direction: column;
+    /* Stack buttons vertically */
+    gap: 12px;
+    /* Smaller spacing */
+  }
+
+  .header-text {
+    font-size: 24px;
+    /* Slightly smaller font size for smaller screens */
+  }
+}
