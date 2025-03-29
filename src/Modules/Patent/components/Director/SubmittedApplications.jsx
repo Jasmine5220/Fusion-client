@@ -10,9 +10,10 @@ function SubmittedApplications({ setActiveTab }) {
   const columnNames = [
     "Token Number",
     "Patent Title",
-    "Application Number",
+    "Submitted By",
+    "Department",
+    "Date-Time",
     "Assigned Attorney",
-    "Date",
     "View",
   ];
 
@@ -25,9 +26,10 @@ function SubmittedApplications({ setActiveTab }) {
     <tr key={index} className="tableRow">
       <td>{item.tokenNumber}</td>
       <td>{item.title}</td>
-      <td>{item.applicationNumber}</td>
-      <td>{item.attorney}</td>
+      <td>{item.submitter}</td>
+      <td>{item.Department}</td>
       <td>{item.date}</td>
+      <td>{item.attorney}</td>
       <td>
         <Button
           variant="outline"
