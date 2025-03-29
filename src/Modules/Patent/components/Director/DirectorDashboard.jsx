@@ -23,6 +23,7 @@ import {
   DownloadSimple,
   ChartBar,
   Buildings,
+  Bell,
 } from "@phosphor-icons/react";
 import "../../style/Director/DirectorDashboard.css";
 import downloadsData from "../../data/director/DownloadData";
@@ -514,6 +515,28 @@ function DirectorDashboard({ setActiveTab }) {
               </Button>
             </Box>
           </Grid.Col>
+          {/* Notifications */}
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          <Box className="dashboard-cards">
+            <Text className="dashboard-card-title">
+              <Bell size={20} className="icon" /> Notifications
+            </Text>
+            <Divider className="card-divider" />
+            <Text size="sm" mt="sm">
+              Stay updated with the latest notifications regarding your patent applications.
+            </Text>
+            <Button
+              variant="outline"
+              fullWidth
+              mt="md"
+              size="sm"
+              onClick={() => setActiveTab(TabKeys.NEW_APPLICATIONS)}
+              className="markReadButton"
+            >
+              View Notifications
+            </Button>
+          </Box>
+        </Grid.Col>
         </Grid>
       </Box>
     </div>

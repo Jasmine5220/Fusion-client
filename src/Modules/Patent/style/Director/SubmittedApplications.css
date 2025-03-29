@@ -1,144 +1,164 @@
-/* Title Styling */
-.submitted-header-text {
+/* General Container */
+.outerContainer {
+  max-width: 100%;
+  padding: 32px;
+  background-color: #f9fafc;
+  margin-left: 25px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.title {
   font-size: 26px;
   font-weight: bold;
-  color: #2d3748;
-  margin: 0 0 20px 32px;
+  text-align: left;
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  color: black;
+  padding-left: 30px;
+}
+
+.title span {
+  color: black;
+}
+
+.content {
   text-align: left;
 }
 
-/* Submitted Applications Container */
-.submitted-applications-container {
-  padding: 0px;
-  width: 100%;
-  /* max-width: 1200px; */
-  margin: 0 auto; /* Center the container */
-}
-
-/* Submitted Application Grid */
-.submitted-applications-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-/* Submitted Application Card */
-.submitted-application-card {
-  padding: 16px;
-  border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  width: 100%;
-  /* Blue border matching button color */
-}
-
-/* Card Hover Effect */
-.submitted-application-card:hover {
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
-}
-
-/* Card Token Number */
-.card-token-number {
-  font-size: 20px;
-  font-weight: bold;
-  color: #000; /* Black color for token number */
-  margin-bottom: 8px;
-}
-
-/* Card Title */
-.card-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #4a5568;
-  margin-bottom: 12px;
-}
-
-/* Card Details */
-.card-details-box {
-  margin-top: 8px;
-}
-
-.card-details {
+.description {
+  text-align: left;
+  margin-left: 32px; /* Default margin for desktop */
+  margin-right: 32px; /* Default margin for desktop */
   font-size: 14px;
-  color: #718096;
-  margin-bottom: 6px;
+  color: #555;
 }
 
-/* View Details Button */
-.view-details-button {
-  margin-top: 16px;
-  color: #007BFF;
-  border: 2px solid #007BFF;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 10px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Wrapper for horizontal scrolling */
+.tableWrapper {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  width: 100%;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
 }
 
-/* Button Hover Effect */
-.view-details-button:hover {
-  background-color: #225ea8;
-  color: white;
-  border-color: #225ea8;
+/* Responsive Table */
+.styledTable {
+  width: 100%;
+  font-size: 14px;
+  background-color: #ffffff;
+  border-spacing: 0 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.fusionTableHeader th {
+  padding: 14px 18px;
+  text-align: left;
+}
+
+.tableRow {
+  background-color: #ffffff;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.viewButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 /* Responsive Design */
-@media (max-width: 992px) {
-  .submitted-applications-container {
-    padding: 0 24px;
-  }
-}
 
+/* Small devices (up to 768px) */
 @media (max-width: 768px) {
-  .submitted-header-text {
-    font-size: 22px;
-    text-align: center;
-    margin: 0 0 16px 0;
+  .outerContainer {
+    padding: 16px; /* Reduced padding for smaller screens */
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100vw; /* Ensure container doesn't exceed viewport width */
+    overflow-x: hidden; /* Prevent horizontal overflow */
   }
 
-  .submitted-application-card {
-    padding: 12px;
-    flex: 1 1 45%; /* 2 cards per row on mobile */
+  .title {
+    font-size: 22px; /* Adjusted font size */
+    padding-left: 16px;
   }
 
-  .submitted-applications-grid {
-    flex-direction: row; /* Layout cards horizontally on mobile */
+  .description {
+    margin-left: 24px !important; /* Adjusted margin for smaller screens */
+    margin-right: 16px !important; /* Adjusted margin for smaller screens */
+    font-size: 13px; /* Smaller font size for mobile */
+  }
+
+  .tableWrapper {
+    overflow-x: auto; /* Ensure horizontal scrolling */
+    width: 100%; /* Take full width of the container */
+    margin-left: 0; /* Reset negative margin */
+  }
+
+  .styledTable {
+    min-width: 100%; /* Allow table to shrink to fit the screen */
+  }
+
+  .fusionTableHeader th {
+    padding: 10px 12px; /* Reduced padding for smaller screens */
+    font-size: 12px; /* Smaller font size for headers */
+  }
+
+  .tableRow td {
+    padding: 10px 12px; /* Reduced padding for smaller screens */
+    font-size: 12px; /* Smaller font size for table cells */
+  }
+
+  .viewButton {
+    font-size: 12px; /* Smaller font size for button */
   }
 }
 
-@media (max-width: 576px) {
-  .submitted-header-text {
+/* Extra small devices (up to 480px) */
+@media (max-width: 480px) {
+  .outerContainer {
+    padding: 12px;
+    max-width: 100vw; /* Ensure container doesn't exceed viewport width */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+  }
+
+  .title {
     font-size: 20px;
-    margin-bottom: 12px;
+    padding-left: 8px;
   }
 
-  .submitted-application-card {
-    padding: 10px;
-    margin-bottom: 12px;
+  .description {
+    margin-left: 16px !important; /* Further reduced margin for very small screens */
+    margin-right: 8px !important; /* Further reduced margin for very small screens */
+    font-size: 12px; /* Even smaller font size for compact screens */
   }
 
-  .card-token-number {
-    font-size: 16px;
+  .tableWrapper {
+    margin-left: 0; /* Reset negative margin */
   }
 
-  .card-title {
-    font-size: 14px;
+  .styledTable {
+    min-width: 100%; /* Allow table to shrink to fit the screen */
   }
 
-  .card-details {
-    font-size: 12px;
+  .fusionTableHeader th {
+    padding: 8px 10px; /* Further reduced padding for very small screens */
+    font-size: 11px; /* Smaller font size for headers */
   }
 
-  .view-details-button {
-    font-size: 12px;
-    padding: 8px 12px;
+  .tableRow td {
+    padding: 8px 10px; /* Further reduced padding for very small screens */
+    font-size: 11px; /* Smaller font size for table cells */
+  }
+
+  .viewButton {
+    font-size: 11px; /* Smaller font size for button */
   }
 }

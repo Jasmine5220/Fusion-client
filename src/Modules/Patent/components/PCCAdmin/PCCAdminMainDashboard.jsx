@@ -10,6 +10,7 @@ import DownloadsPage from "./DownloadsPage.jsx";
 import StatusOfApplications from "./StatusOfApplications.jsx";
 import ReviewApplication from "./ReviewApplicaion.jsx";
 import PCCAStatusView from "./PCCAStatusView.jsx";
+import PCCAdminNotifications from "./PCCAdminNotification.jsx";
 
 const categories = ["Most Recent", "Tags", "Title"];
 
@@ -26,6 +27,8 @@ function ApplicantMainDashboard() {
     { title: "Status of Applications" },
     { title: "Manage Attorney" },
     { title: "Downloads" },
+    { title: "Notifications" },
+
   ];
 
   useEffect(() => {
@@ -96,7 +99,12 @@ function ApplicantMainDashboard() {
             {activeTab === "3" && (
               <ManageAttorneyAssignment setActiveTab={setActiveTab} />
             )}
-            {activeTab === "4" && <DownloadsPage setActiveTab={setActiveTab} />}
+            {activeTab === "4" && (
+              <DownloadsPage setActiveTab={setActiveTab} />
+            )}
+            {activeTab === "5" && (
+              <PCCAdminNotifications setActiveTab={setActiveTab} />
+            )}
           </>
         )}
       </Grid>
