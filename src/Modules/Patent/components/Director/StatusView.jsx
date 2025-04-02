@@ -108,8 +108,8 @@ function SampleInventorsApp() {
       phone: "123-456-7890",
     },
     {
-      names: "Shreyas Katkar",
-      email: "shreyas@gmail.com",
+      names: "Arsh Sinha",
+      email: "arsh@gmail.com",
       phone: "987-654-3210",
     },
     {

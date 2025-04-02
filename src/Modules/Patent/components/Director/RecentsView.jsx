@@ -1,106 +1,85 @@
-/* eslint-disable react/prop-types */
 import React from "react";
-import PropTypes from "prop-types";
-import { Button, Card, Text, Box, Grid } from "@mantine/core";
+import { Box, Button, ScrollArea, Table, Title, Text } from "@mantine/core";
 import { Info } from "phosphor-react";
-// import { useNavigate } from "react-router-dom";
-import { useMediaQuery } from "@mantine/hooks";
 import pendingReviewsData from "../../data/director/PendingReviewsData";
-import "../../style/Director/RecentsView.css";
+import "../../style/director/RecentsView.css";
+import { useNavigate } from "react-router-dom";
 
-// Component for individual pending review card
-function PendingReviewCard({
-  tokenNumber,
-  title,
-  date,
-  time,
-  applicationNumber,
-  attorney,
-  borderColor,
-  onViewDetails,
-}) {
-  return (
-    <Card
-      className="pending-review-card"
-      style={{ borderLeft: `6px solid ${borderColor}` }}
-    >
-      <Text className="card-header">{tokenNumber}</Text>
-      <Text className="card-title">{title}</Text>
-      <Text className="card-details">Next Date: {date}</Text>
-      <Text className="card-details">Time: {time}</Text>
-      <Text className="card-details">Application No.: {applicationNumber}</Text>
-      <Text className="card-details">Assigned Attorney: {attorney}</Text>
-      <Box className="button-container">
-        <Button
-          variant="outline"
-          leftIcon={<Info size={16} />}
-          fontSize="16px"
-          className="buttonone"
-          onClick={() =>
-            onViewDetails({
-              tokenNumber,
-              title,
-              date,
-              time,
-              applicationNumber,
-              attorney,
-            })
-          }
-          fullWidth
-        >
-          View Details
-        </Button>
-      </Box>
-    </Card>
-  );
-}
-
-// PropTypes validation for PendingReviewCard
-PendingReviewCard.propTypes = {
-  tokenNumber: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  time: PropTypes.string.isRequired,
-  applicationNumber: PropTypes.string.isRequired,
-  attorney: PropTypes.string.isRequired,
-  borderColor: PropTypes.string.isRequired,
-  onViewDetails: PropTypes.func.isRequired,
-};
-
-// Main RecentsView component
 function RecentsView({ setActiveTab }) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const columnNames = [
+    "Token No.",
+    "Patent Title",
+    "Submitted By",
+    "Department",
+    "Arrival Date",
+    "Review Date",
+    "Attorney",
+    "Actions"
+  ];
 
-  // Handle "View Details" click
   const handleViewDetails = (application) => {
     console.log("Viewing details for:", application);
     setActiveTab("1.1");
   };
 
-  // Determine grid layout based on screen size using useMediaQuery hook
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const rows = pendingReviewsData.map((item, index) => (
+    <tr key={index} className="tableRow">
+      <td>{item.tokenNumber}</td>
+      <td>{item.title}</td>
+      <td>{item.submitter}</td>
+      <td>{item.Department}</td>
+      <td>{item.arrivalDate}</td>
+      <td>{item.reviewDate}</td>
+      <td>{item.attorney}</td>
+      <td>
+        <Button
+          variant="outline"
+          color="blue"
+          size="xs"
+          onClick={() => handleViewDetails(item)}
+          className="viewButton"
+        >
+          <Info size={16} /> <span> &nbsp; Details</span>
+        </Button>
+      </td>
+    </tr>
+  ));
 
   return (
     <Box>
-      <Text className="header-text">Recently Reviewed</Text>
-      <Grid
-        className={`app-container ${isMobile ? "mobile-layout" : "desktop-layout"}`}
+      <Title
+        order={2}
+        className="title"
+        style={{ marginLeft: "32px", marginTop: "0px" }}
       >
-        {pendingReviewsData.map((application, index) => (
-          <Grid.Col span={isMobile ? 12 : 6} key={index}>
-            <PendingReviewCard
-              tokenNumber={application.tokenNumber}
-              title={application.title}
-              date={application.date}
-              time={application.time}
-              applicationNumber={application.applicationNumber}
-              attorney={application.attorney}
-              borderColor={application.borderColor}
-              onViewDetails={handleViewDetails}
-            />
-          </Grid.Col>
-        ))}
-      </Grid>
+        <span>Recently Reviewed Applications</span>
+      </Title>
+      <Text
+        size="md"
+        color="dimmed"
+        className="description"
+        style={{ marginLeft: "64px" }}
+      >
+        The following is a list of patent applications you've recently reviewed. 
+        Click on the "Details" button to see more information or review again.
+      </Text>
+      <Box className="outerContainer">
+        <ScrollArea>
+          <div className="tableWrapper">
+            <Table highlightOnHover striped withBorder className="styledTable">
+              <thead className="fusionTableHeader">
+                <tr>
+                  {columnNames.map((columnName, index) => (
+                    <th key={index}>{columnName}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>{rows}</tbody>
+            </Table>
+          </div>
+        </ScrollArea>
+      </Box>
     </Box>
   );
 }

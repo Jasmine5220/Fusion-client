@@ -968,6 +968,9 @@ function ApplicationForm() {
                 label="Email"
                 placeholder="Email of Inventor"
                 value={inventor.email}
+                label="Email"
+                placeholder="Email of Inventor"
+                value={inventor.email}
                 onChange={(e) =>
                   handleInputChange(index, "email", e.target.value)
                 }

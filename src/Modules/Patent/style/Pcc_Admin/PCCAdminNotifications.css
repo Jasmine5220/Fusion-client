@@ -1,0 +1,151 @@
+/* Page title */
+.notif-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2d3748;
+    letter-spacing: 0.5px;
+    padding-left: 32px;
+
+    margin-bottom: 10px;
+  }
+  
+  /* Notifications container for flex layout */
+  .notification-container {
+    margin-left: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  
+  /* Notification card */
+  .notification-card {
+    flex: 1;
+    min-width: 45%;
+    max-width: 45%;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #f7fafc;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .notification-card:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Notification title */
+  .notification-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  /* Notification status */
+  .notification-status {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  /* Notification description */
+  .notification-description {
+    font-size: 14px;
+    color: #4a5568;
+    margin: 12px 0;
+  }
+  
+  /* Date and time styling */
+  .notification-date {
+    font-size: 14px;
+    color: #6b7280;
+    margin-top: 8px;
+  }
+  
+/* Notification actions container */
+.notification-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  align-items: center;
+  justify-content: flex-start; /* Align items to the start */
+}
+
+/* Ensure buttons have consistent height and alignment */
+.notification-actions button {
+  height: 36px; /* Fixed height for all buttons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap; /* Prevent text wrapping */
+  padding: 0 16px; /* Consistent padding */
+}
+
+/* Responsive fix for smaller screens */
+@media (max-width: 768px) {
+  .notification-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .notification-actions button {
+    width: 100%;
+  }
+}
+
+  
+  /* Button styles */
+  .mark-read-button {
+    background-color: #fff;
+    border: 1px solid #0073e6;
+    color: #0073e6;
+    margin-top: 0;
+  }
+  
+  .mark-read-button:hover {
+    background-color: #0073e6;
+    color: #fff;
+  }
+  
+  .forward-button {
+    background-color: #fff;
+    border: 1px solid #38a169;
+    color: #38a169;
+  }
+  
+  .forward-button:hover {
+    background-color: #38a169;
+    color: #fff;
+  }
+  
+  .return-button {
+    background-color: #fff;
+    border: 1px solid #e53e3e;
+    color: #e53e3e;
+  }
+  
+  .return-button:hover {
+    background-color: #e53e3e;
+    color: #fff;
+  }
+  
+  /* Responsive behavior for smaller screens */
+  @media (max-width: 768px) {
+    .notification-card {
+      min-width: 100%;
+      max-width: 100%;
+    }
+    
+    .notification-container {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    
+    .notification-actions {
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .notification-actions button {
+      width: 100%;
+    }
+  }

@@ -16,7 +16,7 @@ function StatusOfApplications() {
     "Designation",
     "Department",
     "Date - Time",
-    "Status",
+    "Status",  
     "View",
   ];
 

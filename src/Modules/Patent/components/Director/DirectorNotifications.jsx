@@ -7,6 +7,7 @@ import notificationsData from "../../data/director/notificationsData"; // Import
 // Notification card component
 function NotificationCard({
   id,
+  token,
   title,
   status,
   description,
@@ -25,6 +26,7 @@ function NotificationCard({
       <Text className="notification-status" style={{ color }}>
         {status}
       </Text>
+      <Text className="notification-token">{token}</Text>
       <Text className="notification-date">{`${date} | ${time}`}</Text>
       <Text className="notification-description">{description}</Text>
       <Button
@@ -41,6 +43,7 @@ function NotificationCard({
 // PropTypes validation for NotificationCard
 NotificationCard.propTypes = {
   id: PropTypes.number.isRequired,
+  token: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
@@ -104,6 +107,7 @@ function DirectorNotifications() {
         {notifications.map((notification) => (
           <NotificationCard
             key={notification.id}
+            token={notification.token}
             id={notification.id}
             title={notification.title}
             status={notification.status}
