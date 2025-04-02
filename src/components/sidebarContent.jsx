@@ -29,6 +29,7 @@ import {
   Question as HelpIcon,
   User as ProfileIcon,
   Gear as SettingsIcon,
+  Scroll as PatentIcon,
   CaretRight,
   CaretLeft,
 } from "@phosphor-icons/react";
@@ -150,6 +151,12 @@ const Modules = [
     icon: <OtherAcademicIcon size={18} />,
     url: "/",
   },
+  {
+    label: "Patent Management System",
+    id: "patent_management",
+    icon: <PatentIcon size={18} />,
+    url: "/patent/",
+  },
 ];
 
 const otherItems = [
@@ -157,6 +164,20 @@ const otherItems = [
   { label: "Settings", icon: <SettingsIcon size={18} /> },
   { label: "Help", icon: <HelpIcon size={18} /> },
 ];
+
+// Roles Allowed in Patent Management
+const applicantRoles = [
+  "student", "alumini", "Professor", "Associate Professor", "Assistant Professor", 
+  "Research Engineer", "HOD (CSE)", "HOD (ECE)", "HOD (ME)", "HOD (NS)", 
+  "HOD (Design)", "HOD (Liberal Arts)", "Dean Academic", "dean_s", 
+  "dean_rspc", "Dean (P&D)", "Dean (R&D)"
+];
+
+// Role-Based Redirection Map
+const patentRoutes = {
+  "PCC Admin": "/patent/pccAdmin",
+  "Director": "/patent/director",
+};
 
 function SidebarContent({ isCollapsed, toggleSidebar }) {
   const dispatch = useDispatch();
@@ -167,6 +188,7 @@ function SidebarContent({ isCollapsed, toggleSidebar }) {
     (state) => state.user.currentAccessibleModules,
   );
   const navigate = useNavigate();
+  const role = useSelector((state) => state.user.role);
 
   useEffect(() => {
     const filterModules = Modules.filter(
@@ -177,9 +199,15 @@ function SidebarContent({ isCollapsed, toggleSidebar }) {
 
   const handleModuleClick = (item) => {
     setSelected(item.label);
-    toggleSidebar();
     dispatch(setCurrentModule(item.label));
-    navigate(item.url);
+
+    let targetUrl = item.url;
+    if (item.id === "patent_management") {
+      targetUrl = patentRoutes[role] || (applicantRoles.includes(role) ? "/patent/applicant" : "/unauthorized");
+    }
+
+    navigate(targetUrl);
+    toggleSidebar();
   };
 
   return (
