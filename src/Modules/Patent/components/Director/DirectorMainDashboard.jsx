@@ -8,7 +8,7 @@ import DirectorDashboard from "./DirectorDashboard.jsx";
 import NewApplications from "./NewApplications.jsx";
 import ReviewedApplications from "./ReviewedApplications.jsx";
 import PatentApplication from "./StatusView.jsx";
-import DirectorNotifications from "./DirectorNotifications.jsx"; // Import the notification component
+import DirectorNotifications from "./DirectorNotifications.jsx";
 
 const categories = ["Most Recent", "Tags", "Title"];
 
