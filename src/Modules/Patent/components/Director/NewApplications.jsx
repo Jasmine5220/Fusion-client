@@ -1,36 +1,34 @@
 import React from "react";
 import { Box, Button, ScrollArea, Table, Title, Text } from "@mantine/core";
-import { Info } from "phosphor-react";
-import pendingReviewsData from "../../data/director/ReviewedApplicationsData";
-import "../../style/director/ReviewedApplications.css";
+import { Eye } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
+import submittedApplicationsData from "../../data/director/NewApplicationsData";
+import "../../style/director/NewApplications.css";
 
-function RecentsView({ setActiveTab }) {
+function SubmittedApplications({ setActiveTab }) {
   const navigate = useNavigate();
   const columnNames = [
-    "Token No.",
+    "Token Number",
     "Patent Title",
     "Submitted By",
     "Department",
-    "Arrival Date",
-    "Review Date",
-    "Attorney",
-    "Actions"
+    "Date-Time",
+    "Proposed Attorney",
+    "View",
   ];
 
-  const handleViewDetails = (application) => {
-    console.log("Viewing details for:", application);
+  const handleViewDetails = (applicationId) => {
+    console.log(`Viewing details for application ID: ${applicationId}`);
     setActiveTab("1.1");
   };
 
-  const rows = pendingReviewsData.map((item, index) => (
+  const rows = submittedApplicationsData.map((item, index) => (
     <tr key={index} className="tableRow">
       <td>{item.tokenNumber}</td>
       <td>{item.title}</td>
       <td>{item.submitter}</td>
       <td>{item.Department}</td>
-      <td>{item.arrivalDate}</td>
-      <td>{item.reviewDate}</td>
+      <td>{item.date}</td>
       <td>{item.attorney}</td>
       <td>
         <Button
@@ -40,7 +38,7 @@ function RecentsView({ setActiveTab }) {
           onClick={() => handleViewDetails(item)}
           className="viewButton"
         >
-          <Info size={16} /> <span> &nbsp; Details</span>
+          <Eye size={16} /> <span> &nbsp; View</span>
         </Button>
       </td>
     </tr>
@@ -53,7 +51,7 @@ function RecentsView({ setActiveTab }) {
         className="title"
         style={{ marginLeft: "32px", marginTop: "0px" }}
       >
-        <span>Recently Reviewed Applications</span>
+        <span>Applications Forwarded by PCC Admin</span>
       </Title>
       <Text
         size="md"
@@ -61,8 +59,9 @@ function RecentsView({ setActiveTab }) {
         className="description"
         style={{ marginLeft: "64px" }}
       >
-        The following is a list of patent applications you've recently reviewed. 
-        Click on the "Details" button to see more information or review again.
+        The following is a list of patent applications forwarded by PCC Admin for
+        your review. Please examine the details and click on the "View" button to see more
+        information.
       </Text>
       <Box className="outerContainer">
         <ScrollArea>
@@ -84,4 +83,4 @@ function RecentsView({ setActiveTab }) {
   );
 }
 
-export default RecentsView;
+export default SubmittedApplications;

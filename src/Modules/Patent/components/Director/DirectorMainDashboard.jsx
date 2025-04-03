@@ -5,8 +5,8 @@ import { SortAscending } from "@phosphor-icons/react";
 import CustomBreadcrumbs from "../../../../components/Breadcrumbs.jsx";
 import ModuleTabs from "../../../../components/moduleTabs.jsx";
 import DirectorDashboard from "./DirectorDashboard.jsx";
-import SubmittedApplications from "./SubmittedApplications.jsx";
-import RecentsView from "./RecentsView.jsx";
+import NewApplications from "./NewApplications.jsx";
+import ReviewedApplications from "./ReviewedApplications.jsx";
 import PatentApplication from "./StatusView.jsx";
 import DirectorNotifications from "./DirectorNotifications.jsx"; // Import the notification component
 
@@ -83,12 +83,12 @@ function DirectorMainDashboard() {
               <DirectorDashboard setActiveTab={setActiveTab} />
             )}
             {activeTab === "1" && (
-              <SubmittedApplications setActiveTab={setActiveTab} />
+              <NewApplications setActiveTab={setActiveTab} />
             )}
             {activeTab === "1.1" && (
               <PatentApplication setActiveTab={setActiveTab} />
             )}
-            {activeTab === "2" && <RecentsView setActiveTab={setActiveTab} />}
+            {activeTab === "2" && <ReviewedApplications setActiveTab={setActiveTab} />}
             {activeTab === "3" && <DirectorNotifications />}{" "}
             {/* Render notifications */}
           </>
