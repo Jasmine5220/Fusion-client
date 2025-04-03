@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import {
   Container,
@@ -107,30 +109,56 @@ function IPFilingForm({ setActiveTab, applicationId }) {
 
   const determineCurrentStatus = (status) => {
     switch (status) {
-      case "Submitted": return "Patent Application Submission";
-      case "Under Admin Review": return "PCC Admin Review";
-      case "Under Director Review": return "Director Initial Review";
-      case "Attorney Assigned": return "Attorney Assignment";
-      case "Under Patentability Check": return "Patentability Check";
-      case "Director Final Review": return "Final Approval by Director";
-      case "Contract Finalized": return "Final Contract Completion";
-      default: return "Patent Application Submission";
+      case "Submitted":
+        return "Patent Application Submission";
+      case "Under Admin Review":
+        return "PCC Admin Review";
+      case "Under Director Review":
+        return "Director Initial Review";
+      case "Attorney Assigned":
+        return "Attorney Assignment";
+      case "Under Patentability Check":
+        return "Patentability Check";
+      case "Director Final Review":
+        return "Final Approval by Director";
+      case "Contract Finalized":
+        return "Final Contract Completion";
+      default:
+        return "Patent Application Submission";
     }
   };
 
-  const FormSection = ({ title, children }) => (
-    <Card className={`form-section ${isMobile ? 'mobile-form-section' : ''}`} p="lg" radius="md" withBorder mb="md">
-      <Text className={`section-title ${isMobile ? 'mobile-section-title' : ''}`}>{title}</Text>
-      {children}
-    </Card>
-  );
+  function FormSection({ title, children }) {
+    return (
+      <Card
+        className={`form-section ${isMobile ? "mobile-form-section" : ""}`}
+        p="lg"
+        radius="md"
+        withBorder
+        mb="md"
+      >
+        <Text
+          className={`section-title ${isMobile ? "mobile-section-title" : ""}`}
+        >
+          {title}
+        </Text>
+        {children}
+      </Card>
+    );
+  }
 
-  const FormField = ({ label, value }) => (
-    <div className={`form-field ${isMobile ? 'mobile-form-field' : ''}`}>
-      <Text className={`field-label ${isMobile ? 'mobile-field-label' : ''}`}>{label}</Text>
-      <Text className={`field-value ${isMobile ? 'mobile-field-value' : ''}`}>{value || "Not provided"}</Text>
-    </div>
-  );
+  function FormField({ label, value }) {
+    return (
+      <div className={`form-field ${isMobile ? "mobile-form-field" : ""}`}>
+        <Text className={`field-label ${isMobile ? "mobile-field-label" : ""}`}>
+          {label}
+        </Text>
+        <Text className={`field-value ${isMobile ? "mobile-field-value" : ""}`}>
+          {value || "Not provided"}
+        </Text>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -200,7 +228,10 @@ function IPFilingForm({ setActiveTab, applicationId }) {
     : "Not recorded";
 
   return (
-    <Container className={`form-container ${isMobile ? 'mobile-form-container' : ''}`} size={isMobile ? "sm" : "lg"}>
+    <Container
+      className={`form-container ${isMobile ? "mobile-form-container" : ""}`}
+      size={isMobile ? "sm" : "lg"}
+    >
       <div className="detail-header">
         <Button
           onClick={() => setActiveTab("viewApplications")}
@@ -212,7 +243,7 @@ function IPFilingForm({ setActiveTab, applicationId }) {
         </Button>
       </div>
 
-      <Text className={`form-title ${isMobile ? 'mobile-form-title' : ''}`}>
+      <Text className={`form-title ${isMobile ? "mobile-form-title" : ""}`}>
         Intellectual Property Filing Form
       </Text>
 
@@ -248,10 +279,16 @@ function IPFilingForm({ setActiveTab, applicationId }) {
             <FormField label="Area of the invention:" value={section_I?.area} />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
-            <FormField label="Problem in the area:" value={section_I?.problem} />
+            <FormField
+              label="Problem in the area:"
+              value={section_I?.problem}
+            />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
-            <FormField label="Objective of your invention:" value={section_I?.objective} />
+            <FormField
+              label="Objective of your invention:"
+              value={section_I?.objective}
+            />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
             <FormField label="Novelty:" value={section_I?.novelty} />
@@ -262,7 +299,13 @@ function IPFilingForm({ setActiveTab, applicationId }) {
           <Grid.Col span={12} md={6}>
             <FormField
               label="Tested:"
-              value={section_I?.is_tested === true ? "Yes" : section_I?.is_tested === false ? "No" : ""}
+              value={
+                section_I?.is_tested === true
+                  ? "Yes"
+                  : section_I?.is_tested === false
+                    ? "No"
+                    : ""
+              }
             />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
@@ -277,22 +320,37 @@ function IPFilingForm({ setActiveTab, applicationId }) {
       <FormSection title="Section II: IPR Ownership">
         <Grid>
           <Grid.Col span={12} md={6}>
-            <FormField label="Funding Details:" value={section_II?.funding_details} />
+            <FormField
+              label="Funding Details:"
+              value={section_II?.funding_details}
+            />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
-            <FormField label="Funding Source:" value={section_II?.funding_source} />
+            <FormField
+              label="Funding Source:"
+              value={section_II?.funding_source}
+            />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
-            <FormField label="Source Agreement:" value={section_II?.source_agreement} />
+            <FormField
+              label="Source Agreement:"
+              value={section_II?.source_agreement}
+            />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
-            <FormField label="Publication Details:" value={section_II?.publication_details} />
+            <FormField
+              label="Publication Details:"
+              value={section_II?.publication_details}
+            />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
             <FormField label="MOU Details:" value={section_II?.mou_details} />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
-            <FormField label="Research Details:" value={section_II?.research_details} />
+            <FormField
+              label="Research Details:"
+              value={section_II?.research_details}
+            />
           </Grid.Col>
         </Grid>
       </FormSection>
@@ -300,16 +358,28 @@ function IPFilingForm({ setActiveTab, applicationId }) {
       <FormSection title="Section III: Commercialization">
         <Grid>
           <Grid.Col span={12} md={6}>
-            <FormField label="Company Name:" value={section_III?.company_name} />
+            <FormField
+              label="Company Name:"
+              value={section_III?.company_name}
+            />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
-            <FormField label="Contact Person:" value={section_III?.contact_person} />
+            <FormField
+              label="Contact Person:"
+              value={section_III?.contact_person}
+            />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
-            <FormField label="Contact Number:" value={section_III?.contact_no} />
+            <FormField
+              label="Contact Number:"
+              value={section_III?.contact_no}
+            />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
-            <FormField label="Development Stage:" value={section_III?.development_stage} />
+            <FormField
+              label="Development Stage:"
+              value={section_III?.development_stage}
+            />
           </Grid.Col>
         </Grid>
       </FormSection>
