@@ -8,9 +8,15 @@ import {
   Button,
   Stepper,
   Grid,
+  Badge,
   Loader,
 } from "@mantine/core";
-import { ArrowLeft, DownloadSimple } from "phosphor-react";
+import {
+  ArrowLeft,
+  DownloadSimple,
+  CheckCircle,
+  ArrowRight,
+} from "phosphor-react";
 import axios from "axios";
 import "../../style/Applicant/IPFilingForm.css";
 
@@ -80,7 +86,7 @@ function IPFilingForm({ setActiveTab, applicationId }) {
             headers: {
               Authorization: `Token ${authToken}`,
             },
-          },
+          }
         );
 
         if (response.data) {
@@ -393,11 +399,7 @@ function IPFilingForm({ setActiveTab, applicationId }) {
                   <FormField label="Address:" value={applicant.address} />
                   <FormField
                     label="Share Percentage:"
-                    value={
-                      applicant.percentage_share
-                        ? `${applicant.percentage_share}%`
-                        : ""
-                    }
+                    value={applicant.percentage_share ? `${applicant.percentage_share}%` : ""}
                   />
                 </Card>
               </Grid.Col>
