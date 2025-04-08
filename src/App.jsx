@@ -14,7 +14,6 @@ import ValidateAuth from "./helper/validateauth";
 import FacultyProfessionalProfile from "./Modules/facultyProfessionalProfile/facultyProfessionalProfile";
 import InactivityHandler from "./helper/inactivityhandler";
 import PatentRoutes from "./Modules/Patent/routes/PatentRoutes";
-import Unauthorized from "./components/Unauthorized";
 
 export default function App() {
   const location = useLocation();
@@ -70,7 +69,6 @@ export default function App() {
         <Route path="/patent/*" element={<PatentRoutes />} />
         <Route path="/accounts/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
     </MantineProvider>
   );
