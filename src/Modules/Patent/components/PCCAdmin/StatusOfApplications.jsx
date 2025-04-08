@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button, ScrollArea, Table, Title, Text } from "@mantine/core";
 import { Eye } from "@phosphor-icons/react";
-import PropTypes from "prop-types";
 import { StatusOfApplicationData } from "./StatusOfApplicationsData";
 import SampleAppDetails from "./PCCAStatusView";
 import "../../style/Pcc_Admin/StatusOfApplications.css";
@@ -16,7 +15,7 @@ function StatusOfApplications() {
     "Designation",
     "Department",
     "Date - Time",
-    "Status",  
+    "Status",
     "View",
   ];
 
@@ -100,9 +99,5 @@ function StatusOfApplications() {
     </Box>
   );
 }
-
-StatusOfApplications.propTypes = {
-  applicationNumber: PropTypes.string,
-};
 
 export default StatusOfApplications;

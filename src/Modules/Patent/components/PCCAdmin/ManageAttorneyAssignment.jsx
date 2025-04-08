@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Table,
   Button,
@@ -9,28 +9,23 @@ import {
   Checkbox,
 } from "@mantine/core";
 import { PencilSimple } from "phosphor-react";
-import AttorneyDetails from "./AttorneyDetails";
 import AttorneyForm from "./AttorneyForm";
 import NewAttorneyForm from "./NewAttorneyForm";
+import AttorneyData from "./AttorneyData";
 import "../../style/Pcc_Admin/ManageAttorneyAssignment.css";
 
 function ManageAttorneyAssignment() {
-  const [attorneyData, setAttorneyData] = useState([]);
+  const [attorneyData, setAttorneyData] = useState(AttorneyData);
   const [selectedAttorney, setSelectedAttorney] = useState(null);
   const [viewDetailsOpened, setViewDetailsOpened] = useState(false);
   const [newAttorneyOpened, setNewAttorneyOpened] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
 
-  // Fetch attorney data
-  useEffect(() => {
-    setAttorneyData(AttorneyDetails);
-  }, []);
-
   // Handle view details button
   const handleViewDetails = (attorneyID) => {
     const selected = attorneyData.find(
-      (attorney) => attorney.AttorneyID === attorneyID,
+      (attorney) => attorney.id === attorneyID,
     );
     setSelectedAttorney(selected);
     setViewDetailsOpened(true);
@@ -38,8 +33,22 @@ function ManageAttorneyAssignment() {
 
   // Handle add new attorney
   const handleAddNewAttorney = (newAttorney) => {
-    setAttorneyData([...attorneyData, newAttorney]);
+    const newAttorneyWithId = {
+      ...newAttorney,
+      id: Math.max(...attorneyData.map((a) => a.id)) + 1,
+    };
+    setAttorneyData([...attorneyData, newAttorneyWithId]);
     setNewAttorneyOpened(false);
+  };
+
+  // Handle update attorney
+  const handleUpdateAttorney = (updatedAttorney) => {
+    setAttorneyData(
+      attorneyData.map((attorney) =>
+        attorney.id === updatedAttorney.id ? updatedAttorney : attorney,
+      ),
+    );
+    setViewDetailsOpened(false);
   };
 
   // Toggle removing mode
@@ -61,7 +70,7 @@ function ManageAttorneyAssignment() {
   // Handle remove selected attorneys
   const handleRemoveSelected = () => {
     setAttorneyData((prev) =>
-      prev.filter((attorney) => !selectedRows.includes(attorney.AttorneyID)),
+      prev.filter((attorney) => !selectedRows.includes(attorney.id)),
     );
     setIsRemoving(false);
     setSelectedRows([]);
@@ -71,8 +80,7 @@ function ManageAttorneyAssignment() {
     <Container className="manage-attorney-container">
       <Text className="page-heading-title">Manage Attorney Assignments</Text>
       <Text align="center" mb="md" className="description">
-        View attorney details, assign applications, add new attorneys, reassign
-        existing applications, and view feedback.
+        View attorney details, add new attorneys, and manage existing attorneys.
       </Text>
 
       {/* New Attorney Button */}
@@ -103,29 +111,33 @@ function ManageAttorneyAssignment() {
               {isRemoving && <th>Select</th>}
               <th>S.No.</th>
               <th>Attorney Name</th>
-              <th>Attorney ID</th>
+              <th>Law Firm</th>
+              <th>Specialization</th>
+              <th>Assigned Cases</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {attorneyData.map((attorney, index) => (
-              <tr key={attorney.AttorneyID}>
+              <tr key={attorney.id}>
                 {isRemoving && (
                   <td>
                     <Checkbox
-                      checked={selectedRows.includes(attorney.AttorneyID)}
-                      onChange={() => handleRowSelection(attorney.AttorneyID)}
+                      checked={selectedRows.includes(attorney.id)}
+                      onChange={() => handleRowSelection(attorney.id)}
                     />
                   </td>
                 )}
                 <td>{index + 1}</td>
-                <td>{attorney.AttorneyName}</td>
-                <td>{attorney.AttorneyID}</td>
+                <td>{attorney.name}</td>
+                <td>{attorney.firm_name}</td>
+                <td>{attorney.specialization}</td>
+                <td>{attorney.assigned_cases}</td>
                 <td>
                   <Button
                     variant="outline"
                     color="blue"
-                    onClick={() => handleViewDetails(attorney.AttorneyID)}
+                    onClick={() => handleViewDetails(attorney.id)}
                     leftIcon={<PencilSimple />}
                   >
                     View Details
@@ -137,47 +149,42 @@ function ManageAttorneyAssignment() {
         </Table>
       </Paper>
 
-      {/* Remove Confirmation */}
-      {isRemoving && (
-        <div className="remove-selected-button-container">
-          <Button
-            variant="outline" // Use "outline" to allow the background color to be adjustable
-            color={selectedRows.length === 0 ? "blue" : "red"} // Set the color dynamically
-            onClick={handleRemoveSelected}
-            disabled={selectedRows.length === 0} // Disable button if no rows are selected
-            className={`remove-selected-button ${selectedRows.length === 0 ? "no-selection" : "selected"}`}
-          >
-            Remove Selected ({selectedRows.length})
-          </Button>
-        </div>
-      )}
-
-      {/* Modal to show attorney form with Edit Button */}
+      {/* View Details Modal */}
       <Modal
         opened={viewDetailsOpened}
         onClose={() => setViewDetailsOpened(false)}
         size="xl"
-        centered
-        overflow="inside"
-        styles={{
-          modal: {
-            padding: "20px",
-            maxWidth: "90vw",
-          },
-        }}
+        title="Attorney Details"
       >
-        {selectedAttorney && <AttorneyForm attorney={selectedAttorney} />}
+        {selectedAttorney && (
+          <AttorneyForm
+            attorney={selectedAttorney}
+            onUpdate={handleUpdateAttorney}
+          />
+        )}
       </Modal>
 
-      {/* Modal for Adding New Attorney */}
+      {/* New Attorney Modal */}
       <Modal
         opened={newAttorneyOpened}
         onClose={() => setNewAttorneyOpened(false)}
-        size="lg"
-        centered
+        size="md"
+        title="Add New Attorney"
       >
         <NewAttorneyForm onSubmit={handleAddNewAttorney} />
       </Modal>
+
+      {/* Remove Selected Button */}
+      {isRemoving && selectedRows.length > 0 && (
+        <Button
+          variant="filled"
+          color="red"
+          onClick={handleRemoveSelected}
+          className="remove-selected-button"
+        >
+          Remove Selected
+        </Button>
+      )}
     </Container>
   );
 }

@@ -1,48 +1,35 @@
 import React, { useState } from "react";
-import { TextInput, Button, Box, Group, Select, Title } from "@mantine/core";
+import { TextInput, Button, Box, Group, Title } from "@mantine/core";
 import {
   UserCircle,
   Briefcase,
   Envelope,
   Phone,
   Tag,
-  CurrencyDollar,
-  FileText,
+  Info,
 } from "phosphor-react";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types";
 import "../../style/Pcc_Admin/NewAttorneyForm.css";
 
 function NewAttorneyForm({ onSubmit }) {
   const [formData, setFormData] = useState({
-    AttorneyName: "",
-    LawFirm: "",
-    Email: "",
-    PhoneNumber: "",
-    Specialization: "",
-    AttorneyFee: "",
-    AssignedApplication: "",
+    name: "",
+    firm_name: "",
+    email: "",
+    phone: "",
+    specialization: "",
+    experience_years: 0,
   });
-
-  const applicationOptions = [
-    { value: "101", label: "101 - Patent for AI Diagnosis" },
-    { value: "102", label: "102 - Machine Learning Optimization" },
-    { value: "103", label: "103 - Blockchain Innovations" },
-    // Add more options as needed
-  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSelectChange = (value) => {
-    setFormData({ ...formData, AssignedApplication: value });
-  };
-
   const handleSubmit = () => {
     onSubmit({
       ...formData,
-      AttorneyID: Math.random().toString(36).substring(2, 9),
+      assigned_cases: 0, // Default value for new attorney
     });
   };
 
@@ -56,8 +43,8 @@ function NewAttorneyForm({ onSubmit }) {
         <UserCircle size={28} />
         <TextInput
           label="Attorney Name"
-          name="AttorneyName"
-          value={formData.AttorneyName}
+          name="name"
+          value={formData.name}
           onChange={handleChange}
           required
           className="form-input"
@@ -68,10 +55,9 @@ function NewAttorneyForm({ onSubmit }) {
         <Briefcase size={28} />
         <TextInput
           label="Law Firm"
-          name="LawFirm"
-          value={formData.LawFirm}
+          name="firm_name"
+          value={formData.firm_name}
           onChange={handleChange}
-          required
           className="form-input"
         />
       </Group>
@@ -80,8 +66,8 @@ function NewAttorneyForm({ onSubmit }) {
         <Envelope size={28} />
         <TextInput
           label="Email"
-          name="Email"
-          value={formData.Email}
+          name="email"
+          value={formData.email}
           onChange={handleChange}
           required
           className="form-input"
@@ -92,8 +78,8 @@ function NewAttorneyForm({ onSubmit }) {
         <Phone size={28} />
         <TextInput
           label="Phone Number"
-          name="PhoneNumber"
-          value={formData.PhoneNumber}
+          name="phone"
+          value={formData.phone}
           onChange={handleChange}
           required
           className="form-input"
@@ -104,35 +90,21 @@ function NewAttorneyForm({ onSubmit }) {
         <Tag size={28} />
         <TextInput
           label="Specialization"
-          name="Specialization"
-          value={formData.Specialization}
+          name="specialization"
+          value={formData.specialization}
           onChange={handleChange}
-          required
           className="form-input"
         />
       </Group>
 
       <Group position="center" spacing="md" className="input-group">
-        <CurrencyDollar size={28} />
+        <Info size={28} />
         <TextInput
-          label="Attorney Fee"
-          name="AttorneyFee"
-          value={formData.AttorneyFee}
+          label="Experience Years"
+          name="experience_years"
+          type="number"
+          value={formData.experience_years}
           onChange={handleChange}
-          required
-          className="form-input"
-        />
-      </Group>
-
-      <Group position="center" spacing="md" className="input-group">
-        <FileText size={28} />
-        <Select
-          label="Assign to Application"
-          placeholder="Select Application"
-          data={applicationOptions}
-          value={formData.AssignedApplication}
-          onChange={handleSelectChange}
-          required
           className="form-input"
         />
       </Group>
@@ -151,7 +123,7 @@ function NewAttorneyForm({ onSubmit }) {
 }
 
 NewAttorneyForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired, // Define the type for onSubmit
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default NewAttorneyForm;

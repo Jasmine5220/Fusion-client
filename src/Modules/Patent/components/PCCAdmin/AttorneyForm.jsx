@@ -5,36 +5,26 @@ import {
   Box,
   Divider,
   Tooltip,
-  Badge,
   Button,
   Modal,
   TextInput,
-  Avatar,
+  Paper,
 } from "@mantine/core";
 import {
   EnvelopeSimple,
   Phone,
   Briefcase,
-  CurrencyDollar,
-  CheckCircle,
   Info,
   PencilSimple,
-  List,
-  UserCircle,
 } from "phosphor-react";
-import ApplicationModal from "./ApplicationModal";
 import "../../style/Pcc_Admin/AttorneyForm.css";
 
 function AttorneyForm({ attorney, onUpdate }) {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const [isApplicationModalOpen, setApplicationModalOpen] = useState(false);
   const [updatedData, setUpdatedData] = useState({ ...attorney });
 
   const openEditModal = () => setEditModalOpen(true);
   const closeEditModal = () => setEditModalOpen(false);
-
-  const openApplicationModal = () => setApplicationModalOpen(true);
-  const closeApplicationModal = () => setApplicationModalOpen(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,120 +38,95 @@ function AttorneyForm({ attorney, onUpdate }) {
   };
 
   return (
-    <Box className="attorney-form-container">
-      {/* Attorney Profile Picture and Heading */}
-      <Box className="attorney-profile-box" align="center">
-        <Avatar
-          size={100}
-          radius="50%"
-          color="blue"
-          src={attorney.ProfilePicture || null}
-          alt={attorney.AttorneyName || "Attorney"}
-          styles={{
-            root: { backgroundColor: "#cfd8dc" },
-          }}
-        >
-          {!attorney.ProfilePicture && <UserCircle size={60} />}
-        </Avatar>
-        <Text className="attorney-form-header" mt="md">
-          Attorney Profile
-        </Text>
-      </Box>
-
-      <Divider my="sm" />
-
-      {/* Attorney Details */}
-      <Tooltip label="Name of the Attorney" position="right">
-        <Text className="attorney-detail">
-          <Briefcase size={18} className="icon" />
-          <strong>Name:</strong> {attorney.AttorneyName}
-        </Text>
-      </Tooltip>
-
-      <Tooltip label="Associated Law Firm" position="right">
-        <Text className="attorney-detail">
-          <Briefcase size={18} className="icon" />
-          <strong>Law Firm:</strong> {attorney.LawFirm || "Not Available"}
-        </Text>
-      </Tooltip>
-
-      <Tooltip label="Contact Email" position="right">
-        <Text className="attorney-detail">
-          <EnvelopeSimple size={18} className="icon" />
-          <strong>Email:</strong> {attorney.Email}
-        </Text>
-      </Tooltip>
-
-      <Tooltip label="Phone Number" position="right">
-        <Text className="attorney-detail">
-          <Phone size={18} className="icon" />
-          <strong>Phone:</strong> {attorney.PhoneNumber || "Not Available"}
-        </Text>
-      </Tooltip>
-
-      <Tooltip label="Area of Specialization" position="right">
-        <Text className="attorney-detail">
-          <Info size={18} className="icon" />
-          <strong>Specialization:</strong>{" "}
-          {attorney.Specialization || "Not Available"}
-        </Text>
-      </Tooltip>
-
-      <Tooltip label="Attorney's Fee" position="right">
-        <Text className="attorney-detail">
-          <CurrencyDollar size={18} className="icon" />
-          <strong>Fee:</strong> {attorney.AttorneyFee || "Not Available"}
-        </Text>
-      </Tooltip>
-
-      <Tooltip label="Application Status" position="right">
-        <Text className="attorney-detail">
-          <CheckCircle size={18} className="icon" />
-          <strong>Status:</strong> {attorney.Status || "Pending"}
-        </Text>
-      </Tooltip>
-
-      <Tooltip label="Current Review Status" position="right">
-        <Text className="attorney-detail">
-          <CheckCircle size={18} className="icon" />
-          <strong>Review Status:</strong>{" "}
-          {attorney.ReviewStatus || "Under Review"}
-        </Text>
-      </Tooltip>
-
-      <Divider my="sm" />
-
-      <Text className="comments-section">
-        <strong>Comments:</strong>{" "}
-        {attorney.Comments || "No comments available at this time."}
+    <Paper shadow="sm" radius="md" p="xl" className="attorney-form-container">
+      <Text className="attorney-form-header" align="center" mb="xl">
+        Attorney Profile
       </Text>
 
-      <Badge variant="light" size="xl" className="created-by-badge">
-        Created By: {attorney.CreatedBy || "System"}
-      </Badge>
+      <Divider my="lg" variant="dashed" />
 
-      <br />
+      <Box className="attorney-details-grid">
+        {/* Attorney Details */}
+        <div className="detail-item fade-in">
+          <Tooltip label="Name of the Attorney" position="right">
+            <Text className="attorney-detail">
+              <Briefcase size={20} className="icon" />
+              <strong>Name:</strong> {attorney.name}
+            </Text>
+          </Tooltip>
+        </div>
 
-      {/* Buttons */}
-      <Button
-        mt="lg"
-        variant="filled"
-        color="blue"
-        leftIcon={<PencilSimple />}
-        onClick={openEditModal}
-      >
-        Edit Details
-      </Button>
-      <Button
-        mt="lg"
-        ml="md"
-        variant="filled"
-        color="blue"
-        leftIcon={<List />}
-        onClick={openApplicationModal}
-      >
-        Applications
-      </Button>
+        <div className="detail-item fade-in">
+          <Tooltip label="Associated Law Firm" position="right">
+            <Text className="attorney-detail">
+              <Briefcase size={20} className="icon" />
+              <strong>Law Firm:</strong> {attorney.firm_name || "Not Available"}
+            </Text>
+          </Tooltip>
+        </div>
+
+        <div className="detail-item fade-in">
+          <Tooltip label="Contact Email" position="right">
+            <Text className="attorney-detail">
+              <EnvelopeSimple size={20} className="icon" />
+              <strong>Email:</strong> {attorney.email}
+            </Text>
+          </Tooltip>
+        </div>
+
+        <div className="detail-item fade-in">
+          <Tooltip label="Phone Number" position="right">
+            <Text className="attorney-detail">
+              <Phone size={20} className="icon" />
+              <strong>Phone:</strong> {attorney.phone || "Not Available"}
+            </Text>
+          </Tooltip>
+        </div>
+
+        <div className="detail-item fade-in">
+          <Tooltip label="Area of Specialization" position="right">
+            <Text className="attorney-detail">
+              <Info size={20} className="icon" />
+              <strong>Specialization:</strong>{" "}
+              {attorney.specialization || "Not Available"}
+            </Text>
+          </Tooltip>
+        </div>
+
+        <div className="detail-item fade-in">
+          <Tooltip label="Years of Experience" position="right">
+            <Text className="attorney-detail">
+              <Info size={20} className="icon" />
+              <strong>Experience:</strong> {attorney.experience_years} years
+            </Text>
+          </Tooltip>
+        </div>
+
+        <div className="detail-item fade-in">
+          <Tooltip label="Assigned Cases" position="right">
+            <Text className="attorney-detail">
+              <Info size={20} className="icon" />
+              <strong>Assigned Cases:</strong> {attorney.assigned_cases}
+            </Text>
+          </Tooltip>
+        </div>
+      </Box>
+
+      <Divider my="lg" variant="dashed" />
+
+      {/* Edit Button */}
+      <div className="button-container">
+        <Button
+          fullWidth
+          variant="gradient"
+          gradient={{ from: "#1c7ed6", to: "#4dabf7" }}
+          leftIcon={<PencilSimple size={20} />}
+          onClick={openEditModal}
+          className="edit-button"
+        >
+          Edit Details
+        </Button>
+      </div>
 
       {/* Edit Details Modal */}
       <Modal
@@ -169,99 +134,83 @@ function AttorneyForm({ attorney, onUpdate }) {
         onClose={closeEditModal}
         title="Edit Attorney Details"
         centered
+        size="lg"
+        overlayProps={{
+          opacity: 0.55,
+          blur: 3,
+        }}
       >
-        <TextInput
-          label="Attorney Name"
-          name="AttorneyName"
-          value={updatedData.AttorneyName}
-          onChange={handleInputChange}
-          mt="sm"
-        />
-        <TextInput
-          label="Law Firm"
-          name="LawFirm"
-          value={updatedData.LawFirm}
-          onChange={handleInputChange}
-          mt="sm"
-        />
-        <TextInput
-          label="Email"
-          name="Email"
-          value={updatedData.Email}
-          onChange={handleInputChange}
-          mt="sm"
-        />
-        <TextInput
-          label="Phone Number"
-          name="PhoneNumber"
-          value={updatedData.PhoneNumber}
-          onChange={handleInputChange}
-          mt="sm"
-        />
-        <TextInput
-          label="Specialization"
-          name="Specialization"
-          value={updatedData.Specialization}
-          onChange={handleInputChange}
-          mt="sm"
-        />
-        <TextInput
-          label="Attorney Fee"
-          name="AttorneyFee"
-          value={updatedData.AttorneyFee}
-          onChange={handleInputChange}
-          mt="sm"
-        />
-        <Button
-          onClick={handleEditSubmit}
-          color="blue"
-          fullWidth
-          mt="lg"
-          style={{
-            backgroundColor: "#1c7ed6",
-            color: "white",
-            padding: "10px",
-            borderRadius: "8px",
-            fontWeight: "bold",
-          }}
-        >
-          Save Changes
-        </Button>
+        <Box className="edit-form">
+          <TextInput
+            label="Attorney Name"
+            name="name"
+            value={updatedData.name}
+            onChange={handleInputChange}
+            mt="md"
+          />
+          <TextInput
+            label="Law Firm"
+            name="firm_name"
+            value={updatedData.firm_name}
+            onChange={handleInputChange}
+            mt="md"
+          />
+          <TextInput
+            label="Email"
+            name="email"
+            value={updatedData.email}
+            onChange={handleInputChange}
+            mt="md"
+          />
+          <TextInput
+            label="Phone Number"
+            name="phone"
+            value={updatedData.phone}
+            onChange={handleInputChange}
+            mt="md"
+          />
+          <TextInput
+            label="Specialization"
+            name="specialization"
+            value={updatedData.specialization}
+            onChange={handleInputChange}
+            mt="md"
+          />
+          <TextInput
+            label="Experience Years"
+            name="experience_years"
+            type="number"
+            value={updatedData.experience_years}
+            onChange={handleInputChange}
+            mt="md"
+          />
+          <Button
+            onClick={handleEditSubmit}
+            variant="gradient"
+            gradient={{ from: "#1c7ed6", to: "#4dabf7" }}
+            fullWidth
+            mt="xl"
+            className="save-button"
+          >
+            Save Changes
+          </Button>
+        </Box>
       </Modal>
-
-      {/* Applications Modal */}
-      <ApplicationModal
-        isOpen={isApplicationModalOpen}
-        onClose={closeApplicationModal}
-        applications={attorney.AssignedApplications || []}
-      />
-    </Box>
+    </Paper>
   );
 }
 
 // Define PropTypes for the component
 AttorneyForm.propTypes = {
   attorney: PropTypes.shape({
-    AttorneyName: PropTypes.string.isRequired,
-    LawFirm: PropTypes.string,
-    Email: PropTypes.string.isRequired,
-    PhoneNumber: PropTypes.string,
-    Specialization: PropTypes.string,
-    AttorneyFee: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    Status: PropTypes.string,
-    ReviewStatus: PropTypes.string,
-    Comments: PropTypes.string,
-    CreatedBy: PropTypes.string,
-    ProfilePicture: PropTypes.string,
-    AssignedApplications: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired,
-        title: PropTypes.string.isRequired,
-        status: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-      }),
-    ),
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    phone: PropTypes.string,
+    firm_name: PropTypes.string,
+    experience_years: PropTypes.number,
+    specialization: PropTypes.string,
+    assigned_cases: PropTypes.number,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
