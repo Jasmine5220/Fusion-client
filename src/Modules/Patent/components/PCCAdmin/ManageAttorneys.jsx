@@ -17,7 +17,7 @@ import "../../style/Pcc_Admin/ManageAttorneys.css";
 function ManageAttorneys() {
   const [attorneyData, setAttorneyData] = useState(AttorneyData);
   const [selectedAttorney, setSelectedAttorney] = useState(null);
-  const [newAttorneyOpened, setNewAttorneyOpened] = useState(false);
+  const [isAddingNew, setIsAddingNew] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -55,7 +55,7 @@ function ManageAttorneys() {
       id: Math.max(...attorneyData.map((a) => a.id)) + 1,
     };
     setAttorneyData([...attorneyData, newAttorneyWithId]);
-    setNewAttorneyOpened(false);
+    setIsAddingNew(false);
   };
 
   // Toggle removing mode
@@ -124,45 +124,56 @@ function ManageAttorneys() {
           </Text>
 
           {/* Action Buttons */}
-          <div className="button-group">
-            <Button
-              variant="outline"
-              color="blue"
-              onClick={() => setNewAttorneyOpened(true)}
-              className="add-new-attorney-button"
-            >
-              + Add New Attorney
-            </Button>
-
-            <Button
-              variant="outline"
-              color="red"
-              onClick={toggleRemovingMode}
-              className="remove-attorney-button"
-            >
-              {isRemoving ? "Cancel Remove" : "Remove Attorney"}
-            </Button>
-          </div>
-
-          <Paper className="table-card">
-            <ScrollArea>
-              <Table
-                highlightOnHover
-                striped
-                withBorder
-                className="styledTable"
+          {!isAddingNew && (
+            <div className="button-group">
+              <Button
+                variant="outline"
+                color="blue"
+                onClick={() => setIsAddingNew(true)}
+                className="add-new-attorney-button"
               >
-                <thead className="fusionTableHeader">
-                  <tr>
-                    {columnNames.map((columnName, index) => (
-                      <th key={index}>{columnName}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>{rows}</tbody>
-              </Table>
-            </ScrollArea>
-          </Paper>
+                + Add New Attorney
+              </Button>
+
+              <Button
+                variant="outline"
+                color="red"
+                onClick={toggleRemovingMode}
+                className="remove-attorney-button"
+              >
+                {isRemoving ? "Cancel Remove" : "Remove Attorney"}
+              </Button>
+            </div>
+          )}
+
+          {isAddingNew ? (
+            <Paper className="table-card">
+              <NewAttorneyForm
+                onSubmit={handleAddNewAttorney}
+                onClose={() => setIsAddingNew(false)}
+              />
+            </Paper>
+          ) : (
+            <Paper className="table-card">
+              <ScrollArea>
+                <Table
+                  highlightOnHover
+                  striped
+                  withBorder
+                  className="styledTable"
+                >
+                  <thead className="fusionTableHeader">
+                    <tr>
+                      {columnNames.map((columnName, index) => (
+                        <th key={index}>{columnName}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>{rows}</tbody>
+                </Table>
+              </ScrollArea>
+            </Paper>
+          )}
 
           {/* Remove Selected Button */}
           {isRemoving && selectedRows.length > 0 && (
@@ -174,14 +185,6 @@ function ManageAttorneys() {
             >
               Remove Selected
             </Button>
-          )}
-
-          {/* New Attorney Form */}
-          {newAttorneyOpened && (
-            <NewAttorneyForm
-              onSubmit={handleAddNewAttorney}
-              onClose={() => setNewAttorneyOpened(false)}
-            />
           )}
         </>
       ) : (
