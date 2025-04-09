@@ -40,10 +40,16 @@ function ApplicantDashboard({ setActiveTab }) {
   ];
 
   return (
-    <Box>
+    <Box
+      style={{
+        width: "100vw",
+        maxWidth: "100%",
+        overflowX: "hidden",
+      }}
+    >
+      {" "}
       {/* Page Title */}
       <Text className="title-dashboard">Applicant Dashboard</Text>
-
       {/* Content Below Title */}
       <Container className="content-container">
         {/* Feature Description */}
@@ -97,7 +103,10 @@ function ApplicantDashboard({ setActiveTab }) {
           </Text>
 
           {/* Horizontal Progress Bar for Larger Screens */}
-          <Box className="status-progress-container" display={{ base: "none", sm: "block" }}>
+          <Box
+            className="status-progress-container"
+            display={{ base: "none", sm: "block" }}
+          >
             <Progress
               size="xl"
               radius="lg"
@@ -183,7 +192,10 @@ function ApplicantDashboard({ setActiveTab }) {
           </Box>
 
           {/* Vertical Progress Bar for Mobile Screens */}
-          <Box className="mobile-progress-container" display={{ base: "flex", sm: "none" }}>
+          <Box
+            className="mobile-progress-container"
+            display={{ base: "flex", sm: "none" }}
+          >
             <Box className="mobile-progress-bar">
               <Progress
                 size="xl"
@@ -261,7 +273,6 @@ function ApplicantDashboard({ setActiveTab }) {
           </ScrollArea>
         </Container>
       </Container>
-
       {/* Dashboard Sections */}
       <Grid mt="xl" className="dashboard-grid">
         {/* Submit New Application */}
@@ -272,7 +283,8 @@ function ApplicantDashboard({ setActiveTab }) {
             </Text>
             <Divider className="card-divider" />
             <Text size="sm" mt="sm">
-              Begin the process of filing a new patent application with our guided form.
+              Begin the process of filing a new patent application with our
+              guided form.
             </Text>
             <Button
               variant="outline"
@@ -295,7 +307,8 @@ function ApplicantDashboard({ setActiveTab }) {
             </Text>
             <Divider className="card-divider" />
             <Text size="sm" mt="sm">
-              Monitor the progress and status of all your submitted patent applications.
+              Monitor the progress and status of all your submitted patent
+              applications.
             </Text>
             <Button
               variant="outline"
@@ -341,7 +354,8 @@ function ApplicantDashboard({ setActiveTab }) {
             </Text>
             <Divider className="card-divider" />
             <Text size="sm" mt="sm">
-              Stay updated with the latest notifications regarding your patent applications.
+              Stay updated with the latest notifications regarding your patent
+              applications.
             </Text>
             <Button
               variant="outline"
