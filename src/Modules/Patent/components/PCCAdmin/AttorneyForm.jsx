@@ -1,30 +1,21 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Text,
-  Box,
-  Divider,
-  Tooltip,
-  Button,
-  Modal,
-  TextInput,
-  Paper,
-} from "@mantine/core";
+import { Text, Box, Tooltip, Button, TextInput } from "@mantine/core";
 import {
   EnvelopeSimple,
   Phone,
   Briefcase,
   Info,
   PencilSimple,
+  Check,
+  X,
+  CaretLeft,
 } from "phosphor-react";
 import "../../style/Pcc_Admin/AttorneyForm.css";
 
-function AttorneyForm({ attorney, onUpdate }) {
-  const [isEditModalOpen, setEditModalOpen] = useState(false);
+function AttorneyForm({ attorney, onUpdate, onBack }) {
+  const [isEditing, setIsEditing] = useState(false);
   const [updatedData, setUpdatedData] = useState({ ...attorney });
-
-  const openEditModal = () => setEditModalOpen(true);
-  const closeEditModal = () => setEditModalOpen(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,174 +24,217 @@ function AttorneyForm({ attorney, onUpdate }) {
 
   const handleEditSubmit = () => {
     onUpdate(updatedData);
-    closeEditModal();
+    setIsEditing(false);
     alert("Details Updated Successfully!");
   };
 
+  const handleCancel = () => {
+    setUpdatedData({ ...attorney });
+    setIsEditing(false);
+  };
+
   return (
-    <Paper shadow="sm" radius="md" p="xl" className="attorney-form-container">
-      <Text className="attorney-form-header" align="center" mb="xl">
-        Attorney Profile
-      </Text>
-
-      <Divider my="lg" variant="dashed" />
-
-      <Box className="attorney-details-grid">
-        {/* Attorney Details */}
-        <div className="detail-item fade-in">
-          <Tooltip label="Name of the Attorney" position="right">
-            <Text className="attorney-detail">
-              <Briefcase size={20} className="icon" />
-              <strong>Name:</strong> {attorney.name}
-            </Text>
-          </Tooltip>
-        </div>
-
-        <div className="detail-item fade-in">
-          <Tooltip label="Associated Law Firm" position="right">
-            <Text className="attorney-detail">
-              <Briefcase size={20} className="icon" />
-              <strong>Law Firm:</strong> {attorney.firm_name || "Not Available"}
-            </Text>
-          </Tooltip>
-        </div>
-
-        <div className="detail-item fade-in">
-          <Tooltip label="Contact Email" position="right">
-            <Text className="attorney-detail">
-              <EnvelopeSimple size={20} className="icon" />
-              <strong>Email:</strong> {attorney.email}
-            </Text>
-          </Tooltip>
-        </div>
-
-        <div className="detail-item fade-in">
-          <Tooltip label="Phone Number" position="right">
-            <Text className="attorney-detail">
-              <Phone size={20} className="icon" />
-              <strong>Phone:</strong> {attorney.phone || "Not Available"}
-            </Text>
-          </Tooltip>
-        </div>
-
-        <div className="detail-item fade-in">
-          <Tooltip label="Area of Specialization" position="right">
-            <Text className="attorney-detail">
-              <Info size={20} className="icon" />
-              <strong>Specialization:</strong>{" "}
-              {attorney.specialization || "Not Available"}
-            </Text>
-          </Tooltip>
-        </div>
-
-        <div className="detail-item fade-in">
-          <Tooltip label="Years of Experience" position="right">
-            <Text className="attorney-detail">
-              <Info size={20} className="icon" />
-              <strong>Experience:</strong> {attorney.experience_years} years
-            </Text>
-          </Tooltip>
-        </div>
-
-        <div className="detail-item fade-in">
-          <Tooltip label="Assigned Cases" position="right">
-            <Text className="attorney-detail">
-              <Info size={20} className="icon" />
-              <strong>Assigned Cases:</strong> {attorney.assigned_cases}
-            </Text>
-          </Tooltip>
-        </div>
-      </Box>
-
-      <Divider my="lg" variant="dashed" />
-
-      {/* Edit Button */}
-      <div className="button-container">
+    <div className="attorney-details-container">
+      {/* Header with Back and Edit Buttons */}
+      <div className="top-nav-container">
         <Button
-          fullWidth
-          variant="gradient"
-          gradient={{ from: "#1c7ed6", to: "#4dabf7" }}
-          leftIcon={<PencilSimple size={20} />}
-          onClick={openEditModal}
-          className="edit-button"
+          variant="subtle"
+          leftIcon={<CaretLeft size={20} weight="bold" />}
+          onClick={onBack}
+          className="attorney-back-btn"
         >
-          Edit Details
+          Back
         </Button>
+        {isEditing ? (
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Button
+              variant="outline"
+              color="blue"
+              leftIcon={<Check size={20} />}
+              onClick={handleEditSubmit}
+              className="save-button"
+            >
+              Save Changes
+            </Button>
+            <Button
+              variant="outline"
+              color="red"
+              leftIcon={<X size={20} />}
+              onClick={handleCancel}
+              className="cancel-button"
+            >
+              Cancel
+            </Button>
+          </div>
+        ) : (
+          <Button
+            variant="outline"
+            color="blue"
+            leftIcon={<PencilSimple size={20} />}
+            onClick={() => setIsEditing(true)}
+            className="edit-details-button"
+          >
+            Edit Details
+          </Button>
+        )}
       </div>
 
-      {/* Edit Details Modal */}
-      <Modal
-        opened={isEditModalOpen}
-        onClose={closeEditModal}
-        title="Edit Attorney Details"
-        centered
-        size="lg"
-        overlayProps={{
-          opacity: 0.55,
-          blur: 3,
-        }}
-      >
-        <Box className="edit-form">
-          <TextInput
-            label="Attorney Name"
-            name="name"
-            value={updatedData.name}
-            onChange={handleInputChange}
-            mt="md"
-          />
-          <TextInput
-            label="Law Firm"
-            name="firm_name"
-            value={updatedData.firm_name}
-            onChange={handleInputChange}
-            mt="md"
-          />
-          <TextInput
-            label="Email"
-            name="email"
-            value={updatedData.email}
-            onChange={handleInputChange}
-            mt="md"
-          />
-          <TextInput
-            label="Phone Number"
-            name="phone"
-            value={updatedData.phone}
-            onChange={handleInputChange}
-            mt="md"
-          />
-          <TextInput
-            label="Specialization"
-            name="specialization"
-            value={updatedData.specialization}
-            onChange={handleInputChange}
-            mt="md"
-          />
-          <TextInput
-            label="Experience Years"
-            name="experience_years"
-            type="number"
-            value={updatedData.experience_years}
-            onChange={handleInputChange}
-            mt="md"
-          />
-          <Button
-            onClick={handleEditSubmit}
-            variant="gradient"
-            gradient={{ from: "#1c7ed6", to: "#4dabf7" }}
-            fullWidth
-            mt="xl"
-            className="save-button"
-          >
-            Save Changes
-          </Button>
-        </Box>
-      </Modal>
-    </Paper>
+      {/* Attorney Details Heading */}
+      <Text className="attorney-details-heading">Details of Attorney</Text>
+
+      {/* Attorney Details Grid */}
+      <Box className="attorney-details-grid">
+        <div className={`detail-item ${isEditing ? "editing" : ""}`}>
+          <Tooltip label="Name of the Attorney" position="right">
+            {isEditing ? (
+              <TextInput
+                label="Name"
+                name="name"
+                value={updatedData.name}
+                onChange={handleInputChange}
+                className="edit-input"
+                required
+              />
+            ) : (
+              <Text className="attorney-detail">
+                <Briefcase size={20} className="icon" />
+                <strong>Name:</strong> {attorney.name}
+              </Text>
+            )}
+          </Tooltip>
+        </div>
+
+        <div className={`detail-item ${isEditing ? "editing" : ""}`}>
+          <Tooltip label="Law Firm" position="right">
+            {isEditing ? (
+              <TextInput
+                label="Law Firm"
+                name="firm_name"
+                value={updatedData.firm_name}
+                onChange={handleInputChange}
+                className="edit-input"
+              />
+            ) : (
+              <Text className="attorney-detail">
+                <Briefcase size={20} className="icon" />
+                <strong>Law Firm:</strong>{" "}
+                {attorney.firm_name || "Not Available"}
+              </Text>
+            )}
+          </Tooltip>
+        </div>
+
+        <div className={`detail-item ${isEditing ? "editing" : ""}`}>
+          <Tooltip label="Email Address" position="right">
+            {isEditing ? (
+              <TextInput
+                label="Email"
+                name="email"
+                value={updatedData.email}
+                onChange={handleInputChange}
+                className="edit-input"
+                required
+              />
+            ) : (
+              <Text className="attorney-detail">
+                <EnvelopeSimple size={20} className="icon" />
+                <strong>Email:</strong> {attorney.email}
+              </Text>
+            )}
+          </Tooltip>
+        </div>
+
+        <div className={`detail-item ${isEditing ? "editing" : ""}`}>
+          <Tooltip label="Contact Number" position="right">
+            {isEditing ? (
+              <TextInput
+                label="Phone"
+                name="phone"
+                value={updatedData.phone}
+                onChange={handleInputChange}
+                className="edit-input"
+              />
+            ) : (
+              <Text className="attorney-detail">
+                <Phone size={20} className="icon" />
+                <strong>Phone:</strong> {attorney.phone || "Not Available"}
+              </Text>
+            )}
+          </Tooltip>
+        </div>
+
+        <div className={`detail-item ${isEditing ? "editing" : ""}`}>
+          <Tooltip label="Area of Expertise" position="right">
+            {isEditing ? (
+              <TextInput
+                label="Specialization"
+                name="specialization"
+                value={updatedData.specialization}
+                onChange={handleInputChange}
+                className="edit-input"
+              />
+            ) : (
+              <Text className="attorney-detail">
+                <Info size={20} className="icon" />
+                <strong>Expertise:</strong>{" "}
+                {attorney.specialization || "Not Available"}
+              </Text>
+            )}
+          </Tooltip>
+        </div>
+
+        <div className={`detail-item ${isEditing ? "editing" : ""}`}>
+          <Tooltip label="Years of Experience" position="right">
+            {isEditing ? (
+              <TextInput
+                label="Experience Years"
+                name="experience_years"
+                type="number"
+                value={updatedData.experience_years}
+                onChange={handleInputChange}
+                className="edit-input"
+              />
+            ) : (
+              <Text className="attorney-detail">
+                <Info size={20} className="icon" />
+                <strong>Years:</strong> {attorney.experience_years} years
+              </Text>
+            )}
+          </Tooltip>
+        </div>
+
+        {/* Assigned Cases Section - Full Width */}
+        <div
+          className={`detail-item assigned-cases ${isEditing ? "editing" : ""}`}
+        >
+          <Text className="attorney-detail">
+            <Briefcase size={20} className="icon" />
+            <strong>Assigned Cases:</strong> {attorney.assigned_cases || 0}
+          </Text>
+          {attorney.assigned_applications &&
+          attorney.assigned_applications.length > 0 ? (
+            <div className="assigned-cases-list">
+              {attorney.assigned_applications.map((app) => (
+                <div key={app.id} className="assigned-case-item">
+                  <Text>
+                    <strong>Application {app.id}</strong>
+                    {app.title}
+                  </Text>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <Text className="no-applications-text" color="dimmed" size="sm">
+              No applications assigned
+            </Text>
+          )}
+        </div>
+      </Box>
+    </div>
   );
 }
 
-// Define PropTypes for the component
+// Update PropTypes to include assigned_applications
 AttorneyForm.propTypes = {
   attorney: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -211,8 +245,15 @@ AttorneyForm.propTypes = {
     experience_years: PropTypes.number,
     specialization: PropTypes.string,
     assigned_cases: PropTypes.number,
+    assigned_applications: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+      }),
+    ),
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired,
 };
 
 export default AttorneyForm;

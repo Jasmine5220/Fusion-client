@@ -216,3 +216,20 @@
     grid-template-columns: 2fr; /* One card per row only for very small screens */
   }
 }
+
+/* Edit and Save Buttons */
+.edit-button, .save-button {
+  color: #0073e6;
+  background-color: #ffffff;
+  border: 1px solid #0073e6;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+
+.edit-button:hover, .save-button:hover {
+  background-color: #0073e6;
+  color: #ffffff;
+}

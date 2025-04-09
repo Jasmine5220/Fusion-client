@@ -5,11 +5,11 @@ import { SortAscending } from "@phosphor-icons/react";
 import CustomBreadcrumbs from "../../../../components/Breadcrumbs.jsx";
 import ModuleTabs from "../../../../components/moduleTabs.jsx";
 import PCCAdminDashboard from "./PCCAdminDashboard.jsx";
-import ManageAttorneyAssignment from "./ManageAttorneyAssignment.jsx";
 import DownloadsPage from "./DownloadsPage.jsx";
 import StatusOfApplications from "./StatusOfApplications.jsx";
 import ReviewApplication from "./ReviewApplicaion.jsx";
 import PCCAdminNotifications from "./PCCAdminNotification.jsx";
+import ManageAttorneys from "./ManageAttorneys.jsx";
 
 const categories = ["Most Recent", "Tags", "Title"];
 
@@ -90,7 +90,7 @@ function ApplicantMainDashboard() {
               <StatusOfApplications setActiveTab={setActiveTab} />
             )}
             {activeTab === "3" && (
-              <ManageAttorneyAssignment setActiveTab={setActiveTab} />
+              <ManageAttorneys setActiveTab={setActiveTab} />
             )}
             {activeTab === "4" && <DownloadsPage setActiveTab={setActiveTab} />}
             {activeTab === "5" && (
