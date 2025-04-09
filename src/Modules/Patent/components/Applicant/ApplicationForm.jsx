@@ -857,46 +857,24 @@ function ApplicationForm() {
             </Text>
 
             {/* Navigation Buttons */}
-            <Group position="apart" mt="xl" grow={isMobile}>
+            <Group position="apart" mt="lg" grow={isMobile}>
               <Button
                 onClick={prevPage}
-                color="blue"
-                fullWidth
                 style={{
-                  backgroundColor: "white",
-                  color: "#0073e6",
+                  backgroundColor: "#0073e6",
+                  color: "white",
                   border: "1px solid #0073e6",
-                  transition: "background-color 0.3s ease, color 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "#0073e6";
-                  e.currentTarget.style.color = "white";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "white";
-                  e.currentTarget.style.color = "#0073e6";
                 }}
               >
                 Previous
               </Button>
 
               <Button
-                onClick={handleSaveDraft}
-                color="blue"
-                fullWidth
+                onClick={prevPage}
                 style={{
-                  backgroundColor: "white",
-                  color: "#0073e6",
+                  backgroundColor: "#0073e6",
+                  color: "white",
                   border: "1px solid #0073e6",
-                  transition: "background-color 0.3s ease, color 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "#0073e6";
-                  e.currentTarget.style.color = "white";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "white";
-                  e.currentTarget.style.color = "#0073e6";
                 }}
               >
                 Save Draft
@@ -904,21 +882,10 @@ function ApplicationForm() {
 
               <Button
                 onClick={handleSubmit}
-                color="green"
-                fullWidth
                 style={{
-                  backgroundColor: "white",
-                  color: "#00a854",
+                  backgroundColor: "#00a854",
+                  color: "#ffffff",
                   border: "1px solid #00a854",
-                  transition: "background-color 0.3s ease, color 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "#00a854";
-                  e.currentTarget.style.color = "white";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "white";
-                  e.currentTarget.style.color = "#00a854";
                 }}
               >
                 Submit
