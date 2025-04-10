@@ -1,140 +1,199 @@
-const AttorneyDetails = [
-  {
-    AttorneyID: 1,
-    AttorneyName: "Rajesh Kumar",
-    Email: "rajesh.kumar@legalfirm.in",
-    PhoneNumber: "+91 9876543210",
-    LawFirm: "Kumar & Associates",
-    Specialization: "Intellectual Property Law",
-    AssignedApplicationID: 101,
-    AssignmentDate: "2024-06-01",
-    Status: "Reviewed",
-    FeedbackReceived: "Yes",
-    Comments: "Reviewed the patent documents and suggested minor changes.",
-    AttorneyFee: "₹25,000",
-    ReviewStatus: "Completed",
-    LastUpdated: "2024-06-05",
-    CreatedBy: "Admin",
-  },
-  {
-    AttorneyID: 2,
-    AttorneyName: "Sita Devi",
-    Email: "sita.devi@patentlawyers.com",
-    PhoneNumber: "+91 8123456789",
-    LawFirm: "Patent Lawyers LLP",
-    Specialization: "Patent Filing & Litigation",
-    AssignedApplicationID: 102,
-    AssignmentDate: "2024-07-10",
-    Status: "Pending",
-    FeedbackReceived: "No",
-    Comments: "Awaiting initial review.",
-    AttorneyFee: "₹30,000",
-    ReviewStatus: "Pending",
-    LastUpdated: "2024-07-12",
-    CreatedBy: "Director",
-  },
-  {
-    AttorneyID: 3,
-    AttorneyName: "Anand Verma",
-    Email: "anand.verma@ipjuris.com",
-    PhoneNumber: "+91 7987654321",
-    LawFirm: "IP Juris",
-    Specialization: "Patent Drafting & Consultation",
-    AssignedApplicationID: 103,
-    AssignmentDate: "2024-08-15",
-    Status: "In Progress",
-    FeedbackReceived: "No",
-    Comments: "Drafting the initial patent application.",
-    AttorneyFee: "₹20,000",
-    ReviewStatus: "In Progress",
-    LastUpdated: "2024-08-16",
-    CreatedBy: "Admin",
-  },
-  {
-    AttorneyID: 4,
-    AttorneyName: "Neha Sharma",
-    Email: "neha.sharma@innovlaw.com",
-    PhoneNumber: "+91 9123456789",
-    LawFirm: "InnovLaw Partners",
-    Specialization: "Technology Law",
-    AssignedApplicationID: 104,
-    AssignmentDate: "2024-09-01",
-    Status: "Reviewed",
-    FeedbackReceived: "Yes",
-    Comments: "Provided extensive review comments.",
-    AttorneyFee: "₹28,000",
-    ReviewStatus: "Completed",
-    LastUpdated: "2024-09-03",
-    CreatedBy: "Director",
-  },
-  {
-    AttorneyID: 5,
-    AttorneyName: "Vikram Singh",
-    Email: "vikram.singh@lawbridge.com",
-    PhoneNumber: "+91 9988776655",
-    LawFirm: "LawBridge Associates",
-    Specialization: "International IP Law",
-    AssignedApplicationID: 105,
-    AssignmentDate: "2024-09-10",
-    Status: "In Progress",
-    FeedbackReceived: "No",
-    Comments: "Currently assessing patentability.",
-    AttorneyFee: "₹35,000",
-    ReviewStatus: "In Progress",
-    LastUpdated: "2024-09-15",
-    CreatedBy: "Admin",
-  },
-  {
-    AttorneyID: 6,
-    AttorneyName: "Priya Joshi",
-    Email: "priya.joshi@iprsolutions.com",
-    PhoneNumber: "+91 9090909090",
-    LawFirm: "IPR Solutions",
-    Specialization: "Patent Litigation",
-    AssignedApplicationID: 106,
-    AssignmentDate: "2024-10-01",
-    Status: "Pending",
-    FeedbackReceived: "No",
-    Comments: "Awaiting client feedback.",
-    AttorneyFee: "₹40,000",
-    ReviewStatus: "Pending",
-    LastUpdated: "2024-10-05",
-    CreatedBy: "Admin",
-  },
-  {
-    AttorneyID: 7,
-    AttorneyName: "Arjun Mehta",
-    Email: "arjun.mehta@legaladvocates.com",
-    PhoneNumber: "+91 8765432100",
-    LawFirm: "Legal Advocates",
-    Specialization: "Corporate & IP Law",
-    AssignedApplicationID: 107,
-    AssignmentDate: "2024-10-15",
-    Status: "Reviewed",
-    FeedbackReceived: "Yes",
-    Comments: "Approved patent application with no changes.",
-    AttorneyFee: "₹27,000",
-    ReviewStatus: "Completed",
-    LastUpdated: "2024-10-20",
-    CreatedBy: "Director",
-  },
-  {
-    AttorneyID: 8,
-    AttorneyName: "Divya Kapoor",
-    Email: "divya.kapoor@kapoorlaw.com",
-    PhoneNumber: "+91 9988123456",
-    LawFirm: "Kapoor Law Offices",
-    Specialization: "Intellectual Property & Copyright",
-    AssignedApplicationID: 108,
-    AssignmentDate: "2024-11-01",
-    Status: "In Progress",
-    FeedbackReceived: "No",
-    Comments: "Preparing for initial client discussion.",
-    AttorneyFee: "₹32,000",
-    ReviewStatus: "In Progress",
-    LastUpdated: "2024-11-03",
-    CreatedBy: "Admin",
-  }
-];
+import React, { useState } from "react";
+import { TextInput, Button, Title } from "@mantine/core";
+import {
+  UserCircle,
+  Briefcase,
+  Envelope,
+  Phone,
+  Tag,
+  Info,
+  ArrowLeft,
+} from "phosphor-react";
+import PropTypes from "prop-types";
+import "../../style/Pcc_Admin/AttorneyDetails.css";
+
+function AttorneyDetails({ attorney, onUpdate, onClose }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState(attorney);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = () => {
+    onUpdate(formData);
+    setIsEditing(false);
+  };
+
+  return (
+    <div className="attorney-details-container">
+      <div className="attorney-details-header">
+        <Button
+          variant="subtle"
+          leftIcon={<ArrowLeft size={20} weight="bold" />}
+          onClick={onClose}
+          className="attorney-details-back-btn"
+        >
+          Back
+        </Button>
+        <Title order={2} className="attorney-details-title">
+          Attorney Details
+        </Title>
+      </div>
+
+      <div className="attorney-details-content">
+        <div className="attorney-details-section">
+          <div className="attorney-details-field">
+            <div className="attorney-details-label">
+              <UserCircle size={20} className="attorney-details-icon" />
+              <span>Attorney Name</span>
+            </div>
+            {isEditing ? (
+              <TextInput
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="attorney-details-input"
+              />
+            ) : (
+              <div className="attorney-details-item">{attorney.name}</div>
+            )}
+          </div>
+
+          <div className="attorney-details-field">
+            <div className="attorney-details-label">
+              <Briefcase size={20} className="attorney-details-icon" />
+              <span>Law Firm</span>
+            </div>
+            {isEditing ? (
+              <TextInput
+                name="firm_name"
+                value={formData.firm_name}
+                onChange={handleChange}
+                className="attorney-details-input"
+              />
+            ) : (
+              <div className="attorney-details-item">{attorney.firm_name}</div>
+            )}
+          </div>
+
+          <div className="attorney-details-field">
+            <div className="attorney-details-label">
+              <Envelope size={20} className="attorney-details-icon" />
+              <span>Email</span>
+            </div>
+            {isEditing ? (
+              <TextInput
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="attorney-details-input"
+              />
+            ) : (
+              <div className="attorney-details-item">{attorney.email}</div>
+            )}
+          </div>
+        </div>
+
+        <div className="attorney-details-section">
+          <div className="attorney-details-field">
+            <div className="attorney-details-label">
+              <Phone size={20} className="attorney-details-icon" />
+              <span>Phone Number</span>
+            </div>
+            {isEditing ? (
+              <TextInput
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                className="attorney-details-input"
+              />
+            ) : (
+              <div className="attorney-details-item">{attorney.phone}</div>
+            )}
+          </div>
+
+          <div className="attorney-details-field">
+            <div className="attorney-details-label">
+              <Tag size={20} className="attorney-details-icon" />
+              <span>Specialization</span>
+            </div>
+            {isEditing ? (
+              <TextInput
+                name="specialization"
+                value={formData.specialization}
+                onChange={handleChange}
+                className="attorney-details-input"
+              />
+            ) : (
+              <div className="attorney-details-item">
+                {attorney.specialization}
+              </div>
+            )}
+          </div>
+
+          <div className="attorney-details-field">
+            <div className="attorney-details-label">
+              <Info size={20} className="attorney-details-icon" />
+              <span>Experience Years</span>
+            </div>
+            {isEditing ? (
+              <TextInput
+                name="experience_years"
+                type="number"
+                value={formData.experience_years}
+                onChange={handleChange}
+                className="attorney-details-input"
+              />
+            ) : (
+              <div className="attorney-details-item">
+                {attorney.experience_years}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="attorney-details-footer">
+        {isEditing ? (
+          <Button
+            variant="filled"
+            color="blue"
+            onClick={handleSubmit}
+            className="attorney-details-submit-btn"
+          >
+            Save Changes
+          </Button>
+        ) : (
+          <Button
+            variant="filled"
+            color="blue"
+            onClick={() => setIsEditing(true)}
+            className="attorney-details-submit-btn"
+          >
+            Edit Details
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+AttorneyDetails.propTypes = {
+  attorney: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    firm_name: PropTypes.string,
+    email: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
+    specialization: PropTypes.string,
+    experience_years: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }).isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default AttorneyDetails;

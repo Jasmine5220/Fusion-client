@@ -5,6 +5,7 @@ import { Layout } from "../../../components/layout";
 import ApplicantMainDashboard from "../components/Applicant/ApplicantMainDashboard";
 import DirectorMainDashboard from "../components/Director/DirectorMainDashboard";
 import PCCAdminMainDashboard from "../components/PCCAdmin/PCCAdminMainDashboard";
+import PCCStatusView from "../components/PCCAdmin/PCCAStatusView";
 
 export default function PatentRoutes() {
   const role = useSelector((state) => state.user.role);
@@ -12,7 +13,14 @@ export default function PatentRoutes() {
   return (
     <Routes>
       {/* Applicant Routes - Only for applicants */}
-      {["student", "alumini", "Professor", "Associate Professor", "Assistant Professor", "Research Engineer"].includes(role) && (
+      {[
+        "student",
+        "alumini",
+        "Professor",
+        "Associate Professor",
+        "Assistant Professor",
+        "Research Engineer",
+      ].includes(role) && (
         <Route
           path="/applicant/"
           element={
@@ -42,6 +50,17 @@ export default function PatentRoutes() {
           element={
             <Layout>
               <PCCAdminMainDashboard />
+            </Layout>
+          }
+        />
+      )}
+
+      {role === "PCC Admin" && (
+        <Route
+          path="/pccAdmin/application/view-details"
+          element={
+            <Layout>
+              <PCCStatusView />
             </Layout>
           }
         />
