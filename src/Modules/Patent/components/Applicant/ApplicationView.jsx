@@ -19,6 +19,7 @@ import {
   ArrowLeft,
   DownloadSimple,
   CheckCircle,
+  CircleNotch,
   ArrowRight,
 } from "phosphor-react";
 import PropTypes from "prop-types";
@@ -27,85 +28,58 @@ import "../../style/Applicant/ApplicationView.css";
 
 // Progress Bar Component
 function PatentProgressBar({ currentStatus, isMobile }) {
+  const statuses = [
+    "Submitted",
+    "Reviewed by PCC Admin",
+    "Attorney Assigned",
+    "Forwarded for Director's Review",
+    "Director's Approval Received",
+    "Patentability Check",
+    "Patentability Search Report Generated",
+    "Patent Filed",
+  ];
+
   const getStepIndex = (status) => {
-    switch (status) {
-      case "Draft":
-        return 0;
-      case "Submitted":
-        return 1;
-      case "Attorney Assigned":
-        return 2;
-      case "Forwarded for Director's Review":
-        return 3;
-      case "Director's Approval Received":
-        return 4;
-      case "Forwarded to Attorney":
-        return 5;
-      case "Patentability Search Report Generated":
-        return 6;
-      case "Patent Filed":
-        return 7;
-      case "Rejected":
-        return -1; // Special case
-      default:
-        return 0;
-    }
+    if (status === "Rejected") return -1;
+    return statuses.findIndex((s) => s === status);
   };
 
   const currentStep = getStepIndex(currentStatus);
   const isRejected = currentStatus === "Rejected";
 
   return (
-    <div className={`status-stepper-container ${isRejected ? "rejected" : ""}`}>
+    <div className={`progress-container ${isRejected ? "rejected" : ""}`}>
       {isRejected && (
-        <Text color="red" size="lg" weight={600} className="rejected-status">
+        <Text color="red" size="lg" weight={600} className="rejection-label">
           Application Rejected
         </Text>
       )}
 
       <Stepper
         active={currentStep}
-        className={`status-bar ${isMobile ? "mobile-status-bar" : ""}`}
+        className={`workflow-stepper ${isMobile ? "mobile-view" : ""}`}
         size={isMobile ? "sm" : "md"}
         color={isRejected ? "red" : "blue"}
         orientation={isMobile ? "vertical" : "horizontal"}
         iconSize={isMobile ? 16 : 24}
       >
-        <Stepper.Step
-          icon={<CheckCircle size={isMobile ? 16 : 18} />}
-          label="Step 1"
-          description="Application Submitted"
-        />
-        <Stepper.Step
-          icon={<ArrowRight size={isMobile ? 16 : 18} />}
-          label="Step 2"
-          description="Attorney Assigned"
-        />
-        <Stepper.Step
-          icon={<CheckCircle size={isMobile ? 16 : 18} />}
-          label="Step 3"
-          description="Forwarded for Director's Review"
-        />
-        <Stepper.Step
-          icon={<ArrowRight size={isMobile ? 16 : 18} />}
-          label="Step 4"
-          description="Director's Approval Received"
-        />
-        <Stepper.Step
-          icon={<CheckCircle size={isMobile ? 16 : 18} />}
-          label="Step 5"
-          description="Forwarded to Attorney"
-        />
-        <Stepper.Step
-          icon={<CheckCircle size={isMobile ? 16 : 18} />}
-          label="Step 6"
-          description="Patentability Search Report Generated"
-        />
-        <Stepper.Step
-          icon={<CheckCircle size={isMobile ? 16 : 18} />}
-          label="Step 7"
-          description="Patent Filed"
-        />
+        {statuses.map((status, index) => (
+          <Stepper.Step
+            key={status}
+            icon={
+              index < currentStep ? (
+                <CheckCircle size={isMobile ? 16 : 18} />
+              ) : index === currentStep ? (
+                <CircleNotch size={isMobile ? 16 : 18} />
+              ) : (
+                <ArrowRight size={isMobile ? 16 : 18} />
+              )
+            }
+            label={`Stage ${index + 1}`}
+            description={status}
+            className={index <= currentStep ? "completed-step" : "pending-step"}
+          />
+        ))}
       </Stepper>
     </div>
   );
@@ -137,7 +111,6 @@ function ApplicationCard({
         return "green";
       case "Attorney Assigned":
       case "Forwarded for Director's Review":
-      case "Forwarded to Attorney":
       case "Patentability Search Report Generated":
         return "orange";
       default: // Handles "Draft" and any unknown statuses

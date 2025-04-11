@@ -1,20 +1,22 @@
 import React from "react";
-import { Button, Card, Text, Box, Divider, useMantineTheme } from "@mantine/core";
+import PropTypes from "prop-types";
+import { Button, Card, Text, Box, Divider } from "@mantine/core";
 import "../../style/Applicant/ApplicantSubmit.css";
 
 function SubmitNewApplication({ setActiveTab }) {
-  const theme = useMantineTheme();
   const handleSubmit = () => {
     setActiveTab("1.1");
   };
-  
+
   return (
-    <Box style={{ 
-      width: "100%",
-      maxWidth: "600px",
-      margin: "0 auto",
-      marginLeft: "30px"  // Shift everything to the left
-    }}>
+    <Box
+      style={{
+        width: "100%",
+        maxWidth: "600px",
+        margin: "0 auto",
+        marginLeft: "30px", // Shift everything to the left
+      }}
+    >
       <Text className="header-texts">New Patent Application</Text>
       <Card className="card">
         <Text className="new-card-title">
@@ -39,4 +41,9 @@ function SubmitNewApplication({ setActiveTab }) {
     </Box>
   );
 }
+
+SubmitNewApplication.propTypes = {
+  setActiveTab: PropTypes.func.isRequired,
+};
+
 export default SubmitNewApplication;

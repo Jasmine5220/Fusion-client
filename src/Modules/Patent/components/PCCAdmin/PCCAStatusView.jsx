@@ -1,428 +1,540 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
 import {
   Container,
   Text,
   Card,
   Stepper,
-  Textarea,
   Button,
+  Loader,
+  Alert,
 } from "@mantine/core";
-import PropTypes from "prop-types";
+import {
+  IconInfoCircle,
+  IconAlertCircle,
+  IconDownload,
+  IconFile,
+} from "@tabler/icons-react";
+import { CheckCircle, CircleNotch, ArrowRight } from "phosphor-react";
 import "../../style/Pcc_Admin/PCCAStatus.css";
 
-// Simulate fetching status from the backend
-const fetchApplicationStatus = async () => {
-  return "Attorney Assignment"; // Simulated current status
-};
+// Progress Bar Component
+function PatentProgressBar({ currentStatus, isMobile }) {
+  const statuses = [
+    "Submitted",
+    "Reviewed by PCC Admin",
+    "Attorney Assigned",
+    "Forwarded for Director's Review",
+    "Director's Approval Received",
+    "Patentability Check",
+    "Patentability Search Report Generated",
+    "Patent Filed",
+  ];
 
-// Patent Progress Bar Component
-function PatentProgressBar({ currentStatus }) {
-  const progressMapping = {
-    "Patent Application Submission": 1,
-    "PCC Admin Review": 2,
-    "Director Initial Review": 3,
-    "Attorney Assignment": 4,
-    "Patentability Check": 5,
-    "Final Approval by Director": 6,
-    "Final Contract Completion": 7,
+  const getStepIndex = (status) => {
+    if (status === "Rejected") return -1;
+    return statuses.findIndex((s) => s === status);
   };
 
-  const currentStep = progressMapping[currentStatus] || 1;
+  const currentStep = getStepIndex(currentStatus);
+  const isRejected = currentStatus === "Rejected";
 
   return (
-    <Stepper
-      active={currentStep - 1}
-      size="md"
-      className="progress-bar-container"
-    >
-      {Object.keys(progressMapping).map((label, index) => (
-        <Stepper.Step key={index} label={label} />
-      ))}
-    </Stepper>
+    <div className={`progress-container ${isRejected ? "rejected" : ""}`}>
+      {isRejected && (
+        <Text color="red" size="lg" weight={600} className="rejection-label">
+          Application Rejected
+        </Text>
+      )}
+
+      <Stepper
+        active={currentStep}
+        className={`workflow-stepper ${isMobile ? "mobile-view" : ""}`}
+        size={isMobile ? "sm" : "md"}
+        color={isRejected ? "red" : "blue"}
+        orientation={isMobile ? "vertical" : "horizontal"}
+        iconSize={isMobile ? 16 : 24}
+      >
+        {statuses.map((status, index) => (
+          <Stepper.Step
+            key={status}
+            icon={
+              index < currentStep ? (
+                <CheckCircle size={isMobile ? 16 : 18} />
+              ) : index === currentStep ? (
+                <CircleNotch size={isMobile ? 16 : 18} />
+              ) : (
+                <ArrowRight size={isMobile ? 16 : 18} />
+              )
+            }
+            label={`Stage ${index + 1}`}
+            description={status}
+            className={index <= currentStep ? "completed-step" : "pending-step"}
+          />
+        ))}
+      </Stepper>
+    </div>
   );
 }
 
-// Add PropTypes validation for PatentProgressBar
 PatentProgressBar.propTypes = {
   currentStatus: PropTypes.string.isRequired,
+  isMobile: PropTypes.bool.isRequired,
 };
 
-// Main Patent Application Component
-function PatentApplication({
-  title,
-  date,
-  applicationNumber,
-  tokenNumber,
-  attorneyName,
-  phoneNumber,
-  email,
-  inventors,
-}) {
-  const [currentStatus, setCurrentStatus] = useState(
-    "Patent Application Submission",
+// Format date helper function
+const formatDate = (dateString) => {
+  if (!dateString) return "Not Available";
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  } catch (error) {
+    console.error("Error formatting date:", error);
+    return "Invalid Date";
+  }
+};
+
+// File Download Button Component
+function FileDownloadButton({ fileUrl, fileName, disabled }) {
+  return (
+    <Button
+      component="a"
+      href={fileUrl}
+      target="_blank"
+      download={fileName}
+      color="blue"
+      className="down-button"
+      disabled={disabled}
+      leftIcon={<IconFile size={16} />}
+    >
+      Download {fileName}
+    </Button>
   );
-  const [comments, setComments] = useState("");
+}
+
+FileDownloadButton.propTypes = {
+  fileUrl: PropTypes.string,
+  fileName: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+};
+
+function PCCAStatusView({ applicationId }) {
+  const [applicationData, setApplicationData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
-    const getStatus = async () => {
-      const status = await fetchApplicationStatus();
-      setCurrentStatus(status);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
     };
-    getStatus();
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  const handleForwardToDirector = () => {
-    if (!comments.trim()) {
-      alert("Please provide comments before forwarding.");
-      return;
-    }
-    // Simulate forward action
-    alert("Application forwarded to Director with comments!");
+  useEffect(() => {
+    const fetchApplicationDetails = async () => {
+      if (!applicationId) {
+        setError("No application ID provided");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `http://127.0.0.1:8000/patentsystem/pccAdmin/applications/status/details/${applicationId}/`,
+          {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("authToken")}`,
+            },
+          },
+        );
+        setApplicationData(response.data);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching application details:", err);
+        setError("Failed to load application details. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchApplicationDetails();
+  }, [applicationId]);
+
+  const handleDownloadForm = () => {
+    // Logic to download the entire form
+    // This would typically be an API call to get a PDF or other document format
+    alert("Downloading the complete application form...");
+
+    // Example implementation:
+    // window.location.href = `http://127.0.0.1:8000/patentsystem/pccAdmin/applications/download/${applicationId}/`;
   };
+
+  if (loading) {
+    return (
+      <Container
+        className="form-container"
+        size="lg"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "300px",
+        }}
+      >
+        <Loader size="xl" variant="dots" />
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="form-container" size="lg">
+        <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red">
+          {error}
+        </Alert>
+      </Container>
+    );
+  }
+
+  if (!applicationData) {
+    return (
+      <Container className="form-container" size="lg">
+        <Alert icon={<IconInfoCircle size={16} />} title="No Data" color="blue">
+          No application data found for the specified ID.
+        </Alert>
+      </Container>
+    );
+  }
 
   return (
     <Container className="form-container" size="lg">
-      <Text className="form-title">Patent Application: {title}</Text>
+      <Text className="form-title">{applicationData.title || "Untitled"}</Text>
 
-      {/* Application Details */}
       <Card className="form-section">
         <Text className="section-title">Application Details</Text>
         <div className="form-field">
-          <Text className="field-heading">Date:</Text>
-          <Text className="field-value">{date}</Text>
+          <Text className="field-heading">Primary Applicant:</Text>
+          <Text className="field-value">
+            {applicationData.primary_applicant_name || "—"}
+          </Text>
         </div>
         <div className="form-field">
-          <Text className="field-heading">Application Number:</Text>
-          <Text className="field-value">{applicationNumber}</Text>
+          <Text className="field-heading">Submission Date:</Text>
+          <Text className="field-value">
+            {formatDate(applicationData.dates?.submitted_date)}
+          </Text>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">Application ID:</Text>
+          <Text className="field-value">
+            {applicationData.application_id || "—"}
+          </Text>
         </div>
         <div className="form-field">
           <Text className="field-heading">Token Number:</Text>
-          <Text className="field-value">{tokenNumber}</Text>
+          <Text className="field-value">
+            {applicationData.token_no || "Not Assigned"}
+          </Text>
         </div>
         <div className="form-field">
           <Text className="field-heading">Attorney Name:</Text>
-          <Text className="field-value">{attorneyName || "N/A"}</Text>
+          <Text className="field-value">
+            {applicationData.attorney_name || "Not Assigned"}
+          </Text>
         </div>
         <div className="form-field">
-          <Text className="field-heading">Phone Number:</Text>
-          <Text className="field-value">{phoneNumber || "N/A"}</Text>
+          <Text className="field-heading">Status:</Text>
+          <Text className="field-value">
+            {applicationData.status || "Draft"}
+          </Text>
         </div>
         <div className="form-field">
-          <Text className="field-heading">Email:</Text>
-          <Text className="field-value">{email || "N/A"}</Text>
+          <Text className="field-heading">Decision Status:</Text>
+          <Text className="field-value">
+            {applicationData.decision_status || "Pending"}
+          </Text>
         </div>
       </Card>
+
+      <Card className="form-section">
+        <Text className="section-title">Applicants</Text>
+        {applicationData.applicants && applicationData.applicants.length > 0 ? (
+          applicationData.applicants.map((applicant, index) => (
+            <div key={index} className="inventor-container">
+              <Text className="inventor-title">Applicant {index + 1}</Text>
+              <div className="form-field">
+                <Text className="field-heading">Name:</Text>
+                <Text className="field-value">{applicant.name || "—"}</Text>
+              </div>
+              <div className="form-field">
+                <Text className="field-heading">Email:</Text>
+                <Text className="field-value">{applicant.email || "—"}</Text>
+              </div>
+              <div className="form-field">
+                <Text className="field-heading">Contact Address:</Text>
+                <Text className="field-value">{applicant.address || "—"}</Text>
+              </div>
+              <div className="form-field">
+                <Text className="field-heading">Mobile:</Text>
+                <Text className="field-value">{applicant.mobile || "—"}</Text>
+              </div>
+              <div className="form-field">
+                <Text className="field-heading">Percentage Share:</Text>
+                <Text className="field-value">
+                  {applicant.percentage_share || "—"}%
+                </Text>
+              </div>
+            </div>
+          ))
+        ) : (
+          <Text>No applicant information available</Text>
+        )}
+      </Card>
+
       <Card className="form-section">
         <Text className="section-title">
           Section I: Administrative and Technical Details
         </Text>
-
         <div className="form-field">
           <Text className="field-heading">Title of Application:</Text>
-          <Text className="field-value">
-            AI-Based Disease Detection in Crops
-          </Text>
+          <Text className="field-value">{applicationData.title || "—"}</Text>
         </div>
-
-        <Text className="field-group-title">
-          1. Please list inventor(s) who have contributed:
-        </Text>
-        {inventors.map((inventor, index) => (
-          <div key={index} className="inventor-container">
-            <Text className="inventor-title">Inventor {index + 1}</Text>
-            <div className="form-field">
-              <Text className="field-heading">Name:</Text>
-              <Text className="field-value">{inventor.name}</Text>
-            </div>
-            <div className="form-field">
-              <Text className="field-heading">Email:</Text>
-              <Text className="field-value">{inventor.email}</Text>
-            </div>
-            <div className="form-field">
-              <Text className="field-heading">Contact Address:</Text>
-              <Text className="field-value">{inventor.address}</Text>
-            </div>
-            <div className="form-field">
-              <Text className="field-heading">Mobile:</Text>
-              <Text className="field-value">{inventor.mobile}</Text>
-            </div>
-          </div>
-        ))}
-
         <div className="form-field">
           <Text className="field-heading">Area of the invention:</Text>
-          <Text className="field-value">Agricultural Technology and AI</Text>
+          <Text className="field-value">
+            {applicationData.section_I?.area || "—"}
+          </Text>
         </div>
         <div className="form-field">
           <Text className="field-heading">Problem in the area:</Text>
           <Text className="field-value">
-            Lack of efficient and affordable disease detection tools for
-            farmers.
+            {applicationData.section_I?.problem || "—"}
           </Text>
         </div>
         <div className="form-field">
           <Text className="field-heading">Objective of your invention:</Text>
           <Text className="field-value">
-            To develop an affordable and accurate AI-driven tool for disease
-            diagnosis in crops.
+            {applicationData.section_I?.objective || "—"}
           </Text>
         </div>
         <div className="form-field">
           <Text className="field-heading">Novelty:</Text>
           <Text className="field-value">
-            The first AI model optimized for real-time, edge-device use in the
-            field.
+            {applicationData.section_I?.novelty || "—"}
+          </Text>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">Advantages:</Text>
+          <Text className="field-value">
+            {applicationData.section_I?.advantages || "—"}
+          </Text>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">Tested:</Text>
+          <Text className="field-value">
+            {applicationData.section_I?.is_tested === true
+              ? "Yes"
+              : applicationData.section_I?.is_tested === false
+                ? "No"
+                : "—"}
+          </Text>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">Proof of Concept Details:</Text>
+          <Text className="field-value">
+            {applicationData.section_I?.poc_details || "—"}
+          </Text>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">Applications:</Text>
+          <Text className="field-value">
+            {applicationData.section_I?.applications || "—"}
           </Text>
         </div>
       </Card>
 
-      {/* IPR Form Section */}
-      <Card className="form-section">
-        <Text className="section-title">
-          Section I: Administrative and Technical Details
-        </Text>
-        <div className="form-field">
-          <Text className="field-heading">Title of Application:</Text>
-          <Text className="field-value">
-            AI-Based Disease Detection in Crops
-          </Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Area of the invention:</Text>
-          <Text className="field-value">Agricultural Technology and AI</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Problem in the area:</Text>
-          <Text className="field-value">
-            Lack of efficient and affordable disease detection tools for
-            farmers.
-          </Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Objective of your invention:</Text>
-          <Text className="field-value">
-            To develop an affordable and accurate AI-driven tool for disease
-            diagnosis in crops.
-          </Text>
-        </div>
-      </Card>
       <Card className="form-section">
         <Text className="section-title">Section II: IPR Ownership</Text>
         <div className="form-field">
-          <Text className="field-heading">
-            Significant use of funds/facilities:
-          </Text>
+          <Text className="field-heading">Funding Details:</Text>
           <Text className="field-value">
-            Yes, using IIITDM Jabalpur's research facilities.
+            {applicationData.section_II?.funding_details || "—"}
           </Text>
         </div>
         <div className="form-field">
           <Text className="field-heading">Source of funding:</Text>
-          <Text className="field-value">Institute's research grant</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">
-            Journal/Conference Presentation:
-          </Text>
           <Text className="field-value">
-            Presented at AI & Agriculture 2024 Conference.
+            {applicationData.section_II?.funding_source || "—"}
           </Text>
         </div>
         <div className="form-field">
-          <Text className="field-heading">MOU or Agreement Details:</Text>
+          <Text className="field-heading">Source Agreement:</Text>
+          <div className="field-value">
+            {applicationData.section_II?.source_agreement ? (
+              <FileDownloadButton
+                fileUrl={applicationData.section_II.source_agreement}
+                fileName="Source-Agreement.pdf"
+                disabled={!applicationData.section_II?.source_agreement}
+              />
+            ) : (
+              "No file available"
+            )}
+          </div>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">Publication Details:</Text>
           <Text className="field-value">
-            Sponsored under IIITDM Research Fund (MOU #12345).
+            {applicationData.section_II?.publication_details || "—"}
+          </Text>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">MOU Details:</Text>
+          <Text className="field-value">
+            {applicationData.section_II?.mou_details || "—"}
+          </Text>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">MOU File:</Text>
+          <div className="field-value">
+            {applicationData.section_II?.mou_file ? (
+              <FileDownloadButton
+                fileUrl={applicationData.section_II.mou_file}
+                fileName="MOU-File.pdf"
+                disabled={!applicationData.section_II?.mou_file}
+              />
+            ) : (
+              "No file available"
+            )}
+          </div>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">Research Details:</Text>
+          <Text className="field-value">
+            {applicationData.section_II?.research_details || "—"}
           </Text>
         </div>
       </Card>
 
-      {/* Commercialization Section */}
       <Card className="form-section">
         <Text className="section-title">Section III: Commercialization</Text>
         <div className="form-field">
-          <Text className="field-heading">Target Companies:</Text>
+          <Text className="field-heading">Target Company:</Text>
           <Text className="field-value">
-            Monsanto India, Agrotech Pvt Ltd, and Agribots Inc.
+            {applicationData.section_III?.company_name || "—"}
+          </Text>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">Contact Person:</Text>
+          <Text className="field-value">
+            {applicationData.section_III?.contact_person || "—"}
+          </Text>
+        </div>
+        <div className="form-field">
+          <Text className="field-heading">Contact Number:</Text>
+          <Text className="field-value">
+            {applicationData.section_III?.contact_no || "—"}
           </Text>
         </div>
         <div className="form-field">
           <Text className="field-heading">Development Stage:</Text>
-          <Text className="field-value">Partially developed</Text>
+          <Text className="field-value">
+            {applicationData.section_III?.development_stage || "—"}
+          </Text>
         </div>
         <div className="form-field">
-          <Text className="field-heading">
-            Uploaded duly filled and signed Form-III:
-          </Text>
+          <Text className="field-heading">Form-III:</Text>
           <div className="field-value">
-            <Button
-              component="a"
-              href="https://example.com/sample.pdf"
-              target="_blank"
-              download="Form-III.pdf"
-              color="blue"
-              className="down-button"
-            >
-              View Form-III
-            </Button>
+            {applicationData.section_III?.form_iii ? (
+              <FileDownloadButton
+                fileUrl={applicationData.section_III.form_iii}
+                fileName="Form-III.pdf"
+                disabled={!applicationData.section_III?.form_iii}
+              />
+            ) : (
+              "No file available"
+            )}
           </div>
         </div>
       </Card>
 
-      {/* Dates */}
       <Card className="form-section">
-        <Text className="section-title">Dates and Status</Text>
-
+        <Text className="section-title">Important Dates</Text>
         <div className="form-field">
           <Text className="field-heading">Submission Date:</Text>
-          <Text className="field-value">15 November 2024</Text>
+          <Text className="field-value">
+            {formatDate(applicationData.dates?.submitted_date)}
+          </Text>
         </div>
         <div className="form-field">
-          <Text className="field-heading">Forwarded to Director:</Text>
-          <Text className="field-value">16 November 2024</Text>
+          <Text className="field-heading">Assigned Date:</Text>
+          <Text className="field-value">
+            {formatDate(applicationData.dates?.assigned_date)}
+          </Text>
         </div>
         <div className="form-field">
-          <Text className="field-heading">Approved Date:</Text>
-          <Text className="field-value">17 November 2024</Text>
+          <Text className="field-heading">Decision Date:</Text>
+          <Text className="field-value">
+            {formatDate(applicationData.dates?.decision_date)}
+          </Text>
         </div>
         <div className="form-field">
-          <Text className="field-heading">Attorney Assigned:</Text>
-          <Text className="field-value">18 November 2024</Text>
+          <Text className="field-heading">Patentability Check Date:</Text>
+          <Text className="field-value">
+            {formatDate(applicationData.dates?.patentability_check_date)}
+          </Text>
         </div>
         <div className="form-field">
-          <Text className="field-heading">Report Generated:</Text>
-          <Text className="field-value">19 November 2024</Text>
-        </div>
-        <div className="form-field">
-          <Text className="field-heading">Filed Date:</Text>
-          <Text className="field-value">20 November 2024</Text>
+          <Text className="field-heading">Patentability File Date:</Text>
+          <Text className="field-value">
+            {formatDate(applicationData.dates?.patentability_file_date)}
+          </Text>
         </div>
       </Card>
 
-      {/* Comments Section */}
-      <Card className="form-section button-section">
-        <Text className="section-title">Approximate Cost</Text>
-        <Textarea
-          placeholder="Enter Value in ₹(INR)"
-          value={comments}
-          onChange={(event) => setComments(event.currentTarget.value)}
-          className="comments-box"
-          autosize
-          minRows={3}
-        />
-        {/* <Button
-            onClick={handleForwardToDirector}
-            color="blue"
-            style={{ marginTop: "10px" }}
-          >
-            Review
-          </Button>
-          <Button
-            onClick={handleForwardToDirector}
-            color="blue"
-            style={{ marginTop: "10px" }}
-          >
-            Download Form
-          </Button> */}
-        {/* <Button
-          onClick={handleForwardToDirector}
-          color="blue"
-          style={{ marginTop: "10px" }}
-        >
-          Forward to Director
-        </Button> */}
+      <Card className="form-section">
+        <Text className="section-title">Comments</Text>
+        <div className="form-field">
+          <Text className="field-value">
+            {applicationData.comments || "No comments available."}
+          </Text>
+        </div>
       </Card>
 
-      {/* Application Status */}
       <Card className="form-section">
         <Text className="section-title">Application Progress</Text>
-        <PatentProgressBar currentStatus={currentStatus} />
+        <PatentProgressBar
+          currentStatus={applicationData.status || "Draft"}
+          isMobile={isMobile}
+        />
       </Card>
 
-      {/* Form Actions */}
       <div className="form-actions">
         <Button
-          component="a"
-          href="https://example.com/sample.pdf"
-          target="_blank"
-          download="Form-III.pdf"
-          className="down-button"
-        >
-          Download Form
-        </Button>
-        <Button
-          onClick={handleForwardToDirector}
+          onClick={handleDownloadForm}
           color="blue"
           className="down-button"
+          leftIcon={<IconDownload size={16} />}
         >
-          Review Application
-        </Button>
-        <Button
-          onClick={handleForwardToDirector}
-          color="blue"
-          className="down-button"
-        >
-          Forward to Director
+          Download Complete Form
         </Button>
       </div>
     </Container>
   );
 }
 
-// PropTypes and DefaultProps
-PatentApplication.propTypes = {
-  title: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  applicationNumber: PropTypes.string.isRequired,
-  tokenNumber: PropTypes.string.isRequired,
-  attorneyName: PropTypes.string,
-  phoneNumber: PropTypes.string,
-  email: PropTypes.string,
-  inventors: PropTypes.arrayOf(
-    PropTypes.shape({
-      names: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      phone: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+PCCAStatusView.propTypes = {
+  applicationId: PropTypes.string.isRequired,
 };
 
-PatentApplication.defaultProps = {
-  attorneyName: "N/A",
-  phoneNumber: "N/A",
-  email: "N/A",
-};
-
-// Sample Application Component
-function SampleAppDetails() {
-  const inventors = [
-    {
-      name: "Dr. Rajesh Sharma",
-      email: "rajesh.sharma@iiitdmj.ac.in",
-      address: "IIITDM Jabalpur, Dumna Airport Road, Jabalpur, MP - 482005",
-      mobile: "+91-9876543210",
-      share: 40,
-    },
-    {
-      name: "Amit Kumar",
-      email: "amit.kumar@student.iiitdmj.ac.in",
-      address: "IIITDM Hostel Block B, Jabalpur, MP - 482005",
-      mobile: "+91-9123456780",
-      share: 30,
-    },
-  ];
-
-  return (
-    <PatentApplication
-      title="Wireless Communication System for IoT Devices"
-      date="12/09/2024"
-      applicationNumber="APP001234"
-      tokenNumber="TKN001234"
-      attorneyName="Janmesh Dwivedi"
-      phoneNumber="555-987-6543"
-      email="attorney@example.com"
-      inventors={inventors}
-    />
-  );
-}
-
-export default SampleAppDetails;
+export default PCCAStatusView;
