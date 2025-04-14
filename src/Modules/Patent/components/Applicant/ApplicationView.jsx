@@ -9,6 +9,7 @@ import {
   Stepper,
   Badge,
   Loader,
+  Title,
 } from "@mantine/core";
 import {
   CalendarCheck,
@@ -331,11 +332,11 @@ function FormSection({ title, children }) {
       withBorder
       mb="md"
     >
-      <Text
+      <Title
         className={`section-title ${window.innerWidth <= 768 ? "mobile-section-title" : ""}`}
       >
         {title}
-      </Text>
+      </Title>
       {children}
     </Card>
   );
@@ -550,308 +551,316 @@ function ApplicationView({ setActiveTab }) {
             variant="outline"
             color="blue"
             leftIcon={<ArrowLeft size={18} />}
+            className="back-button"
           >
             Back to Applications
           </Button>
+
+          <Title
+            className={`detail-page-title ${isMobile ? "mobile-detail-page-title" : ""}`}
+          >
+            Submitted Form
+          </Title>
         </div>
 
-        <Text className={`form-title ${isMobile ? "mobile-form-title" : ""}`}>
-          Intellectual Property Filing Form
-        </Text>
-
-        <FormSection title="Application Overview">
-          <Grid>
-            <Grid.Col span={12} md={4}>
-              <FormField label="Title of Application:" value={title} />
-            </Grid.Col>
-            <Grid.Col span={12} md={4}>
-              <FormField label="Submission Date:" value={submittedDate} />
-            </Grid.Col>
-            <Grid.Col span={12} md={4}>
-              <FormField label="Token Number:" value={token_no} />
-            </Grid.Col>
-            <Grid.Col span={12} md={4}>
-              <FormField label="Attorney:" value={attorney_name} />
-            </Grid.Col>
-            <Grid.Col span={12} md={4}>
-              <FormField label="Status:" value={status} />
-            </Grid.Col>
-            <Grid.Col span={12} md={4}>
-              <FormField label="Decision Status:" value={decision_status} />
-            </Grid.Col>
-            <Grid.Col span={12}>
-              <FormField label="Comments:" value={comments} />
-            </Grid.Col>
-          </Grid>
-        </FormSection>
-
-        <FormSection title="Section I: Administrative and Technical Details">
-          <Grid>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Area of the invention:"
-                value={section_I?.area}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Problem in the area:"
-                value={section_I?.problem}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Objective of your invention:"
-                value={section_I?.objective}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField label="Novelty:" value={section_I?.novelty} />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField label="Advantages:" value={section_I?.advantages} />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Tested:"
-                value={
-                  section_I?.is_tested === true
-                    ? "Yes"
-                    : section_I?.is_tested === false
-                      ? "No"
-                      : ""
-                }
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField label="POC Details:" value={section_I?.poc_details} />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Applications:"
-                value={section_I?.applications}
-              />
-            </Grid.Col>
-          </Grid>
-        </FormSection>
-
-        <FormSection title="Section II: IPR Ownership">
-          <Grid>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Funding Details:"
-                value={section_II?.funding_details}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Funding Source:"
-                value={section_II?.funding_source}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Source Agreement:"
-                value={section_II?.source_agreement}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Publication Details:"
-                value={section_II?.publication_details}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormFieldWithDownload
-                label="MOU Details:"
-                value={section_II?.mou_details}
-                fileUrl={mouFileUrl}
-                fileLabel="MOU File"
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Research Details:"
-                value={section_II?.research_details}
-              />
-            </Grid.Col>
-          </Grid>
-        </FormSection>
-
-        <FormSection title="Section III: Commercialization">
-          <Grid>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Company Name:"
-                value={section_III?.company_name}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Contact Person:"
-                value={section_III?.contact_person}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormField
-                label="Contact Number:"
-                value={section_III?.contact_no}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} md={6}>
-              <FormFieldWithDownload
-                label="Development Stage:"
-                value={section_III?.development_stage}
-                fileUrl={formIIIFileUrl}
-                fileLabel="Form III"
-              />
-            </Grid.Col>
-          </Grid>
-        </FormSection>
-
-        <FormSection title="Applicants">
-          {applicants && applicants.length > 0 ? (
+        <div className="form-content">
+          <FormSection title="Application Overview">
             <Grid>
-              {applicants.map((applicant, index) => (
-                <Grid.Col key={index} span={12} md={6}>
-                  <Card
-                    className="applicant-card"
-                    p="md"
-                    radius="sm"
-                    withBorder
-                  >
-                    <Text weight={600} size="lg" mb="xs">
-                      Applicant {index + 1}
-                    </Text>
-                    <FormField label="Name:" value={applicant.name} />
-                    <FormField label="Email:" value={applicant.email} />
-                    <FormField label="Mobile:" value={applicant.mobile} />
-                    <FormField label="Address:" value={applicant.address} />
+              <Grid.Col span={12} md={4}>
+                <FormField label="Title of Application:" value={title} />
+              </Grid.Col>
+              <Grid.Col span={12} md={4}>
+                <FormField label="Submission Date:" value={submittedDate} />
+              </Grid.Col>
+              <Grid.Col span={12} md={4}>
+                <FormField label="Token Number:" value={token_no} />
+              </Grid.Col>
+              <Grid.Col span={12} md={4}>
+                <FormField label="Attorney:" value={attorney_name} />
+              </Grid.Col>
+              <Grid.Col span={12} md={4}>
+                <FormField label="Status:" value={status} />
+              </Grid.Col>
+              <Grid.Col span={12} md={4}>
+                <FormField label="Decision Status:" value={decision_status} />
+              </Grid.Col>
+              <Grid.Col span={12}>
+                <FormField label="Comments:" value={comments} />
+              </Grid.Col>
+            </Grid>
+          </FormSection>
+
+          <FormSection title="Section I: Administrative and Technical Details">
+            <Grid>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Area of the invention:"
+                  value={section_I?.area}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Problem in the area:"
+                  value={section_I?.problem}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Objective of your invention:"
+                  value={section_I?.objective}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField label="Novelty:" value={section_I?.novelty} />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField label="Advantages:" value={section_I?.advantages} />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Tested:"
+                  value={
+                    section_I?.is_tested === true
+                      ? "Yes"
+                      : section_I?.is_tested === false
+                        ? "No"
+                        : ""
+                  }
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="POC Details:"
+                  value={section_I?.poc_details}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Applications:"
+                  value={section_I?.applications}
+                />
+              </Grid.Col>
+            </Grid>
+          </FormSection>
+
+          <FormSection title="Section II: IPR Ownership">
+            <Grid>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Funding Details:"
+                  value={section_II?.funding_details}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Funding Source:"
+                  value={section_II?.funding_source}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Source Agreement:"
+                  value={section_II?.source_agreement}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Publication Details:"
+                  value={section_II?.publication_details}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormFieldWithDownload
+                  label="MOU Details:"
+                  value={section_II?.mou_details}
+                  fileUrl={mouFileUrl}
+                  fileLabel="MOU File"
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Research Details:"
+                  value={section_II?.research_details}
+                />
+              </Grid.Col>
+            </Grid>
+          </FormSection>
+
+          <FormSection title="Section III: Commercialization">
+            <Grid>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Company Name:"
+                  value={section_III?.company_name}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Contact Person:"
+                  value={section_III?.contact_person}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormField
+                  label="Contact Number:"
+                  value={section_III?.contact_no}
+                />
+              </Grid.Col>
+              <Grid.Col span={12} md={6}>
+                <FormFieldWithDownload
+                  label="Development Stage:"
+                  value={section_III?.development_stage}
+                  fileUrl={formIIIFileUrl}
+                  fileLabel="Form III"
+                />
+              </Grid.Col>
+            </Grid>
+          </FormSection>
+
+          <FormSection title="Applicants">
+            {applicants && applicants.length > 0 ? (
+              <Grid>
+                {applicants.map((applicant, index) => (
+                  <Grid.Col key={index} span={12} md={6}>
+                    <Card
+                      className="applicant-card"
+                      p="md"
+                      radius="sm"
+                      withBorder
+                    >
+                      <Text weight={600} size="lg" mb="xs">
+                        Applicant {index + 1}
+                      </Text>
+                      <FormField label="Name:" value={applicant.name} />
+                      <FormField label="Email:" value={applicant.email} />
+                      <FormField label="Mobile:" value={applicant.mobile} />
+                      <FormField label="Address:" value={applicant.address} />
+                      <FormField
+                        label="Share Percentage:"
+                        value={
+                          applicant.percentage_share
+                            ? `${applicant.percentage_share}%`
+                            : ""
+                        }
+                      />
+                    </Card>
+                  </Grid.Col>
+                ))}
+              </Grid>
+            ) : (
+              <Text color="dimmed">No applicant information available</Text>
+            )}
+          </FormSection>
+
+          <FormSection title="Application Progress">
+            <PatentProgressBar currentStatus={status} isMobile={isMobile} />
+            {dates && (
+              <div className="milestone-dates">
+                <Text className="milestone-heading">Key Milestone Dates:</Text>
+
+                <Grid>
+                  <Grid.Col span={12} md={4}>
                     <FormField
-                      label="Share Percentage:"
+                      label="Submitted Date:"
                       value={
-                        applicant.percentage_share
-                          ? `${applicant.percentage_share}%`
-                          : ""
+                        dates.submitted_date
+                          ? new Date(dates.submitted_date).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              },
+                            )
+                          : "Not recorded"
                       }
                     />
-                  </Card>
-                </Grid.Col>
-              ))}
-            </Grid>
-          ) : (
-            <Text color="dimmed">No applicant information available</Text>
-          )}
-        </FormSection>
+                  </Grid.Col>
+                  <Grid.Col span={12} md={4}>
+                    <FormField
+                      label="Assigned Date:"
+                      value={
+                        dates.assigned_date
+                          ? new Date(dates.assigned_date).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              },
+                            )
+                          : "Not recorded"
+                      }
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={12} md={4}>
+                    <FormField
+                      label="Decision Date:"
+                      value={
+                        dates.decision_date
+                          ? new Date(dates.decision_date).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              },
+                            )
+                          : "Not recorded"
+                      }
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={12} md={4}>
+                    <FormField
+                      label="Patentability Check Date:"
+                      value={
+                        dates.patentability_check_date
+                          ? new Date(
+                              dates.patentability_check_date,
+                            ).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })
+                          : "Not recorded"
+                      }
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={12} md={4}>
+                    <FormField
+                      label="Patentability File Date:"
+                      value={
+                        dates.patentability_file_date
+                          ? new Date(
+                              dates.patentability_file_date,
+                            ).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })
+                          : "Not recorded"
+                      }
+                    />
+                  </Grid.Col>
+                </Grid>
+              </div>
+            )}
+          </FormSection>
 
-        <FormSection title="Application Progress">
-          <PatentProgressBar currentStatus={status} isMobile={isMobile} />
-          {dates && (
-            <div className="milestone-dates">
-              <Text weight={600} mt="lg" mb="md">
-                Key Milestone Dates:
-              </Text>
-              <Grid>
-                <Grid.Col span={12} md={4}>
-                  <FormField
-                    label="Submitted Date:"
-                    value={
-                      dates.submitted_date
-                        ? new Date(dates.submitted_date).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            },
-                          )
-                        : "Not recorded"
-                    }
-                  />
-                </Grid.Col>
-                <Grid.Col span={12} md={4}>
-                  <FormField
-                    label="Assigned Date:"
-                    value={
-                      dates.assigned_date
-                        ? new Date(dates.assigned_date).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            },
-                          )
-                        : "Not recorded"
-                    }
-                  />
-                </Grid.Col>
-                <Grid.Col span={12} md={4}>
-                  <FormField
-                    label="Decision Date:"
-                    value={
-                      dates.decision_date
-                        ? new Date(dates.decision_date).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            },
-                          )
-                        : "Not recorded"
-                    }
-                  />
-                </Grid.Col>
-                <Grid.Col span={12} md={4}>
-                  <FormField
-                    label="Patentability Check Date:"
-                    value={
-                      dates.patentability_check_date
-                        ? new Date(
-                            dates.patentability_check_date,
-                          ).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })
-                        : "Not recorded"
-                    }
-                  />
-                </Grid.Col>
-                <Grid.Col span={12} md={4}>
-                  <FormField
-                    label="Patentability File Date:"
-                    value={
-                      dates.patentability_file_date
-                        ? new Date(
-                            dates.patentability_file_date,
-                          ).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })
-                        : "Not recorded"
-                    }
-                  />
-                </Grid.Col>
-              </Grid>
-            </div>
-          )}
-        </FormSection>
-
-        <div className="form-actions">
-          <Button
-            component="a"
-            href={`${API_BASE_URL}/download/${application_id}/`}
-            target="_blank"
-            download={`Application-${application_id}.pdf`}
-            size="lg"
-            color="blue"
-            leftIcon={<DownloadSimple size={18} />}
-          >
-            Download Application
-          </Button>
+          <div className="form-actions">
+            <Button
+              component="a"
+              href={`${API_BASE_URL}/download/${application_id}/`}
+              target="_blank"
+              download={`Application-${application_id}.pdf`}
+              size="md"
+              color="blue"
+              leftIcon={<DownloadSimple size={18} />}
+              fullWidth={isMobile}
+            >
+              Download Application
+            </Button>
+          </div>
         </div>
       </Container>
     );

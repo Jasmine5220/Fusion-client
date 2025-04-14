@@ -2,17 +2,30 @@
 .application-view-container {
   width: 100%;
   padding: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 /* Page Title */
-.page-title {
-  font-size: 26px;
+.page-title  {
+  font-size: 28px;
   font-weight: 700;
   color: #2d3748;
   letter-spacing: 0.5px;
   padding-left: 32px;
   margin-bottom: 24px;
   margin-top: -20px;
+}
+
+
+.page-title::after, .form-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  /* background: #4c6ef5; */
+  margin: 10px auto 0;
+  border-radius: 2px;
 }
 
 /* Applications Grid - Modified for 2 cards per row */
@@ -90,77 +103,6 @@
   color: #fff;
 }
 
-/* Detail View Styles */
-.detail-container {
-  margin-left: 60px;
-  max-width: 1200px;
-}
-
-.detail-header {
-  margin-bottom: 24px;
-}
-
-.form-title {
-  font-size: 26px;
-  font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 24px;
-}
-
-.detail-section {
-  border-left: 6px solid #ffffff;
-  padding: 14px;
-  border-radius: 12px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 24px;
-}
-
-.section-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #2d3748;
-  margin-bottom: 16px;
-}
-
-.form-field {
-  margin-bottom: 16px;
-}
-
-.field-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #6b7280;
-  margin-bottom: 4px;
-}
-
-.field-value {
-  font-size: 16px;
-  color: #2d3748;
-}
-
-.applicant-card {
-  border-left: 6px solid #ffffff;
-  padding: 14px;
-  border-radius: 12px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.form-actions {
-  margin-top: 24px;
-  text-align: center;
-}
-
-/* Status Stepper */
-.status-stepper-container {
-  margin: 24px 0;
-}
-
-.rejected-status {
-  margin-bottom: 16px;
-}
-
 /* Loader and Error States */
 .loader-container {
   display: flex;
@@ -168,13 +110,226 @@
   align-items: center;
   justify-content: center;
   min-height: 200px;
+  padding: 40px 0;
 }
 
-.error-card, .empty-state-card {
+.error-card,
+.empty-state-card {
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
+  padding: 40px 20px;
 }
+
+/* ApplicationView.css - FORM PART ONLY (Detail View) */
+
+/* Detail View Container */
+.detail-container {
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Section */
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.back-button {
+  background-color: #4c6ef5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  order: 2; /* Moves to right in flex container */
+  margin-left: auto; /* Pushes to right */
+  white-space: nowrap; /* Prevents text wrapping */
+     margin-bottom: -05px;
+}
+
+.back-button:hover {
+  background-color: #3b5bdb;
+  transform: translateY(-2px);
+}
+
+.form-title {
+  font-size: 32px; /* Increased from 28px */
+  font-weight: 800; /* Bolder weight */
+  color: #2d3748;
+  letter-spacing: 0.5px;
+  margin-bottom: 24px;
+  margin-top: 0;
+  position: relative;
+  text-align: left;
+  width: 100%;
+
+}
+
+
+/* Form Content */
+.form-content {
+  background: white;
+  border-radius: 8px;
+  padding: 0;
+}
+
+/* Sections */
+.detail-section {
+  margin-bottom: 25px;
+  padding: 20px;
+  border-radius: 8px;
+  /* background: #f8fafc; */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* border-left: 4px solid #4c6ef5; */
+}
+
+/* Section Titles - Consistent styling */
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #4c6ef5;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 3px;
+  /* background: #4c6ef5; */
+}
+/* Key Milestone Dates Heading - Matching Section Titles */
+.milestone-heading {
+  font-size: 18px;
+  font-weight: 700;
+  color: #4c6ef5;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.milestone-heading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 3px;
+  /* background: #4c6ef5;  */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .milestone-heading {
+    font-size: 16px;
+    /* text-align: center; */
+  }
+  
+  .milestone-heading::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 480px) {
+  .milestone-heading {
+    font-size: 15px;
+  }
+}
+/* Form Fields */
+.form-field {
+  /* margin-bottom: 15px; */
+  /* padding: 12px; */
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.field-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.field-value {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Applicant Cards */
+.applicant-card {
+  padding: 15px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+}
+
+/* Download Buttons */
+.download-button-container {
+  margin-top: 10px;
+}
+
+/* Status Stepper */
+.status-stepper-container {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.rejected-status {
+  margin-bottom: 16px;
+  text-align: center;
+  color: #e03131;
+  font-weight: 600;
+}
+
+/* Form Actions */
+.form-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.form-actions .mantine-Button {
+  background-color: #4c6ef5;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.form-actions .mantine-Button:hover {
+  background-color: #3b5bdb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 
 /* Responsive Behavior */
 @media (max-width: 1024px) {
@@ -184,16 +339,16 @@
     padding: 0 24px;
 
   }
-  
-  .detail-container {
-    margin-left: 32px;
+
+  .detail-page-title {
+    font-size: 28px;
   }
 }
 
 @media (max-width: 768px) {
   .page-title {
     padding-left: 16px;
-    font-size: 22px;
+    font-size: 24px;
     text-align: center;
   }
 
@@ -209,36 +364,86 @@
     min-width: 100%;
     max-width: 100%;
   }
-
   .detail-container {
-    margin-left: 16px;
-    margin-right: 16px;
+    padding: 15px;
   }
-
+  
+  .detail-header {
+    margin-bottom: 20px;
+  }
+  
   .form-title {
-    font-size: 22px;
-    text-align: center;
+    font-size: 20px;
   }
-
+  
   .detail-section {
-    padding: 16px;
+    padding: 15px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .section-title {
+    font-size: 16px;
+  }
+  
+  .form-field {
+    text-align: center; /* Center align all text in form fields */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center child elements */
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .form-actions .mantine-Button {
+    width: 100%;
   }
 
-  .section-title {
-    font-size: 18px;
+  .field-label,
+  .field-value {
+    text-align: center; /* Explicit center alignment */
+    width: 100%; /* Ensure full width */
+  }
+
+  .download-button-container {
+    display: flex;
+    justify-content: center; /* Center download buttons */
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
+  .page-title {
+    font-size: 22px;
+  }
+
   .application-card {
-    padding: 12px;
+    padding: 16px;
   }
 
   .app-card-title {
-    font-size: 20px;
+    font-size: 18px;
   }
 
-  .info-text {
+  .form-title {
+    font-size: 18px;
+  }
+  
+  .section-title {
+    font-size: 15px;
+  }
+  
+  .field-label {
     font-size: 13px;
+  }
+  
+  .field-value {
+    font-size: 14px;
+  }
+  
+  .applicant-card {
+    padding: 12px;
   }
 }
