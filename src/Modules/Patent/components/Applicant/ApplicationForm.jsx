@@ -35,37 +35,43 @@ function ApplicationForm() {
     {
       value: "Patent",
       label: "Patent",
-      description: "Protects new inventions - technical solutions to problems. Covers how things work, what they do, how they do it, what they're made of, and how they're made.",
+      description:
+        "Protects new inventions - technical solutions to problems. Covers how things work, what they do, how they do it, what they're made of, and how they're made.",
       icon: "🔬", // Adding emoji icons for visual appeal
     },
     {
       value: "Copyright",
       label: "Copyright",
-      description: "Protects original creative works like books, music, software, art, and films. Covers the expression of ideas rather than the ideas themselves.",
+      description:
+        "Protects original creative works like books, music, software, art, and films. Covers the expression of ideas rather than the ideas themselves.",
       icon: "🎨",
     },
     {
       value: "Design",
       label: "Design",
-      description: "Protects the visual appearance of products including shape, configuration, pattern, or ornamentation. Focuses on aesthetic rather than functional features.",
+      description:
+        "Protects the visual appearance of products including shape, configuration, pattern, or ornamentation. Focuses on aesthetic rather than functional features.",
       icon: "✨",
     },
     {
       value: "Trademark",
       label: "Trademark",
-      description: "Protects brand identifiers like names, logos, slogans that distinguish goods/services in the marketplace. Helps prevent consumer confusion.",
+      description:
+        "Protects brand identifiers like names, logos, slogans that distinguish goods/services in the marketplace. Helps prevent consumer confusion.",
       icon: "🏷️",
     },
     {
       value: "Trade Secret",
       label: "Trade Secret",
-      description: "Protects confidential business information (formulas, processes, methods) that provides competitive advantage. No registration required but must be kept secret.",
+      description:
+        "Protects confidential business information (formulas, processes, methods) that provides competitive advantage. No registration required but must be kept secret.",
       icon: "🔒",
     },
     {
       value: "Geographical Indication",
       label: "Geographical Indication",
-      description: "Protects products originating from specific regions with qualities/reputation due to that origin (e.g., Champagne, Darjeeling Tea).",
+      description:
+        "Protects products originating from specific regions with qualities/reputation due to that origin (e.g., Champagne, Darjeeling Tea).",
       icon: "🌍",
     },
   ];
@@ -318,9 +324,56 @@ function ApplicationForm() {
               mb="md"
               required
             />
-            
 
+            {/* IP Type Selection - Matching Form Style */}
+            <Text fw={600} size="sm" mb={4}>
+              Type of Intellectual Property
+              <Text component="span" c="red">
+                *
+              </Text>
+            </Text>
 
+            <Select
+              placeholder="Select IP type"
+              value={ipType}
+              onChange={setIpType}
+              data={IP_TYPES.map((type) => ({
+                value: type.value,
+                label: type.label,
+              }))}
+              required
+              searchable
+              nothingFound="No matching IP types"
+              mb="md"
+              styles={{
+                input: {
+                  borderColor: "#ced4da",
+                  "&:focus": {
+                    borderColor: "#228be6",
+                  },
+                },
+              }}
+            />
+
+            {ipType && (
+              <Paper
+                p="sm"
+                mb="md"
+                withBorder
+                radius="sm"
+                style={{
+                  backgroundColor: "#f8f9fa",
+                  borderColor: "#dee2e6",
+                }}
+              >
+                <Text size="sm" fw={500} mb={4} c="dark">
+                  {IP_TYPES.find((t) => t.value === ipType)?.label}
+                </Text>
+                <Text size="xs" c="dimmed">
+                  {IP_TYPES.find((t) => t.value === ipType)?.description}
+                </Text>
+              </Paper>
+            )}
             <Text size="sm" mb={10}>
               1. Please list inventor(s) who have contributed in the main
               inventive step of the invention. (Inventor is a person who has
