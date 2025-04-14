@@ -12,6 +12,7 @@ import {
   Checkbox,
   Stack,
   ScrollArea,
+  Select,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -30,6 +31,46 @@ function ApplicationForm() {
     },
   ]);
   const [applicationTitle, setApplicationTitle] = useState("");
+  const IP_TYPES = [
+    {
+      value: "Patent",
+      label: "Patent",
+      description: "Protects new inventions - technical solutions to problems. Covers how things work, what they do, how they do it, what they're made of, and how they're made.",
+      icon: "🔬", // Adding emoji icons for visual appeal
+    },
+    {
+      value: "Copyright",
+      label: "Copyright",
+      description: "Protects original creative works like books, music, software, art, and films. Covers the expression of ideas rather than the ideas themselves.",
+      icon: "🎨",
+    },
+    {
+      value: "Design",
+      label: "Design",
+      description: "Protects the visual appearance of products including shape, configuration, pattern, or ornamentation. Focuses on aesthetic rather than functional features.",
+      icon: "✨",
+    },
+    {
+      value: "Trademark",
+      label: "Trademark",
+      description: "Protects brand identifiers like names, logos, slogans that distinguish goods/services in the marketplace. Helps prevent consumer confusion.",
+      icon: "🏷️",
+    },
+    {
+      value: "Trade Secret",
+      label: "Trade Secret",
+      description: "Protects confidential business information (formulas, processes, methods) that provides competitive advantage. No registration required but must be kept secret.",
+      icon: "🔒",
+    },
+    {
+      value: "Geographical Indication",
+      label: "Geographical Indication",
+      description: "Protects products originating from specific regions with qualities/reputation due to that origin (e.g., Champagne, Darjeeling Tea).",
+      icon: "🌍",
+    },
+  ];
+  const [ipType, setIpType] = useState("");
+
   const [step, setStep] = useState(1);
   const [generalQuestions, setGeneralQuestions] = useState({
     inventionArea: "",
@@ -130,6 +171,7 @@ function ApplicationForm() {
     // Prepare the data to be sent
     const data = {
       title: applicationTitle,
+      ip_type: ipType, // Add this line
       user_id: 7108, // Replace with actual user ID
       inventors: inventors.map((inventor) => ({
         name: inventor.name,
@@ -276,6 +318,9 @@ function ApplicationForm() {
               mb="md"
               required
             />
+            
+
+
             <Text size="sm" mb={10}>
               1. Please list inventor(s) who have contributed in the main
               inventive step of the invention. (Inventor is a person who has
