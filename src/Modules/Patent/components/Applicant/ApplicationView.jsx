@@ -454,6 +454,7 @@ function ApplicationView({ setActiveTab }) {
 
   // Render application list view with improved loading and error states
   const renderApplicationList = () => (
+    // Replace the Grid component with this structure:
     <Box className="applications-container">
       <Text className="page-title">Your Patent Applications</Text>
 
@@ -485,21 +486,20 @@ function ApplicationView({ setActiveTab }) {
           </Button>
         </Card>
       ) : (
-        <Grid className="applications-grid">
+        <div className="applications-grid">
           {applications.map((app, index) => (
-            <Grid.Col key={index} span={12} sm={6} lg={4}>
-              <ApplicationCard
-                title={app.title}
-                date={app.date}
-                tokenNumber={app.tokenNumber}
-                applicationNumber={app.applicationNumber}
-                attorney={app.attorney}
-                status={app.status}
-                onViewApplication={handleViewApplication}
-              />
-            </Grid.Col>
+            <ApplicationCard
+              key={index}
+              title={app.title}
+              date={app.date}
+              tokenNumber={app.tokenNumber}
+              applicationNumber={app.applicationNumber}
+              attorney={app.attorney}
+              status={app.status}
+              onViewApplication={handleViewApplication}
+            />
           ))}
-        </Grid>
+        </div>
       )}
     </Box>
   );
