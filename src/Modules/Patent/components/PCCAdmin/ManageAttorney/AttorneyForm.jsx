@@ -1,37 +1,104 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Text, Box, Tooltip, Button, TextInput } from "@mantine/core";
+import {
+  Text,
+  Box,
+  Tooltip,
+  Button,
+  TextInput,
+  LoadingOverlay,
+} from "@mantine/core";
 import {
   EnvelopeSimple,
   Phone,
   Briefcase,
-  Info,
   PencilSimple,
   Check,
   X,
   CaretLeft,
 } from "phosphor-react";
-import "../../style/Pcc_Admin/AttorneyForm.css";
+import { attorneyService } from "../../../services/attorneyService";
+import "../../../style/Pcc_Admin/AttorneyForm.css";
 
-function AttorneyForm({ attorney, onUpdate, onBack }) {
+function AttorneyForm({ attorneyId, onBack }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedData, setUpdatedData] = useState({ ...attorney });
+  const [isLoading, setIsLoading] = useState(false);
+  const [attorney, setAttorney] = useState(null);
+  const [updatedData, setUpdatedData] = useState({});
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAttorneyDetails = async () => {
+      if (!attorneyId) {
+        setError("No attorney selected");
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        const data = await attorneyService.getAttorneyDetails(attorneyId);
+        console.log("Received attorney data:", data);
+        setAttorney(data);
+        setUpdatedData({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          firm_name: data.firm_name,
+        });
+        setError(null);
+      } catch (err) {
+        setError(err.message || "Failed to fetch attorney details");
+        console.error("Error details:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAttorneyDetails();
+  }, [attorneyId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedData({ ...updatedData, [name]: value });
   };
 
-  const handleEditSubmit = () => {
-    onUpdate(updatedData);
-    setIsEditing(false);
-    alert("Details Updated Successfully!");
+  const handleEditSubmit = async () => {
+    try {
+      setIsLoading(true);
+      await attorneyService.updateAttorney(attorneyId, updatedData);
+      const updatedDetails =
+        await attorneyService.getAttorneyDetails(attorneyId);
+      setAttorney(updatedDetails);
+      setIsEditing(false);
+    } catch (err) {
+      setError("Failed to update attorney details");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCancel = () => {
-    setUpdatedData({ ...attorney });
+    setUpdatedData({
+      name: attorney.name,
+      email: attorney.email,
+      phone: attorney.phone,
+      firm_name: attorney.firm_name,
+    });
     setIsEditing(false);
   };
+
+  if (isLoading) {
+    return <LoadingOverlay visible />;
+  }
+
+  if (error) {
+    return <Text color="red">{error}</Text>;
+  }
+
+  if (!attorney) {
+    return <Text>Attorney not found</Text>;
+  }
 
   return (
     <div className="attorney-details-container">
@@ -105,26 +172,6 @@ function AttorneyForm({ attorney, onUpdate, onBack }) {
         </div>
 
         <div className={`detail-item ${isEditing ? "editing" : ""}`}>
-          <Tooltip label="Law Firm" position="right">
-            {isEditing ? (
-              <TextInput
-                label="Law Firm"
-                name="firm_name"
-                value={updatedData.firm_name}
-                onChange={handleInputChange}
-                className="edit-input"
-              />
-            ) : (
-              <Text className="attorney-detail">
-                <Briefcase size={20} className="icon" />
-                <strong>Law Firm:</strong>{" "}
-                {attorney.firm_name || "Not Available"}
-              </Text>
-            )}
-          </Tooltip>
-        </div>
-
-        <div className={`detail-item ${isEditing ? "editing" : ""}`}>
           <Tooltip label="Email Address" position="right">
             {isEditing ? (
               <TextInput
@@ -164,61 +211,38 @@ function AttorneyForm({ attorney, onUpdate, onBack }) {
         </div>
 
         <div className={`detail-item ${isEditing ? "editing" : ""}`}>
-          <Tooltip label="Area of Expertise" position="right">
+          <Tooltip label="Law Firm" position="right">
             {isEditing ? (
               <TextInput
-                label="Specialization"
-                name="specialization"
-                value={updatedData.specialization}
+                label="Law Firm"
+                name="firm_name"
+                value={updatedData.firm_name}
                 onChange={handleInputChange}
                 className="edit-input"
               />
             ) : (
               <Text className="attorney-detail">
-                <Info size={20} className="icon" />
-                <strong>Expertise:</strong>{" "}
-                {attorney.specialization || "Not Available"}
-              </Text>
-            )}
-          </Tooltip>
-        </div>
-
-        <div className={`detail-item ${isEditing ? "editing" : ""}`}>
-          <Tooltip label="Years of Experience" position="right">
-            {isEditing ? (
-              <TextInput
-                label="Experience Years"
-                name="experience_years"
-                type="number"
-                value={updatedData.experience_years}
-                onChange={handleInputChange}
-                className="edit-input"
-              />
-            ) : (
-              <Text className="attorney-detail">
-                <Info size={20} className="icon" />
-                <strong>Years:</strong> {attorney.experience_years} years
+                <Briefcase size={20} className="icon" />
+                <strong>Law Firm:</strong>{" "}
+                {attorney.firm_name || "Not Available"}
               </Text>
             )}
           </Tooltip>
         </div>
 
         {/* Assigned Cases Section - Full Width */}
-        <div
-          className={`detail-item assigned-cases ${isEditing ? "editing" : ""}`}
-        >
+        <div className="detail-item assigned-cases">
           <Text className="attorney-detail">
             <Briefcase size={20} className="icon" />
-            <strong>Assigned Cases:</strong> {attorney.assigned_cases || 0}
+            <strong>Assigned Cases:</strong>{" "}
+            {attorney.assigned_applications_count || 0}
           </Text>
-          {attorney.assigned_applications &&
-          attorney.assigned_applications.length > 0 ? (
+          {attorney.applications && attorney.applications.length > 0 ? (
             <div className="assigned-cases-list">
-              {attorney.assigned_applications.map((app) => (
+              {attorney.applications.map((app) => (
                 <div key={app.id} className="assigned-case-item">
                   <Text>
-                    <strong>Application {app.id}</strong>
-                    {app.title}
+                    <strong>Application {app.id}:</strong> {app.title}
                   </Text>
                 </div>
               ))}
@@ -234,25 +258,8 @@ function AttorneyForm({ attorney, onUpdate, onBack }) {
   );
 }
 
-// Update PropTypes to include assigned_applications
 AttorneyForm.propTypes = {
-  attorney: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    phone: PropTypes.string,
-    firm_name: PropTypes.string,
-    experience_years: PropTypes.number,
-    specialization: PropTypes.string,
-    assigned_cases: PropTypes.number,
-    assigned_applications: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-      }),
-    ),
-  }).isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  attorneyId: PropTypes.number.isRequired,
   onBack: PropTypes.func.isRequired,
 };
 

@@ -8,8 +8,8 @@ import PCCAdminDashboard from "./PCCAdminDashboard.jsx";
 import DownloadsPage from "./DownloadsPage.jsx";
 import StatusOfApplications from "./StatusOfApplications.jsx";
 import ReviewApplication from "./ReviewApplicaion.jsx";
-import PCCAdminNotifications from "./PCCAdminNotification.jsx";
-import ManageAttorneys from "./ManageAttorneys.jsx";
+import ManageAttorneys from "./ManageAttorney/ManageAttorneys.jsx";
+import PCCAdminNotifications from "./Notifications/PCCAdminNotification.jsx";
 
 const categories = ["Most Recent", "Tags", "Title"];
 
