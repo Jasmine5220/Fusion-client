@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Card, Button, Text, Box } from "@mantine/core";
+import { Card, Button, Text, Box, Divider } from "@mantine/core";
+import { Check } from "phosphor-react";
 import "../../style/Applicant/ApplicantNotifications.css";
 
 // Dummy data for notifications
@@ -13,6 +14,7 @@ const notificationsData = [
       "Application approved by Director and sent to Attorney for Patentability check.",
     date: "2024-10-23",
     time: "14:30:00",
+    color: "#4CAF50",
   },
   {
     id: 2,
@@ -22,6 +24,7 @@ const notificationsData = [
       "Application accepted by PCC Admin and forwarded to Director for initial review.",
     date: "2024-10-22",
     time: "10:15:30",
+    color: "#2196F3",
   },
   {
     id: 3,
@@ -31,6 +34,7 @@ const notificationsData = [
       "Application forwarded to PCC Admin for approval by Director and sent to Attorney for Patentability check.",
     date: "2024-10-21",
     time: "09:45:00",
+    color: "#FFC107",
   },
 ];
 
@@ -46,20 +50,27 @@ function NotificationCard({
   onMarkAsRead,
 }) {
   return (
-    <Card
-      className="notification-card"
-      style={{ borderLeft: `6px solid ${color}` }}
-    >
-      <Text className="notification-title">{title}</Text>
-      <Text className="notification-status" style={{ color }}>
+    <Card className="notification-card" style={{ borderLeft: `6px solid ${color}` }}>
+      <Text className="card-title" weight={600} size="lg">
+        {title}
+      </Text>
+      <Text className="card-status" style={{ color }}>
         {status}
       </Text>
-      <Text className="notification-date">{`${date} | ${time}`}</Text>
-      <Text className="notification-description">{description}</Text>
+      <Text className="card-details" size="sm" color="dimmed">
+        {date} | {time}
+      </Text>
+      <Divider my="sm" />
+      <Text className="card-description" size="sm">
+        {description}
+      </Text>
       <Button
-        variant="outline"
+        variant="light"
+        leftIcon={<Check size={16} />}
         className="markReadButton"
         onClick={() => onMarkAsRead(id)}
+        fullWidth
+        mt="sm"
       >
         Mark as Read
       </Button>
@@ -85,17 +96,19 @@ function NotificationsPage() {
 
   const handleMarkAsRead = (id) => {
     setNotifications(
-      notifications.filter((notification) => notification.id !== id),
+      notifications.filter((notification) => notification.id !== id)
     );
   };
 
   return (
-    <Box>
-      {/* Page Title */}
-      <Text className="notif-title">Notifications</Text>
+    <Box style={{ padding: "16px" }}>
+      {/* Header */}
+      <Text className="notif-header-text" size="xl" weight={700}>
+        Notifications
+      </Text>
 
       {/* Notifications container */}
-      <Box className="notification-container">
+      <Box className="notif-container">
         {notifications.map((notification) => (
           <NotificationCard
             key={notification.id}

@@ -18,7 +18,7 @@ function SubmitNewApplication({ setActiveTab }) {
             Intellectual Property Filing Form
           </Text>
           <Text className="card-details" size="sm" color="dimmed">
-          Please use this form for all types of IP, including Patents, Copyright, Designs, Marks, and even Know-how
+          Please use this form for all types of IP, including Patents, Copyright, Designs etc.
           </Text>
           <Divider my="sm" />
           <Text className="card-description" size="sm">

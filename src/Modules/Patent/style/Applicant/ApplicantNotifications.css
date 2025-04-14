@@ -1,5 +1,5 @@
 /* Page title */
-.notif-title {
+.notif-header-text {
   font-size: 26px;
   font-weight: 700;
   color: #2d3748;
@@ -10,47 +10,59 @@
 }
 
 /* Notifications container for flex layout */
-.notification-container {
+.notif-container {
   margin-left: 60px;
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
 }
 
-/* Notification card */
+/* Notification card - updated to keep original background */
 .notification-card {
   flex: 1;
   min-width: 45%;
   max-width: 45%;
-  border-left-width: 6px;
   padding: 14px;
   border-radius: 12px;
-  background-color: #f7fafc;
+  background-color: #f7fafc; /* Kept original background */
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Notification title */
-.notification-title {
+.notification-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+  background-color: #f7fafc; /* Ensure background stays consistent on hover */
+}
+
+/* Card title */
+.card-title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 8px;
+  color: #2d3748;
 }
 
-/* Notification status */
-.notification-status {
+/* Card status */
+.card-status {
   font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
 }
 
-/* Notification description */
-.notification-description {
-  font-size: 14px;
-}
-
-/* Date and time styling */
-.notification-date {
+/* Card details (date and time) */
+.card-details {
   font-size: 14px;
   color: #6b7280;
-  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+/* Card description */
+.card-description {
+  font-size: 14px;
+  color: #4a5568;
+  line-height: 1.5;
+  margin-bottom: 16px;
 }
 
 /* Mark as Read button */
@@ -58,7 +70,10 @@
   margin-top: 16px;
   background-color: #fff;
   border: 1px solid #0073e6;
-  color: #0073e6;;
+  color: #0073e6;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .markReadButton:hover {
@@ -68,8 +83,29 @@
 
 /* Responsive behavior for smaller screens */
 @media (max-width: 768px) {
+  .notif-container {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
   .notification-card {
     min-width: 100%;
     max-width: 100%;
+  }
+
+  .notif-header-text {
+    padding-left: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notif-header-text {
+    padding-left: 8px;
+    font-size: 20px;
+  }
+
+  .notif-container {
+    margin-left: 8px;
+    margin-right: 8px;
   }
 }
