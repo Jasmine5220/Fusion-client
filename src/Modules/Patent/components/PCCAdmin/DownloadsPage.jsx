@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Button, Container, Card, Text } from "@mantine/core";
-import { ArrowCircleDown } from "@phosphor-icons/react";
+import { Button, Container, Text, TextInput, Group } from "@mantine/core";
+import { ArrowCircleDown, Plus, Trash } from "@phosphor-icons/react";
 import "../../style/Pcc_Admin/DownloadsPage.css";
 
 function DownloadsPage() {
-  const [downloadsData] = useState([
+  const [downloadsData, setDownloadsData] = useState([
     {
       id: 1,
       title: "Intellectual Property Filing Form",
@@ -22,20 +22,75 @@ function DownloadsPage() {
     },
   ]);
 
+  const [newDocument, setNewDocument] = useState({
+    title: "",
+    link: "",
+  });
+
+  const handleAddDocument = () => {
+    if (!newDocument.title || !newDocument.link) {
+      alert("Please fill in both title and link fields");
+      return;
+    }
+
+    const newId = Math.max(...downloadsData.map((doc) => doc.id), 0) + 1;
+    setDownloadsData([...downloadsData, { ...newDocument, id: newId }]);
+    setNewDocument({ title: "", link: "" });
+  };
+
+  const handleDeleteDocument = (id) => {
+    setDownloadsData(downloadsData.filter((doc) => doc.id !== id));
+  };
+
   return (
-    <Container className="manage-attorney-container">
-      <Text className="page-heading-title">Download Forms and Documents</Text>
-      <Text className="description">
+    <Container size="xl" className="downloads-container">
+      <Text align="center" className="downloads-title" mb={20}>
+        Download Forms and Documents
+      </Text>
+      <Text align="center" className="downloads-description" mb={20}>
         You can review the document title and click the "Download" button to
         access the desired file.
       </Text>
-      <Card className="table-card">
+
+      {/* Add Document Form */}
+      <div className="add-document-form">
+        <Text className="add-document-form-title">Add New Document</Text>
+        <Group spacing="sm">
+          <TextInput
+            placeholder="Document Title"
+            value={newDocument.title}
+            onChange={(e) =>
+              setNewDocument({ ...newDocument, title: e.target.value })
+            }
+            style={{ flex: 2 }}
+          />
+          <TextInput
+            placeholder="Document Link"
+            value={newDocument.link}
+            onChange={(e) =>
+              setNewDocument({ ...newDocument, link: e.target.value })
+            }
+            style={{ flex: 3 }}
+          />
+          <Button
+            onClick={handleAddDocument}
+            color="green"
+            leftIcon={<Plus size={16} />}
+            className="add-document-button"
+          >
+            Add
+          </Button>
+        </Group>
+      </div>
+
+      <div style={{ overflowX: "auto", width: "100%" }}>
         <table className="downloads-table">
           <thead>
             <tr>
-              <th>S.No.</th>
-              <th>Document Title</th>
-              <th>Download</th>
+              <th style={{ width: "8%" }}>S.No.</th>
+              <th style={{ width: "57%" }}>Document Title</th>
+              <th style={{ width: "25%" }}>Download</th>
+              <th style={{ width: "10%" }}>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -51,16 +106,28 @@ function DownloadsPage() {
                     color="blue"
                     variant="outline"
                     className="download-button"
+                    fullWidth
                   >
                     <ArrowCircleDown size={16} style={{ marginRight: "8px" }} />
                     Download
+                  </Button>
+                </td>
+                <td>
+                  <Button
+                    color="red"
+                    variant="outline"
+                    onClick={() => handleDeleteDocument(download.id)}
+                    fullWidth
+                    className="delete-button"
+                  >
+                    <Trash size={16} />
                   </Button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-      </Card>
+      </div>
     </Container>
   );
 }
