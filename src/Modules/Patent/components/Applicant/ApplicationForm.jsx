@@ -280,6 +280,31 @@ function ApplicationForm() {
   const handleDownload = () => {
     window.open("https://example.com/sample.pdf", "_blank");
   };
+  const fileInputStyles = {
+    root: {
+      marginBottom: "16px",
+    },
+    label: {
+      marginBottom: "8px",
+      fontSize: "14px",
+      fontWeight: 500,
+    },
+    input: {
+      padding: "10px 16px",
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+      borderRadius: "4px",
+      cursor: "pointer",
+      transition: "all 0.2s",
+      "&:hover": {
+        backgroundColor: "#e9ecef",
+        borderColor: "#adb5bd",
+      },
+    },
+    placeholder: {
+      color: "#495057",
+    },
+  };
 
   return (
     <Paper
@@ -573,6 +598,7 @@ function ApplicationForm() {
                 value={section1Files}
                 onChange={setSection1Files}
                 accept="image/*,application/pdf"
+                styles={fileInputStyles}
               />
               <div style={{ marginTop: "10px", marginBottom: "20px" }}>
                 {section1Files.map((file, index) => (
@@ -654,6 +680,7 @@ function ApplicationForm() {
               value={section2FundingFile}
               onChange={setSection2FundingFile}
               accept="image/*,application/pdf"
+              styles={fileInputStyles}
             />
             <div style={{ marginTop: "5px", marginBottom: "10px" }}>
               {section2FundingFile && (
@@ -697,6 +724,7 @@ function ApplicationForm() {
               value={section2MouFile}
               onChange={setSection2MouFile}
               accept="image/*,application/pdf"
+              styles={fileInputStyles}
             />
             <div style={{ marginTop: "5px", marginBottom: "10px" }}>
               {section2MouFile && (
@@ -941,6 +969,19 @@ function ApplicationForm() {
               onChange={setSection3FormIII}
               accept="image/*,application/pdf"
               mb="md"
+              styles={{
+                ...fileInputStyles,
+                input: {
+                  ...fileInputStyles.input,
+                  backgroundColor: "#e6f7ff",
+                  borderColor: "#91d5ff",
+                  color: "#1890ff",
+                  "&:hover": {
+                    backgroundColor: "#bae7ff",
+                    borderColor: "#69c0ff",
+                  },
+                },
+              }}
             />
             {section3FormIII && (
               <Text size="sm" mb="md">
