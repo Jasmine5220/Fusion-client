@@ -5,21 +5,17 @@ import {
   Briefcase,
   Envelope,
   Phone,
-  Tag,
-  Info,
   ArrowLeft,
 } from "phosphor-react";
 import PropTypes from "prop-types";
-import "../../style/Pcc_Admin/NewAttorneyForm.css";
+import "../../../style/Pcc_Admin/NewAttorneyForm.css";
 
 function NewAttorneyForm({ onSubmit, onClose }) {
   const [formData, setFormData] = useState({
     name: "",
-    firm_name: "",
     email: "",
     phone: "",
-    specialization: "",
-    experience_years: "",
+    firm_name: "",
   });
 
   const handleChange = (e) => {
@@ -66,19 +62,6 @@ function NewAttorneyForm({ onSubmit, onClose }) {
 
           <div className="new-attorney-form-field">
             <div className="new-attorney-form-label">
-              <Briefcase size={20} className="new-attorney-form-icon" />
-              <span>Law Firm</span>
-            </div>
-            <TextInput
-              name="firm_name"
-              value={formData.firm_name}
-              onChange={handleChange}
-              className="new-attorney-form-input"
-            />
-          </div>
-
-          <div className="new-attorney-form-field">
-            <div className="new-attorney-form-label">
               <Envelope size={20} className="new-attorney-form-icon" />
               <span>Email</span>
             </div>
@@ -109,26 +92,12 @@ function NewAttorneyForm({ onSubmit, onClose }) {
 
           <div className="new-attorney-form-field">
             <div className="new-attorney-form-label">
-              <Tag size={20} className="new-attorney-form-icon" />
-              <span>Specialization</span>
+              <Briefcase size={20} className="new-attorney-form-icon" />
+              <span>Law Firm</span>
             </div>
             <TextInput
-              name="specialization"
-              value={formData.specialization}
-              onChange={handleChange}
-              className="new-attorney-form-input"
-            />
-          </div>
-
-          <div className="new-attorney-form-field">
-            <div className="new-attorney-form-label">
-              <Info size={20} className="new-attorney-form-icon" />
-              <span>Experience Years</span>
-            </div>
-            <TextInput
-              name="experience_years"
-              type="number"
-              value={formData.experience_years}
+              name="firm_name"
+              value={formData.firm_name}
               onChange={handleChange}
               className="new-attorney-form-input"
             />

@@ -10,21 +10,22 @@
 }
 
 /* Title styling */
-.page-heading-title {
-  margin-bottom: 2px;
-  margin-top: -20px;
+.downloads-title {
+  margin-bottom: 0px;
+  margin-top: 0px;
   font-size: 26px;
   color: #333;
   font-weight: 700;
-  text-align: left;
+  text-align: center;
 }
 
 /* Description styling */
-.description {
+.downloads-description {
   font-size: 14px;
   color: #555;
-  text-align: left;
+  text-align: center;
   margin-bottom: 32px;
+  margin-top: -25px;
 }
 
 /* Card styling for table */
@@ -37,40 +38,50 @@
 }
 
 /* Table styling */
+.downloads-container {
+  padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
 .downloads-table {
   width: 100%;
   border-collapse: collapse;
+  margin: 0 auto;
+  background-color: transparent;
 }
 
 .downloads-table th,
 .downloads-table td {
-  text-align: center;
-  font-size: 0.875rem; /* Standard text size: 14px */
-  color: #444;
-  padding: 12px;
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eaeaea;
 }
 
-/* Header styling */
-.downloads-table thead th {
+.downloads-table th {
+  background-color: #f8f9fa;
   font-weight: 600;
-  color: #222;
-  border-bottom: 2px solid #e0e0e0;
+  white-space: nowrap;
+  text-align: center;
 }
 
-/* Row hover effect */
+.downloads-table td {
+  text-align: left;
+  vertical-align: middle;
+}
+
 .downloads-table tr:hover {
   background-color: #f8f9fa;
 }
 
 /* Button styling */
-.download-button {
-  display: inline-flex;
-  align-items: center;
-  font-weight: 500;
-  font-size: 0.875rem; /* Match 14px size */
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+.download-button, .delete-button {
+  min-width: 120px;
+  transition: all 0.2s ease;
+}
+
+.download-button:hover, .delete-button:hover {
+  transform: translateY(-1px);
 }
 
 /* Desktop-specific styles */
@@ -83,27 +94,28 @@
 /* Responsive styles for smaller screens */
 @media (max-width: 768px) {
   .manage-attorney-container {
-    padding: 16px;
-    margin-left: 0; /* Reset margin for smaller screens */
+    padding: 1rem;
   }
 
-  .page-heading-title {
-    font-size: 22px;
+  .downloads-container {
+    padding: 0.5rem;
   }
 
-  .description {
-    font-size: 12px;
+  .add-document-form {
+    padding: 1rem;
   }
 
   .downloads-table th,
   .downloads-table td {
-    font-size: 12px;
-    padding: 8px;
+    padding: 0.75rem;
   }
 
-  .download-button {
+  .page-heading-title {
+    font-size: 1.5rem;
+  }
+
+  .description {
     font-size: 12px;
-    padding: 6px 10px;
   }
 }
 
@@ -116,14 +128,48 @@
     font-size: 11px;
   }
 
-  .downloads-table th,
-  .downloads-table td {
-    font-size: 11px;
-    padding: 6px;
+  .downloads-container {
+    padding: 0.5rem;
   }
 
-  .download-button {
-    font-size: 11px;
+  .add-document-form {
+    padding: 0.75rem;
+  }
+
+  .downloads-table th,
+  .downloads-table td {
+    padding: 0.5rem;
+  }
+
+  .download-button, .delete-button {
+    font-size: 12px;
     padding: 4px 8px;
   }
 }
+
+.add-document-form {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.add-document-form-title {
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.add-document-button {
+  color: #4c6ef5;
+  background-color: #fff;
+  border-color: #4c6ef5;
+}
+
+.add-document-button:hover {
+  background-color: #4c6ef5;
+  color: #fff;
+}
+

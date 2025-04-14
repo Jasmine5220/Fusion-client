@@ -7,7 +7,7 @@ function SubmitNewApplication({ setActiveTab }) {
   const handleSubmit = () => {
     setActiveTab("1.1");
   };
-  
+
   return (
     <Box className="submit-app-container">
       <Text className="submit-header-text">New Patent Application</Text>
