@@ -1,59 +1,65 @@
-.submit-app-container {
-  padding: 16px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.submit-app-header {
+/* Page title */
+.submit-header-text {
   font-size: 26px;
   font-weight: 700;
   color: #2d3748;
   letter-spacing: 0.5px;
-  padding-left: 92px; /* Exact same as SavedDrafts */
-  margin-bottom: 10px; /* Exact same as SavedDrafts */
-  margin-top: -20px; /* Exact same as SavedDrafts */
+  padding-left: 52px;
+  margin-bottom: 10px;
+
 }
 
-.submit-app-content {
-  margin-left: 60px; /* Exact same as SavedDrafts */
-  max-width: calc(100% - 60px);
+/* Card container */
+.submit-card-container {
+  margin-left: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
 }
 
-.submit-app-card {
+/* Application card */
+.submit-application-card {
+  flex: 1;
+  min-width: 45%;
+  max-width: 45%;
   border-left: 6px solid #ffffff;
-  padding: 24px;
+  padding: 14px;
   border-radius: 12px;
   background-color: #ffffff;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  max-width: 800px;
 }
 
-.submit-app-card:hover {
+.submit-application-card:hover {
   transform: translateY(-4px);
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-.app-card-title {
+/* Card title */
+.card-title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 8px;
   color: #2d3748;
 }
 
-.app-card-details {
+/* Card details */
+.card-details {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+/* Card description */
+.card-description {
   font-size: 14px;
   color: #4a5568;
   line-height: 1.5;
   margin-bottom: 16px;
 }
 
-.app-card-divider {
-  border-color: #e2e8f0;
-}
-
-.submit-app-button {
+/* Start Application button */
+.start-application-button {
   margin-top: 16px;
   background-color: #fff;
   border: 1px solid #0073e6;
@@ -63,51 +69,36 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.submit-app-button:hover {
+.start-application-button:hover {
   background-color: #0073e6;
   color: #fff;
 }
 
-/* IDENTICAL RESPONSIVE BREAKPOINTS */
-@media (max-width: 992px) {
-  .submit-app-header {
-    padding-left: 60px;
-  }
-  .submit-app-content {
-    margin-left: 40px;
-    max-width: calc(100% - 40px);
-  }
-}
-
+/* Responsive behavior for smaller screens */
 @media (max-width: 768px) {
-  .submit-app-header {
-    padding-left: 32px;
-    font-size: 22px;
-    margin-bottom: 16px;
-  }
-  .submit-app-content {
+  .submit-card-container {
     margin-left: 16px;
     margin-right: 16px;
+  }
+
+  .submit-application-card {
+    min-width: 100%;
     max-width: 100%;
   }
-  .submit-app-card {
-    padding: 16px;
-  }
-  .app-card-title {
-    font-size: 20px;
+
+  .submit-header-text {
+    padding-left: 16px;
   }
 }
 
 @media (max-width: 480px) {
-  .submit-app-header {
-    padding-left: 16px;
+  .submit-header-text {
+    padding-left: 8px;
     font-size: 20px;
   }
-  .submit-app-content {
+
+  .submit-card-container {
     margin-left: 8px;
     margin-right: 8px;
-  }
-  .submit-app-card {
-    padding: 12px;
   }
 }

@@ -1,5 +1,7 @@
 import React from "react";
 import { Button, Card, Text, Box, Divider } from "@mantine/core";
+import { ArrowRight } from "phosphor-react";
+import "../../style/Applicant/ApplicantSubmit.css";
 
 function SubmitNewApplication({ setActiveTab }) {
   const handleSubmit = () => {
@@ -8,24 +10,30 @@ function SubmitNewApplication({ setActiveTab }) {
   
   return (
     <Box className="submit-app-container">
-      <Text className="submit-app-header">New Patent Application</Text>
-      <Box className="submit-app-content">
-        <Card className="submit-app-card">
-          <Text className="app-card-title">
+      <Text className="submit-header-text">New Patent Application</Text>
+      
+      <Box className="submit-card-container">
+        <Card className="submit-application-card">
+          <Text className="card-title" weight={600} size="lg">
             Intellectual Property Filing Form
           </Text>
-          <Text className="app-card-details">
+          <Text className="card-details" size="sm" color="dimmed">
+          Please use this form for all types of IP, including Patents, Copyright, Designs, Marks, and even Know-how
+          </Text>
+          <Divider my="sm" />
+          <Text className="card-description" size="sm">
             Complete this form to initiate a new patent filing. Please ensure all
             necessary details are accurate before submission. This form will help
             streamline your application process and ensure compliance with
             institutional guidelines.
           </Text>
-          <Divider className="app-card-divider" my="sm" />
           <Button
-            variant="outline"
-            className="submit-app-button"
+            variant="light"
+            leftIcon={<ArrowRight size={16} />}
+            className="start-application-button"
             onClick={handleSubmit}
             fullWidth
+            mt="sm"
           >
             Start Application
           </Button>
