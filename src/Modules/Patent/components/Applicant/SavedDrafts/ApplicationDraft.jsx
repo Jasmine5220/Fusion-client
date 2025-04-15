@@ -71,7 +71,7 @@ function SavedDraftCard({ title, savedDate, savedTime, description, onViewDraft 
 }
 
 // Empty state component
-function EmptyDraftsState() {
+function EmptyDraftsState({ onStartNew }) {
   return (
     <Card className="saved-draft-card empty-state-card">
       <Center style={{ flexDirection: 'column', padding: '40px 20px' }}>
@@ -95,10 +95,7 @@ function EmptyDraftsState() {
           variant="outline"
           leftIcon={<ArrowRight size={16} />}
           mt="md"
-          onClick={() => {
-            // Add navigation to create new draft
-            console.log("Navigate to create new draft");
-          }}
+          onClick={onStartNew}
         >
           Start New Application
         </Button>
@@ -107,11 +104,13 @@ function EmptyDraftsState() {
   );
 }
 
+
 // Main SavedDraftsPage component
-function SavedDraftsPage() {
+function SavedDraftsPage({ setActiveTab }) {
   const [opened, setOpened] = useState(false);
   const [selectedDraft, setSelectedDraft] = useState(null);
-  // const [drafts, setDrafts] = useState(savedDraftsData); // Using dummy data
+  // const [drafts, setDrafts] = useState(savedDraftsData); // Using dummy data for Saved Data
+
   const [drafts, setDrafts] = useState([]); // For Empty Draft Page
   const handleViewDraft = (draft) => {
     setSelectedDraft(draft);
@@ -137,7 +136,7 @@ function SavedDraftsPage() {
             />
           ))
         ) : (
-          <EmptyDraftsState />
+          <EmptyDraftsState onStartNew={() => setActiveTab("1.1")} />
         )}
       </Box>
 
