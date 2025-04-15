@@ -4,13 +4,23 @@ import { useDispatch } from "react-redux";
 import { SortAscending } from "@phosphor-icons/react";
 import CustomBreadcrumbs from "../../../../components/Breadcrumbs.jsx";
 import ModuleTabs from "../../../../components/moduleTabs.jsx";
-import PCCAdminDashboard from "./PCCAdminDashboard.jsx";
-import StatusOfApplications from "./StatusOfApplications.jsx";
-import ReviewApplication from "./ReviewApplicaion.jsx";
-import ManageAttorneys from "./ManageAttorney/ManageAttorneys.jsx";
+import PCCAdminDashboard from "./Dashboard/PCCAdminDashboard.jsx";
+import OngoingApplication from "./OngoingApplication/OngoingApplication.jsx";
+import PastApplications from "./PastApplication/PastApplications.jsx";
+import NewApplication from "./NewApplication/NewApplicaion.jsx"; // Fixed typo in import name
 import PCCAdminNotifications from "./Notifications/PCCAdminNotification.jsx";
+import ManageAttorneys from "./ManageAttorney/ManageAttorneys.jsx";
 
-const categories = ["Most Recent", "Tags", "Title"];
+// Move constants outside of component
+const SORT_CATEGORIES = ["Most Recent", "Tags", "Title"];
+const TAB_ITEMS = [
+  { title: "Dashboard", id: "0" },
+  { title: "New Applications", id: "1" },
+  { title: "Ongoing Applications", id: "2" },
+  { title: "Past Applications", id: "3" },
+  { title: "Manage Attorney", id: "4" },
+  { title: "Notifications", id: "5" },
+];
 
 function ApplicantMainDashboard() {
   const [activeTab, setActiveTab] = useState("0");
@@ -18,23 +28,18 @@ function ApplicantMainDashboard() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  // Define your tabs here
-  const tabItems = [
-    { title: "Dashboard" },
-    { title: "New Applications" },
-    { title: "Status of Applications" },
-    { title: "Manage Attorney" },
-    { title: "Notifications" },
-  ];
-
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("authToken");
-      if (!token) return console.error("No authentication token found!");
+      if (!token) {
+        console.error("No authentication token found!");
+        return;
+      }
 
       try {
         setLoading(true);
         // Fetch data logic here if needed
+        // Consider using dispatch to update Redux state
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -45,12 +50,41 @@ function ApplicantMainDashboard() {
     fetchData();
   }, [dispatch]);
 
+  // Render the appropriate component based on active tab
+  const renderTabContent = () => {
+    if (loading) {
+      return (
+        <Container py="xl">
+          <Loader size="lg" />
+        </Container>
+      );
+    }
+
+    switch (activeTab) {
+      case "0":
+        return <PCCAdminDashboard setActiveTab={setActiveTab} />;
+      case "1":
+        return <NewApplication />;
+      case "2":
+        return <OngoingApplication setActiveTab={setActiveTab} />;
+      case "3":
+        return <PastApplications setActiveTab={setActiveTab} />;
+      case "4":
+        return <ManageAttorneys setActiveTab={setActiveTab} />;
+      case "5":
+        return <PCCAdminNotifications setActiveTab={setActiveTab} />;
+      default:
+        return <PCCAdminDashboard setActiveTab={setActiveTab} />;
+    }
+  };
+
   return (
     <>
       <CustomBreadcrumbs />
+
       <Flex justify="space-between" align="center" mt="lg">
         <ModuleTabs
-          tabs={tabItems}
+          tabs={TAB_ITEMS}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           badges={[]}
@@ -64,7 +98,7 @@ function ApplicantMainDashboard() {
             }}
             variant="outline"
             leftSection={<SortAscending />}
-            data={categories}
+            data={SORT_CATEGORIES}
             value={sortedBy}
             onChange={setSortedBy}
             placeholder="Sort By"
@@ -72,30 +106,7 @@ function ApplicantMainDashboard() {
         </Flex>
       </Flex>
 
-      {/* Render content based on the active tab */}
-      <Grid mt="xl">
-        {loading ? (
-          <Container py="xl">
-            <Loader size="lg" />
-          </Container>
-        ) : (
-          <>
-            {activeTab === "0" && (
-              <PCCAdminDashboard setActiveTab={setActiveTab} />
-            )}
-            {activeTab === "1" && <ReviewApplication />}
-            {activeTab === "2" && (
-              <StatusOfApplications setActiveTab={setActiveTab} />
-            )}
-            {activeTab === "3" && (
-              <ManageAttorneys setActiveTab={setActiveTab} />
-            )}
-            {activeTab === "4" && (
-              <PCCAdminNotifications setActiveTab={setActiveTab} />
-            )}
-          </>
-        )}
-      </Grid>
+      <Grid mt="xl">{renderTabContent()}</Grid>
     </>
   );
 }

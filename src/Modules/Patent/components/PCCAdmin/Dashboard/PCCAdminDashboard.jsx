@@ -21,7 +21,7 @@ import {
 } from "@phosphor-icons/react";
 
 import DownloadsPage from "./DownloadsPage";
-import "../../style/Pcc_Admin/PCCAdminDashboard.css";
+import "../../../style/Pcc_Admin/PCCAdminDashboard.css";
 
 function PCCAdminDashboard({ setActiveTab }) {
   const [selectedYear, setSelectedYear] = useState("2021");

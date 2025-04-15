@@ -18,9 +18,10 @@ import {
   Warning,
 } from "@phosphor-icons/react";
 import axios from "axios";
-import PCCAStatusView from "./PCCAStatusView";
+import PCCAStatusView from "../PCCAStatusView";
+import "../../../style/Pcc_Admin/OngoingApplication.css";
 
-function StatusOfApplications() {
+function OngoingApplication() {
   const [applications, setApplications] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,9 +29,11 @@ function StatusOfApplications() {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const columnNames = [
+    "S.No",
+    "Application Number",
     "Token Number",
     "Patent Title",
-    "Submitted By",
+    "Inventor 1",
     "Designation",
     "Department",
     "Date",
@@ -54,36 +57,36 @@ function StatusOfApplications() {
   const getStatusColor = (status) => {
     if (!status) return "gray";
 
-    const statusFormatted = status.trim().toLowerCase();
+    const formatted = status.trim().toLowerCase();
 
-    if (statusFormatted === "rejected") return "red";
-
-    switch (statusFormatted) {
-      case "submitted":
-        return "blue";
+    switch (formatted) {
+      case "forwarded for director's review":
+        return "indigo";
       case "director's approval received":
+        return "teal";
+      case "patentability check started":
+        return "violet";
+      case "patentability check completed":
+        return "cyan";
+      case "patentability search report generated":
+        return "blue";
       case "patent filed":
         return "green";
-      case "attorney assigned":
-      case "forwarded for director's review":
-      case "forwarded to attorney":
-      case "patentability search report generated":
-        return "orange";
       default:
-        return "gray"; // handles unknown or draft statuses
+        return "gray";
     }
   };
 
-  const fetchApplications = async (showRefresh = false) => {
+  const fetchApplications = async (refresh = false) => {
     try {
-      if (showRefresh) {
+      // Fixed version
+      if (refresh) {
         setIsRefreshing(true);
       } else {
         setLoading(true);
       }
-
-      const response = await axios.get(
-        "http://127.0.0.1:8000/patentsystem/pccAdmin/applications/status/",
+      const { data } = await axios.get(
+        "http://127.0.0.1:8000/patentsystem/pccAdmin/applications/ongoing/",
         {
           headers: {
             Authorization: `Token ${localStorage.getItem("authToken")}`,
@@ -91,20 +94,24 @@ function StatusOfApplications() {
         },
       );
 
-      const formattedApplications = Object.entries(
-        response.data.applications,
-      ).map(([appId, data]) => ({
-        id: appId.split("_")[1] || appId, // Fallback to full ID if no underscore
-        token_no: data.token_no || "Not Assigned",
-        title: data.title || "Not Provided",
-        submitted_by: data.submitted_by || "Not Provided",
-        designation: data.designation || "Not Provided",
-        department: data.department || "Not Provided",
-        submitted_on: data.submitted_on || "Not Provided",
-        status: data.status || "Not Provided",
-      }));
+      const formatted = Object.entries(data.applications)
+        .map(([id, details]) => ({
+          id: id.split("_")[1] || id,
+          token_no: details.token_no || "Not Assigned",
+          title: details.title || "Not Provided",
+          submitted_by: details.submitted_by || "Not Provided",
+          designation: details.designation || "Not Provided",
+          department: details.department || "Not Provided",
+          submitted_on: details.submitted_on || "Not Provided",
+          status: details.status || "Not Provided",
+        }))
+        .sort((a, b) => {
+          if (a.submitted_on === "Not Provided") return 1;
+          if (b.submitted_on === "Not Provided") return -1;
+          return new Date(b.submitted_on) - new Date(a.submitted_on);
+        });
 
-      setApplications(formattedApplications);
+      setApplications(formatted);
       setError(null);
     } catch (err) {
       console.error("Error fetching applications:", err);
@@ -114,23 +121,18 @@ function StatusOfApplications() {
       );
     } finally {
       setLoading(false);
-      if (showRefresh === true) {
-        setIsRefreshing(false);
-      }
+      if (refresh) setIsRefreshing(false);
     }
   };
 
   useEffect(() => {
-    fetchApplications();
+    (async () => {
+      await fetchApplications();
+    })();
   }, []);
 
-  const handleViewClick = (applicationId) => {
-    setSelectedApplication(applicationId);
-  };
-
-  const handleRefresh = () => {
-    fetchApplications(true);
-  };
+  const handleViewClick = (id) => setSelectedApplication(id);
+  const handleRefresh = () => fetchApplications(true);
 
   if (loading) {
     return (
@@ -192,15 +194,15 @@ function StatusOfApplications() {
     <Box className="status-applications-container">
       {!selectedApplication ? (
         <>
-          <Title order={2} className="title">
-            Status of Applications
+          <Title order={2} className="status-title">
+            Ongoing Applications:
           </Title>
           <Text size="md" color="dimmed" className="description">
-            Below is the list of recent patent applications with their current
+            Below is the list of ongoing patent applications with their current
             status. Click on "View" for more information.
           </Text>
 
-          <Group position="right" mb="sm">
+          <Group position="left" mb="md">
             <Button
               variant="subtle"
               color="blue"
@@ -218,27 +220,29 @@ function StatusOfApplications() {
               <Table highlightOnHover striped>
                 <thead>
                   <tr>
-                    {columnNames.map((columnName, index) => (
-                      <th key={index}>{columnName}</th>
+                    {columnNames.map((name, idx) => (
+                      <th key={idx}>{name}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {applications.map((application) => (
-                    <tr key={application.id}>
-                      <td>{application.token_no}</td>
-                      <td title={application.title}>{application.title}</td>
-                      <td>{application.submitted_by}</td>
-                      <td>{application.designation}</td>
-                      <td>{application.department}</td>
-                      <td>{formatDate(application.submitted_on)}</td>
+                  {applications.map((app, idx) => (
+                    <tr key={app.id}>
+                      <td>{idx + 1}</td>
+                      <td>{app.id}</td>
+                      <td>{app.token_no}</td>
+                      <td title={app.title}>{app.title}</td>
+                      <td>{app.submitted_by}</td>
+                      <td>{app.designation}</td>
+                      <td>{app.department}</td>
+                      <td>{formatDate(app.submitted_on)}</td>
                       <td>
                         <Badge
-                          color={getStatusColor(application.status)}
+                          color={getStatusColor(app.status)}
                           variant="filled"
                           size="sm"
                         >
-                          {application.status}
+                          {app.status}
                         </Badge>
                       </td>
                       <td>
@@ -246,7 +250,8 @@ function StatusOfApplications() {
                           variant="outline"
                           color="blue"
                           size="xs"
-                          onClick={() => handleViewClick(application.id)}
+                          className="view-button"
+                          onClick={() => handleViewClick(app.id)}
                         >
                           <Eye size={16} weight="bold" />
                           <span>View</span>
@@ -266,6 +271,7 @@ function StatusOfApplications() {
             color="blue"
             onClick={() => setSelectedApplication(null)}
             leftIcon={<ArrowLeft size={16} weight="bold" />}
+            className="back-button"
           >
             Back to Applications List
           </Button>
@@ -277,4 +283,4 @@ function StatusOfApplications() {
   );
 }
 
-export default StatusOfApplications;
+export default OngoingApplication;

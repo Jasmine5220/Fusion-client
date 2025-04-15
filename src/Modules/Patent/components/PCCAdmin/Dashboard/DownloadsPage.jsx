@@ -1,49 +1,79 @@
-import React, { useState } from "react";
-import { Button, Container, Text, TextInput, Group } from "@mantine/core";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Container,
+  Text,
+  TextInput,
+  Group,
+  LoadingOverlay,
+} from "@mantine/core";
 import { ArrowCircleDown, Plus, Trash } from "@phosphor-icons/react";
-import "../../style/Pcc_Admin/DownloadsPage.css";
+import "../../../style/Pcc_Admin/DownloadsPage.css";
+import {
+  fetchDocuments,
+  addDocument,
+  deleteDocument,
+} from "../../../services/documentService.jsx";
 
 function DownloadsPage() {
-  const [downloadsData, setDownloadsData] = useState([
-    {
-      id: 1,
-      title: "Intellectual Property Filing Form",
-      link: "https://www.iiitdmj.ac.in/rspc.iiitdmj.ac.in/DRSPC/IPRM/Annexure%20I.pdf",
-    },
-    {
-      id: 2,
-      title: "Request for Provisional Patent Filing",
-      link: "https://www.iiitdmj.ac.in/rspc.iiitdmj.ac.in/DRSPC/IPRM/Annexure%20II.pdf",
-    },
-    {
-      id: 3,
-      title: "Intellectual Property Policy Document",
-      link: "https://www.iiitdmj.ac.in/downloads/IPR%20Policy%20Final%20V1%2016_6_2020.pdf",
-    },
-  ]);
-
+  const [downloadsData, setDownloadsData] = useState([]);
   const [newDocument, setNewDocument] = useState({
     title: "",
     link: "",
   });
+  const [loading, setLoading] = useState(false);
 
-  const handleAddDocument = () => {
+  const loadDocuments = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchDocuments();
+      setDownloadsData(data);
+    } catch (error) {
+      console.error("Error fetching documents:", error);
+      alert("Failed to load documents");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddDocument = async () => {
     if (!newDocument.title || !newDocument.link) {
       alert("Please fill in both title and link fields");
       return;
     }
 
-    const newId = Math.max(...downloadsData.map((doc) => doc.id), 0) + 1;
-    setDownloadsData([...downloadsData, { ...newDocument, id: newId }]);
-    setNewDocument({ title: "", link: "" });
+    try {
+      const created = await addDocument(newDocument);
+      setDownloadsData((prev) => [created, ...prev]);
+      setNewDocument({ title: "", link: "" });
+    } catch (error) {
+      console.error("Error adding document:", error);
+      alert("Failed to add document");
+    }
   };
 
-  const handleDeleteDocument = (id) => {
-    setDownloadsData(downloadsData.filter((doc) => doc.id !== id));
+  const handleDeleteDocument = async (id) => {
+    try {
+      await deleteDocument(id);
+      setDownloadsData((prev) => prev.filter((doc) => doc.id !== id));
+    } catch (error) {
+      console.error("Error deleting document:", error);
+      alert("Failed to delete document");
+    }
   };
+
+  useEffect(() => {
+    loadDocuments();
+  }, []);
 
   return (
-    <Container size="xl" className="downloads-container">
+    <Container
+      size="xl"
+      className="downloads-container"
+      style={{ position: "relative" }}
+    >
+      <LoadingOverlay visible={loading} overlayBlur={2} />
+
       <Text align="center" className="downloads-title" mb={20}>
         Download Forms and Documents
       </Text>
