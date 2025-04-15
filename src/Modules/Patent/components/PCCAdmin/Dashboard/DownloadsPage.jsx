@@ -8,12 +8,12 @@ import {
   LoadingOverlay,
 } from "@mantine/core";
 import { ArrowCircleDown, Plus, Trash } from "@phosphor-icons/react";
-import "../../style/Pcc_Admin/DownloadsPage.css";
+import "../../../style/Pcc_Admin/DownloadsPage.css";
 import {
   fetchDocuments,
   addDocument,
   deleteDocument,
-} from "../../services/documentService";
+} from "../../../services/documentService.jsx";
 
 function DownloadsPage() {
   const [downloadsData, setDownloadsData] = useState([]);

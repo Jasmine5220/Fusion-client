@@ -11,7 +11,7 @@ import {
 import AttorneyForm from "./AttorneyForm.jsx";
 import NewAttorneyForm from "./NewAttorneyForm.jsx";
 import "../../../style/Pcc_Admin/ManageAttorneys.css";
-import { attorneyService } from "../../../services/attorneyService";
+import { attorneyService } from "../../../services/attorneyService.jsx";
 
 function ManageAttorneys() {
   const [attorneys, setAttorneys] = useState([]);
