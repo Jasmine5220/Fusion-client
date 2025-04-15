@@ -1,101 +1,104 @@
-/* Header styling */
-.header-texts {
+/* Page title */
+.submit-header-text {
   font-size: 26px;
   font-weight: 700;
   color: #2d3748;
-  padding-left: 48px;
   letter-spacing: 0.5px;
+  padding-left: 52px;
+  margin-bottom: 16px;
+
+}
+
+/* Card container */
+.submit-card-container {
+  margin-left: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Application card */
+.submit-application-card {
+  flex: 1;
+  min-width: 45%;
+  max-width: 45%;
+  border-left: 6px solid #ffffff;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-application-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Card title */
+.card-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #2d3748;
+}
+
+/* Card details */
+.card-details {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+/* Card description */
+.card-description {
+  font-size: 14px;
+  color: #4a5568;
+  line-height: 1.5;
   margin-bottom: 16px;
 }
 
-/* Card styling */
-.card {
+/* Start Application button */
+.start-application-button {
+  margin-top: 16px;
   background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.15);
-  padding: 24px;
-  max-width: 600px; /* Set a max-width for desktop */
-  width: auto; /* Let it take natural width */
-  height: auto;
-  transition: box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-left: 48px;
-}
-
-/* Card title styling */
-.new-card-title {
-  font-size: 24px;
-  font-weight: 500;
-  color: #2d3748;
-  margin-bottom: 8px;
-  text-align: left; /* Left align for desktop */
-}
-
-/* Card details text */
-.card-details {
-  font-size: 15px;
-  color: #6b7280;
-  line-height: 1.5;
-  text-align: left; /* Left align for desktop */
-}
-
-/* Divider line styling */
-.card-line {
-  margin: 8px 0;
-  border-color: #e2e8f0;
-}
-
-/* Button styling */
-.submit-button {
-  color: #3182ce;
-  border-color: #3182ce;
+  border: 1px solid #0073e6;
+  color: #0073e6;
   font-size: 14px;
-  width: auto; /* Let button size to content */
-  padding: 0 24px; /* Add horizontal padding */
-  align-self: flex-start; /* Align to left */
-  transition: background-color 0.2s ease-in-out;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.submit-button:hover {
+.start-application-button:hover {
   background-color: #0073e6;
   color: #fff;
 }
 
-/* Responsive styling for smaller screens */
+/* Responsive behavior for smaller screens */
 @media (max-width: 768px) {
-  /* Make the container full width */
-  .header-texts {
-    padding-left: 1px;
-    font-size: 22px;
-    text-align: center; /* Center on mobile */
-  }
-
-  .card {
+  .submit-card-container {
     margin-left: 16px;
     margin-right: 16px;
-    padding: 16px;
-    width: calc(100% - 32px); /* Full width minus margins */
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: none; /* Remove max-width on mobile */
   }
 
-  .new-card-title {
-    font-size: 20px;
-    text-align: center; /* Center on mobile */
+  .submit-application-card {
+    min-width: 100%;
+    max-width: 100%;
   }
 
-  .card-details {
-    font-size: 14px;
-    text-align: center; /* Center on mobile */
+  .submit-header-text {
+    padding-left: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .submit-header-text {
+    padding-left: 8px;
+    font-size: 26px;
   }
 
-  .submit-button {
-    font-size: 14px;
-    padding: 8px 12px;
-    width: 100%; /* Full width on mobile */
-    align-self: center; /* Center on mobile */
+  .submit-card-container {
+    margin-left: 8px;
+    margin-right: 8px;
   }
 }

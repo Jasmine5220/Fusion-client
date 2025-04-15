@@ -12,6 +12,7 @@ import {
   Checkbox,
   Stack,
   ScrollArea,
+  Select,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -30,6 +31,52 @@ function ApplicationForm() {
     },
   ]);
   const [applicationTitle, setApplicationTitle] = useState("");
+  const IP_TYPES = [
+    {
+      value: "Patent",
+      label: "Patent",
+      description:
+        "Protects new inventions - technical solutions to problems. Covers how things work, what they do, how they do it, what they're made of, and how they're made.",
+      icon: "🔬", // Adding emoji icons for visual appeal
+    },
+    {
+      value: "Copyright",
+      label: "Copyright",
+      description:
+        "Protects original creative works like books, music, software, art, and films. Covers the expression of ideas rather than the ideas themselves.",
+      icon: "🎨",
+    },
+    {
+      value: "Design",
+      label: "Design",
+      description:
+        "Protects the visual appearance of products including shape, configuration, pattern, or ornamentation. Focuses on aesthetic rather than functional features.",
+      icon: "✨",
+    },
+    {
+      value: "Trademark",
+      label: "Trademark",
+      description:
+        "Protects brand identifiers like names, logos, slogans that distinguish goods/services in the marketplace. Helps prevent consumer confusion.",
+      icon: "🏷️",
+    },
+    {
+      value: "Trade Secret",
+      label: "Trade Secret",
+      description:
+        "Protects confidential business information (formulas, processes, methods) that provides competitive advantage. No registration required but must be kept secret.",
+      icon: "🔒",
+    },
+    {
+      value: "Geographical Indication",
+      label: "Geographical Indication",
+      description:
+        "Protects products originating from specific regions with qualities/reputation due to that origin (e.g., Champagne, Darjeeling Tea).",
+      icon: "🌍",
+    },
+  ];
+  const [ipType, setIpType] = useState("");
+
   const [step, setStep] = useState(1);
   const [generalQuestions, setGeneralQuestions] = useState({
     inventionArea: "",
@@ -130,6 +177,7 @@ function ApplicationForm() {
     // Prepare the data to be sent
     const data = {
       title: applicationTitle,
+      ip_type: ipType, // Add this line
       user_id: 7108, // Replace with actual user ID
       inventors: inventors.map((inventor) => ({
         name: inventor.name,
@@ -232,6 +280,31 @@ function ApplicationForm() {
   const handleDownload = () => {
     window.open("https://example.com/sample.pdf", "_blank");
   };
+  const fileInputStyles = {
+    root: {
+      marginBottom: "16px",
+    },
+    label: {
+      marginBottom: "8px",
+      fontSize: "14px",
+      fontWeight: 500,
+    },
+    input: {
+      padding: "10px 16px",
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+      borderRadius: "4px",
+      cursor: "pointer",
+      transition: "all 0.2s",
+      "&:hover": {
+        backgroundColor: "#e9ecef",
+        borderColor: "#adb5bd",
+      },
+    },
+    placeholder: {
+      color: "#495057",
+    },
+  };
 
   return (
     <Paper
@@ -276,6 +349,56 @@ function ApplicationForm() {
               mb="md"
               required
             />
+
+            {/* IP Type Selection - Matching Form Style */}
+            <Text fw={600} size="sm" mb={4}>
+              Type of Intellectual Property
+              <Text component="span" c="red">
+                *
+              </Text>
+            </Text>
+
+            <Select
+              placeholder="Select IP type"
+              value={ipType}
+              onChange={setIpType}
+              data={IP_TYPES.map((type) => ({
+                value: type.value,
+                label: type.label,
+              }))}
+              required
+              searchable
+              nothingFound="No matching IP types"
+              mb="md"
+              styles={{
+                input: {
+                  borderColor: "#ced4da",
+                  "&:focus": {
+                    borderColor: "#228be6",
+                  },
+                },
+              }}
+            />
+
+            {ipType && (
+              <Paper
+                p="sm"
+                mb="md"
+                withBorder
+                radius="sm"
+                style={{
+                  backgroundColor: "#f8f9fa",
+                  borderColor: "#dee2e6",
+                }}
+              >
+                <Text size="sm" fw={500} mb={4} c="dark">
+                  {IP_TYPES.find((t) => t.value === ipType)?.label}
+                </Text>
+                <Text size="xs" c="dimmed">
+                  {IP_TYPES.find((t) => t.value === ipType)?.description}
+                </Text>
+              </Paper>
+            )}
             <Text size="sm" mb={10}>
               1. Please list inventor(s) who have contributed in the main
               inventive step of the invention. (Inventor is a person who has
@@ -475,6 +598,7 @@ function ApplicationForm() {
                 value={section1Files}
                 onChange={setSection1Files}
                 accept="image/*,application/pdf"
+                styles={fileInputStyles}
               />
               <div style={{ marginTop: "10px", marginBottom: "20px" }}>
                 {section1Files.map((file, index) => (
@@ -556,6 +680,7 @@ function ApplicationForm() {
               value={section2FundingFile}
               onChange={setSection2FundingFile}
               accept="image/*,application/pdf"
+              styles={fileInputStyles}
             />
             <div style={{ marginTop: "5px", marginBottom: "10px" }}>
               {section2FundingFile && (
@@ -599,6 +724,7 @@ function ApplicationForm() {
               value={section2MouFile}
               onChange={setSection2MouFile}
               accept="image/*,application/pdf"
+              styles={fileInputStyles}
             />
             <div style={{ marginTop: "5px", marginBottom: "10px" }}>
               {section2MouFile && (
@@ -843,6 +969,19 @@ function ApplicationForm() {
               onChange={setSection3FormIII}
               accept="image/*,application/pdf"
               mb="md"
+              styles={{
+                ...fileInputStyles,
+                input: {
+                  ...fileInputStyles.input,
+                  backgroundColor: "#e6f7ff",
+                  borderColor: "#91d5ff",
+                  color: "#1890ff",
+                  "&:hover": {
+                    backgroundColor: "#bae7ff",
+                    borderColor: "#69c0ff",
+                  },
+                },
+              }}
             />
             {section3FormIII && (
               <Text size="sm" mb="md">
