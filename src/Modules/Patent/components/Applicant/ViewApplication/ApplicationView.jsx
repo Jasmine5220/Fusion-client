@@ -25,7 +25,7 @@ import {
 } from "phosphor-react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import "../../style/Applicant/ApplicationView.css";
+import "../../../style/Applicant/ApplicationView.css";
 
 // Progress Bar Component
 // Update the PatentProgressBar component
@@ -270,9 +270,7 @@ ApplicationCard.propTypes = {
 function ConditionalFileDownload({ filePath, label, value }) {
   // Properly handle file paths with %20 (spaces) and other encoded characters
   const encodedFilePath = filePath ? encodeURI(filePath) : null;
-  const fileUrl = encodedFilePath 
-    ? `${API_BASE_URL}${encodedFilePath}` 
-    : null;
+  const fileUrl = encodedFilePath ? `${API_BASE_URL}${encodedFilePath}` : null;
 
   if (fileUrl) {
     return (
@@ -287,7 +285,7 @@ function ConditionalFileDownload({ filePath, label, value }) {
             color="blue"
             leftIcon={<DownloadSimple size={18} />}
           >
-            Download {label.replace(':', '')}
+            Download {label.replace(":", "")}
           </Button>
         </div>
       </div>
@@ -297,7 +295,9 @@ function ConditionalFileDownload({ filePath, label, value }) {
   return (
     <div className="form-field">
       <Text className="field-label">{label}</Text>
-      <Text color="red" size="sm">Not submitted</Text>
+      <Text color="red" size="sm">
+        Not submitted
+      </Text>
     </div>
   );
 }
@@ -760,12 +760,12 @@ function ApplicationView({ setActiveTab }) {
                 />
               </Grid.Col>
               <Grid.Col span={12} md={6}>
-  <ConditionalFileDownload
-    label="POC Details:"
-    value={section_I?.poc_details}
-    filePath={section_I?.poc_file}
-  />
-</Grid.Col>
+                <ConditionalFileDownload
+                  label="POC Details:"
+                  value={section_I?.poc_details}
+                  filePath={section_I?.poc_file}
+                />
+              </Grid.Col>
               <Grid.Col span={12} md={6}>
                 <FormField
                   label="Applications:"
@@ -790,12 +790,12 @@ function ApplicationView({ setActiveTab }) {
                 />
               </Grid.Col>
               <Grid.Col span={12} md={6}>
-  <ConditionalFileDownload
-    label="Source Agreement:"
-    value={section_II?.source_agreement}
-    filePath={section_II?.source_agreement_file}
-  />
-</Grid.Col>
+                <ConditionalFileDownload
+                  label="Source Agreement:"
+                  value={section_II?.source_agreement}
+                  filePath={section_II?.source_agreement_file}
+                />
+              </Grid.Col>
               <Grid.Col span={12} md={6}>
                 <FormField
                   label="Publication Details:"

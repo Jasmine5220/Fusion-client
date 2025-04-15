@@ -18,7 +18,7 @@ import {
   Bell,
   ArrowCircleDown,
 } from "@phosphor-icons/react";
-import "../../style/Applicant/ApplicantDashboard.css";
+import "../../../style/Applicant/ApplicantDashboard.css";
 
 function ApplicantDashboard({ setActiveTab }) {
   const downloadsData = [
