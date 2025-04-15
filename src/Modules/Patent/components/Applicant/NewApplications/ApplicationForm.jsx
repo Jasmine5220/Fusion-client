@@ -12,7 +12,9 @@ import {
   Checkbox,
   Stack,
   ScrollArea,
-  Select,
+  MultiSelect,
+  Badge,
+  Box,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -37,7 +39,7 @@ function ApplicationForm() {
       label: "Patent",
       description:
         "Protects new inventions - technical solutions to problems. Covers how things work, what they do, how they do it, what they're made of, and how they're made.",
-      icon: "🔬", // Adding emoji icons for visual appeal
+      icon: "🔬",
     },
     {
       value: "Copyright",
@@ -75,7 +77,7 @@ function ApplicationForm() {
       icon: "🌍",
     },
   ];
-  const [ipType, setIpType] = useState("");
+  const [ipTypes, setIpTypes] = useState([]);
 
   const [step, setStep] = useState(1);
   const [generalQuestions, setGeneralQuestions] = useState({
@@ -108,6 +110,17 @@ function ApplicationForm() {
     partiallyDeveloped: false,
     offTheShelf: false,
   });
+
+  const [selectedDevelopmentStage, setSelectedDevelopmentStage] = useState("");
+
+  const handleDevelopmentStageChange = (value) => {
+    setSelectedDevelopmentStage(value);
+    setDevelopmentStage({
+      embryonic: value === "embryonic",
+      partiallyDeveloped: value === "partiallyDeveloped",
+      offTheShelf: value === "offTheShelf",
+    });
+  };
 
   const navigate = useNavigate();
 
@@ -174,11 +187,10 @@ function ApplicationForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Prepare the data to be sent
     const data = {
       title: applicationTitle,
-      ip_type: ipType, // Add this line
-      user_id: 7108, // Replace with actual user ID
+      ip_types: ipTypes,
+      user_id: 7108,
       inventors: inventors.map((inventor) => ({
         name: inventor.name,
         institute_mail: inventor.collegeemail,
@@ -217,7 +229,6 @@ function ApplicationForm() {
       formData.append("poc_details", file);
     });
 
-    // Section II Files
     if (section2FundingFile) {
       formData.append("source_file", section2FundingFile);
     }
@@ -225,14 +236,13 @@ function ApplicationForm() {
       formData.append("mou_file", section2MouFile);
     }
 
-    // Section III File
     if (section3FormIII) {
       formData.append("form_iii", section3FormIII);
     }
 
     try {
-      const yourToken = localStorage.getItem("authToken"); // Get token from storage
-      if (!yourToken) throw new Error("No token found!"); // Handle missing token
+      const yourToken = localStorage.getItem("authToken");
+      if (!yourToken) throw new Error("No token found!");
 
       const response = await axios.post(
         "http://127.0.0.1:8000/patentsystem/applicant/applications/submit/",
@@ -253,6 +263,7 @@ function ApplicationForm() {
       alert(`Error: ${error.response?.data?.error || error.message}`);
     }
   };
+
   const nextPage = () => {
     setStep(step + 1);
   };
@@ -280,6 +291,50 @@ function ApplicationForm() {
   const handleDownload = () => {
     window.open("https://example.com/sample.pdf", "_blank");
   };
+
+  // Button styles
+  const outlineButtonStyle = {
+    backgroundColor: "white",
+    color: "#0073e6",
+    border: "1px solid #0073e6",
+    transition: "background-color 0.3s ease, color 0.3s ease",
+    "&:hover": {
+      backgroundColor: "#0073e6",
+      color: "white",
+    },
+  };
+
+  const redButtonStyle = {
+    backgroundColor: "white",
+    color: "red",
+    border: "1px solid red",
+    transition: "background-color 0.3s ease, color 0.3s ease",
+    "&:hover": {
+      backgroundColor: "red",
+      color: "white",
+    },
+  };
+
+  const greenButtonStyle = {
+    backgroundColor: "#00a854",
+    color: "white",
+    border: "1px solid #00a854",
+    transition: "background-color 0.3s ease",
+    "&:hover": {
+      backgroundColor: "#008f48",
+    },
+  };
+
+  const blueButtonStyle = {
+    backgroundColor: "#0073e6",
+    color: "white",
+    border: "1px solid #0073e6",
+    transition: "background-color 0.3s ease",
+    "&:hover": {
+      backgroundColor: "#005bb5",
+    },
+  };
+
   const fileInputStyles = {
     root: {
       marginBottom: "16px",
@@ -291,33 +346,35 @@ function ApplicationForm() {
     },
     input: {
       padding: "10px 16px",
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
+      backgroundColor: "#e6f7ff",
+      border: "1px solid #91d5ff",
+      color: "#1890ff",
       borderRadius: "4px",
       cursor: "pointer",
       transition: "all 0.2s",
+      width: isMobile ? "100%" : "50%",
       "&:hover": {
-        backgroundColor: "#e9ecef",
-        borderColor: "#adb5bd",
+        backgroundColor: "#bae7ff",
+        borderColor: "#69c0ff",
       },
     },
     placeholder: {
-      color: "#495057",
+      color: "#1890ff",
     },
   };
 
   return (
     <Paper
-      shadow="xs"
-      p={isMobile ? "sm" : "xl"}
-      mx={isMobile ? 0 : "md"}
-      style={{
-        width: "100%",
-        maxWidth: "100%",
-        boxSizing: "border-box",
-      }}
+    shadow="xs"
+    p={isMobile ? "sm" : "xl"}
+    mx={0} // Changed from mx={isMobile ? 0 : "md"} to mx={0} to fix the pink/purple shade
+    style={{
+      width: "100%",
+      maxWidth: "100%",
+      boxSizing: "border-box",
+      overflowX: "hidden", // Added to prevent horizontal overflow
+    }}
     >
-      {" "}
       <Title
         order={1}
         align="center"
@@ -350,7 +407,6 @@ function ApplicationForm() {
               required
             />
 
-            {/* IP Type Selection - Matching Form Style */}
             <Text fw={600} size="sm" mb={4}>
               Type of Intellectual Property
               <Text component="span" c="red">
@@ -358,13 +414,14 @@ function ApplicationForm() {
               </Text>
             </Text>
 
-            <Select
-              placeholder="Select IP type"
-              value={ipType}
-              onChange={setIpType}
+            <MultiSelect
+              placeholder="Select IP type(s)"
+              value={ipTypes}
+              onChange={setIpTypes}
               data={IP_TYPES.map((type) => ({
                 value: type.value,
                 label: type.label,
+                description: type.description,
               }))}
               required
               searchable
@@ -380,31 +437,41 @@ function ApplicationForm() {
               }}
             />
 
-            {ipType && (
-              <Paper
-                p="sm"
-                mb="md"
-                withBorder
-                radius="sm"
-                style={{
-                  backgroundColor: "#f8f9fa",
-                  borderColor: "#dee2e6",
-                }}
-              >
-                <Text size="sm" fw={500} mb={4} c="dark">
-                  {IP_TYPES.find((t) => t.value === ipType)?.label}
-                </Text>
-                <Text size="xs" c="dimmed">
-                  {IP_TYPES.find((t) => t.value === ipType)?.description}
-                </Text>
-              </Paper>
+            {ipTypes.length > 0 && (
+              <Stack spacing="sm" mb="md">
+                {ipTypes.map((selectedType) => {
+                  const typeInfo = IP_TYPES.find((t) => t.value === selectedType);
+                  return (
+                    <Paper
+                      key={selectedType}
+                      p="sm"
+                      withBorder
+                      radius="sm"
+                      style={{
+                        backgroundColor: "#f8f9fa",
+                        borderColor: "#dee2e6",
+                      }}
+                    >
+                      <Group spacing="xs">
+                        <Text size="sm" fw={500} c="dark">
+                          {typeInfo.icon} {typeInfo.label}
+                        </Text>
+                        <Badge color="blue" variant="light">
+                          Selected
+                        </Badge>
+                      </Group>
+                      <Text size="xs" c="dimmed" mt={4}>
+                        {typeInfo.description}
+                      </Text>
+                    </Paper>
+                  );
+                })}
+              </Stack>
             )}
+
             <Text size="sm" mb={10}>
               1. Please list inventor(s) who have contributed in the main
-              inventive step of the invention. (Inventor is a person who has
-              actually participated in the inventive step, in case a person has
-              worked under instructions, then he/she is not an inventor for the
-              purpose of patent.)
+              inventive step of the invention.
             </Text>
             <Text size="sm" fw={700} mb={20}>
               Note : Students should provide their permanent (personal) Email-ID
@@ -469,35 +536,28 @@ function ApplicationForm() {
                   }
                   required
                 />
-                <Button
-                  fullWidth={isMobile}
-                  style={{
-                    alignSelf: "flex-end",
-                    wordBreak: "break-word",
-                    backgroundColor: "white",
-                    color: "#0073e6",
-                    border: "1px solid #0073e6",
-                    transition: "background-color 0.3s ease, color 0.3s ease",
-                  }}
-                  onClick={() => handleRemoveInventor(index)}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "#0073e6";
-                    e.currentTarget.style.color = "white";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "white";
-                    e.currentTarget.style.color = "#0073e6";
-                  }}
-                >
-                  Remove
-                </Button>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'flex-end',
+                  width: '100%'
+                }}>
+                  <Button
+                    style={{
+                      ...redButtonStyle,
+                      width: isMobile ? '100%' : 'auto',
+                    }}
+                    onClick={() => handleRemoveInventor(index)}
+                  >
+                    Remove
+                  </Button>
+                </div>
               </Stack>
             ))}
 
             <Group position="center" mt="md">
               <Button
                 onClick={handleAddInventor}
-                color="blue"
+                style={outlineButtonStyle}
                 fullWidth={isMobile}
               >
                 Add Inventor
@@ -505,7 +565,7 @@ function ApplicationForm() {
             </Group>
 
             <Group position="center" mt="lg" grow={isMobile}>
-              <Button onClick={nextPage} color="blue" fullWidth={isMobile}>
+              <Button onClick={nextPage} style={outlineButtonStyle} fullWidth={isMobile}>
                 Next
               </Button>
             </Group>
@@ -526,7 +586,7 @@ function ApplicationForm() {
               style={{
                 maxWidth: "100%",
                 width: "100%",
-                padding: isMobile ? "0 10px" : "0 20px", // Add horizontal padding
+                padding: isMobile ? "0 10px" : "0 20px",
               }}
             >
               <TextInput
@@ -591,7 +651,7 @@ function ApplicationForm() {
               />
               <FileInput
                 label="If yes, please add the details of the proof of concept/Prototype"
-                placeholder="Click here to upload proof of concept/Prototype"
+                placeholder="Upload proof of concept/Prototype"
                 mb="md"
                 multiple
                 clearable
@@ -622,15 +682,15 @@ function ApplicationForm() {
             </div>
 
             <Group position="apart" mt="lg" grow={isMobile}>
-              <Button color="blue" onClick={prevPage} fullWidth={isMobile}>
+              <Button style={outlineButtonStyle} onClick={prevPage} fullWidth={isMobile}>
                 Previous
               </Button>
-              <Button onClick={nextPage} color="blue" fullWidth={isMobile}>
+              <Button onClick={nextPage} style={outlineButtonStyle} fullWidth={isMobile}>
                 Next
               </Button>
               <Button
                 onClick={handleSaveDraft}
-                color="blue"
+                style={blueButtonStyle}
                 fullWidth={isMobile}
               >
                 Save Draft
@@ -675,7 +735,7 @@ function ApplicationForm() {
             />
             <FileInput
               label="If yes, Name of the funding agency and copy of agreement, letter of intent, must be uploaded here."
-              placeholder="Click here to upload funding agency details"
+              placeholder="Upload funding agency details"
               clearable
               value={section2FundingFile}
               onChange={setSection2FundingFile}
@@ -719,7 +779,7 @@ function ApplicationForm() {
             />
             <FileInput
               label="If yes, please upload a copy of MOU with concerned project."
-              placeholder="Click here to upload MOU details"
+              placeholder="Upload MOU details"
               clearable
               value={section2MouFile}
               onChange={setSection2MouFile}
@@ -751,10 +811,10 @@ function ApplicationForm() {
             />
 
             <Group position="apart" mt="lg" grow={isMobile}>
-              <Button color="blue" onClick={prevPage} fullWidth={isMobile}>
+              <Button style={outlineButtonStyle} onClick={prevPage} fullWidth={isMobile}>
                 Previous
               </Button>
-              <Button onClick={nextPage} color="blue" fullWidth={isMobile}>
+              <Button onClick={nextPage} style={outlineButtonStyle} fullWidth={isMobile}>
                 Next
               </Button>
             </Group>
@@ -772,7 +832,6 @@ function ApplicationForm() {
               Section - III : (Commercialization)
             </Title>
 
-            {/* Company Table - Made Responsive */}
             <Text size="sm" mb={10}>
               1. Who are the Target companies, both in India or abroad?
             </Text>
@@ -783,7 +842,6 @@ function ApplicationForm() {
             </Text>
 
             {isMobile ? (
-              /* Mobile Version - Stacked Layout */
               <Stack>
                 {companies.map((company, index) => (
                   <Paper key={index} p="md" shadow="xs" mb="md">
@@ -826,7 +884,7 @@ function ApplicationForm() {
                       mb="sm"
                     />
                     <Button
-                      color="red"
+                      style={redButtonStyle}
                       onClick={() => removeCompany(index)}
                       fullWidth
                       mt="sm"
@@ -837,7 +895,6 @@ function ApplicationForm() {
                 ))}
               </Stack>
             ) : (
-              /* Desktop Version - Table Layout */
               <ScrollArea style={{ maxWidth: "100%", overflowX: "auto" }}>
                 <Table>
                   <thead>
@@ -895,7 +952,7 @@ function ApplicationForm() {
                         </td>
                         <td>
                           <Button
-                            color="red"
+                            style={redButtonStyle}
                             onClick={() => removeCompany(index)}
                             fullWidth
                           >
@@ -911,14 +968,13 @@ function ApplicationForm() {
 
             <Button
               onClick={addNewCompany}
-              color="blue"
+              style={outlineButtonStyle}
               fullWidth={isMobile}
               mt="md"
             >
               + Add More Companies
             </Button>
 
-            {/* Development Stage Checkboxes */}
             <Text size="sm" mt="xl" mb="sm">
               2. Development stage:
             </Text>
@@ -928,33 +984,32 @@ function ApplicationForm() {
             </Text>
 
             <Stack spacing="sm">
-              <Checkbox
-                value="embryonic"
-                label="Embryonic (needs substantial work to bring to market)"
-                onChange={handleCheckboxChange}
-                size={isMobile ? "sm" : "md"}
-              />
-              <Checkbox
-                value="partiallyDeveloped"
-                label="Partially developed (could be brought to market with significant investment)"
-                onChange={handleCheckboxChange}
-                size={isMobile ? "sm" : "md"}
-              />
-              <Checkbox
-                value="offTheShelf"
-                label="Off-the-shelf (could be brought to market with nominal investment)"
-                onChange={handleCheckboxChange}
-                size={isMobile ? "sm" : "md"}
-              />
-            </Stack>
+            <Checkbox
+              checked={selectedDevelopmentStage === "embryonic"}
+              onChange={() => handleDevelopmentStageChange("embryonic")}
+              label="Embryonic (needs substantial work to bring to market)"
+              size={isMobile ? "sm" : "md"}
+            />
+            <Checkbox
+              checked={selectedDevelopmentStage === "partiallyDeveloped"}
+              onChange={() => handleDevelopmentStageChange("partiallyDeveloped")}
+              label="Partially developed (could be brought to market with significant investment)"
+              size={isMobile ? "sm" : "md"}
+            />
+            <Checkbox
+              checked={selectedDevelopmentStage === "offTheShelf"}
+              onChange={() => handleDevelopmentStageChange("offTheShelf")}
+              label="Off-the-shelf (could be brought to market with nominal investment)"
+              size={isMobile ? "sm" : "md"}
+            />
+          </Stack>
 
-            {/* Form III Download/Upload */}
             <Text size="sm" mt="xl" mb="sm">
               Download the following form, duly fill and sign it, and upload it
               afterward.
             </Text>
             <Button
-              color="blue"
+              style={blueButtonStyle}
               onClick={handleDownload}
               fullWidth={isMobile}
               mb="md"
@@ -963,25 +1018,13 @@ function ApplicationForm() {
             </Button>
             <FileInput
               label="Upload duly filled and signed Form-III"
-              placeholder="Click to upload form"
+              placeholder="Upload form"
               clearable
               value={section3FormIII}
               onChange={setSection3FormIII}
               accept="image/*,application/pdf"
               mb="md"
-              styles={{
-                ...fileInputStyles,
-                input: {
-                  ...fileInputStyles.input,
-                  backgroundColor: "#e6f7ff",
-                  borderColor: "#91d5ff",
-                  color: "#1890ff",
-                  "&:hover": {
-                    backgroundColor: "#bae7ff",
-                    borderColor: "#69c0ff",
-                  },
-                },
-              }}
+              styles={fileInputStyles}
             />
             {section3FormIII && (
               <Text size="sm" mb="md">
@@ -995,38 +1038,16 @@ function ApplicationForm() {
               Institute.
             </Text>
 
-            {/* Navigation Buttons */}
             <Group position="apart" mt="lg" grow={isMobile}>
-              <Button
-                onClick={prevPage}
-                style={{
-                  backgroundColor: "#0073e6",
-                  color: "white",
-                  border: "1px solid #0073e6",
-                }}
-              >
+              <Button onClick={prevPage} style={outlineButtonStyle}>
                 Previous
               </Button>
 
-              <Button
-                onClick={prevPage}
-                style={{
-                  backgroundColor: "#0073e6",
-                  color: "white",
-                  border: "1px solid #0073e6",
-                }}
-              >
+              <Button onClick={handleSaveDraft} style={blueButtonStyle}>
                 Save Draft
               </Button>
 
-              <Button
-                onClick={handleSubmit}
-                style={{
-                  backgroundColor: "#00a854",
-                  color: "#ffffff",
-                  border: "1px solid #00a854",
-                }}
-              >
+              <Button onClick={handleSubmit} style={greenButtonStyle}>
                 Submit
               </Button>
             </Group>

@@ -123,3 +123,23 @@
     padding-left: 16px;
   }
 }
+
+/* Empty state card - matches draft card styling */
+.empty-state-card {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  transition: none;
+  transform: none;
+}
+
+.empty-state-card:hover {
+  transform: none;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjust the container for empty state */
+.draft-app-container:has(.empty-state-card) {
+  justify-content: center;
+}

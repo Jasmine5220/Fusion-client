@@ -4,13 +4,12 @@ import { useDispatch } from "react-redux";
 import { SortAscending } from "@phosphor-icons/react";
 import CustomBreadcrumbs from "../../../../components/Breadcrumbs.jsx";
 import ModuleTabs from "../../../../components/moduleTabs.jsx";
-import SubmitNewApplication from "./ApplicantSubmit.jsx";
-import ApplicantDashboard from "./ApplicantDashboard.jsx";
-import ViewApplicationsPage from "./ApplicationView.jsx";
-import SavedDraftsPage from "./ApplicationDraft.jsx";
-import NotificationsPage from "./ApplicantNotifications";
-import ApplicationForm from "./ApplicationForm.jsx";
-import IPFilingForm from "./IPFilingForm.jsx";
+import SubmitNewApplication from "./NewApplications/ApplicantSubmit.jsx";
+import ApplicantDashboard from "./Dashboard/ApplicantDashboard.jsx";
+import ViewApplicationsPage from "./ViewApplication/ApplicationView.jsx";
+import SavedDraftsPage from "./SavedDrafts/ApplicationDraft.jsx";
+import NotificationsPage from "./Notifications/ApplicantNotifications.jsx";
+import ApplicationForm from "./NewApplications/ApplicationForm.jsx";
 
 const categories = ["Most Recent", "Tags", "Title"];
 

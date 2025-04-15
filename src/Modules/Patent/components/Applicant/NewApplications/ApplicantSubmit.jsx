@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Text, Box, Divider } from "@mantine/core";
 import { ArrowRight } from "phosphor-react";
-import "../../style/Applicant/ApplicantSubmit.css";
+import "../../../style/Applicant/ApplicantSubmit.css";
 
 function SubmitNewApplication({ setActiveTab }) {
   const handleSubmit = () => {
