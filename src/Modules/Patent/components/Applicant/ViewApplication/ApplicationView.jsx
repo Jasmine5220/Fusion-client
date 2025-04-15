@@ -268,15 +268,19 @@ ApplicationCard.propTypes = {
 };
 
 function ConditionalFileDownload({ filePath, label, value }) {
-  // Properly handle file paths with %20 (spaces) and other encoded characters
   const encodedFilePath = filePath ? encodeURI(filePath) : null;
   const fileUrl = encodedFilePath ? `${API_BASE_URL}${encodedFilePath}` : null;
 
-  if (fileUrl) {
-    return (
-      <div className="form-field">
+  return (
+    <div className="form-field-with-download">
+      <div className="field-label-container">
         <Text className="field-label">{label}</Text>
-        <div className="download-button-container">
+        <Text className="field-value">
+          {value || "Not provided"}
+        </Text>
+      </div>
+      {fileUrl ? (
+        <div className="download-button-wrapper">
           <Button
             component="a"
             href={fileUrl}
@@ -288,16 +292,11 @@ function ConditionalFileDownload({ filePath, label, value }) {
             Download {label.replace(":", "")}
           </Button>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="form-field">
-      <Text className="field-label">{label}</Text>
-      <Text color="red" size="sm">
-        Not submitted
-      </Text>
+      ) : (
+        <Text color="red" size="sm">
+          Not submitted
+        </Text>
+      )}
     </div>
   );
 }
@@ -365,22 +364,14 @@ FormField.propTypes = {
 // Field with download button - moved outside of the render function
 function FormFieldWithDownload({ label, value, fileUrl, fileLabel }) {
   return (
-    <div
-      className={`form-field ${window.innerWidth <= 768 ? "mobile-form-field" : ""}`}
-    >
-      <div className="field-row">
-        <Text
-          className={`field-label ${window.innerWidth <= 768 ? "mobile-field-label" : ""}`}
-        >
-          {label}
-        </Text>
-        <Text
-          className={`field-value ${window.innerWidth <= 768 ? "mobile-field-value" : ""}`}
-        >
+    <div className="form-field-with-download">
+      <div className="field-label-container">
+        <Text className="field-label">{label}</Text>
+        <Text className="field-value">
           {value || "Not provided"}
         </Text>
       </div>
-      <div className="download-button-container">
+      <div className="download-button-wrapper">
         <FileDownloadButton
           fileUrl={fileUrl}
           label={fileLabel}
@@ -390,7 +381,6 @@ function FormFieldWithDownload({ label, value, fileUrl, fileLabel }) {
     </div>
   );
 }
-
 FormFieldWithDownload.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
