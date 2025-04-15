@@ -28,6 +28,7 @@ import axios from "axios";
 import "../../style/Applicant/ApplicationView.css";
 
 // Progress Bar Component
+// Update the PatentProgressBar component
 function PatentProgressBar({ currentStatus, isMobile }) {
   const statuses = [
     "Submitted",
@@ -56,32 +57,99 @@ function PatentProgressBar({ currentStatus, isMobile }) {
         </Text>
       )}
 
-      <Stepper
-        active={currentStep}
-        className={`workflow-stepper ${isMobile ? "mobile-view" : ""}`}
-        size={isMobile ? "sm" : "md"}
-        color={isRejected ? "red" : "blue"}
-        orientation={isMobile ? "vertical" : "horizontal"}
-        iconSize={isMobile ? 16 : 24}
-      >
-        {statuses.map((status, index) => (
-          <Stepper.Step
-            key={status}
-            icon={
-              index < currentStep ? (
-                <CheckCircle size={isMobile ? 16 : 18} />
-              ) : index === currentStep ? (
-                <CircleNotch size={isMobile ? 16 : 18} />
-              ) : (
-                <ArrowRight size={isMobile ? 16 : 18} />
-              )
-            }
-            label={`Stage ${index + 1}`}
-            description={status}
-            className={index <= currentStep ? "completed-step" : "pending-step"}
-          />
-        ))}
-      </Stepper>
+      {!isMobile ? (
+        // Desktop view - two rows of 4 steps each
+        <div className="desktop-stepper">
+          <Stepper
+            active={currentStep}
+            className="workflow-stepper"
+            size="md"
+            color={isRejected ? "red" : "blue"}
+            orientation="horizontal"
+            iconSize={24}
+            breakpoint="sm"
+          >
+            {statuses.slice(0, 4).map((status, index) => (
+              <Stepper.Step
+                key={status}
+                icon={
+                  index < currentStep ? (
+                    <CheckCircle size={18} />
+                  ) : index === currentStep ? (
+                    <CircleNotch size={18} />
+                  ) : (
+                    <ArrowRight size={18} />
+                  )
+                }
+                label={`Stage ${index + 1}`}
+                description={status}
+                className={
+                  index <= currentStep ? "completed-step" : "pending-step"
+                }
+              />
+            ))}
+          </Stepper>
+          <Stepper
+            active={currentStep - 4} // Adjust active step for second row
+            className="workflow-stepper second-row"
+            size="md"
+            color={isRejected ? "red" : "blue"}
+            orientation="horizontal"
+            iconSize={24}
+            breakpoint="sm"
+          >
+            {statuses.slice(4).map((status, index) => (
+              <Stepper.Step
+                key={status}
+                icon={
+                  index + 4 < currentStep ? (
+                    <CheckCircle size={18} />
+                  ) : index + 4 === currentStep ? (
+                    <CircleNotch size={18} />
+                  ) : (
+                    <ArrowRight size={18} />
+                  )
+                }
+                label={`Stage ${index + 5}`}
+                description={status}
+                className={
+                  index + 4 <= currentStep ? "completed-step" : "pending-step"
+                }
+              />
+            ))}
+          </Stepper>
+        </div>
+      ) : (
+        // Mobile view - vertical stepper
+        <Stepper
+          active={currentStep}
+          className="workflow-stepper mobile-view"
+          size="sm"
+          color={isRejected ? "red" : "blue"}
+          orientation="vertical"
+          iconSize={16}
+        >
+          {statuses.map((status, index) => (
+            <Stepper.Step
+              key={status}
+              icon={
+                index < currentStep ? (
+                  <CheckCircle size={16} />
+                ) : index === currentStep ? (
+                  <CircleNotch size={16} />
+                ) : (
+                  <ArrowRight size={16} />
+                )
+              }
+              label={`Stage ${index + 1}`}
+              description={status}
+              className={
+                index <= currentStep ? "completed-step" : "pending-step"
+              }
+            />
+          ))}
+        </Stepper>
+      )}
     </div>
   );
 }
@@ -198,6 +266,41 @@ ApplicationCard.propTypes = {
   status: PropTypes.string.isRequired,
   onViewApplication: PropTypes.func.isRequired,
 };
+
+function ConditionalFileDownload({ filePath, label, value }) {
+  // Properly handle file paths with %20 (spaces) and other encoded characters
+  const encodedFilePath = filePath ? encodeURI(filePath) : null;
+  const fileUrl = encodedFilePath 
+    ? `${API_BASE_URL}${encodedFilePath}` 
+    : null;
+
+  if (fileUrl) {
+    return (
+      <div className="form-field">
+        <Text className="field-label">{label}</Text>
+        <div className="download-button-container">
+          <Button
+            component="a"
+            href={fileUrl}
+            download
+            variant="outline"
+            color="blue"
+            leftIcon={<DownloadSimple size={18} />}
+          >
+            Download {label.replace(':', '')}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="form-field">
+      <Text className="field-label">{label}</Text>
+      <Text color="red" size="sm">Not submitted</Text>
+    </div>
+  );
+}
 
 // File Download Button Component
 function FileDownloadButton({ fileUrl, label, disabled }) {
@@ -562,7 +665,62 @@ function ApplicationView({ setActiveTab }) {
               </Grid.Col>
             </Grid>
           </FormSection>
+          <FormSection title="Key Dates">
+            <div className="key-dates-container">
+              <div className="key-dates-grid">
+                {/* Date of Filing */}
+                <div className="key-date-card">
+                  <div className="key-date-title">Date of Filing</div>
+                  <div className="key-date-value">
+                    {dates?.submitted_date
+                      ? new Date(dates.submitted_date).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          },
+                        )
+                      : "Not recorded"}
+                  </div>
+                </div>
 
+                {/* Date of Publication */}
+                <div className="key-date-card">
+                  <div className="key-date-title">Date of Publication</div>
+                  <div className="key-date-value">
+                    {dates?.published_date
+                      ? new Date(dates.published_date).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          },
+                        )
+                      : "Not yet published"}
+                  </div>
+                </div>
+
+                {/* Date of Grant */}
+                <div className="key-date-card">
+                  <div className="key-date-title">Date of Grant</div>
+                  <div className="key-date-value">
+                    {dates?.granted_date
+                      ? new Date(dates.granted_date).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          },
+                        )
+                      : "Not yet granted"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </FormSection>
           <FormSection title="Section I: Administrative and Technical Details">
             <Grid>
               <Grid.Col span={12} md={6}>
@@ -602,11 +760,12 @@ function ApplicationView({ setActiveTab }) {
                 />
               </Grid.Col>
               <Grid.Col span={12} md={6}>
-                <FormField
-                  label="POC Details:"
-                  value={section_I?.poc_details}
-                />
-              </Grid.Col>
+  <ConditionalFileDownload
+    label="POC Details:"
+    value={section_I?.poc_details}
+    filePath={section_I?.poc_file}
+  />
+</Grid.Col>
               <Grid.Col span={12} md={6}>
                 <FormField
                   label="Applications:"
@@ -631,11 +790,12 @@ function ApplicationView({ setActiveTab }) {
                 />
               </Grid.Col>
               <Grid.Col span={12} md={6}>
-                <FormField
-                  label="Source Agreement:"
-                  value={section_II?.source_agreement}
-                />
-              </Grid.Col>
+  <ConditionalFileDownload
+    label="Source Agreement:"
+    value={section_II?.source_agreement}
+    filePath={section_II?.source_agreement_file}
+  />
+</Grid.Col>
               <Grid.Col span={12} md={6}>
                 <FormField
                   label="Publication Details:"
@@ -727,97 +887,6 @@ function ApplicationView({ setActiveTab }) {
 
           <FormSection title="Application Progress">
             <PatentProgressBar currentStatus={status} isMobile={isMobile} />
-            {dates && (
-              <div className="milestone-dates">
-                <Text className="milestone-heading">Key Milestone Dates:</Text>
-
-                <Grid>
-                  <Grid.Col span={12} md={4}>
-                    <FormField
-                      label="Submitted Date:"
-                      value={
-                        dates.submitted_date
-                          ? new Date(dates.submitted_date).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              },
-                            )
-                          : "Not recorded"
-                      }
-                    />
-                  </Grid.Col>
-                  <Grid.Col span={12} md={4}>
-                    <FormField
-                      label="Assigned Date:"
-                      value={
-                        dates.assigned_date
-                          ? new Date(dates.assigned_date).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              },
-                            )
-                          : "Not recorded"
-                      }
-                    />
-                  </Grid.Col>
-                  <Grid.Col span={12} md={4}>
-                    <FormField
-                      label="Decision Date:"
-                      value={
-                        dates.decision_date
-                          ? new Date(dates.decision_date).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              },
-                            )
-                          : "Not recorded"
-                      }
-                    />
-                  </Grid.Col>
-                  <Grid.Col span={12} md={4}>
-                    <FormField
-                      label="Patentability Check Date:"
-                      value={
-                        dates.patentability_check_date
-                          ? new Date(
-                              dates.patentability_check_date,
-                            ).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            })
-                          : "Not recorded"
-                      }
-                    />
-                  </Grid.Col>
-                  <Grid.Col span={12} md={4}>
-                    <FormField
-                      label="Patentability File Date:"
-                      value={
-                        dates.patentability_file_date
-                          ? new Date(
-                              dates.patentability_file_date,
-                            ).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            })
-                          : "Not recorded"
-                      }
-                    />
-                  </Grid.Col>
-                </Grid>
-              </div>
-            )}
           </FormSection>
 
           <div className="form-actions">

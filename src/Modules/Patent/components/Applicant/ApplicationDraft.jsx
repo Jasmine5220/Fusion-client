@@ -5,12 +5,13 @@ import {
   Button,
   Text,
   Box,
-  Grid,
   Modal,
   Divider,
   Group,
+  Center,
+  ThemeIcon,
 } from "@mantine/core";
-import { ArrowRight, Download } from "phosphor-react";
+import { ArrowRight, Download, FileText } from "phosphor-react";
 import "../../style/Applicant/ApplicationDraft.css";
 
 // Static data for saved drafts
@@ -42,13 +43,7 @@ const savedDraftsData = [
 ];
 
 // Saved draft card component
-function SavedDraftCard({
-  title,
-  savedDate,
-  savedTime,
-  description,
-  onViewDraft,
-}) {
+function SavedDraftCard({ title, savedDate, savedTime, description, onViewDraft }) {  
   return (
     <Card className="saved-draft-card">
       <Text className="card-title" weight={600} size="lg">
@@ -75,21 +70,49 @@ function SavedDraftCard({
   );
 }
 
-// PropTypes validation for SavedDraftCard
-SavedDraftCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  savedDate: PropTypes.string.isRequired,
-  savedTime: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  onViewDraft: PropTypes.func.isRequired,
-};
+// Empty state component
+function EmptyDraftsState() {
+  return (
+    <Card className="saved-draft-card empty-state-card">
+      <Center style={{ flexDirection: 'column', padding: '40px 20px' }}>
+        <ThemeIcon 
+          size="xl" 
+          radius="xl" 
+          variant="light"
+          color="blue"
+          mb="md"
+        >
+          <FileText size={24} />
+        </ThemeIcon>
+        <Text size="xl" weight={600} mb="xs" align="center">
+          No Drafts Available
+        </Text>
+        <Text size="sm" color="dimmed" align="center" mb="md">
+          You haven't saved any patent application drafts yet.
+        </Text>
+        <Divider my="sm" style={{ width: '100%' }} />
+        <Button
+          variant="outline"
+          leftIcon={<ArrowRight size={16} />}
+          mt="md"
+          onClick={() => {
+            // Add navigation to create new draft
+            console.log("Navigate to create new draft");
+          }}
+        >
+          Start New Application
+        </Button>
+      </Center>
+    </Card>
+  );
+}
 
 // Main SavedDraftsPage component
 function SavedDraftsPage() {
   const [opened, setOpened] = useState(false);
   const [selectedDraft, setSelectedDraft] = useState(null);
-
-  // Function to open the modal with the selected draft
+  // const [drafts, setDrafts] = useState(savedDraftsData); // Using dummy data
+  const [drafts, setDrafts] = useState([]); // For Empty Draft Page
   const handleViewDraft = (draft) => {
     setSelectedDraft(draft);
     setOpened(true);
@@ -97,26 +120,28 @@ function SavedDraftsPage() {
 
   return (
     <Box style={{ padding: "16px" }}>
-      {/* Header */}
       <Text className="draft-header-text" size="xl" weight={700}>
         Saved Drafts
       </Text>
 
-      {/* Saved draft cards */}
       <Box className="draft-app-container">
-        {savedDraftsData.map((draft, index) => (
-          <SavedDraftCard
-            key={index}
-            title={draft.title}
-            savedDate={draft.savedDate}
-            savedTime={draft.savedTime}
-            description={draft.description}
-            onViewDraft={() => handleViewDraft(draft)}
-          />
-        ))}
+        {drafts.length > 0 ? (
+          drafts.map((draft, index) => (
+            <SavedDraftCard
+              key={index}
+              title={draft.title}
+              savedDate={draft.savedDate}
+              savedTime={draft.savedTime}
+              description={draft.description}
+              onViewDraft={() => handleViewDraft(draft)}
+            />
+          ))
+        ) : (
+          <EmptyDraftsState />
+        )}
       </Box>
 
-      {/* Modal to display the saved draft content */}
+      {/* Modal */}
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
@@ -126,8 +151,7 @@ function SavedDraftsPage() {
         {selectedDraft && (
           <Box>
             <Text className="modal-details" size="sm" weight={500}>
-              Last Saved on: {selectedDraft.savedDate} |{" "}
-              {selectedDraft.savedTime}
+              Last Saved on: {selectedDraft.savedDate} | {selectedDraft.savedTime}
             </Text>
             <Divider my="sm" />
             <Text className="modal-description" size="sm" weight={600}>

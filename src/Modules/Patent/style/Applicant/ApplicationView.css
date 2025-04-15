@@ -182,7 +182,11 @@
   border-radius: 8px;
   padding: 0;
 }
-
+.not-submitted-text {
+  color: #e03131;
+  font-size: 14px;
+  font-weight: 500;
+}
 /* Sections */
 .detail-section {
   margin-bottom: 25px;
@@ -212,45 +216,95 @@
   height: 3px;
   /* background: #4c6ef5; */
 }
-/* Key Milestone Dates Heading - Matching Section Titles */
-.milestone-heading {
-  font-size: 18px;
-  font-weight: 700;
-  color: #4c6ef5;
-  margin-bottom: 20px;
-  padding-bottom: 8px;
-  position: relative;
-  display: block;
+/* Key Dates Section - New Design */
+.key-dates-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.key-dates-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.key-date-card {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* border-left: 3px solid #4c6ef5; */
+  transition: all 0.3s ease;
+}
+
+.key-date-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.key-date-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.key-date-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .key-dates-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .key-date-card {
+    padding: 12px;
+  }
+  
+  .key-date-title {
+    font-size: 13px;
+  }
+  
+  .key-date-value {
+    font-size: 14px;
+  }
+}
+/* Progress Bar Desktop Layout */
+.desktop-stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.workflow-stepper {
   width: 100%;
 }
 
-.milestone-heading::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 40px;
-  height: 3px;
-  /* background: #4c6ef5;  */
+.workflow-stepper.second-row {
+  margin-top: -10px; /* Reduce gap between rows */
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .milestone-heading {
-    font-size: 16px;
-    /* text-align: center; */
-  }
-  
-  .milestone-heading::after {
-    left: 50%;
-    transform: translateX(-50%);
-  }
+/* Adjust step descriptions to prevent wrapping */
+.workflow-stepper .mantine-Stepper-stepDescription {
+  white-space: nowrap;
+  font-size: 14px;
 }
 
-@media (max-width: 480px) {
-  .milestone-heading {
-    font-size: 15px;
-  }
+/* Mobile stepper adjustments */
+.workflow-stepper.mobile-view {
+  padding-left: 10px;
+}
+
+.workflow-stepper.mobile-view .mantine-Stepper-stepDescription {
+  font-size: 13px;
 }
 /* Form Fields */
 .form-field {
