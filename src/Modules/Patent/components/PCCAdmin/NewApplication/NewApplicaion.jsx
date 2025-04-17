@@ -168,10 +168,7 @@ function NewApplication() {
             color="dimmed"
             className="description"
             style={{ textAlign: "left" }}
-          >
-            Below is the list of new patent applications. Click on "View" to see
-            more details.
-          </Text>
+          />
 
           <Group position="right" mb="sm">
             <Button

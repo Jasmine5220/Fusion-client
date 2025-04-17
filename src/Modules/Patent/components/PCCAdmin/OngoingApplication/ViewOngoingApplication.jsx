@@ -534,7 +534,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
         <FormSection title="Key Dates">
           <div className="key-dates-container">
             <div className="key-dates-grid">
-              <div className="key-date-card">
+              {/* <div className="key-date-card">
                 <div className="key-date-title">Reviewed by PCC</div>
                 <div className="key-date-value">
                   {dates?.reviewed_by_pcc_date
@@ -548,7 +548,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                       )
                     : "Not yet reviewed"}
                 </div>
-              </div>
+              </div> */}
 
               <div className="key-date-card">
                 <div className="key-date-title">Forwarded to Director</div>
@@ -698,7 +698,14 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
         <FormSection title="Section I: Administrative and Technical Details">
           <Grid>
             <Grid.Col span={12} md={6}>
-              <FormField label="Type of IP:" value={section_I?.type_of_ip} />
+              <FormField
+                label="Type of IP:"
+                value={
+                  Array.isArray(section_I?.type_of_ip)
+                    ? section_I?.type_of_ip.join(", ")
+                    : section_I?.type_of_ip
+                }
+              />
             </Grid.Col>
             <Grid.Col span={12} md={6}>
               <FormField
