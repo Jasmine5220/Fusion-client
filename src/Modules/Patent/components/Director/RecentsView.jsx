@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { Box, Button, ScrollArea, Table, Title, Text } from "@mantine/core";
-import { Eye } from "@phosphor-icons/react";
+import { Box, ScrollArea, Table, Title, Text } from "@mantine/core";
 import axios from "axios";
 
 const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
 
-function ReviewedApplications({ setActiveTab }) {
+function ReviewedApplications() {
   const [applicationsData, setApplicationsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +20,6 @@ function ReviewedApplications({ setActiveTab }) {
     "Reviewed Date",
     "Assigned Attorney",
     "Current Status",
-    "View",
   ];
 
   useEffect(() => {
@@ -76,11 +73,6 @@ function ReviewedApplications({ setActiveTab }) {
     fetchReviewedApplications();
   }, [authToken]);
 
-  const handleViewDetails = (application) => {
-    localStorage.setItem("selectedApplicationId", application.applicationId);
-    setActiveTab("1.1");
-  };
-
   const rows = applicationsData.map((item, index) => (
     <tr key={index} className="tableRow">
       <td>{item.applicationId}</td>
@@ -103,17 +95,6 @@ function ReviewedApplications({ setActiveTab }) {
         >
           {item.currentStatus}
         </Text>
-      </td>
-      <td>
-        <Button
-          variant="outline"
-          color="blue"
-          size="xs"
-          onClick={() => handleViewDetails(item)}
-          className="viewButton"
-        >
-          <Eye size={16} /> <span> View</span>
-        </Button>
       </td>
     </tr>
   ));
@@ -177,9 +158,8 @@ function ReviewedApplications({ setActiveTab }) {
   );
 }
 
-// ✅ Prop validation added
 ReviewedApplications.propTypes = {
-  setActiveTab: PropTypes.func.isRequired,
+  // Removed setActiveTab since it's not used anymore
 };
 
 export default ReviewedApplications;

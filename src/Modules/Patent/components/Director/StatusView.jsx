@@ -111,6 +111,46 @@ function PatentApplication() {
   const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
   const authToken = localStorage.getItem("authToken");
 
+  const handleAccept = async () => {
+    try {
+      await axios.post(
+        `${API_BASE_URL}/director/application/accept`,
+        { application_id: applicationId },
+        {
+          headers: {
+            Authorization: `Token ${authToken}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      alert("Application accepted successfully!");
+      window.history.back();
+    } catch (err) {
+      console.error("Error accepting application:", err);
+      alert(`Failed to accept: ${err.response?.data?.error || err.message}`);
+    }
+  };
+
+  const handleReject = async () => {
+    try {
+      await axios.post(
+        `${API_BASE_URL}/director/application/reject`,
+        { application_id: applicationId },
+        {
+          headers: {
+            Authorization: `Token ${authToken}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      alert("Application rejected successfully!");
+      window.history.back();
+    } catch (err) {
+      console.error("Error rejecting application:", err);
+      alert(`Failed to reject: ${err.response?.data?.error || err.message}`);
+    }
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -379,6 +419,19 @@ function PatentApplication() {
             <Text color="dimmed">No applicant information available</Text>
           )}
         </FormSection>
+
+        <Grid mt="xl" mb="md">
+          <Grid.Col span={12} md={6}>
+            <Button fullWidth color="green" size="md" onClick={handleAccept}>
+              Accept Application
+            </Button>
+          </Grid.Col>
+          <Grid.Col span={12} md={6}>
+            <Button fullWidth color="red" size="md" onClick={handleReject}>
+              Reject Application
+            </Button>
+          </Grid.Col>
+        </Grid>
       </div>
     </Container>
   );
