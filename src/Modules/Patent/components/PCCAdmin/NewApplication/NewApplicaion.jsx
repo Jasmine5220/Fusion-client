@@ -160,10 +160,15 @@ function NewApplication() {
       {!selectedApplicationId ? (
         // List view of applications in table format
         <>
-          <Title order={2} className="title">
-            New Applications:
+          <Title order={2} className="new-application-title">
+            New Applications
           </Title>
-          <Text size="md" color="dimmed" className="description">
+          <Text
+            size="md"
+            color="dimmed"
+            className="description"
+            style={{ textAlign: "left" }}
+          >
             Below is the list of new patent applications. Click on "View" to see
             more details.
           </Text>

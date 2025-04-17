@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Table,
-  Paper,
-  Select,
-  Button,
-  Title,
-  Text,
-  Container,
-} from "@mantine/core";
+import { Table, Select, Button, Title, Text, Container } from "@mantine/core";
 import { DownloadSimple } from "@phosphor-icons/react";
 import "../../../style/Pcc_Admin/InsightsPage.css";
 
@@ -16,14 +8,14 @@ function InsightsPage() {
 
   const applicationsByYear = {
     2021: [
-      { label: "Submitted", count: 100, color: "#0056b3" },
+      { label: "Pending", count: 100, color: "#0056b3" },
       { label: "Approved", count: 70, color: "#32cd32" },
-      { label: "Under Review", count: 30, color: "#ff6347" },
+      { label: "Reverted", count: 30, color: "#ff6347" },
     ],
     2022: [
-      { label: "Submitted", count: 120, color: "#0056b3" },
+      { label: "Pending", count: 120, color: "#0056b3" },
       { label: "Approved", count: 80, color: "#32cd32" },
-      { label: "Under Review", count: 40, color: "#ff6347" },
+      { label: "Reverted", count: 40, color: "#ff6347" },
     ],
   };
 
@@ -53,24 +45,21 @@ function InsightsPage() {
   };
 
   return (
-    <Container
-      style={{ padding: "32px", marginLeft: "32px", marginTop: "-30px" }}
-    >
-      <Title order={2} align="center" className="page-title">
+    <Container style={{ padding: "0px", marginLeft: "0px", marginTop: "0px" }}>
+      <Title order={2} align="left" className="page-title">
         Applications Overview - {selectedYear}
       </Title>
       <Text
-        align="center"
-        color="dimmed"
+        align="left"
         size="sm"
         mb="lg"
-        className="description"
+        className="dashboard-overview-description"
       >
         Select a year from the dropdown below to view the statistics of
         applications for that year. You can also download the data as a CSV file
         for further analysis.
       </Text>
-      <Paper shadow="md" radius="lg" padding="xl" className="insights-page">
+      <div className="insights-page">
         <div className="filter">
           <Text size="sm" weight={600}>
             Select Year:
@@ -181,6 +170,7 @@ function InsightsPage() {
           </div>
         </div>
 
+        <br />
         <div className="download">
           <Button
             radius="md"
@@ -188,11 +178,12 @@ function InsightsPage() {
             variant="outline"
             leftIcon={<DownloadSimple size={16} />}
             onClick={handleDownload}
+            className="download-button"
           >
             Download CSV
           </Button>
         </div>
-      </Paper>
+      </div>
     </Container>
   );
 }

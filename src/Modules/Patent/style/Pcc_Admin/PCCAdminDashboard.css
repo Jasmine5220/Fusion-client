@@ -21,6 +21,9 @@
 /* Overview Section */
 .overview-section {
   margin-bottom: 32px;
+  margin-top: 32px;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 .overview-title {
@@ -44,7 +47,9 @@
 
 /* Insights Section */
 .insights-section {
-  margin-top: 32px;
+  margin: 0;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 .page-title {
@@ -55,7 +60,7 @@
   color: #333;
 }
 
-.description {
+.dashboard-overview-description {
   font-size: 14px;
   color: #333;
   margin-bottom: 32px;
