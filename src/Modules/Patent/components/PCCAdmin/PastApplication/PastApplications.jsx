@@ -12,15 +12,9 @@ import {
   Divider,
   Select,
 } from "@mantine/core";
-import {
-  Eye,
-  ArrowLeft,
-  ArrowsClockwise,
-  Warning,
-  Calendar,
-} from "@phosphor-icons/react";
+import { Eye, ArrowsClockwise, Warning, Calendar } from "@phosphor-icons/react";
 import axios from "axios";
-import PCCAStatusView from "../PCCAStatusView";
+import ViewPastApplication from "./ViewPastApplication";
 import "../../../style/Pcc_Admin/PastApplications.css";
 
 function PastApplications() {
@@ -61,12 +55,11 @@ function PastApplications() {
 
   const getStatusColor = (status) => {
     if (!status) return "gray";
-
     const formatted = status.trim().toLowerCase();
     switch (formatted) {
       case "rejected":
         return "red";
-      case "submitted":
+      case "approved":
         return "green";
       default:
         return "gray";
@@ -90,16 +83,16 @@ function PastApplications() {
         },
       );
 
-      const formatted = Object.entries(data.applications)
+      const formatted = Object.entries(data.applications || {})
         .map(([id, details]) => ({
-          id: id.split("_")[1] || id,
+          id,
           token_no: details.token_no || "Not Assigned",
           title: details.title || "Not Provided",
           submitted_by: details.submitted_by || "Not Provided",
           designation: details.designation || "Not Provided",
           department: details.department || "Not Provided",
           submitted_on: details.submitted_on || "Not Provided",
-          status: details.status || "Not Provided",
+          status: details.decision_status || "Not Provided",
           year: details.submitted_on
             ? new Date(details.submitted_on).getFullYear().toString()
             : "Unknown",
@@ -124,13 +117,12 @@ function PastApplications() {
       setError(null);
     } catch (err) {
       console.error("Error fetching applications:", err);
-      setError(
-        err.response?.data?.message ||
-          "Unable to fetch applications. Please try again later.",
-      );
+      setError("Failed to load applications. Please try again later.");
     } finally {
       setLoading(false);
-      if (refresh) setIsRefreshing(false);
+      if (refresh) {
+        setIsRefreshing(false);
+      }
     }
   };
 
@@ -139,6 +131,7 @@ function PastApplications() {
   }, []);
 
   useEffect(() => {
+    if (!applications) return;
     if (selectedYears.length === 0) {
       setFilteredApplications(applications);
     } else {
@@ -187,7 +180,7 @@ function PastApplications() {
     );
   }
 
-  if (applications.length === 0) {
+  if (!applications || applications.length === 0) {
     return (
       <Box className="empty-container">
         <Text size="lg" align="center" mb="md" weight={500} color="#faad14">
@@ -294,17 +287,11 @@ function PastApplications() {
         </>
       ) : (
         <Box className="detail-view-container">
-          <Button
-            variant="filled"
-            color="blue"
-            onClick={() => setSelectedApplication(null)}
-            leftIcon={<ArrowLeft size={16} weight="bold" />}
-            className="back-button"
-          >
-            Back to Applications List
-          </Button>
           <Divider my="lg" />
-          <PCCAStatusView applicationId={selectedApplication} />
+          <ViewPastApplication
+            applicationId={selectedApplication}
+            handleBackToList={() => setSelectedApplication(null)}
+          />
         </Box>
       )}
     </Box>

@@ -67,7 +67,7 @@ export default function PatentRoutes() {
       )}
 
       {/* Redirect users without access */}
-      <Route path="*" element={<Navigate to="/unauthorized" replace />} />
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
 }

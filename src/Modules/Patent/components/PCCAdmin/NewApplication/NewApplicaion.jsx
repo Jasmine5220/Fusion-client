@@ -10,9 +10,9 @@ import {
   Alert,
   Group,
 } from "@mantine/core";
-import { Eye, ArrowLeft, ArrowsClockwise } from "@phosphor-icons/react";
+import { Eye, ArrowsClockwise } from "@phosphor-icons/react";
 import axios from "axios";
-import PCCStatusView from "../PCCAStatusView";
+import ViewNewApplication from "./ViewNewApplication";
 import "../../../style/Pcc_Admin/NewApplication.css";
 
 function NewApplication() {
@@ -89,10 +89,6 @@ function NewApplication() {
   const handleRefresh = () => {
     fetchApplications(true);
   };
-
-  const selectedApplication = applications.find(
-    (app) => app.id === selectedApplicationId,
-  );
 
   const renderApplicationsTable = () => {
     if (loading) {
@@ -190,18 +186,10 @@ function NewApplication() {
       ) : (
         // Detailed view of selected application
         <Box className="detail-view-container">
-          <Button
-            variant="filled"
-            color="blue"
-            onClick={handleBackClick}
-            className="back-button"
-            leftIcon={<ArrowLeft size={16} />}
-          >
-            Back to Applications List
-          </Button>
-          {selectedApplication && (
-            <PCCStatusView application={selectedApplication} />
-          )}
+          <ViewNewApplication
+            applicationId={selectedApplicationId}
+            handleBackToList={handleBackClick}
+          />
         </Box>
       )}
     </Box>

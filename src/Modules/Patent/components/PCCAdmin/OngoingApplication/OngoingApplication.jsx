@@ -11,14 +11,9 @@ import {
   Group,
   Divider,
 } from "@mantine/core";
-import {
-  Eye,
-  ArrowLeft,
-  ArrowsClockwise,
-  Warning,
-} from "@phosphor-icons/react";
+import { Eye, ArrowsClockwise, Warning } from "@phosphor-icons/react";
 import axios from "axios";
-import PCCAStatusView from "../PCCAStatusView";
+import ViewOngoingApplication from "./ViewOngoingApplication";
 import "../../../style/Pcc_Admin/OngoingApplication.css";
 
 function OngoingApplication() {
@@ -266,7 +261,7 @@ function OngoingApplication() {
         </>
       ) : (
         <Box className="detail-view-container">
-          <Button
+          {/* <Button
             variant="filled"
             color="blue"
             onClick={() => setSelectedApplication(null)}
@@ -274,9 +269,9 @@ function OngoingApplication() {
             className="back-button"
           >
             Back to Applications List
-          </Button>
+          </Button> */}
           <Divider my="lg" />
-          <PCCAStatusView applicationId={selectedApplication} />
+          <ViewOngoingApplication applicationId={selectedApplication} />
         </Box>
       )}
     </Box>
