@@ -202,7 +202,7 @@ function ApplicationCard({
       radius="md"
       withBorder
     >
-      <Text className="app-card-title" weight={700} size="lg" mb="md">
+      <Text className="app-card-title" weight={600} size="lg" mb="md">
         {title}
       </Text>
 
@@ -267,6 +267,10 @@ ApplicationCard.propTypes = {
   onViewApplication: PropTypes.func.isRequired,
 };
 
+// Add API_BASE_URL constant at the top
+const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
+
+// Update ConditionalFileDownload component with proper prop types
 function ConditionalFileDownload({ filePath, label, value }) {
   const encodedFilePath = filePath ? encodeURI(filePath) : null;
   const fileUrl = encodedFilePath ? `${API_BASE_URL}${encodedFilePath}` : null;
@@ -275,9 +279,7 @@ function ConditionalFileDownload({ filePath, label, value }) {
     <div className="form-field-with-download">
       <div className="field-label-container">
         <Text className="field-label">{label}</Text>
-        <Text className="field-value">
-          {value || "Not provided"}
-        </Text>
+        <Text className="field-value">{value || "Not provided"}</Text>
       </div>
       {fileUrl ? (
         <div className="download-button-wrapper">
@@ -300,6 +302,12 @@ function ConditionalFileDownload({ filePath, label, value }) {
     </div>
   );
 }
+
+ConditionalFileDownload.propTypes = {
+  filePath: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string,
+};
 
 // File Download Button Component
 function FileDownloadButton({ fileUrl, label, disabled }) {
@@ -367,9 +375,7 @@ function FormFieldWithDownload({ label, value, fileUrl, fileLabel }) {
     <div className="form-field-with-download">
       <div className="field-label-container">
         <Text className="field-label">{label}</Text>
-        <Text className="field-value">
-          {value || "Not provided"}
-        </Text>
+        <Text className="field-value">{value || "Not provided"}</Text>
       </div>
       <div className="download-button-wrapper">
         <FileDownloadButton
@@ -424,7 +430,6 @@ function ApplicationView({ setActiveTab }) {
 
   // Retrieve authToken from local storage
   const authToken = localStorage.getItem("authToken");
-  const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
 
   useEffect(() => {
     const handleResize = () => {
@@ -466,7 +471,9 @@ function ApplicationView({ setActiveTab }) {
             (application) => ({
               title: application.title || "Untitled Application",
               date: application.submitted_date || "",
-              tokenNumber: application.token_no || null,
+              tokenNumber: application.attorney_name
+                ? application.token_no
+                : "Awaiting Assignment",
               applicationNumber: application.application_id,
               attorney: application.attorney_name || null,
               status: application.status || "Pending",
@@ -523,7 +530,7 @@ function ApplicationView({ setActiveTab }) {
   const renderApplicationList = () => (
     // Replace the Grid component with this structure:
     <Box className="applications-container">
-      <Text className="page-title">Your Patent Applications</Text>
+      <Text className="view-app-page-title">View Your Applications</Text>
 
       {loading ? (
         <div className="loader-container">
@@ -578,7 +585,6 @@ function ApplicationView({ setActiveTab }) {
     const {
       application_id,
       title,
-      token_no,
       attorney_name,
       status,
       decision_status,
@@ -617,16 +623,10 @@ function ApplicationView({ setActiveTab }) {
             variant="outline"
             color="blue"
             leftIcon={<ArrowLeft size={18} />}
-            className="back-button"
+            className="app-back-button"
           >
             Back to Applications
           </Button>
-
-          <Title
-            className={`detail-page-title ${isMobile ? "mobile-detail-page-title" : ""}`}
-          >
-            Submitted Form
-          </Title>
         </div>
 
         <div className="form-content">
@@ -637,9 +637,6 @@ function ApplicationView({ setActiveTab }) {
               </Grid.Col>
               <Grid.Col span={12} md={4}>
                 <FormField label="Submission Date:" value={submittedDate} />
-              </Grid.Col>
-              <Grid.Col span={12} md={4}>
-                <FormField label="Token Number:" value={token_no} />
               </Grid.Col>
               <Grid.Col span={12} md={4}>
                 <FormField label="Attorney:" value={attorney_name} />

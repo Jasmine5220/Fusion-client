@@ -1,7 +1,7 @@
 /* Page title */
 .submit-header-text {
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 550;
   color: #2d3748;
   letter-spacing: 0.5px;
   padding-left: 52px;
@@ -11,7 +11,7 @@
 
 /* Card container */
 .submit-card-container {
-  margin-left: 60px;
+  margin-left: 50px;
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
@@ -36,22 +36,22 @@
 }
 
 /* Card title */
-.card-title {
+.submit-card-title {
   font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 8px;
+  font-weight: 550;
+  margin-bottom: 4px;
   color: #2d3748;
 }
 
 /* Card details */
-.card-details {
+.submit-card-details {
   font-size: 14px;
   color: #6b7280;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 /* Card description */
-.card-description {
+.submit-card-description {
   font-size: 14px;
   color: #4a5568;
   line-height: 1.5;

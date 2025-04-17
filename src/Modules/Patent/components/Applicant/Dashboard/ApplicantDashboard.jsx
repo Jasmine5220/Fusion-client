@@ -8,37 +8,12 @@ import {
   Button,
   Container,
   Progress,
-  Table,
-  ScrollArea,
 } from "@mantine/core";
-import {
-  ClipboardText,
-  FilePlus,
-  Archive,
-  Bell,
-  ArrowCircleDown,
-} from "@phosphor-icons/react";
+import { ClipboardText, FilePlus, Archive, Bell } from "@phosphor-icons/react";
 import "../../../style/Applicant/ApplicantDashboard.css";
+import DownloadsSection from "./DownloadsSection";
 
 function ApplicantDashboard({ setActiveTab }) {
-  const downloadsData = [
-    {
-      id: 1,
-      title: "Intellectual Property Filing Form",
-      link: "https://www.iiitdmj.ac.in/rspc.iiitdmj.ac.in/DRSPC/IPRM/Annexure%20I.pdf",
-    },
-    {
-      id: 2,
-      title: "Request for Provisional Patent Filing",
-      link: "https://www.iiitdmj.ac.in/rspc.iiitdmj.ac.in/DRSPC/IPRM/Annexure%20II.pdf",
-    },
-    {
-      id: 3,
-      title: "Intellectual Property Policy Document",
-      link: "https://www.iiitdmj.ac.in/downloads/IPR%20Policy%20Final%20V1%2016_6_2020.pdf",
-    },
-  ];
-
   return (
     <Box
       style={{
@@ -49,14 +24,15 @@ function ApplicantDashboard({ setActiveTab }) {
     >
       {" "}
       {/* Page Title */}
-      <Text className="title-dashboard">Applicant Dashboard</Text>
+      <Text className="title-dashboard">Patent & Copyright Cell Dashboard</Text>
       {/* Content Below Title */}
       <Container className="content-container">
         {/* Feature Description */}
         <Text mt="sm" mb="lg" className="feature-text">
-          Welcome to the Applicant Dashboard. Here, you can manage your
-          applications, track their status, and access important resources.
-          Follow the workflow below for a seamless patent application process.
+          Welcome to the Patent Application Management System. This platform
+          enables you to efficiently manage your patent applications, monitor
+          their progress, and access essential resources. Please follow the
+          established workflow for a streamlined application process.
         </Text>
 
         {/* Feature Points */}
@@ -67,9 +43,10 @@ function ApplicantDashboard({ setActiveTab }) {
                 <ClipboardText size={28} className="feature-icon" />
                 <Text>
                   <span className="feature-box-title">
-                    Track Applications:{" "}
+                    Application Tracking:{" "}
                   </span>
-                  Monitor the status of your patent applications in real time.
+                  Monitor the status of your patent applications with real-time
+                  updates and comprehensive progress tracking.
                 </Text>
               </Box>
             </Grid.Col>
@@ -77,9 +54,11 @@ function ApplicantDashboard({ setActiveTab }) {
               <Box className="feature-box-with-hover">
                 <FilePlus size={28} className="feature-icon" />
                 <Text>
-                  <span className="feature-box-title">Seamless Workflow: </span>
-                  Follow a step-by-step guide for completing your application
-                  process.
+                  <span className="feature-box-title">
+                    Structured Process:{" "}
+                  </span>
+                  Follow our systematic approach for completing patent
+                  applications with clear guidance at each stage.
                 </Text>
               </Box>
             </Grid.Col>
@@ -87,18 +66,22 @@ function ApplicantDashboard({ setActiveTab }) {
               <Box className="feature-box-with-hover">
                 <Archive size={28} className="feature-icon" />
                 <Text>
-                  <span className="feature-box-title">Resources Access: </span>
-                  Access all necessary resources, including guidelines and
-                  documents.
+                  <span className="feature-box-title">
+                    Resource Management:{" "}
+                  </span>
+                  Access comprehensive documentation, guidelines, and forms
+                  essential for the patent application process.
                 </Text>
               </Box>
             </Grid.Col>
           </Grid>
         </Box>
 
+        <Divider className="dashboard-divider" />
+
         {/* Application Workflow */}
         <Container className="workflow-container">
-          <Text className="section-title" align="center" mb="lg">
+          <Text className="dashboard-section-title" mb="lg">
             Application Workflow
           </Text>
 
@@ -234,44 +217,9 @@ function ApplicantDashboard({ setActiveTab }) {
             </Box>
           </Box>
         </Container>
-
-        {/* Downloads && Documents Table */}
-        <Container mt="lg" className="downloads-container">
-          <Text className="section-title">Download Forms and Documents</Text>
-          <ScrollArea>
-            <Table className="downloads-table">
-              <thead>
-                <tr>
-                  <th>S.No.</th>
-                  <th>Document Title</th>
-                  <th>Download</th>
-                </tr>
-              </thead>
-              <tbody>
-                {downloadsData.map((download, index) => (
-                  <tr key={download.id}>
-                    <td>{index + 1}</td>
-                    <td>{download.title}</td>
-                    <td>
-                      <Button
-                        component="a"
-                        href={download.link}
-                        target="_blank"
-                        className="download-button-table"
-                      >
-                        <ArrowCircleDown
-                          size={16}
-                          style={{ marginRight: "8px" }}
-                        />
-                        Download
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </ScrollArea>
-        </Container>
+        <Divider className="dashboard-divider" />
+        {/* Downloads Section */}
+        <DownloadsSection />
       </Container>
       {/* Dashboard Sections */}
       <Grid mt="xl" className="dashboard-grid">
@@ -283,8 +231,8 @@ function ApplicantDashboard({ setActiveTab }) {
             </Text>
             <Divider className="card-divider" />
             <Text size="sm" mt="sm">
-              Begin the process of filing a new patent application with our
-              guided form.
+              Initiate the patent application process through our comprehensive
+              submission system.
             </Text>
             <Button
               variant="outline"
@@ -294,7 +242,7 @@ function ApplicantDashboard({ setActiveTab }) {
               onClick={() => setActiveTab("1")}
               className="markReadButton"
             >
-              Start Application
+              Begin Application
             </Button>
           </Box>
         </Grid.Col>
@@ -307,7 +255,7 @@ function ApplicantDashboard({ setActiveTab }) {
             </Text>
             <Divider className="card-divider" />
             <Text size="sm" mt="sm">
-              Monitor the progress and status of all your submitted patent
+              Access and monitor the status of all your submitted patent
               applications.
             </Text>
             <Button
@@ -331,7 +279,7 @@ function ApplicantDashboard({ setActiveTab }) {
             </Text>
             <Divider className="card-divider" />
             <Text size="sm" mt="sm">
-              Continue working on applications you have saved as drafts.
+              Continue working on applications that have been saved as drafts.
             </Text>
             <Button
               variant="outline"
@@ -341,7 +289,7 @@ function ApplicantDashboard({ setActiveTab }) {
               onClick={() => setActiveTab("3")}
               className="markReadButton"
             >
-              Resume Draft
+              Access Drafts
             </Button>
           </Box>
         </Grid.Col>
@@ -354,7 +302,7 @@ function ApplicantDashboard({ setActiveTab }) {
             </Text>
             <Divider className="card-divider" />
             <Text size="sm" mt="sm">
-              Stay updated with the latest notifications regarding your patent
+              Receive and review important updates regarding your patent
               applications.
             </Text>
             <Button

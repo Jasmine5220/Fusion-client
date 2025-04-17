@@ -14,7 +14,6 @@ import {
   ScrollArea,
   MultiSelect,
   Badge,
-  Box,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -176,20 +175,12 @@ function ApplicationForm() {
     setCompanies(updatedCompanies);
   };
 
-  const handleCheckboxChange = (e) => {
-    const { value } = e.target;
-    setDevelopmentStage((prevStage) => ({
-      ...prevStage,
-      [value]: !prevStage[value],
-    }));
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const data = {
       title: applicationTitle,
-      ip_types: ipTypes,
+      ip_type: ipTypes,
       user_id: 7108,
       inventors: inventors.map((inventor) => ({
         name: inventor.name,
@@ -365,33 +356,43 @@ function ApplicationForm() {
 
   return (
     <Paper
-    shadow="xs"
-    p={isMobile ? "sm" : "xl"}
-    mx={0} // Changed from mx={isMobile ? 0 : "md"} to mx={0} to fix the pink/purple shade
-    style={{
-      width: "100%",
-      maxWidth: "100%",
-      boxSizing: "border-box",
-      overflowX: "hidden", // Added to prevent horizontal overflow
-    }}
+      shadow="xs"
+      p={isMobile ? "sm" : "xl"}
+      mx="auto"
+      style={{
+        width: "95%",
+        maxWidth: "95%",
+        boxSizing: "border-box",
+        overflowX: "hidden",
+        backgroundColor: "#f8f9fa",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
     >
       <Title
         order={1}
         align="center"
-        mb={20}
-        style={{ fontSize: isMobile ? "22px" : "26px" }}
+        mb={10}
+        style={{ fontSize: isMobile ? "22px" : "26px", width: "100%" }}
       >
         Intellectual Property Filing Form
       </Title>
-      <Text align="center" size="sm" mb={20}>
+      <Text align="center" size="sm" mb={20} style={{ width: "100%" }}>
         (Please use this form for all types of IP, including Patents, Copyright,
         Designs, Marks, and even Know-how)
       </Text>
-      <ScrollArea style={{ height: isMobile ? "calc(100vh - 200px)" : "auto" }}>
+      <ScrollArea
+        style={{
+          height: isMobile ? "calc(100vh - 200px)" : "auto",
+          width: "100%",
+          maxWidth: "1200px",
+        }}
+      >
         {step === 1 && (
           <form>
             <Title
-              order={2}
+              order={3}
               align="center"
               mb={20}
               style={{ fontSize: isMobile ? "20px" : "24px" }}
@@ -407,7 +408,7 @@ function ApplicationForm() {
               required
             />
 
-            <Text fw={600} size="sm" mb={4}>
+            <Text size="sm" mb={4}>
               Type of Intellectual Property
               <Text component="span" c="red">
                 *
@@ -440,7 +441,9 @@ function ApplicationForm() {
             {ipTypes.length > 0 && (
               <Stack spacing="sm" mb="md">
                 {ipTypes.map((selectedType) => {
-                  const typeInfo = IP_TYPES.find((t) => t.value === selectedType);
+                  const typeInfo = IP_TYPES.find(
+                    (t) => t.value === selectedType,
+                  );
                   return (
                     <Paper
                       key={selectedType}
@@ -536,15 +539,17 @@ function ApplicationForm() {
                   }
                   required
                 />
-                <div style={{ 
-                  display: 'flex', 
-                  justifyContent: 'flex-end',
-                  width: '100%'
-                }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    width: "100%",
+                  }}
+                >
                   <Button
                     style={{
                       ...redButtonStyle,
-                      width: isMobile ? '100%' : 'auto',
+                      width: isMobile ? "100%" : "auto",
                     }}
                     onClick={() => handleRemoveInventor(index)}
                   >
@@ -565,7 +570,11 @@ function ApplicationForm() {
             </Group>
 
             <Group position="center" mt="lg" grow={isMobile}>
-              <Button onClick={nextPage} style={outlineButtonStyle} fullWidth={isMobile}>
+              <Button
+                onClick={nextPage}
+                style={outlineButtonStyle}
+                fullWidth={isMobile}
+              >
                 Next
               </Button>
             </Group>
@@ -682,10 +691,18 @@ function ApplicationForm() {
             </div>
 
             <Group position="apart" mt="lg" grow={isMobile}>
-              <Button style={outlineButtonStyle} onClick={prevPage} fullWidth={isMobile}>
+              <Button
+                style={outlineButtonStyle}
+                onClick={prevPage}
+                fullWidth={isMobile}
+              >
                 Previous
               </Button>
-              <Button onClick={nextPage} style={outlineButtonStyle} fullWidth={isMobile}>
+              <Button
+                onClick={nextPage}
+                style={outlineButtonStyle}
+                fullWidth={isMobile}
+              >
                 Next
               </Button>
               <Button
@@ -811,10 +828,18 @@ function ApplicationForm() {
             />
 
             <Group position="apart" mt="lg" grow={isMobile}>
-              <Button style={outlineButtonStyle} onClick={prevPage} fullWidth={isMobile}>
+              <Button
+                style={outlineButtonStyle}
+                onClick={prevPage}
+                fullWidth={isMobile}
+              >
                 Previous
               </Button>
-              <Button onClick={nextPage} style={outlineButtonStyle} fullWidth={isMobile}>
+              <Button
+                onClick={nextPage}
+                style={outlineButtonStyle}
+                fullWidth={isMobile}
+              >
                 Next
               </Button>
             </Group>
@@ -984,25 +1009,27 @@ function ApplicationForm() {
             </Text>
 
             <Stack spacing="sm">
-            <Checkbox
-              checked={selectedDevelopmentStage === "embryonic"}
-              onChange={() => handleDevelopmentStageChange("embryonic")}
-              label="Embryonic (needs substantial work to bring to market)"
-              size={isMobile ? "sm" : "md"}
-            />
-            <Checkbox
-              checked={selectedDevelopmentStage === "partiallyDeveloped"}
-              onChange={() => handleDevelopmentStageChange("partiallyDeveloped")}
-              label="Partially developed (could be brought to market with significant investment)"
-              size={isMobile ? "sm" : "md"}
-            />
-            <Checkbox
-              checked={selectedDevelopmentStage === "offTheShelf"}
-              onChange={() => handleDevelopmentStageChange("offTheShelf")}
-              label="Off-the-shelf (could be brought to market with nominal investment)"
-              size={isMobile ? "sm" : "md"}
-            />
-          </Stack>
+              <Checkbox
+                checked={selectedDevelopmentStage === "embryonic"}
+                onChange={() => handleDevelopmentStageChange("embryonic")}
+                label="Embryonic (needs substantial work to bring to market)"
+                size={isMobile ? "sm" : "md"}
+              />
+              <Checkbox
+                checked={selectedDevelopmentStage === "partiallyDeveloped"}
+                onChange={() =>
+                  handleDevelopmentStageChange("partiallyDeveloped")
+                }
+                label="Partially developed (could be brought to market with significant investment)"
+                size={isMobile ? "sm" : "md"}
+              />
+              <Checkbox
+                checked={selectedDevelopmentStage === "offTheShelf"}
+                onChange={() => handleDevelopmentStageChange("offTheShelf")}
+                label="Off-the-shelf (could be brought to market with nominal investment)"
+                size={isMobile ? "sm" : "md"}
+              />
+            </Stack>
 
             <Text size="sm" mt="xl" mb="sm">
               Download the following form, duly fill and sign it, and upload it

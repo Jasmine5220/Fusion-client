@@ -4,12 +4,12 @@ import { useDispatch } from "react-redux";
 import { SortAscending } from "@phosphor-icons/react";
 import CustomBreadcrumbs from "../../../../components/Breadcrumbs.jsx";
 import ModuleTabs from "../../../../components/moduleTabs.jsx";
-import SubmitNewApplication from "./NewApplications/ApplicantSubmit.jsx";
+import SubmitNewApplication from "./SubmitNewApplication/ApplicantSubmit.jsx";
 import ApplicantDashboard from "./Dashboard/ApplicantDashboard.jsx";
 import ViewApplicationsPage from "./ViewApplication/ApplicationView.jsx";
 import SavedDraftsPage from "./SavedDrafts/ApplicationDraft.jsx";
 import NotificationsPage from "./Notifications/ApplicantNotifications.jsx";
-import ApplicationForm from "./NewApplications/ApplicationForm.jsx";
+import ApplicationForm from "./SubmitNewApplication/ApplicationForm.jsx";
 
 const categories = ["Most Recent", "Tags", "Title"];
 
@@ -92,9 +92,6 @@ function ApplicantMainDashboard() {
             )}
             {activeTab === "2" && (
               <ViewApplicationsPage setActiveTab={setActiveTab} />
-            )}
-            {activeTab === "2.1" && (
-              <IPFilingForm setActiveTab={setActiveTab} />
             )}
             {activeTab === "3" && (
               <SavedDraftsPage setActiveTab={setActiveTab} />

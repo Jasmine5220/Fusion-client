@@ -1,24 +1,27 @@
 /* Application View Container */
 .application-view-container {
   width: 100%;
-  padding: 16px;
-  max-width: 1400px;
-  margin: 0 auto;
+  padding: 0;
+  padding-left: 50px;
+  padding-right: 50px;
+  max-width: 100%;
+  margin: 0;
 }
 
 /* Page Title */
-.page-title  {
-  font-size: 28px;
-  font-weight: 700;
+.view-app-page-title {
+  font-size: 24px;
+  font-weight: 600;
   color: #2d3748;
   letter-spacing: 0.5px;
-  padding-left: 32px;
-  margin-bottom: 24px;
-  margin-top: -20px;
+  padding-left: 0;
+  margin-bottom: 10px;
+  margin-top: 0;
+  text-align: left;
+  padding: 0;
 }
 
-
-.page-title::after, .form-title::after {
+.form-title::after {
   content: "";
   display: block;
   width: 80px;
@@ -31,12 +34,11 @@
 /* Applications Grid - Modified for 2 cards per row */
 .applications-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Strictly 2 columns */
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  margin-left: 60px;
-  margin-right: 60px;
-    /* padding: 0 20px; */
-
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 /* Application Card */
@@ -44,10 +46,10 @@
   border-left: 6px solid #ffffff;
   padding: 14px;
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: #f8f9fa;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  height: 100%; /* Ensure equal height */
+  height: 100%;
   width: 100%;
 }
 
@@ -125,12 +127,11 @@
 
 /* Detail View Container */
 .detail-container {
-  margin: 20px auto;
-  max-width: 1200px;
+  margin: 0;
+  max-width: 1500px;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: #f8f9fa;
   border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Header Section */
@@ -475,29 +476,22 @@
 /* Responsive Behavior */
 @media (max-width: 1024px) {
   .applications-grid {
-    margin-left: 32px;
-    margin-right: 32px;
-    padding: 0 24px;
-
-  }
-
-  .detail-page-title {
-    font-size: 28px;
+    margin: 0;
+    padding: 0;
   }
 }
 
 @media (max-width: 768px) {
   .page-title {
-    padding-left: 16px;
+    padding-left: 0;
     font-size: 24px;
-    text-align: center;
+    text-align: left;
   }
 
   .applications-grid {
-    grid-template-columns: 1fr; /* Single column on mobile */
-    margin-left: 16px;
-    margin-right: 16px;
-    padding: 0 16px;
+    grid-template-columns: 1fr;
+    margin: 0;
+    padding: 0;
     gap: 16px;
   }
 
