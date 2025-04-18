@@ -293,7 +293,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
         <FormSection title="Key Dates">
           <div className="key-dates-container">
             <div className="key-dates-grid">
-              <div className="key-date-card">
+              {/* <div className="key-date-card">
                 <div className="key-date-title">Reviewed by PCC</div>
                 <div className="key-date-value">
                   {dates?.reviewed_by_pcc_date
@@ -307,7 +307,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                       )
                     : "Not yet reviewed"}
                 </div>
-              </div>
+              </div> */}
 
               <div className="key-date-card">
                 <div className="key-date-title">Forwarded to Director</div>
