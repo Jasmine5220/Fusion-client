@@ -12,6 +12,7 @@ import {
   Title,
 } from "@mantine/core";
 import { ArrowLeft, DownloadSimple } from "phosphor-react";
+import "../../../style/Pcc_Admin/PastApplications.css";
 
 // Field component for detail view
 function FormField({ label, value }) {
@@ -293,7 +294,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
         <FormSection title="Key Dates">
           <div className="key-dates-container">
             <div className="key-dates-grid">
-              <div className="key-date-card">
+              {/* <div className="key-date-card">
                 <div className="key-date-title">Reviewed by PCC</div>
                 <div className="key-date-value">
                   {dates?.reviewed_by_pcc_date
@@ -307,7 +308,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                       )
                     : "Not yet reviewed"}
                 </div>
-              </div>
+              </div> */}
 
               <div className="key-date-card">
                 <div className="key-date-title">Forwarded to Director</div>
@@ -419,7 +420,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
+              {/* <div className="key-date-card">
                 <div className="key-date-title">Decision Date</div>
                 <div className="key-date-value">
                   {dates?.decision_date
@@ -433,10 +434,10 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                       )
                     : "No decision yet"}
                 </div>
-              </div>
+              </div> */}
 
               <div className="key-date-card">
-                <div className="key-date-title">Final Decision Date</div>
+                <div className="key-date-title">Date of Granting</div>
                 <div className="key-date-value">
                   {dates?.final_decision_date
                     ? new Date(dates.final_decision_date).toLocaleDateString(

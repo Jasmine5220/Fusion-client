@@ -15,8 +15,10 @@ import {
   Modal,
   Group,
   ActionIcon,
+  Box,
 } from "@mantine/core";
-import { ArrowLeft, DownloadSimple } from "phosphor-react";
+import { ArrowLeft, Download } from "phosphor-react"; // Changed DownloadSimple to Download
+import "../../../style/Pcc_Admin/ViewNewApplication.css";
 
 // Field component for detail view
 function FormField({ label, value }) {
@@ -66,7 +68,7 @@ function FileDownloadButton({ fileUrl, label, disabled }) {
       <Button
         variant="outline"
         color="gray"
-        leftIcon={<DownloadSimple size={18} />}
+        leftIcon={<Download size={18} />} // Changed from DownloadSimple to Download
         disabled
       >
         No {label} Available
@@ -81,7 +83,7 @@ function FileDownloadButton({ fileUrl, label, disabled }) {
       download
       variant="outline"
       color="blue"
-      leftIcon={<DownloadSimple size={18} />}
+      leftIcon={<Download size={18} />} // Changed from DownloadSimple to Download
     >
       Download {label}
     </Button>
@@ -120,6 +122,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
   const [actionLoading, setActionLoading] = useState(false);
   const [actionSuccess, setActionSuccess] = useState(null);
   const [actionError, setActionError] = useState(null);
+  const [commentError, setCommentError] = useState(null);
 
   // Modal states
   const [forwardModalOpen, setForwardModalOpen] = useState(false);
@@ -205,15 +208,40 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
     fetchAttorneys();
   }, [authToken]);
 
+  const openForwardModal = () => {
+    setSelectedAttorneyId("");
+    setComments("");
+    setActionError(null);
+    setCommentError(null);
+    setForwardModalOpen(true);
+  };
+
+  const openModificationModal = () => {
+    setComments("");
+    setActionError(null);
+    setCommentError(null);
+    setModificationModalOpen(true);
+  };
+
   // Handler for forward to director
   const handleForwardToDirector = async () => {
+    // Reset errors
+    setActionError(null);
+    setCommentError(null);
+
+    // Validate attorney selection
     if (!selectedAttorneyId) {
       setActionError("Please select an attorney");
       return;
     }
 
+    // Validate comments
+    if (!comments.trim()) {
+      setCommentError("Comments are required for forwarding to director");
+      return;
+    }
+
     setActionLoading(true);
-    setActionError(null);
 
     try {
       const selectedAttorney = attorneys.find(
@@ -267,8 +295,17 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
 
   // Handler for request modification
   const handleRequestModification = async () => {
-    setActionLoading(true);
+    // Reset errors
     setActionError(null);
+    setCommentError(null);
+
+    // Validate comments
+    if (!comments.trim()) {
+      setCommentError("Comments are required for requesting modification");
+      return;
+    }
+
+    setActionLoading(true);
 
     try {
       await axios.post(
@@ -388,7 +425,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
 
   return (
     <Container
-      className={`detail-container ${isMobile ? "mobile-form-container" : ""}`}
+      className={`detail-container1 ${isMobile ? "mobile-form-container" : ""}`}
       size={isMobile ? "sm" : "lg"}
     >
       <div className="detail-header">
@@ -404,6 +441,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
 
         <Title
           className={`detail-page-title ${isMobile ? "mobile-detail-page-title" : ""}`}
+          order={2}
         >
           Application Details
         </Title>
@@ -414,6 +452,50 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
           {actionSuccess}
         </Alert>
       )}
+
+      {/* Action buttons at the top of the form */}
+      <Card
+        p="md"
+        radius="md"
+        withBorder
+        mb="lg"
+        className="action-buttons-card"
+      >
+        <Group position="center" spacing="md" className="action-buttons-group">
+          <Button
+            component="a"
+            href={`${API_BASE_URL}/download/${application_id}/`}
+            target="_blank"
+            download={`Application-${application_id}.pdf`}
+            size="md"
+            color="blue"
+            leftIcon={<Download size={18} />} // Changed from DownloadSimple to Download
+            className="action-button"
+          >
+            Download Application
+          </Button>
+
+          <Button
+            size="md"
+            color="green"
+            leftIcon={<ActionIcon size={18} />}
+            onClick={openForwardModal}
+            className="action-button"
+          >
+            Forward to Director
+          </Button>
+
+          <Button
+            size="md"
+            color="orange"
+            leftIcon={<ActionIcon size={18} />}
+            onClick={openModificationModal}
+            className="action-button"
+          >
+            Request Modification
+          </Button>
+        </Group>
+      </Card>
 
       <div className="form-content">
         <FormSection title="Application Overview">
@@ -451,22 +533,6 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
         <FormSection title="Key Dates">
           <div className="key-dates-container">
             <div className="key-dates-grid">
-              <div className="key-date-card">
-                <div className="key-date-title">Reviewed by PCC</div>
-                <div className="key-date-value">
-                  {dates?.reviewed_by_pcc_date
-                    ? new Date(dates.reviewed_by_pcc_date).toLocaleDateString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        },
-                      )
-                    : "Not yet reviewed"}
-                </div>
-              </div>
-
               <div className="key-date-card">
                 <div className="key-date-title">Forwarded to Director</div>
                 <div className="key-date-value">
@@ -615,7 +681,14 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
         <FormSection title="Section I: Administrative and Technical Details">
           <Grid>
             <Grid.Col span={12} md={6}>
-              <FormField label="Type of IP:" value={section_I?.type_of_ip} />
+              <FormField
+                label="Type of IP:"
+                value={
+                  Array.isArray(section_I?.type_of_ip)
+                    ? section_I?.type_of_ip.join(", ")
+                    : section_I?.type_of_ip
+                }
+              />
             </Grid.Col>
             <Grid.Col span={12} md={6}>
               <FormField
@@ -777,58 +850,20 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
             <Text color="dimmed">No applicant information available</Text>
           )}
         </FormSection>
-
-        <div className="form-actions">
-          <Group
-            position="right"
-            spacing="md"
-            className="action-buttons-group"
-            grow={isMobile}
-          >
-            <Button
-              component="a"
-              href={`${API_BASE_URL}/download/${application_id}/`}
-              target="_blank"
-              download={`Application-${application_id}.pdf`}
-              size="md"
-              color="blue"
-              leftIcon={<DownloadSimple size={18} />}
-              fullWidth={isMobile}
-            >
-              Download Applicatis
-            </Button>
-
-            <Button
-              size="md"
-              color="green"
-              leftIcon={<ActionIcon size={18} />}
-              onClick={() => setForwardModalOpen(true)}
-              fullWidth={isMobile}
-            >
-              Forward to Director
-            </Button>
-
-            <Button
-              size="md"
-              color="orange"
-              leftIcon={<ActionIcon size={18} />}
-              onClick={() => setModificationModalOpen(true)}
-              fullWidth={isMobile}
-            >
-              Request Modification
-            </Button>
-          </Group>
-        </div>
       </div>
 
-      {/* Forward to Director Modal */}
+      {/* Forward to Director Modal - Improved UI */}
       <Modal
         opened={forwardModalOpen}
         onClose={() => setForwardModalOpen(false)}
-        title="Forward to Director"
+        title={<Title order={3}>Forward to Director</Title>}
         size="lg"
+        classNames={{
+          title: "modal-title",
+          body: "modal-body",
+        }}
       >
-        <div>
+        <Box className="modal-content">
           {actionError && (
             <Alert color="red" title="Error" mb="md">
               {actionError}
@@ -843,84 +878,123 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
             onChange={setSelectedAttorneyId}
             required
             mb="md"
+            size="md"
+            className="select-field"
+            error={
+              !selectedAttorneyId && actionLoading
+                ? "Attorney selection is required"
+                : null
+            }
           />
 
           <Textarea
-            label="Comments"
-            placeholder="Add comments for the director"
+            label="Comments for Director (Required)"
+            placeholder="Add detailed comments for the director about this application"
             value={comments}
             onChange={(e) => setComments(e.target.value)}
-            minRows={3}
-            maxRows={5}
+            minRows={4}
+            maxRows={6}
             mb="md"
+            size="md"
+            className="textarea-field"
+            error={commentError}
+            required
           />
 
-          <Group position="right" mt="md">
+          <Text size="sm" color="dimmed" mb="lg">
+            Please provide detailed instructions or notes for the director to
+            review this application.
+          </Text>
+
+          <Group position="right" mt="xl" spacing="md">
             <Button
               variant="outline"
+              size="md"
               onClick={() => {
                 setForwardModalOpen(false);
-                setError(null);
                 setActionError(null);
+                setCommentError(null);
               }}
             >
               Cancel
             </Button>
             <Button
               color="green"
+              size="md"
               onClick={handleForwardToDirector}
               loading={actionLoading}
             >
-              Forward
+              Forward to Director
             </Button>
           </Group>
-        </div>
+        </Box>
       </Modal>
 
-      {/* Request Modification Modal */}
+      {/* Request Modification Modal - Improved UI */}
       <Modal
         opened={modificationModalOpen}
         onClose={() => setModificationModalOpen(false)}
-        title="Request Modification"
+        title={<Title order={3}>Request Modification</Title>}
         size="lg"
+        classNames={{
+          title: "modal-title",
+          body: "modal-body",
+        }}
       >
-        <div>
+        <Box className="modal-content">
           {actionError && (
             <Alert color="red" title="Error" mb="md">
               {actionError}
             </Alert>
           )}
 
+          <Text size="md" mb="md">
+            Please specify what aspects of the application need to be modified
+            by the applicant.
+          </Text>
+
           <Textarea
-            label="Modification Comments"
-            placeholder="Specify what needs to be modified"
+            label="Modification Comments (Required)"
+            placeholder="Provide detailed instructions about what needs to be modified in the application"
             value={comments}
             onChange={(e) => setComments(e.target.value)}
-            minRows={4}
-            maxRows={6}
+            minRows={5}
+            maxRows={8}
             mb="md"
+            size="md"
+            className="textarea-field"
+            error={commentError}
+            required
           />
 
-          <Group position="right" mt="md">
+          <Text size="sm" color="dimmed" mb="lg">
+            Be specific about what information is incorrect, missing, or needs
+            clarification. These comments will be sent directly to the
+            applicant.
+          </Text>
+
+          <Group position="right" mt="xl" spacing="md">
             <Button
               variant="outline"
+              size="md"
               onClick={() => {
                 setModificationModalOpen(false);
-                setError(null);
                 setActionError(null);
+                setCommentError(null);
               }}
             >
               Cancel
             </Button>
             <Button
               color="orange"
+              size="md"
               onClick={handleRequestModification}
               loading={actionLoading}
             >
               Request Modification
             </Button>
           </Group>
-        </div>
+        </Box>
       </Modal>
     </Container>
   );
