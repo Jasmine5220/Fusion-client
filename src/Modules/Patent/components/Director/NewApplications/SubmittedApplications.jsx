@@ -167,31 +167,31 @@ function SubmittedApplications({ setActiveTab }) {
   };
 
   return (
-    <Box className="review-applications-container">
+    <Box className="director-submitted-apps-container">
       {/* Header with title */}
-      <Box className="header-container">
+      <Box className="director-submitted-apps-header">
         <Title
           order={2}
-          className="applications-title"
+          className="director-submitted-apps-title"
         >
           Applications Forwarded by PCC Admin
         </Title>
       </Box>
       
       {/* Description text */}
-      <Box className="description-container">
+      <Box className="director-submitted-apps-description">
         <Text
           size="md"
           color="dimmed"
-          className="description-text"
+          className="director-submitted-apps-text"
         >
           The following is a list of patent applications forwarded for review.
           Click "View" to examine details.
         </Text>
         
-        {/* Refresh button - positioned below description on mobile */}
+        {/* Refresh button */}
         <Button
-          className="refresh-button"
+          className="director-submitted-apps-refresh"
           onClick={handleRefresh}
           loading={isRefreshing}
           leftIcon={<ArrowsClockwise size={16} />}
@@ -200,7 +200,7 @@ function SubmittedApplications({ setActiveTab }) {
         </Button>
       </Box>
   
-      <Box className="outerContainer">
+      <Box className="director-submitted-apps-outer">
         {renderApplicationsTable()}
       </Box>
     </Box>

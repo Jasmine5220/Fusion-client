@@ -1,32 +1,40 @@
-/* General Container */
-.review-applications-container {
+/* Director/SubmittedApplications.css */
+
+/* Scoped container */
+.director-submitted-apps-container {
   position: relative;
   width: 100%;
 }
 
-.header-container {
+/* Header styles */
+.director-submitted-apps-header {
   padding: 0 32px;
   margin-bottom: 8px;
 }
 
-.applications-title {
-  font-weight: 700;
-  text-align: left;
+.director-submitted-apps-title {
+  font-weight: 700 !important;
+  text-align: left ;
+  margin-left: 0 !important;
+  margin-bottom: 5px !important;
+  font-size: 24px ;
 }
 
-.description-container {
+/* Description area */
+.director-submitted-apps-description {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 16px ;
   padding: 0 32px;
-  margin-bottom: 24px;
+  margin-bottom: 24px !important;
 }
 
-.description-text {
+.director-submitted-apps-text {
   text-align: left;
 }
 
-.refresh-button {
+/* Refresh button */
+.director-submitted-apps-refresh {
   align-self: flex-start;
   background-color: #fff;
   border: 1px solid #0073e6;
@@ -37,12 +45,13 @@
   width: auto;
 }
 
-.refresh-button:hover {
+.director-submitted-apps-refresh:hover {
   background-color: #0073e6;
   color: #fff;
 }
 
-.outerContainer {
+/* Main content container */
+.director-submitted-apps-outer {
   max-width: 100%;
   padding: 24px 32px;
   background-color: #f8f9fa;
@@ -53,8 +62,8 @@
   transition: all 0.3s ease;
 }
 
-/* Wrapper for horizontal scrolling */
-.tableWrapper {
+/* Table wrapper */
+.director-submitted-apps-outer .tableWrapper {
   overflow-x: auto;
   width: 100%;
   -webkit-overflow-scrolling: touch;
@@ -62,8 +71,8 @@
   margin-bottom: 12px;
 }
 
-/* Responsive Table */
-.styledTable {
+/* Table styles */
+.director-submitted-apps-outer .styledTable {
   width: 100%;
   font-size: 14px;
   background-color: #ffffff;
@@ -75,7 +84,7 @@
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 }
 
-.fusionTableHeader th {
+.director-submitted-apps-outer .fusionTableHeader th {
   padding: 16px 20px;
   text-align: left;
   background-color: #f0f4f8;
@@ -88,24 +97,24 @@
   white-space: nowrap;
 }
 
-.tableRow {
+.director-submitted-apps-outer .tableRow {
   background-color: #ffffff;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.tableRow:hover {
+.director-submitted-apps-outer .tableRow:hover {
   background-color: #f8fbff;
   transform: translateY(-1px);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
-.tableRow td {
+.director-submitted-apps-outer .tableRow td {
   padding: 14px 20px;
   border-top: 1px solid #f0f0f0;
   vertical-align: middle;
 }
 
-.viewButton {
+.director-submitted-apps-outer .viewButton {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -115,12 +124,13 @@
   padding: 8px 12px;
 }
 
-.viewButton:hover {
+.director-submitted-apps-outer .viewButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.loader-container {
+/* Loader styles */
+.director-submitted-apps-outer .loader-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -129,56 +139,52 @@
 }
 
 /* Responsive Design */
-
-/* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-  .description-container {
+  .director-submitted-apps-description {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
   
-  .refresh-button {
+  .director-submitted-apps-refresh {
     margin-top: 0;
   }
 }
 
-/* Small devices (up to 767px) */
 @media (max-width: 767px) {
-  .header-container,
-  .description-container {
+  .director-submitted-apps-header,
+  .director-submitted-apps-description {
     padding: 0 20px;
   }
   
-  .outerContainer {
+  .director-submitted-apps-outer {
     padding: 20px;
     border-radius: 8px;
   }
 }
 
-/* Extra small devices (up to 480px) */
 @media (max-width: 480px) {
-  .header-container,
-  .description-container {
+  .director-submitted-apps-header,
+  .director-submitted-apps-description {
     padding: 0 16px;
   }
   
-  .outerContainer {
+  .director-submitted-apps-outer {
     padding: 16px;
     border-radius: 6px;
   }
   
-  .fusionTableHeader th {
+  .director-submitted-apps-outer .fusionTableHeader th {
     padding: 10px 12px;
     font-size: 12px;
   }
   
-  .tableRow td {
+  .director-submitted-apps-outer .tableRow td {
     padding: 10px 12px;
     font-size: 12px;
   }
   
-  .refresh-button {
+  .director-submitted-apps-refresh {
     padding: 8px 12px;
     font-size: 13px;
   }
