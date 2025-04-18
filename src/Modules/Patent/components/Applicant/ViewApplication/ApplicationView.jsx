@@ -32,24 +32,41 @@ const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
 
 // Progress Bar Component
 function PatentProgressBar({ currentStatus, isMobile }) {
-  const statuses = [
+  const allStatuses = [
     "Submitted",
     "Reviewed by PCC Admin",
     "Attorney Assigned",
     "Forwarded for Director's Review",
     "Director's Approval Received",
-    "Patentability Check",
+    "Patentability Check Started",
+    "Patentability Check Completed",
     "Patentability Search Report Generated",
     "Patent Filed",
+    "Patent Published",
+    "Patent Granted",
+    "Patent Refused",
   ];
 
   const getStepIndex = (status) => {
     if (status === "Rejected") return -1;
-    return statuses.findIndex((s) => s === status);
+    return allStatuses.findIndex((s) => s === status);
   };
 
   const currentStep = getStepIndex(currentStatus);
   const isRejected = currentStatus === "Rejected";
+  const isRefused = currentStatus === "Patent Refused";
+  const isGranted = currentStatus === "Patent Granted";
+
+  // Determine which statuses to display based on current status
+  let displayStatuses;
+  if (isRefused) {
+    displayStatuses = ["Submitted", "Patent Refused"];
+  } else if (isGranted) {
+    // Show only the first 11 stages without "Patent Refused" for granted patents
+    displayStatuses = allStatuses.slice(0, 11);
+  } else {
+    displayStatuses = allStatuses;
+  }
 
   return (
     <div className={`progress-container ${isRejected ? "rejected" : ""}`}>
@@ -60,84 +77,121 @@ function PatentProgressBar({ currentStatus, isMobile }) {
       )}
 
       {!isMobile ? (
-        // Desktop view - two rows of 4 steps each
+        // Desktop view
         <div className="desktop-stepper">
-          <Stepper
-            active={currentStep}
-            className="workflow-stepper"
-            size="md"
-            color={isRejected ? "red" : "blue"}
-            orientation="horizontal"
-            iconSize={24}
-            breakpoint="sm"
-          >
-            {statuses.slice(0, 4).map((status, index) => (
+          {isRefused ? (
+            // Simple two-step progress for refused patents
+            <Stepper
+              active={1}
+              className="workflow-stepper"
+              size="md"
+              color="red"
+              orientation="horizontal"
+              iconSize={24}
+              breakpoint="sm"
+            >
               <Stepper.Step
-                key={status}
-                icon={
-                  index < currentStep ? (
-                    <CheckCircle size={18} />
-                  ) : index === currentStep ? (
-                    <CircleNotch size={18} />
-                  ) : (
-                    <ArrowRight size={18} />
-                  )
-                }
-                label={`Stage ${index + 1}`}
-                description={status}
-                className={
-                  index <= currentStep ? "completed-step" : "pending-step"
-                }
+                key="Submitted"
+                icon={<CheckCircle size={18} />}
+                label="Stage 1"
+                description="Submitted"
+                className="completed-step"
               />
-            ))}
-          </Stepper>
-          <Stepper
-            active={currentStep - 4} // Adjust active step for second row
-            className="workflow-stepper second-row"
-            size="md"
-            color={isRejected ? "red" : "blue"}
-            orientation="horizontal"
-            iconSize={24}
-            breakpoint="sm"
-          >
-            {statuses.slice(4).map((status, index) => (
               <Stepper.Step
-                key={status}
-                icon={
-                  index + 4 < currentStep ? (
-                    <CheckCircle size={18} />
-                  ) : index + 4 === currentStep ? (
-                    <CircleNotch size={18} />
-                  ) : (
-                    <ArrowRight size={18} />
-                  )
-                }
-                label={`Stage ${index + 5}`}
-                description={status}
-                className={
-                  index + 4 <= currentStep ? "completed-step" : "pending-step"
-                }
+                key="Patent Refused"
+                icon={<CircleNotch size={18} />}
+                label="Stage 2"
+                description="Patent Refused"
+                className="completed-step"
               />
-            ))}
-          </Stepper>
+            </Stepper>
+          ) : (
+            // Regular view with two rows for normal flow
+            <>
+              <Stepper
+                active={isGranted ? 4 : currentStep}
+                className="workflow-stepper"
+                size="md"
+                color={isRejected ? "red" : "blue"}
+                orientation="horizontal"
+                iconSize={24}
+                breakpoint="sm"
+              >
+                {displayStatuses.slice(0, 4).map((status, index) => (
+                  <Stepper.Step
+                    key={status}
+                    icon={
+                      isGranted || index < currentStep ? (
+                        <CheckCircle size={18} />
+                      ) : index === currentStep ? (
+                        <CircleNotch size={18} />
+                      ) : (
+                        <ArrowRight size={18} />
+                      )
+                    }
+                    label={`Stage ${index + 1}`}
+                    description={status}
+                    className={
+                      isGranted || index <= currentStep
+                        ? "completed-step"
+                        : "pending-step"
+                    }
+                  />
+                ))}
+              </Stepper>
+              <Stepper
+                active={isGranted ? 7 : Math.max(0, currentStep - 4)} // All steps active if granted
+                className="workflow-stepper second-row"
+                size="md"
+                color={isRejected ? "red" : "blue"}
+                orientation="horizontal"
+                iconSize={24}
+                breakpoint="sm"
+              >
+                {displayStatuses.slice(4).map((status, index) => (
+                  <Stepper.Step
+                    key={status}
+                    icon={
+                      isGranted || index + 4 < currentStep ? (
+                        <CheckCircle size={18} />
+                      ) : index + 4 === currentStep ? (
+                        <CircleNotch size={18} />
+                      ) : (
+                        <ArrowRight size={18} />
+                      )
+                    }
+                    label={`Stage ${index + 5}`}
+                    description={status}
+                    className={
+                      isGranted || index + 4 <= currentStep
+                        ? "completed-step"
+                        : "pending-step"
+                    }
+                  />
+                ))}
+              </Stepper>
+            </>
+          )}
         </div>
       ) : (
         // Mobile view - vertical stepper
         <Stepper
-          active={currentStep}
+          active={
+            isRefused ? 1 : isGranted ? displayStatuses.length - 1 : currentStep
+          }
           className="workflow-stepper mobile-view"
           size="sm"
-          color={isRejected ? "red" : "blue"}
+          color={isRefused ? "red" : isRejected ? "red" : "blue"}
           orientation="vertical"
           iconSize={16}
         >
-          {statuses.map((status, index) => (
+          {displayStatuses.map((status, index) => (
             <Stepper.Step
               key={status}
               icon={
-                index < currentStep ? (
+                isGranted || index < (isRefused ? 1 : currentStep) ? (
                   <CheckCircle size={16} />
-                ) : index === currentStep ? (
+                ) : index === (isRefused ? 1 : currentStep) ? (
                   <CircleNotch size={16} />
                 ) : (
                   <ArrowRight size={16} />
@@ -146,7 +200,9 @@ function PatentProgressBar({ currentStatus, isMobile }) {
               label={`Stage ${index + 1}`}
               description={status}
               className={
-                index <= currentStep ? "completed-step" : "pending-step"
+                isGranted || index <= (isRefused ? 1 : currentStep)
+                  ? "completed-step"
+                  : "pending-step"
               }
             />
           ))}
@@ -612,6 +668,12 @@ function ApplicationView({ setActiveTab }) {
       : "Not recorded";
 
     // Build file URLs
+    const pocFileUrl = section_I?.poc_file
+      ? `${API_BASE_URL}/download/file/${section_I.poc_file}/`
+      : null;
+    const sourceAgreementFileUrl = section_II?.source_agreement_file
+      ? `${API_BASE_URL}/download/file/${section_II.source_agreement_file}/`
+      : null;
     const mouFileUrl = section_II?.mou_file
       ? `${API_BASE_URL}/download/file/${section_II.mou_file}/`
       : null;
@@ -676,41 +738,22 @@ function ApplicationView({ setActiveTab }) {
           <FormSection title="Key Dates">
             <div className="key-dates-container">
               <div className="key-dates-grid">
-                {/* Date of Filing */}
-                <div className="key-date-card">
-                  <div className="key-date-title">Date of Filing</div>
-                  <div className="key-date-value">
-                    {dates?.submitted_date
-                      ? new Date(dates.submitted_date).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          },
-                        )
-                      : "Not recorded"}
-                  </div>
+                {/* <div className="key-date-card">
+                <div className="key-date-title">Reviewed by PCC</div>
+                <div className="key-date-value">
+                  {dates?.reviewed_by_pcc_date
+                    ? new Date(dates.reviewed_by_pcc_date).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        },
+                      )
+                    : "Not yet reviewed"}
                 </div>
+              </div> */}
 
-                {/* Reviewed by PCC */}
-                <div className="key-date-card">
-                  <div className="key-date-title">Reviewed by PCC</div>
-                  <div className="key-date-value">
-                    {dates?.reviewed_by_pcc_date
-                      ? new Date(dates.reviewed_by_pcc_date).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          },
-                        )
-                      : "Not yet reviewed"}
-                  </div>
-                </div>
-
-                {/* Forwarded to Director */}
                 <div className="key-date-card">
                   <div className="key-date-title">Forwarded to Director</div>
                   <div className="key-date-value">
@@ -726,7 +769,6 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                {/* Director Approval */}
                 <div className="key-date-card">
                   <div className="key-date-title">Director Approval</div>
                   <div className="key-date-value">
@@ -742,7 +784,6 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                {/* Patentability Check Start */}
                 <div className="key-date-card">
                   <div className="key-date-title">
                     Patentability Check Start
@@ -760,7 +801,6 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                {/* Patentability Check Completed */}
                 <div className="key-date-card">
                   <div className="key-date-title">
                     Patentability Check Completed
@@ -778,7 +818,6 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                {/* Search Report Generated */}
                 <div className="key-date-card">
                   <div className="key-date-title">Search Report Generated</div>
                   <div className="key-date-value">
@@ -794,7 +833,22 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                {/* Date of Publication */}
+                <div className="key-date-card">
+                  <div className="key-date-title">Date of Filing</div>
+                  <div className="key-date-value">
+                    {dates?.patent_filed_date
+                      ? new Date(dates.patent_filed_date).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          },
+                        )
+                      : "Not recorded"}
+                  </div>
+                </div>
+
                 <div className="key-date-card">
                   <div className="key-date-title">Date of Publication</div>
                   <div className="key-date-value">
@@ -810,43 +864,24 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                {/* Date of Grant */}
-                <div className="key-date-card">
-                  <div className="key-date-title">Date of Grant</div>
-                  <div className="key-date-value">
-                    {dates?.granted_date
-                      ? new Date(dates.granted_date).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          },
-                        )
-                      : "Not yet granted"}
-                  </div>
+                {/* <div className="key-date-card">
+                <div className="key-date-title">Decision Date</div>
+                <div className="key-date-value">
+                  {dates?.decision_date
+                    ? new Date(dates.decision_date).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        },
+                      )
+                    : "No decision yet"}
                 </div>
+              </div> */}
 
-                {/* Decision Date */}
                 <div className="key-date-card">
-                  <div className="key-date-title">Decision Date</div>
-                  <div className="key-date-value">
-                    {dates?.decision_date
-                      ? new Date(dates.decision_date).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          },
-                        )
-                      : "No decision yet"}
-                  </div>
-                </div>
-
-                {/* Final Decision Date */}
-                <div className="key-date-card">
-                  <div className="key-date-title">Final Decision Date</div>
+                  <div className="key-date-title"> Date of Granting</div>
                   <div className="key-date-value">
                     {dates?.final_decision_date
                       ? new Date(dates.final_decision_date).toLocaleDateString(
@@ -903,10 +938,11 @@ function ApplicationView({ setActiveTab }) {
                 />
               </Grid.Col>
               <Grid.Col span={12} md={6}>
-                <ConditionalFileDownload
+                <FormFieldWithDownload
                   label="POC Details:"
                   value={section_I?.poc_details}
-                  filePath={section_I?.poc_file}
+                  fileUrl={pocFileUrl}
+                  fileLabel="POC File"
                 />
               </Grid.Col>
               <Grid.Col span={12} md={6}>
@@ -933,10 +969,11 @@ function ApplicationView({ setActiveTab }) {
                 />
               </Grid.Col>
               <Grid.Col span={12} md={6}>
-                <ConditionalFileDownload
+                <FormFieldWithDownload
                   label="Source Agreement:"
                   value={section_II?.source_agreement}
-                  filePath={section_II?.source_agreement_file}
+                  fileUrl={sourceAgreementFileUrl}
+                  fileLabel="Source Agreement"
                 />
               </Grid.Col>
               <Grid.Col span={12} md={6}>
