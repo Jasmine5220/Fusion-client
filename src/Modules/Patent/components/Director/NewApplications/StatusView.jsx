@@ -109,49 +109,88 @@ function PatentApplication() {
   const [error, setError] = useState(null);
   const [applicationId, setApplicationId] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
+  const [attorneys, setAttorneys] = useState([]);
+  const [selectedAttorneyId, setSelectedAttorneyId] = useState("");
+  const [attorneysLoading, setAttorneysLoading] = useState(true);
   const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
   const authToken = localStorage.getItem("authToken");
 
-  const [attorneys, setAttorneys] = useState([
-    { value: "1", label: "John Doe (Patent Attorney)" },
-    { value: "2", label: "Jane Smith (IP Specialist)" },
-    { value: "3", label: "Robert Johnson (Legal Counsel)" },
-    { value: "4", label: "Emily Davis (Trademark Expert)" },
-  ]);
-  const [selectedAttorneyId, setSelectedAttorneyId] = useState("");
+  // Add this useEffect hook near your existing useEffect hooks
+  // Add authToken to dependency array
+  useEffect(() => {
+    const fetchAttorneys = async () => {
+      try {
+        setAttorneysLoading(true);
+        const response = await axios.get(
+          `${API_BASE_URL}/pccAdmin/attorneys/`,
+          {
+            headers: {
+              Authorization: `Token ${authToken}`,
+            },
+          },
+        );
 
+        const attorneyOptions = response.data.map((attorney) => ({
+          value: attorney.id.toString(),
+          label: `${attorney.name} (${attorney.specialization || "Attorney"}) - ${
+            attorney.assigned_applications_count || 0
+          } case${attorney.assigned_applications_count !== 1 ? "s" : ""}`,
+        }));
+
+        setAttorneys(attorneyOptions);
+      } catch (err) {
+        console.error("Error fetching attorneys:", err);
+        alert(
+          `Failed to load attorneys: ${err.response?.data?.error || err.message}`,
+        );
+        setAttorneys([]);
+      } finally {
+        setAttorneysLoading(false);
+      }
+    };
+
+    fetchAttorneys();
+  }, [authToken]);
   const handleAccept = async () => {
-  if (!selectedAttorneyId) {
-    alert("Please select an attorney before Approving");
-    return;
-  }
+    if (!selectedAttorneyId) {
+      alert("Please select an attorney before Approving");
+      return;
+    }
 
-  try {
-    const selectedAttorney = attorneys.find(a => a.value === selectedAttorneyId);
-    const attorneyName = selectedAttorney ? selectedAttorney.label : "Unassigned";
-
-    await axios.post(
-      `${API_BASE_URL}/director/application/accept`,
-      { 
-        application_id: applicationId,
-        attorney_name: attorneyName
-      },
-      {
-        headers: {
-          Authorization: `Token ${authToken}`,
-          "Content-Type": "application/json",
+    try {
+      await axios.post(
+        `${API_BASE_URL}/director/application/accept`,
+        {
+          application_id: applicationId,
+          attorney_id: selectedAttorneyId, // Changed from attorney_name to attorney_id
         },
-      },
-    );
-    alert(`Application Approved and assigned to ${attorneyName} successfully!`);
-    window.history.back();
-  } catch (err) {
-    console.error("Error in approving application:", err);
-    alert(`Failed to approve: ${err.response?.data?.error || err.message}`);
-  }
-};
+        {
+          headers: {
+            Authorization: `Token ${authToken}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
 
+      // Get attorney name for success message
+      const selectedAttorney = attorneys.find(
+        (a) => a.value === selectedAttorneyId,
+      );
+      const attorneyName = selectedAttorney
+        ? attorneys
+            .find((a) => a.value === selectedAttorneyId)
+            ?.label.split(" (")[0]
+        : "Unassigned";
+
+      alert(
+        `Application Approved and assigned to ${attorneyName} successfully!`,
+      );
+      window.history.back();
+    } catch (err) {
+      console.error("Error in approving application:", err);
+      alert(`Failed to approve: ${err.response?.data?.error || err.message}`);
+    }
+  };
   const handleReject = async () => {
     try {
       await axios.post(
@@ -293,8 +332,6 @@ function PatentApplication() {
       day: "numeric",
     });
   };
-
-
 
   return (
     <Container
@@ -607,44 +644,56 @@ function PatentApplication() {
             <Text color="dimmed">No applicant information available</Text>
           )}
         </FormSection>
-<FormSection title="Application Decision">
-  <div className="decision-section">
-    <div className="assign-attorney-section">
-      <Text size="lg" weight={500} mb="sm">
-        Modify Assigned Attorney
-      </Text>
-      <Select
-        data={attorneys}
-        placeholder="Select an attorney"
-        value={selectedAttorneyId}
-        onChange={setSelectedAttorneyId}
-        mb="md"
-        className="attorney-select"
-      />
-    </div>
-    
-    <div className="decision-buttons">
-      <Group spacing="md">
-        <Button 
-          color="green" 
-          size="md" 
-          onClick={handleAccept}
-          className="decision-button"
-        >
-          Approve
-        </Button>
-        <Button 
-          color="red" 
-          size="md" 
-          onClick={handleReject}
-          className="decision-button"
-        >
-          Revert
-        </Button>
-      </Group>
-    </div>
-  </div>
-</FormSection>
+        <FormSection title="Application Decision">
+          <div className="decision-section">
+            <div className="assign-attorney-section">
+              <Text size="lg" weight={500} mb="sm">
+                Modify Assigned Attorney
+              </Text>
+              {attorneys.length === 0 && !attorneysLoading ? (
+                <Text color="dimmed" mt="sm">
+                  No attorneys available
+                </Text>
+              ) : (
+                <Select
+                  data={attorneys}
+                  placeholder={
+                    attorneysLoading
+                      ? "Loading attorneys..."
+                      : "Select an attorney"
+                  }
+                  value={selectedAttorneyId}
+                  onChange={setSelectedAttorneyId}
+                  mb="md"
+                  className="attorney-select"
+                  disabled={attorneysLoading}
+                  nothingFound="No attorneys available"
+                />
+              )}
+            </div>
+
+            <div className="decision-buttons">
+              <Group spacing="md">
+                <Button
+                  color="green"
+                  size="md"
+                  onClick={handleAccept}
+                  className="decision-button"
+                >
+                  Approve
+                </Button>
+                <Button
+                  color="red"
+                  size="md"
+                  onClick={handleReject}
+                  className="decision-button"
+                >
+                  Revert
+                </Button>
+              </Group>
+            </div>
+          </div>
+        </FormSection>
       </div>
     </Container>
   );
