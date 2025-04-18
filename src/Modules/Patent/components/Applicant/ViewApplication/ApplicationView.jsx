@@ -27,8 +27,10 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import "../../../style/Applicant/ApplicationView.css";
 
+// Define API_BASE_URL
+const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
+
 // Progress Bar Component
-// Update the PatentProgressBar component
 function PatentProgressBar({ currentStatus, isMobile }) {
   const statuses = [
     "Submitted",
@@ -202,7 +204,7 @@ function ApplicationCard({
       radius="md"
       withBorder
     >
-      <Text className="app-card-title" weight={600} size="lg" mb="md">
+      <Text className="app-card-title" weight={700} size="lg" mb="md">
         {title}
       </Text>
 
@@ -267,10 +269,6 @@ ApplicationCard.propTypes = {
   onViewApplication: PropTypes.func.isRequired,
 };
 
-// Add API_BASE_URL constant at the top
-const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
-
-// Update ConditionalFileDownload component with proper prop types
 function ConditionalFileDownload({ filePath, label, value }) {
   const encodedFilePath = filePath ? encodeURI(filePath) : null;
   const fileUrl = encodedFilePath ? `${API_BASE_URL}${encodedFilePath}` : null;
@@ -348,15 +346,21 @@ FileDownloadButton.propTypes = {
 function FormField({ label, value }) {
   return (
     <div
-      className={`form-field ${window.innerWidth <= 768 ? "mobile-form-field" : ""}`}
+      className={`form-field ${
+        window.innerWidth <= 768 ? "mobile-form-field" : ""
+      }`}
     >
       <Text
-        className={`field-label ${window.innerWidth <= 768 ? "mobile-field-label" : ""}`}
+        className={`field-label ${
+          window.innerWidth <= 768 ? "mobile-field-label" : ""
+        }`}
       >
         {label}
       </Text>
       <Text
-        className={`field-value ${window.innerWidth <= 768 ? "mobile-field-value" : ""}`}
+        className={`field-value ${
+          window.innerWidth <= 768 ? "mobile-field-value" : ""
+        }`}
       >
         {value || "Not provided"}
       </Text>
@@ -398,14 +402,18 @@ FormFieldWithDownload.propTypes = {
 function FormSection({ title, children }) {
   return (
     <Card
-      className={`detail-section ${window.innerWidth <= 768 ? "mobile-form-section" : ""}`}
+      className={`detail-section ${
+        window.innerWidth <= 768 ? "mobile-form-section" : ""
+      }`}
       p="lg"
       radius="md"
       withBorder
       mb="md"
     >
       <Title
-        className={`section-title ${window.innerWidth <= 768 ? "mobile-section-title" : ""}`}
+        className={`section-title ${
+          window.innerWidth <= 768 ? "mobile-section-title" : ""
+        }`}
       >
         {title}
       </Title>
@@ -471,9 +479,7 @@ function ApplicationView({ setActiveTab }) {
             (application) => ({
               title: application.title || "Untitled Application",
               date: application.submitted_date || "",
-              tokenNumber: application.attorney_name
-                ? application.token_no
-                : "Awaiting Assignment",
+              tokenNumber: application.token_no || null,
               applicationNumber: application.application_id,
               attorney: application.attorney_name || null,
               status: application.status || "Pending",
@@ -530,7 +536,7 @@ function ApplicationView({ setActiveTab }) {
   const renderApplicationList = () => (
     // Replace the Grid component with this structure:
     <Box className="applications-container">
-      <Text className="view-app-page-title">View Your Applications</Text>
+      <Text className="page-title">Your Patent Applications</Text>
 
       {loading ? (
         <div className="loader-container">
@@ -585,6 +591,7 @@ function ApplicationView({ setActiveTab }) {
     const {
       application_id,
       title,
+      token_no,
       attorney_name,
       status,
       decision_status,
@@ -614,7 +621,9 @@ function ApplicationView({ setActiveTab }) {
 
     return (
       <Container
-        className={`detail-container ${isMobile ? "mobile-form-container" : ""}`}
+        className={`detail-container ${
+          isMobile ? "mobile-form-container" : ""
+        }`}
         size={isMobile ? "sm" : "lg"}
       >
         <div className="detail-header">
@@ -623,10 +632,18 @@ function ApplicationView({ setActiveTab }) {
             variant="outline"
             color="blue"
             leftIcon={<ArrowLeft size={18} />}
-            className="app-back-button"
+            className="back-button"
           >
             Back to Applications
           </Button>
+
+          <Title
+            className={`detail-page-title ${
+              isMobile ? "mobile-detail-page-title" : ""
+            }`}
+          >
+            Submitted Form
+          </Title>
         </div>
 
         <div className="form-content">
@@ -637,6 +654,9 @@ function ApplicationView({ setActiveTab }) {
               </Grid.Col>
               <Grid.Col span={12} md={4}>
                 <FormField label="Submission Date:" value={submittedDate} />
+              </Grid.Col>
+              <Grid.Col span={12} md={4}>
+                <FormField label="Token Number:" value={token_no} />
               </Grid.Col>
               <Grid.Col span={12} md={4}>
                 <FormField label="Attorney:" value={attorney_name} />
@@ -652,6 +672,7 @@ function ApplicationView({ setActiveTab }) {
               </Grid.Col>
             </Grid>
           </FormSection>
+
           <FormSection title="Key Dates">
             <div className="key-dates-container">
               <div className="key-dates-grid">
@@ -672,12 +693,12 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                {/* Date of Publication */}
+                {/* Reviewed by PCC */}
                 <div className="key-date-card">
-                  <div className="key-date-title">Date of Publication</div>
+                  <div className="key-date-title">Reviewed by PCC</div>
                   <div className="key-date-value">
-                    {dates?.published_date
-                      ? new Date(dates.published_date).toLocaleDateString(
+                    {dates?.reviewed_by_pcc_date
+                      ? new Date(dates.reviewed_by_pcc_date).toLocaleDateString(
                           "en-US",
                           {
                             year: "numeric",
@@ -685,6 +706,106 @@ function ApplicationView({ setActiveTab }) {
                             day: "numeric",
                           },
                         )
+                      : "Not yet reviewed"}
+                  </div>
+                </div>
+
+                {/* Forwarded to Director */}
+                <div className="key-date-card">
+                  <div className="key-date-title">Forwarded to Director</div>
+                  <div className="key-date-value">
+                    {dates?.forwarded_to_director_date
+                      ? new Date(
+                          dates.forwarded_to_director_date,
+                        ).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "Not yet forwarded"}
+                  </div>
+                </div>
+
+                {/* Director Approval */}
+                <div className="key-date-card">
+                  <div className="key-date-title">Director Approval</div>
+                  <div className="key-date-value">
+                    {dates?.director_approval_date
+                      ? new Date(
+                          dates.director_approval_date,
+                        ).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "Not yet approved"}
+                  </div>
+                </div>
+
+                {/* Patentability Check Start */}
+                <div className="key-date-card">
+                  <div className="key-date-title">
+                    Patentability Check Start
+                  </div>
+                  <div className="key-date-value">
+                    {dates?.patentability_check_start_date
+                      ? new Date(
+                          dates.patentability_check_start_date,
+                        ).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "Not started"}
+                  </div>
+                </div>
+
+                {/* Patentability Check Completed */}
+                <div className="key-date-card">
+                  <div className="key-date-title">
+                    Patentability Check Completed
+                  </div>
+                  <div className="key-date-value">
+                    {dates?.patentability_check_completed_date
+                      ? new Date(
+                          dates.patentability_check_completed_date,
+                        ).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "Not completed"}
+                  </div>
+                </div>
+
+                {/* Search Report Generated */}
+                <div className="key-date-card">
+                  <div className="key-date-title">Search Report Generated</div>
+                  <div className="key-date-value">
+                    {dates?.search_report_generated_date
+                      ? new Date(
+                          dates.search_report_generated_date,
+                        ).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "Not generated"}
+                  </div>
+                </div>
+
+                {/* Date of Publication */}
+                <div className="key-date-card">
+                  <div className="key-date-title">Date of Publication</div>
+                  <div className="key-date-value">
+                    {dates?.patent_published_date
+                      ? new Date(
+                          dates.patent_published_date,
+                        ).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
                       : "Not yet published"}
                   </div>
                 </div>
@@ -705,9 +826,44 @@ function ApplicationView({ setActiveTab }) {
                       : "Not yet granted"}
                   </div>
                 </div>
+
+                {/* Decision Date */}
+                <div className="key-date-card">
+                  <div className="key-date-title">Decision Date</div>
+                  <div className="key-date-value">
+                    {dates?.decision_date
+                      ? new Date(dates.decision_date).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          },
+                        )
+                      : "No decision yet"}
+                  </div>
+                </div>
+
+                {/* Final Decision Date */}
+                <div className="key-date-card">
+                  <div className="key-date-title">Final Decision Date</div>
+                  <div className="key-date-value">
+                    {dates?.final_decision_date
+                      ? new Date(dates.final_decision_date).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          },
+                        )
+                      : "No final decision yet"}
+                  </div>
+                </div>
               </div>
             </div>
           </FormSection>
+
           <FormSection title="Section I: Administrative and Technical Details">
             <Grid>
               <Grid.Col span={12} md={6}>

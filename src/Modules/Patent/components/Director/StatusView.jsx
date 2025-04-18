@@ -261,6 +261,7 @@ function PatentApplication() {
     section_II,
     section_III,
     dates,
+    last_updated_at,
   } = applicationData;
 
   const formatDate = (dateString, fallbackText = "Not recorded") => {
@@ -328,6 +329,12 @@ function PatentApplication() {
             <Grid.Col span={12} md={4}>
               <FormField label="Decision Status:" value={decision_status} />
             </Grid.Col>
+            <Grid.Col span={12} md={4}>
+              <FormField
+                label="Last Updated:"
+                value={formatDate(last_updated_at)}
+              />
+            </Grid.Col>
             <Grid.Col span={12}>
               <FormField label="Comments:" value={comments} />
             </Grid.Col>
@@ -336,6 +343,12 @@ function PatentApplication() {
 
         <FormSection title="Key Dates">
           <div className="key-dates-grid">
+            <div className="key-date-card">
+              <div className="key-date-title">Submitted</div>
+              <div className="key-date-value">
+                {formatDate(dates?.submitted_date, "Not yet submitted")}
+              </div>
+            </div>
             <div className="key-date-card">
               <div className="key-date-title">Reviewed by PCC</div>
               <div className="key-date-value">
@@ -357,6 +370,59 @@ function PatentApplication() {
                 {formatDate(dates?.director_approval_date, "Not yet approved")}
               </div>
             </div>
+            <div className="key-date-card">
+              <div className="key-date-title">Patentability Check Started</div>
+              <div className="key-date-value">
+                {formatDate(
+                  dates?.patentability_check_start_date,
+                  "Not started",
+                )}
+              </div>
+            </div>
+            <div className="key-date-card">
+              <div className="key-date-title">
+                Patentability Check Completed
+              </div>
+              <div className="key-date-value">
+                {formatDate(
+                  dates?.patentability_check_completed_date,
+                  "Not completed",
+                )}
+              </div>
+            </div>
+            <div className="key-date-card">
+              <div className="key-date-title">Search Report Generated</div>
+              <div className="key-date-value">
+                {formatDate(
+                  dates?.search_report_generated_date,
+                  "Not generated",
+                )}
+              </div>
+            </div>
+            <div className="key-date-card">
+              <div className="key-date-title">Patent Filed</div>
+              <div className="key-date-value">
+                {formatDate(dates?.patent_filed_date, "Not filed")}
+              </div>
+            </div>
+            <div className="key-date-card">
+              <div className="key-date-title">Patent Published</div>
+              <div className="key-date-value">
+                {formatDate(dates?.patent_published_date, "Not published")}
+              </div>
+            </div>
+            <div className="key-date-card">
+              <div className="key-date-title">Final Decision</div>
+              <div className="key-date-value">
+                {formatDate(dates?.final_decision_date, "No final decision")}
+              </div>
+            </div>
+            <div className="key-date-card">
+              <div className="key-date-title">Decision Date</div>
+              <div className="key-date-value">
+                {formatDate(dates?.decision_date, "No decision")}
+              </div>
+            </div>
           </div>
         </FormSection>
 
@@ -364,6 +430,47 @@ function PatentApplication() {
           <Grid>
             <Grid.Col span={12} md={6}>
               <FormField label="Type of IP:" value={section_I?.type_of_ip} />
+            </Grid.Col>
+            <Grid.Col span={12} md={6}>
+              <FormField label="Area:" value={section_I?.area} />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormField label="Problem:" value={section_I?.problem} />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormField label="Objective:" value={section_I?.objective} />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormField label="Novelty:" value={section_I?.novelty} />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormField label="Advantages:" value={section_I?.advantages} />
+            </Grid.Col>
+            <Grid.Col span={12} md={6}>
+              <FormField
+                label="Is Tested:"
+                value={
+                  section_I?.is_tested === true
+                    ? "Yes"
+                    : section_I?.is_tested === false
+                      ? "No"
+                      : "Not specified"
+                }
+              />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormField
+                label="Applications:"
+                value={section_I?.applications}
+              />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormFieldWithDownload
+                label="Proof of Concept Details:"
+                value="Proof of Concept Documentation"
+                fileUrl={section_I?.poc_details}
+                fileLabel="Proof of Concept"
+              />
             </Grid.Col>
           </Grid>
         </FormSection>
@@ -376,6 +483,43 @@ function PatentApplication() {
                 value={section_II?.funding_details}
               />
             </Grid.Col>
+            <Grid.Col span={12} md={6}>
+              <FormField
+                label="Funding Source:"
+                value={section_II?.funding_source}
+              />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormFieldWithDownload
+                label="Source Agreement:"
+                value="Source Agreement Document"
+                fileUrl={section_II?.source_agreement}
+                fileLabel="Agreement Document"
+              />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormField
+                label="Publication Details:"
+                value={section_II?.publication_details}
+              />
+            </Grid.Col>
+            <Grid.Col span={12} md={6}>
+              <FormField label="MOU Details:" value={section_II?.mou_details} />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormFieldWithDownload
+                label="MOU File:"
+                value="MOU Document"
+                fileUrl={section_II?.mou_file}
+                fileLabel="MOU Document"
+              />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormField
+                label="Research Details:"
+                value={section_II?.research_details}
+              />
+            </Grid.Col>
           </Grid>
         </FormSection>
 
@@ -385,6 +529,32 @@ function PatentApplication() {
               <FormField
                 label="Company Name:"
                 value={section_III?.company_name}
+              />
+            </Grid.Col>
+            <Grid.Col span={12} md={6}>
+              <FormField
+                label="Contact Person:"
+                value={section_III?.contact_person}
+              />
+            </Grid.Col>
+            <Grid.Col span={12} md={6}>
+              <FormField
+                label="Contact Number:"
+                value={section_III?.contact_no}
+              />
+            </Grid.Col>
+            <Grid.Col span={12} md={6}>
+              <FormField
+                label="Development Stage:"
+                value={section_III?.development_stage}
+              />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <FormFieldWithDownload
+                label="Form III:"
+                value="Form III Document"
+                fileUrl={section_III?.form_iii}
+                fileLabel="Form III"
               />
             </Grid.Col>
           </Grid>

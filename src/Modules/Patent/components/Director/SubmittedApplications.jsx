@@ -69,10 +69,8 @@ function SubmittedApplications({ setActiveTab }) {
 
   const handleViewDetails = (application) => {
     // Extract numeric part from the third segment of the application ID
-    const numericId = application.applicationId
-      .split("/")[2]
-      .replace(/^0+/, "");
-    localStorage.setItem("selectedApplicationId", numericId);
+
+    localStorage.setItem("selectedApplicationId", application.applicationId);
     localStorage.setItem("selectedApplicationToken", application.tokenNumber);
     setActiveTab("1.1");
   };
