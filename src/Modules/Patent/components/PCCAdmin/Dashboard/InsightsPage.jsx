@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Select, Button, Title, Text, Container } from "@mantine/core";
+import { Table, Select, Button, Text, Container } from "@mantine/core";
 import { DownloadSimple } from "@phosphor-icons/react";
 import "../../../style/Pcc_Admin/InsightsPage.css";
 
@@ -46,9 +46,9 @@ function InsightsPage() {
 
   return (
     <Container style={{ padding: "0px", marginLeft: "0px", marginTop: "0px" }}>
-      <Title order={2} align="left" className="page-title">
+      <Text order={2} align="left" className="overview-title">
         Applications Overview - {selectedYear}
-      </Title>
+      </Text>
       <Text
         align="left"
         size="sm"
@@ -77,7 +77,7 @@ function InsightsPage() {
           />
         </div>
 
-        <div className="content">
+        <div className="insights-content-section">
           <div className="chart-section">
             <svg width="300" height="300" viewBox="0 0 100 100">
               {
@@ -144,9 +144,9 @@ function InsightsPage() {
           </div>
 
           <div className="table-section">
-            <Title order={3} size="lg" align="center" mb="md">
+            <Text className="table-title" align="center" mb="md">
               Applications Data
-            </Title>
+            </Text>
             <Table highlightOnHover>
               <thead>
                 <tr>
@@ -171,7 +171,7 @@ function InsightsPage() {
         </div>
 
         <br />
-        <div className="download">
+        <div className="download-csv-button">
           <Button
             radius="md"
             size="md"

@@ -39,7 +39,7 @@ function PCCAdminDashboard({ setActiveTab }) {
       <Text className="dashboard-title">Patent & Copyright Cell Dashboard</Text>
 
       {/* Combined Overview and Insights Section */}
-      <Paper shadow="md" radius="lg" className="combined-section">
+      <Paper className="combined-section">
         {/* Overview Section */}
         <Box className="overview-section">
           <Text className="overview-title">
@@ -80,13 +80,23 @@ function PCCAdminDashboard({ setActiveTab }) {
           )}
         </Grid.Col>
 
-        {/* Status of Applications Card */}
+        {/* Ongoing Applications Card */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
           {renderDashboardCard(
             <List size={20} className="icon" />,
-            "Status of Applications",
-            "Track the current status of all applications.",
+            "Ongoing Applications",
+            "Track the current status of all the ongoing applications.",
             "2",
+          )}
+        </Grid.Col>
+
+        {/* Past Applications Card */}
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          {renderDashboardCard(
+            <Briefcase size={20} className="icon" />,
+            "Past Applications",
+            "Track record of all the filed and reeted applications.",
+            "3",
           )}
         </Grid.Col>
 
@@ -100,12 +110,12 @@ function PCCAdminDashboard({ setActiveTab }) {
           )}
         </Grid.Col>
 
-        {/* Downloads Card */}
+        {/* Notifications Card */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
           {renderDashboardCard(
             <ArrowCircleDown size={20} className="icon" />,
-            "Downloads",
-            "Access and download important documents.",
+            "Notifications",
+            "Get notifications regarding status updates and other important information.",
             "4",
           )}
         </Grid.Col>
