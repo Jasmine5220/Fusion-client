@@ -4,10 +4,24 @@
   justify-content: flex-start;
   margin-bottom: 20px;
 }
+.m_8a5d1357{
+  margin-bottom: 20px !important;
+}
+.m_3eebeb36:where([data-orientation='horizontal']) {
+  border-top: none !important;
+  margin-block: 0.5rem !important; /* You can change this value as needed */
+}
+.form-actions{
+  margin-left: 50px;
+}
+.detail-header{
+  margin-bottom: 10px !important;
+}
+
 
 /* Container Styles */
 .status-applications-container {
-  padding: 30px;
+ margin-top: 0px;
   max-width: 100%;
   background-color: #f9fafb;
 }
@@ -16,7 +30,7 @@
 .status-title {
   font-size: 2rem;
   color: #333;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   font-weight: 700;
   text-align: left;
 }
@@ -120,12 +134,12 @@
 
 /* Detail View Styles */
 .detail-view-container {
-  padding: 20px;
-  background-color: #ffffff;
+  padding-top: 0px !important;
+  background-color: transparent;
   border-radius: 8px;
   /* Paper-like shadow for detail view */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.07);
-  margin-top: 20px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0), 0 3px 6px rgba(0, 0, 0, 0);
+ margin-top: 0px;
 }
 
 .back-button {

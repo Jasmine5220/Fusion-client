@@ -425,7 +425,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
 
   return (
     <Container
-      className={`detail-container ${isMobile ? "mobile-form-container" : ""}`}
+      className={`detail-container1 ${isMobile ? "mobile-form-container" : ""}`}
       size={isMobile ? "sm" : "lg"}
     >
       <div className="detail-header">

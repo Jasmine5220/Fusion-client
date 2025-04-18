@@ -170,7 +170,7 @@ function NewApplication() {
             style={{ textAlign: "left" }}
           />
 
-          <Group position="right" mb="sm">
+          <Group position="right" mb="sm" className="refresh-button">
             <Button
               variant="subtle"
               color="blue"
@@ -187,12 +187,11 @@ function NewApplication() {
         </>
       ) : (
         // Detailed view of selected application
-        <Box className="detail-view-container">
-          <ViewNewApplication
-            applicationId={selectedApplicationId}
-            handleBackToList={handleBackClick}
-          />
-        </Box>
+
+        <ViewNewApplication
+          applicationId={selectedApplicationId}
+          handleBackToList={handleBackClick}
+        />
       )}
     </Box>
   );

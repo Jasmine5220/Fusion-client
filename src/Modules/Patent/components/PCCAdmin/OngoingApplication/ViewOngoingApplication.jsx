@@ -115,7 +115,7 @@ FormSection.propTypes = {
 
 // Progress Bar Component
 function PatentProgressBar({ currentStatus, isMobile }) {
-  const statuses = [
+  const allStatuses = [
     "Submitted",
     "Reviewed by PCC Admin",
     "Attorney Assigned",
@@ -132,11 +132,24 @@ function PatentProgressBar({ currentStatus, isMobile }) {
 
   const getStepIndex = (status) => {
     if (status === "Rejected") return -1;
-    return statuses.findIndex((s) => s === status);
+    return allStatuses.findIndex((s) => s === status);
   };
 
   const currentStep = getStepIndex(currentStatus);
   const isRejected = currentStatus === "Rejected";
+  const isRefused = currentStatus === "Patent Refused";
+  const isGranted = currentStatus === "Patent Granted";
+
+  // Determine which statuses to display based on current status
+  let displayStatuses;
+  if (isRefused) {
+    displayStatuses = ["Submitted", "Patent Refused"];
+  } else if (isGranted) {
+    // Show only the first 11 stages without "Patent Refused" for granted patents
+    displayStatuses = allStatuses.slice(0, 11);
+  } else {
+    displayStatuses = allStatuses;
+  }
 
   return (
     <div className={`progress-container ${isRejected ? "rejected" : ""}`}>
@@ -147,84 +160,121 @@ function PatentProgressBar({ currentStatus, isMobile }) {
       )}
 
       {!isMobile ? (
-        // Desktop view - two rows of 4 steps each
+        // Desktop view
         <div className="desktop-stepper">
-          <Stepper
-            active={currentStep}
-            className="workflow-stepper"
-            size="md"
-            color={isRejected ? "red" : "blue"}
-            orientation="horizontal"
-            iconSize={24}
-            breakpoint="sm"
-          >
-            {statuses.slice(0, 4).map((status, index) => (
+          {isRefused ? (
+            // Simple two-step progress for refused patents
+            <Stepper
+              active={1}
+              className="workflow-stepper"
+              size="md"
+              color="red"
+              orientation="horizontal"
+              iconSize={24}
+              breakpoint="sm"
+            >
               <Stepper.Step
-                key={status}
-                icon={
-                  index < currentStep ? (
-                    <CheckCircle size={18} />
-                  ) : index === currentStep ? (
-                    <CircleNotch size={18} />
-                  ) : (
-                    <ArrowRight size={18} />
-                  )
-                }
-                label={`Stage ${index + 1}`}
-                description={status}
-                className={
-                  index <= currentStep ? "completed-step" : "pending-step"
-                }
+                key="Submitted"
+                icon={<CheckCircle size={18} />}
+                label="Stage 1"
+                description="Submitted"
+                className="completed-step"
               />
-            ))}
-          </Stepper>
-          <Stepper
-            active={Math.max(0, currentStep - 4)} // Adjust active step for second row
-            className="workflow-stepper second-row"
-            size="md"
-            color={isRejected ? "red" : "blue"}
-            orientation="horizontal"
-            iconSize={24}
-            breakpoint="sm"
-          >
-            {statuses.slice(4).map((status, index) => (
               <Stepper.Step
-                key={status}
-                icon={
-                  index + 4 < currentStep ? (
-                    <CheckCircle size={18} />
-                  ) : index + 4 === currentStep ? (
-                    <CircleNotch size={18} />
-                  ) : (
-                    <ArrowRight size={18} />
-                  )
-                }
-                label={`Stage ${index + 5}`}
-                description={status}
-                className={
-                  index + 4 <= currentStep ? "completed-step" : "pending-step"
-                }
+                key="Patent Refused"
+                icon={<CircleNotch size={18} />}
+                label="Stage 2"
+                description="Patent Refused"
+                className="completed-step"
               />
-            ))}
-          </Stepper>
+            </Stepper>
+          ) : (
+            // Regular view with two rows for normal flow
+            <>
+              <Stepper
+                active={isGranted ? 4 : currentStep}
+                className="workflow-stepper"
+                size="md"
+                color={isRejected ? "red" : "blue"}
+                orientation="horizontal"
+                iconSize={24}
+                breakpoint="sm"
+              >
+                {displayStatuses.slice(0, 4).map((status, index) => (
+                  <Stepper.Step
+                    key={status}
+                    icon={
+                      isGranted || index < currentStep ? (
+                        <CheckCircle size={18} />
+                      ) : index === currentStep ? (
+                        <CircleNotch size={18} />
+                      ) : (
+                        <ArrowRight size={18} />
+                      )
+                    }
+                    label={`Stage ${index + 1}`}
+                    description={status}
+                    className={
+                      isGranted || index <= currentStep
+                        ? "completed-step"
+                        : "pending-step"
+                    }
+                  />
+                ))}
+              </Stepper>
+              <Stepper
+                active={isGranted ? 7 : Math.max(0, currentStep - 4)} // All steps active if granted
+                className="workflow-stepper second-row"
+                size="md"
+                color={isRejected ? "red" : "blue"}
+                orientation="horizontal"
+                iconSize={24}
+                breakpoint="sm"
+              >
+                {displayStatuses.slice(4).map((status, index) => (
+                  <Stepper.Step
+                    key={status}
+                    icon={
+                      isGranted || index + 4 < currentStep ? (
+                        <CheckCircle size={18} />
+                      ) : index + 4 === currentStep ? (
+                        <CircleNotch size={18} />
+                      ) : (
+                        <ArrowRight size={18} />
+                      )
+                    }
+                    label={`Stage ${index + 5}`}
+                    description={status}
+                    className={
+                      isGranted || index + 4 <= currentStep
+                        ? "completed-step"
+                        : "pending-step"
+                    }
+                  />
+                ))}
+              </Stepper>
+            </>
+          )}
         </div>
       ) : (
         // Mobile view - vertical stepper
         <Stepper
-          active={currentStep}
+          active={
+            isRefused ? 1 : isGranted ? displayStatuses.length - 1 : currentStep
+          }
           className="workflow-stepper mobile-view"
           size="sm"
-          color={isRejected ? "red" : "blue"}
+          color={isRefused ? "red" : isRejected ? "red" : "blue"}
           orientation="vertical"
           iconSize={16}
         >
-          {statuses.map((status, index) => (
+          {displayStatuses.map((status, index) => (
             <Stepper.Step
               key={status}
               icon={
-                index < currentStep ? (
+                isGranted || index < (isRefused ? 1 : currentStep) ? (
                   <CheckCircle size={16} />
-                ) : index === currentStep ? (
+                ) : index === (isRefused ? 1 : currentStep) ? (
                   <CircleNotch size={16} />
                 ) : (
                   <ArrowRight size={16} />
@@ -233,7 +283,9 @@ function PatentProgressBar({ currentStatus, isMobile }) {
               label={`Stage ${index + 1}`}
               description={status}
               className={
-                index <= currentStep ? "completed-step" : "pending-step"
+                isGranted || index <= (isRefused ? 1 : currentStep)
+                  ? "completed-step"
+                  : "pending-step"
               }
             />
           ))}
@@ -281,7 +333,6 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
     { value: "Patent Published", label: "Patent Published" },
     { value: "Patent Granted", label: "Patent Granted" },
     { value: "Patent Refused", label: "Patent Refused" },
-    { value: "Rejected", label: "Rejected" },
   ];
 
   useEffect(() => {
@@ -332,6 +383,32 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
   const handleStatusChange = async (newStatus) => {
     if (!newStatus || newStatus === selectedApplication.status) return;
 
+    // Prevent moving past "Patent Granted" status
+    if (selectedApplication.status === "Patent Granted") {
+      setStatusUpdateMessage({
+        type: "info",
+        text: "This application has already been granted a patent. No further status changes are allowed.",
+      });
+
+      // Clear info message after 5 seconds
+      setTimeout(() => {
+        setStatusUpdateMessage(null);
+      }, 5000);
+
+      return;
+    }
+
+    // For "Patent Refused" status, show confirmation dialog
+    if (newStatus === "Patent Refused") {
+      const confirmRefusal = window.confirm(
+        "Are you sure you want to mark this application as 'Patent Refused'? This action cannot be undone.",
+      );
+
+      if (!confirmRefusal) {
+        return; // User canceled the operation
+      }
+    }
+
     try {
       setUpdatingStatus(true);
       setStatusUpdateMessage(null);
@@ -374,7 +451,10 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
       setUpdatingStatus(false);
 
       // Clear success message after 5 seconds
-      if (statusUpdateMessage?.type === "success") {
+      if (
+        statusUpdateMessage?.type === "success" ||
+        statusUpdateMessage?.type === "info"
+      ) {
         setTimeout(() => {
           setStatusUpdateMessage(null);
         }, 5000);
@@ -660,7 +740,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
+              {/* <div className="key-date-card">
                 <div className="key-date-title">Decision Date</div>
                 <div className="key-date-value">
                   {dates?.decision_date
@@ -674,10 +754,10 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                       )
                     : "No decision yet"}
                 </div>
-              </div>
+              </div> */}
 
               <div className="key-date-card">
-                <div className="key-date-title">Final Decision Date</div>
+                <div className="key-date-title"> Date of Granting</div>
                 <div className="key-date-value">
                   {dates?.final_decision_date
                     ? new Date(dates.final_decision_date).toLocaleDateString(
@@ -890,7 +970,11 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
               </Alert>
             )}
 
-            <Group position="apart" align="flex-end">
+            <Group
+              position="apart"
+              align="flex-end"
+              className="status-update-group"
+            >
               <Select
                 label="Select New Status"
                 placeholder="Choose status"

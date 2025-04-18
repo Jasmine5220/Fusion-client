@@ -190,12 +190,8 @@ function OngoingApplication() {
       {!selectedApplication ? (
         <>
           <Title order={2} className="status-title">
-            Ongoing Applications:
+            Ongoing Applications
           </Title>
-          <Text size="md" color="dimmed" className="description">
-            Below is the list of ongoing patent applications with their current
-            status. Click on "View" for more information.
-          </Text>
 
           <Group position="left" mb="md">
             <Button
