@@ -244,3 +244,45 @@ table tr:hover {
     padding: 1rem;
   }
 }
+.decision-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.assign-attorney-section {
+  flex: 1;
+  min-width: 300px;
+}
+
+.decision-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.decision-button {
+  width: 120px;
+}
+
+.attorney-select {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .decision-section {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .assign-attorney-section {
+    width: 100%;
+  }
+  
+  .decision-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

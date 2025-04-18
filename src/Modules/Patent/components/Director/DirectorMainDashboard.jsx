@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import { SortAscending } from "@phosphor-icons/react";
 import CustomBreadcrumbs from "../../../../components/Breadcrumbs.jsx";
 import ModuleTabs from "../../../../components/moduleTabs.jsx";
-import DirectorDashboard from "./DirectorDashboard.jsx";
-import SubmittedApplications from "./SubmittedApplications.jsx";
-import RecentsView from "./RecentsView.jsx";
-import PatentApplication from "./StatusView.jsx";
-import DirectorNotifications from "./DirectorNotifications.jsx"; // Import the notification component
+import DirectorDashboard from "./Dashboard/DirectorDashboard.jsx";
+import SubmittedApplications from "./NewApplications/SubmittedApplications.jsx";
+import RecentsView from "./ReviewedApplications/RecentsView.jsx";
+import PatentApplication from "./NewApplications/StatusView.jsx";
+import DirectorNotifications from "./Notifications/DirectorNotifications.jsx"; // Import the notification component
 
 const categories = ["Most Recent", "Tags", "Title"];
 
