@@ -178,6 +178,11 @@ function ApplicationForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!validateStep4()) {
+      alert("Please fill all required fields before submitting.");
+      return;
+    }
+
     const data = {
       title: applicationTitle,
       ip_type: ipTypes,
@@ -256,7 +261,11 @@ function ApplicationForm() {
   };
 
   const nextPage = () => {
-    setStep(step + 1);
+    if (validateCurrentStep()) {
+      setStep(step + 1);
+    } else {
+      alert("Please fill all required fields before proceeding.");
+    }
   };
 
   const prevPage = () => {
@@ -281,6 +290,60 @@ function ApplicationForm() {
 
   const handleDownload = () => {
     window.open("https://example.com/sample.pdf", "_blank");
+  };
+
+  const validateCurrentStep = () => {
+    switch (step) {
+      case 1:
+        return (
+          applicationTitle &&
+          ipTypes.length > 0 &&
+          inventors.every(
+            (inventor) =>
+              inventor.name &&
+              inventor.email &&
+              inventor.collegeemail &&
+              inventor.address &&
+              inventor.mobile &&
+              inventor.Contributionpercentage,
+          )
+        );
+      case 2:
+        return (
+          generalQuestions.inventionArea &&
+          generalQuestions.problemArea &&
+          generalQuestions.objective &&
+          generalQuestions.novelty &&
+          generalQuestions.utility &&
+          generalQuestions.tested &&
+          generalQuestions.applications
+        );
+      case 3:
+        return (
+          iprOwnershipQuestions.significantUse &&
+          iprOwnershipQuestions.fundingSource &&
+          iprOwnershipQuestions.presentationDetails &&
+          iprOwnershipQuestions.mOUDetails &&
+          iprOwnershipQuestions.academicResearch
+        );
+      case 4:
+        return (
+          companies.every(
+            (company) =>
+              company.name && company.concernedPerson && company.contact,
+          ) && selectedDevelopmentStage
+        );
+      default:
+        return false;
+    }
+  };
+
+  const validateStep4 = () => {
+    return (
+      companies.every(
+        (company) => company.name && company.concernedPerson && company.contact,
+      ) && selectedDevelopmentStage
+    );
   };
 
   // Button styles
@@ -358,16 +421,12 @@ function ApplicationForm() {
     <Paper
       shadow="xs"
       p={isMobile ? "sm" : "xl"}
-      mx="auto"
+      mx={0}
       style={{
-        width: "95%",
-        maxWidth: "95%",
+        width: "100%",
+        maxWidth: "100%",
         boxSizing: "border-box",
         overflowX: "hidden",
-        backgroundColor: "#f8f9fa",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
       }}
     >
       <Title
@@ -756,7 +815,7 @@ function ApplicationForm() {
               clearable
               value={section2FundingFile}
               onChange={setSection2FundingFile}
-              accept="image/*,application/pdf"
+              accept="image/,application/pdf"
               styles={fileInputStyles}
             />
             <div style={{ marginTop: "5px", marginBottom: "10px" }}>
@@ -800,7 +859,7 @@ function ApplicationForm() {
               clearable
               value={section2MouFile}
               onChange={setSection2MouFile}
-              accept="image/*,application/pdf"
+              accept="image/,application/pdf"
               styles={fileInputStyles}
             />
             <div style={{ marginTop: "5px", marginBottom: "10px" }}>
