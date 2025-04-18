@@ -143,6 +143,13 @@ function ApplicationForm() {
   };
 
   const handleInputChange = (index, field, value) => {
+    if (field === "collegeemail") {
+      // Convert the part before @ to uppercase
+      const [username, domain] = value.split("@");
+      if (domain === "iiitdmj.ac.in") {
+        value = `${username.toUpperCase()}@${domain}`;
+      }
+    }
     const updatedInventors = inventors.map((inventor, i) =>
       i === index ? { ...inventor, [field]: value } : inventor,
     );
@@ -163,6 +170,55 @@ function ApplicationForm() {
     setCompanies(updatedCompanies);
   };
 
+  const validateStep4 = () => {
+    return (
+      companies.every(
+        (company) => company.name && company.concernedPerson && company.contact,
+      ) && selectedDevelopmentStage
+    );
+  };
+
+  const validateCurrentStep = () => {
+    switch (step) {
+      case 1:
+        return (
+          applicationTitle &&
+          ipTypes.length > 0 &&
+          inventors.every(
+            (inventor) =>
+              inventor.name &&
+              inventor.email &&
+              inventor.collegeemail &&
+              inventor.address &&
+              inventor.mobile &&
+              inventor.Contributionpercentage,
+          )
+        );
+      case 2:
+        return (
+          generalQuestions.inventionArea &&
+          generalQuestions.problemArea &&
+          generalQuestions.objective &&
+          generalQuestions.novelty &&
+          generalQuestions.utility &&
+          generalQuestions.tested &&
+          generalQuestions.applications
+        );
+      case 3:
+        return (
+          iprOwnershipQuestions.significantUse &&
+          iprOwnershipQuestions.fundingSource &&
+          iprOwnershipQuestions.presentationDetails &&
+          iprOwnershipQuestions.mOUDetails &&
+          iprOwnershipQuestions.academicResearch
+        );
+      case 4:
+        return validateStep4();
+      default:
+        return false;
+    }
+  };
+
   const addNewCompany = () => {
     setCompanies([
       ...companies,
@@ -178,14 +234,14 @@ function ApplicationForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!validateStep4()) {
+    if (!validateCurrentStep()) {
       alert("Please fill all required fields before submitting.");
       return;
     }
 
     const data = {
       title: applicationTitle,
-      ip_type: ipTypes,
+      ip_types: ipTypes,
       user_id: 7108,
       inventors: inventors.map((inventor) => ({
         name: inventor.name,
@@ -290,60 +346,6 @@ function ApplicationForm() {
 
   const handleDownload = () => {
     window.open("https://example.com/sample.pdf", "_blank");
-  };
-
-  const validateCurrentStep = () => {
-    switch (step) {
-      case 1:
-        return (
-          applicationTitle &&
-          ipTypes.length > 0 &&
-          inventors.every(
-            (inventor) =>
-              inventor.name &&
-              inventor.email &&
-              inventor.collegeemail &&
-              inventor.address &&
-              inventor.mobile &&
-              inventor.Contributionpercentage,
-          )
-        );
-      case 2:
-        return (
-          generalQuestions.inventionArea &&
-          generalQuestions.problemArea &&
-          generalQuestions.objective &&
-          generalQuestions.novelty &&
-          generalQuestions.utility &&
-          generalQuestions.tested &&
-          generalQuestions.applications
-        );
-      case 3:
-        return (
-          iprOwnershipQuestions.significantUse &&
-          iprOwnershipQuestions.fundingSource &&
-          iprOwnershipQuestions.presentationDetails &&
-          iprOwnershipQuestions.mOUDetails &&
-          iprOwnershipQuestions.academicResearch
-        );
-      case 4:
-        return (
-          companies.every(
-            (company) =>
-              company.name && company.concernedPerson && company.contact,
-          ) && selectedDevelopmentStage
-        );
-      default:
-        return false;
-    }
-  };
-
-  const validateStep4 = () => {
-    return (
-      companies.every(
-        (company) => company.name && company.concernedPerson && company.contact,
-      ) && selectedDevelopmentStage
-    );
   };
 
   // Button styles

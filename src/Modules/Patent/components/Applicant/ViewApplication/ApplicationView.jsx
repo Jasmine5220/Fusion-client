@@ -536,7 +536,7 @@ function ApplicationView({ setActiveTab }) {
   const renderApplicationList = () => (
     // Replace the Grid component with this structure:
     <Box className="applications-container">
-      <Text className="page-title">Your Patent Applications</Text>
+      <Text className="view-app-page-title">Your Patent Applications</Text>
 
       {loading ? (
         <div className="loader-container">
