@@ -128,9 +128,9 @@
 /* Detail View Container */
 .detail-container {
   margin: 0;
-  max-width: 1500px;
+  max-width: 100%;
   padding: 20px;
-  background-color: #f8f9fa;
+  background-color: transparent;
   border-radius: 15px;
 }
 
