@@ -622,7 +622,7 @@ function ApplicationView({ setActiveTab }) {
           </Button>
         </Card>
       ) : (
-        <div className="applications-grid">
+        <div className="view-applications-grid">
           {applications.map((app, index) => (
             <ApplicationCard
               key={index}
@@ -686,30 +686,29 @@ function ApplicationView({ setActiveTab }) {
         className={`detail-container ${
           isMobile ? "mobile-form-container" : ""
         }`}
-        size={isMobile ? "sm" : "lg"}
+        size="100%"
+        style={{ maxWidth: "100%", padding: "2rem" }}
       >
-        <div className="detail-header">
+        <div className="application-view-detail-header">
+          <Text className="application-view-page-title">
+            {application_id} : {title}
+          </Text>
           <Button
             onClick={handleBackToList}
             variant="outline"
             color="blue"
             leftIcon={<ArrowLeft size={18} />}
-            className="back-button"
+            className="application-view-back-button"
           >
             Back to Applications
           </Button>
-
-          <Title
-            className={`detail-page-title ${
-              isMobile ? "mobile-detail-page-title" : ""
-            }`}
-          >
-            Submitted Form
-          </Title>
         </div>
 
         <div className="form-content">
-          <FormSection title="Application Overview">
+          <FormSection
+            title="Application Overview"
+            className="application-view-form-section"
+          >
             <Grid>
               <Grid.Col span={12} md={4}>
                 <FormField label="Title of Application:" value={title} />
@@ -1030,20 +1029,21 @@ function ApplicationView({ setActiveTab }) {
             </Grid>
           </FormSection>
 
-          <FormSection title="Applicants">
+          <FormSection title="Inventor">
             {applicants && applicants.length > 0 ? (
-              <Grid>
+              <div className="inventors-container">
                 {applicants.map((applicant, index) => (
-                  <Grid.Col key={index} span={12} md={6}>
-                    <Card
-                      className="applicant-card"
-                      p="md"
-                      radius="sm"
-                      withBorder
-                    >
-                      <Text weight={600} size="lg" mb="xs">
-                        Applicant {index + 1}
-                      </Text>
+                  <Card
+                    key={index}
+                    className="inventor-card"
+                    p="md"
+                    radius="sm"
+                    withBorder
+                  >
+                    <Text weight={600} size="lg" mb="xs" align="center">
+                      Inventor {index + 1}
+                    </Text>
+                    <div className="inventor-details">
                       <FormField label="Name:" value={applicant.name} />
                       <FormField label="Email:" value={applicant.email} />
                       <FormField label="Mobile:" value={applicant.mobile} />
@@ -1056,12 +1056,12 @@ function ApplicationView({ setActiveTab }) {
                             : ""
                         }
                       />
-                    </Card>
-                  </Grid.Col>
+                    </div>
+                  </Card>
                 ))}
-              </Grid>
+              </div>
             ) : (
-              <Text color="dimmed">No applicant information available</Text>
+              <Text color="dimmed">No inventor information available</Text>
             )}
           </FormSection>
 

@@ -11,7 +11,9 @@ function SubmitNewApplication({ setActiveTab }) {
 
   return (
     <Box className="submit-app-container">
-      <Text className="submit-header-text">Submit New Application</Text>
+      <Text fw={600} className="submit-header-text">
+        Submit New Application
+      </Text>
 
       <Box className="submit-card-container">
         <Card className="submit-application-card">
