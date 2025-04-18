@@ -1,47 +1,65 @@
 /* General Container */
+.review-applications-container {
+  position: relative;
+  width: 100%;
+}
+
+.header-container {
+  padding: 0 32px;
+  margin-bottom: 8px;
+}
+
+.applications-title {
+  font-weight: 700;
+  text-align: left;
+}
+
+.description-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 32px;
+  margin-bottom: 24px;
+}
+
+.description-text {
+  text-align: left;
+}
+
+.refresh-button {
+  align-self: flex-start;
+  background-color: #fff;
+  border: 1px solid #0073e6;
+  color: #0073e6;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: auto;
+}
+
+.refresh-button:hover {
+  background-color: #0073e6;
+  color: #fff;
+}
+
 .outerContainer {
   max-width: 100%;
-  padding: 32px;
-  background-color: #f9fafc;
-  margin-left: 25px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  overflow-x: hidden; /* Prevent horizontal overflow */
-}
-
-.title {
-  font-size: 26px;
-  font-weight: bold;
-  text-align: left;
-  margin: 0 auto;
-  margin-top: 15px;
-  margin-bottom: 10px;
-  color: black;
-  padding-left: 30px;
-}
-
-.title span {
-  color: black;
-}
-
-.content {
-  text-align: left;
-}
-
-.description {
-  text-align: left;
-  margin-left: 32px; /* Default margin for desktop */
-  margin-right: 32px; /* Default margin for desktop */
-  font-size: 14px;
-  color: #555;
+  padding: 24px 32px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 /* Wrapper for horizontal scrolling */
 .tableWrapper {
-  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-x: auto;
   width: 100%;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 /* Responsive Table */
@@ -49,20 +67,42 @@
   width: 100%;
   font-size: 14px;
   background-color: #ffffff;
-  border-spacing: 0 8px;
+  border-spacing: 0;
+  border-collapse: separate;
+  border-radius: 8px;
+  overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 }
 
 .fusionTableHeader th {
-  padding: 14px 18px;
+  padding: 16px 20px;
   text-align: left;
+  background-color: #f0f4f8;
+  font-weight: 600;
+  color: #444;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
 }
 
 .tableRow {
   background-color: #ffffff;
-  border-radius: 8px;
   transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.tableRow:hover {
+  background-color: #f8fbff;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.tableRow td {
+  padding: 14px 20px;
+  border-top: 1px solid #f0f0f0;
+  vertical-align: middle;
 }
 
 .viewButton {
@@ -70,95 +110,76 @@
   align-items: center;
   gap: 6px;
   font-weight: 600;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.viewButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
 }
 
 /* Responsive Design */
 
-/* Small devices (up to 768px) */
-@media (max-width: 768px) {
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .description-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .refresh-button {
+    margin-top: 0;
+  }
+}
+
+/* Small devices (up to 767px) */
+@media (max-width: 767px) {
+  .header-container,
+  .description-container {
+    padding: 0 20px;
+  }
+  
   .outerContainer {
-    padding: 16px; /* Reduced padding for smaller screens */
-    margin-left: 0;
-    margin-right: 0;
-    max-width: 100vw; /* Ensure container doesn't exceed viewport width */
-    overflow-x: hidden; /* Prevent horizontal overflow */
-  }
-
-  .title {
-    font-size: 22px; /* Adjusted font size */
-    padding-left: 16px;
-  }
-
-  .description {
-    margin-left: 24px !important; /* Adjusted margin for smaller screens */
-    margin-right: 16px !important; /* Adjusted margin for smaller screens */
-    font-size: 13px; /* Smaller font size for mobile */
-  }
-
-  .tableWrapper {
-    overflow-x: auto; /* Ensure horizontal scrolling */
-    width: 100%; /* Take full width of the container */
-    margin-left: 0; /* Reset negative margin */
-  }
-
-  .styledTable {
-    min-width: 100%; /* Allow table to shrink to fit the screen */
-  }
-
-  .fusionTableHeader th {
-    padding: 10px 12px; /* Reduced padding for smaller screens */
-    font-size: 12px; /* Smaller font size for headers */
-  }
-
-  .tableRow td {
-    padding: 10px 12px; /* Reduced padding for smaller screens */
-    font-size: 12px; /* Smaller font size for table cells */
-  }
-
-  .viewButton {
-    font-size: 12px; /* Smaller font size for button */
+    padding: 20px;
+    border-radius: 8px;
   }
 }
 
 /* Extra small devices (up to 480px) */
 @media (max-width: 480px) {
+  .header-container,
+  .description-container {
+    padding: 0 16px;
+  }
+  
   .outerContainer {
-    padding: 12px;
-    max-width: 100vw; /* Ensure container doesn't exceed viewport width */
-    overflow-x: hidden; /* Prevent horizontal overflow */
+    padding: 16px;
+    border-radius: 6px;
   }
-
-  .title {
-    font-size: 20px;
-    padding-left: 8px;
-  }
-
-  .description {
-    margin-left: 16px !important; /* Further reduced margin for very small screens */
-    margin-right: 8px !important; /* Further reduced margin for very small screens */
-    font-size: 12px; /* Even smaller font size for compact screens */
-  }
-
-  .tableWrapper {
-    margin-left: 0; /* Reset negative margin */
-  }
-
-  .styledTable {
-    min-width: 100%; /* Allow table to shrink to fit the screen */
-  }
-
+  
   .fusionTableHeader th {
-    padding: 8px 10px; /* Further reduced padding for very small screens */
-    font-size: 11px; /* Smaller font size for headers */
+    padding: 10px 12px;
+    font-size: 12px;
   }
-
+  
   .tableRow td {
-    padding: 8px 10px; /* Further reduced padding for very small screens */
-    font-size: 11px; /* Smaller font size for table cells */
+    padding: 10px 12px;
+    font-size: 12px;
   }
-
-  .viewButton {
-    font-size: 11px; /* Smaller font size for button */
+  
+  .refresh-button {
+    padding: 8px 12px;
+    font-size: 13px;
   }
 }

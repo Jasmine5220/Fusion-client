@@ -10,9 +10,11 @@ import {
   Loader,
   Alert,
   Title,
+  Select,
+  Group,
 } from "@mantine/core";
 import { ArrowLeft, DownloadSimple } from "phosphor-react";
-import "../../style/Director/StatusView.css";
+import "../../../style/Director/StatusView.css";
 
 function FormField({ label, value }) {
   return (
@@ -111,25 +113,44 @@ function PatentApplication() {
   const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
   const authToken = localStorage.getItem("authToken");
 
+  const [attorneys, setAttorneys] = useState([
+    { value: "1", label: "John Doe (Patent Attorney)" },
+    { value: "2", label: "Jane Smith (IP Specialist)" },
+    { value: "3", label: "Robert Johnson (Legal Counsel)" },
+    { value: "4", label: "Emily Davis (Trademark Expert)" },
+  ]);
+  const [selectedAttorneyId, setSelectedAttorneyId] = useState("");
+
   const handleAccept = async () => {
-    try {
-      await axios.post(
-        `${API_BASE_URL}/director/application/accept`,
-        { application_id: applicationId },
-        {
-          headers: {
-            Authorization: `Token ${authToken}`,
-            "Content-Type": "application/json",
-          },
+  if (!selectedAttorneyId) {
+    alert("Please select an attorney before Approving");
+    return;
+  }
+
+  try {
+    const selectedAttorney = attorneys.find(a => a.value === selectedAttorneyId);
+    const attorneyName = selectedAttorney ? selectedAttorney.label : "Unassigned";
+
+    await axios.post(
+      `${API_BASE_URL}/director/application/accept`,
+      { 
+        application_id: applicationId,
+        attorney_name: attorneyName
+      },
+      {
+        headers: {
+          Authorization: `Token ${authToken}`,
+          "Content-Type": "application/json",
         },
-      );
-      alert("Application accepted successfully!");
-      window.history.back();
-    } catch (err) {
-      console.error("Error accepting application:", err);
-      alert(`Failed to accept: ${err.response?.data?.error || err.message}`);
-    }
-  };
+      },
+    );
+    alert(`Application Approved and assigned to ${attorneyName} successfully!`);
+    window.history.back();
+  } catch (err) {
+    console.error("Error in approving application:", err);
+    alert(`Failed to approve: ${err.response?.data?.error || err.message}`);
+  }
+};
 
   const handleReject = async () => {
     try {
@@ -143,11 +164,11 @@ function PatentApplication() {
           },
         },
       );
-      alert("Application rejected successfully!");
+      alert("Application Reverted successfully!");
       window.history.back();
     } catch (err) {
-      console.error("Error rejecting application:", err);
-      alert(`Failed to reject: ${err.response?.data?.error || err.message}`);
+      console.error("Error in Reverting application:", err);
+      alert(`Failed to Revert: ${err.response?.data?.error || err.message}`);
     }
   };
 
@@ -273,6 +294,8 @@ function PatentApplication() {
     });
   };
 
+
+
   return (
     <Container
       className={`detail-container ${isMobile ? "mobile-form-container" : ""}`}
@@ -340,7 +363,6 @@ function PatentApplication() {
             </Grid.Col>
           </Grid>
         </FormSection>
-
         <FormSection title="Key Dates">
           <div className="key-dates-grid">
             <div className="key-date-card">
@@ -425,7 +447,6 @@ function PatentApplication() {
             </div>
           </div>
         </FormSection>
-
         <FormSection title="Section I: Administrative and Technical Details">
           <Grid>
             <Grid.Col span={12} md={6}>
@@ -474,7 +495,6 @@ function PatentApplication() {
             </Grid.Col>
           </Grid>
         </FormSection>
-
         <FormSection title="Section II: IPR Ownership">
           <Grid>
             <Grid.Col span={12} md={6}>
@@ -522,7 +542,6 @@ function PatentApplication() {
             </Grid.Col>
           </Grid>
         </FormSection>
-
         <FormSection title="Section III: Commercialization">
           <Grid>
             <Grid.Col span={12} md={6}>
@@ -559,7 +578,6 @@ function PatentApplication() {
             </Grid.Col>
           </Grid>
         </FormSection>
-
         <FormSection title="Applicants">
           {applicants?.length > 0 ? (
             <Grid>
@@ -589,19 +607,44 @@ function PatentApplication() {
             <Text color="dimmed">No applicant information available</Text>
           )}
         </FormSection>
-
-        <Grid mt="xl" mb="md">
-          <Grid.Col span={12} md={6}>
-            <Button fullWidth color="green" size="md" onClick={handleAccept}>
-              Accept Application
-            </Button>
-          </Grid.Col>
-          <Grid.Col span={12} md={6}>
-            <Button fullWidth color="red" size="md" onClick={handleReject}>
-              Reject Application
-            </Button>
-          </Grid.Col>
-        </Grid>
+<FormSection title="Application Decision">
+  <div className="decision-section">
+    <div className="assign-attorney-section">
+      <Text size="lg" weight={500} mb="sm">
+        Modify Assigned Attorney
+      </Text>
+      <Select
+        data={attorneys}
+        placeholder="Select an attorney"
+        value={selectedAttorneyId}
+        onChange={setSelectedAttorneyId}
+        mb="md"
+        className="attorney-select"
+      />
+    </div>
+    
+    <div className="decision-buttons">
+      <Group spacing="md">
+        <Button 
+          color="green" 
+          size="md" 
+          onClick={handleAccept}
+          className="decision-button"
+        >
+          Approve
+        </Button>
+        <Button 
+          color="red" 
+          size="md" 
+          onClick={handleReject}
+          className="decision-button"
+        >
+          Revert
+        </Button>
+      </Group>
+    </div>
+  </div>
+</FormSection>
       </div>
     </Container>
   );
