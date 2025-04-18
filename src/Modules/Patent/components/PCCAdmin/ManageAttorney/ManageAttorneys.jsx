@@ -8,8 +8,8 @@ import {
   Paper,
   LoadingOverlay,
 } from "@mantine/core";
-import AttorneyForm from "./AttorneyForm.jsx";
-import NewAttorneyForm from "./NewAttorneyForm.jsx";
+import AttorneyForm from "./AttorneyDetailsForm.jsx";
+import NewAttorneyForm from "./AddNewAttorneyForm.jsx";
 import "../../../style/Pcc_Admin/ManageAttorneys.css";
 import { attorneyService } from "../../../services/attorneyService.jsx";
 
@@ -145,10 +145,6 @@ function ManageAttorneys() {
       {!selectedAttorney ? (
         <>
           <Text className="page-heading-title">Manage Attorney Details</Text>
-          <Text align="center" mb="md" className="description">
-            View attorney details, add new attorneys, and manage existing
-            attorneys.
-          </Text>
 
           {/* Action Buttons */}
           <div className="button-group">
@@ -194,19 +190,31 @@ function ManageAttorneys() {
                   {attorneys.map((attorney) => (
                     <tr key={attorney.id}>
                       {isRemovalMode && (
-                        <td>
-                          <input
-                            type="checkbox"
-                            checked={selectedRows.has(attorney.id)}
-                            onChange={() => handleRowSelect(attorney.id)}
-                          />
-                        </td>
+                        <th>
+                          <label htmlFor={`select-attorney-${attorney.id}`}>
+                            <input
+                              id={`select-attorney-${attorney.id}`}
+                              type="checkbox"
+                              className={{
+                                display: "flex",
+                                margin: "auto",
+                              }}
+                              checked={selectedRows.has(attorney.id)}
+                              onChange={() => handleRowSelect(attorney.id)}
+                            />
+                            {/* <span className="visually-hidden">
+                              Select Attorney
+                            </span> */}
+                          </label>
+                        </th>
                       )}
                       <td>{attorney.attorney_name || attorney.name}</td>
                       <td>{attorney.email}</td>
                       <td>{attorney.phone || "Not Available"}</td>
                       <td>{attorney.firm_name || "Not Available"}</td>
-                      <td>{attorney.assigned_applications_count}</td>
+                      <td style={{ textAlign: "center" }}>
+                        {attorney.assigned_applications_count}
+                      </td>
                       <td>
                         <Button
                           variant="subtle"

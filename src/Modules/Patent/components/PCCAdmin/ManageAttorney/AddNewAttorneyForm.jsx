@@ -10,7 +10,7 @@ import {
 import PropTypes from "prop-types";
 import "../../../style/Pcc_Admin/NewAttorneyForm.css";
 
-function NewAttorneyForm({ onSubmit, onClose }) {
+function NewAttorneyForm({ onSubmit, onBack }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -31,17 +31,17 @@ function NewAttorneyForm({ onSubmit, onClose }) {
   return (
     <div className="new-attorney-form-container">
       <div className="new-attorney-form-header">
+        <Title order={2} className="new-attorney-form-title">
+          Add New Attorney
+        </Title>
         <Button
           variant="subtle"
           leftIcon={<ArrowLeft size={20} weight="bold" />}
-          onClick={onClose}
+          onClick={onBack}
           className="new-attorney-back-btn"
         >
           Back
         </Button>
-        <Title order={2} className="new-attorney-form-title">
-          Add New Attorney
-        </Title>
       </div>
 
       <form onSubmit={handleSubmit} className="new-attorney-form-content">
@@ -121,7 +121,7 @@ function NewAttorneyForm({ onSubmit, onClose }) {
 
 NewAttorneyForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired,
 };
 
 export default NewAttorneyForm;

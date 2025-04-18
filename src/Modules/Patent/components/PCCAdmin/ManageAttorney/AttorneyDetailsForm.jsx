@@ -102,6 +102,8 @@ function AttorneyForm({ attorneyId, onBack }) {
 
   return (
     <div className="attorney-details-container">
+      {/* Attorney Details Heading */}
+      <Text className="attorney-details-heading">Details of Attorney</Text>
       {/* Header with Back and Edit Buttons */}
       <div className="top-nav-container">
         <Button
@@ -145,9 +147,6 @@ function AttorneyForm({ attorneyId, onBack }) {
           </Button>
         )}
       </div>
-
-      {/* Attorney Details Heading */}
-      <Text className="attorney-details-heading">Details of Attorney</Text>
 
       {/* Attorney Details Grid */}
       <Box className="attorney-details-grid">

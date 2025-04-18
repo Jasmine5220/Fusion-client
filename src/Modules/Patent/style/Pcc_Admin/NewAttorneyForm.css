@@ -1,9 +1,10 @@
 /* NewAttorneyForm.css */
 
 .new-attorney-form-container {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 32px;
+  width: 100%;
+  max-width: 1400px;
 }
 
 .new-attorney-form-header {
@@ -18,9 +19,9 @@
 .new-attorney-back-btn {
   padding: 8px 16px;
   font-weight: 500;
-  color: #666;
+  color: #0073e6;
+  border: 1px solid #0073e6;
   background-color: transparent;
-  border: none;
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
@@ -41,7 +42,7 @@
   font-weight: 600;
   color: #333;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
   flex: 1;
 }
 
