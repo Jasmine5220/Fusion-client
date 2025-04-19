@@ -4,7 +4,6 @@ import {
   Button,
   ScrollArea,
   Table,
-  Title,
   Text,
   Loader,
   Alert,
@@ -13,7 +12,6 @@ import {
 import { Eye, ArrowsClockwise } from "@phosphor-icons/react";
 import axios from "axios";
 import ViewNewApplication from "./ViewNewApplication";
-import "../../../style/Pcc_Admin/NewApplication.css";
 
 function NewApplication() {
   const [selectedApplicationId, setSelectedApplicationId] = useState(null);
@@ -32,6 +30,97 @@ function NewApplication() {
     "Date",
     "Actions",
   ];
+
+  // Styles
+  const styles = {
+    container: {
+      position: "relative",
+      width: "100%",
+      maxWidth: "100%",
+    },
+    title: {
+      fontSize: "24px",
+      fontWeight: 600,
+      textAlign: "left",
+      margin: "0 auto",
+      paddingLeft: "50px",
+      position: "relative",
+    },
+    outerContainer: {
+      maxWidth: "100%",
+      padding: "24px 50px",
+      backgroundColor: "transparent",
+      marginLeft: "25px",
+      borderRadius: "12px",
+      marginBottom: "20px",
+      boxShadow: "0px 5px 15px rgba(0, 0, 0, 0)",
+    },
+    tableWrapper: {
+      overflowX: "auto",
+      width: "100%",
+      backgroundColor: "inherit",
+      paddingBottom: 0,
+      marginBottom: 0,
+    },
+    table: {
+      width: "100%",
+      minWidth: "100%",
+      fontSize: "14px",
+      backgroundColor: "#ffffff",
+      borderSpacing: 0,
+      borderCollapse: "separate",
+      borderRadius: "8px",
+      overflow: "hidden",
+      transition: "all 0.3s ease",
+      boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.05)",
+    },
+    tableHeader: {
+      padding: "16px 20px",
+      textAlign: "left",
+      backgroundColor: "#f2f2f2",
+      fontWeight: 600,
+      color: "#444",
+      position: "sticky",
+      top: 0,
+      zIndex: 10,
+      transition: "background-color 0.2s ease",
+      whiteSpace: "nowrap",
+    },
+    tableRow: {
+      backgroundColor: "#ffffff",
+      transition: "all 0.2s ease",
+      "&:hover": {
+        backgroundColor: "#f8fbff",
+        transform: "translateY(-1px)",
+        boxShadow: "0 3px 6px rgba(0, 0, 0, 0.05)",
+      },
+    },
+    tableCell: {
+      padding: "14px 20px",
+      borderTop: "1px solid #f0f0f0",
+      verticalAlign: "middle",
+    },
+    viewButton: {
+      display: "flex",
+      alignItems: "center",
+      gap: "6px",
+      fontWeight: 600,
+      transition: "all 0.2s ease",
+      borderRadius: "6px",
+      padding: "8px 12px",
+      "&:hover": {
+        transform: "translateY(-2px)",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      },
+    },
+    loaderContainer: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "40px 0",
+    },
+  };
 
   const fetchApplications = async (showRefresh = false) => {
     try {
@@ -93,7 +182,7 @@ function NewApplication() {
   const renderApplicationsTable = () => {
     if (loading) {
       return (
-        <Box className="loader-container">
+        <Box style={styles.loaderContainer}>
           <Loader size="lg" color="blue" />
           <Text mt={10}>Loading applications...</Text>
         </Box>
@@ -117,32 +206,36 @@ function NewApplication() {
     }
 
     return (
-      <ScrollArea className="tableWrapper">
-        <Table highlightOnHover striped withBorder className="styledTable">
-          <thead className="fusionTableHeader">
+      <ScrollArea style={styles.tableWrapper}>
+        <Table highlightOnHover striped withBorder style={styles.table}>
+          <thead>
             <tr>
               {columnNames.map((columnName, index) => (
-                <th key={index}>{columnName}</th>
+                <th key={index} style={styles.tableHeader}>
+                  {columnName}
+                </th>
               ))}
             </tr>
           </thead>
           <tbody>
             {applications.map((application, index) => (
-              <tr key={application.id} className="tableRow">
-                <td>{index + 1}</td>
-                <td>{application.id}</td>
-                <td title={application.title}>{application.title}</td>
-                <td>{application.submitted_by}</td>
-                <td>{application.designation}</td>
-                <td>{application.department}</td>
-                <td>{application.submitted_on}</td>
-                <td>
+              <tr key={application.id} style={styles.tableRow}>
+                <td style={styles.tableCell}>{index + 1}</td>
+                <td style={styles.tableCell}>{application.id}</td>
+                <td style={styles.tableCell} title={application.title}>
+                  {application.title}
+                </td>
+                <td style={styles.tableCell}>{application.submitted_by}</td>
+                <td style={styles.tableCell}>{application.designation}</td>
+                <td style={styles.tableCell}>{application.department}</td>
+                <td style={styles.tableCell}>{application.submitted_on}</td>
+                <td style={styles.tableCell}>
                   <Button
                     variant="outline"
                     color="blue"
                     size="sm"
                     onClick={() => handleViewClick(application.id)}
-                    className="viewButton"
+                    style={styles.viewButton}
                   >
                     <Eye size={16} /> <span>View</span>
                   </Button>
@@ -156,38 +249,38 @@ function NewApplication() {
   };
 
   return (
-    <Box className="review-applications-container">
+    <Box style={styles.container}>
       {!selectedApplicationId ? (
-        // List view of applications in table format
         <>
-          <Title order={2} className="new-application-title">
-            New Applications
-          </Title>
           <Text
-            size="md"
-            color="dimmed"
-            className="description"
-            style={{ textAlign: "left" }}
-          />
+            style={{
+              textAlign: "left",
+              fontSize: "24px",
+              fontWeight: 600,
+              marginLeft: "75px",
+            }}
+          >
+            New Applications
+          </Text>
+          <Text size="md" color="dimmed" style={{ textAlign: "left" }} />
 
-          <Group position="right" mb="sm" className="refresh-button">
+          <Group position="right" mb="sm">
             <Button
               variant="subtle"
               color="blue"
               size="sm"
               onClick={handleRefresh}
               loading={isRefreshing}
+              style={{ marginLeft: "55px" }}
               leftIcon={<ArrowsClockwise size={16} />}
             >
               {isRefreshing ? "Refreshing..." : "Refresh"}
             </Button>
           </Group>
 
-          <Box className="outerContainer">{renderApplicationsTable()}</Box>
+          <Box style={styles.outerContainer}>{renderApplicationsTable()}</Box>
         </>
       ) : (
-        // Detailed view of selected application
-
         <ViewNewApplication
           applicationId={selectedApplicationId}
           handleBackToList={handleBackClick}

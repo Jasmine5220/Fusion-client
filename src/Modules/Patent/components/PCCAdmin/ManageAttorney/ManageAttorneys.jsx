@@ -167,13 +167,13 @@ function ManageAttorneys() {
             </Button>
           </div>
 
-          <Paper className="table-card">
-            <ScrollArea>
+          <Paper className="manage-attorney-table-card">
+            <ScrollArea style={{ marginLeft: "-50px" }}>
               <Table
                 highlightOnHover
                 striped
                 withBorder
-                className="styledTable"
+                className="manage-attorney-styledTable"
               >
                 <thead className="fusionTableHeader">
                   <tr>

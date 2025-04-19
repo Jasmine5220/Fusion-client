@@ -12,18 +12,19 @@
   margin-left: 0px;
 }
 /* Container Styles */
-.status-applications-container {
- 
+.ongoing-app-status-applications-container {
+  margin-left: 50px;
+  margin-right: 50px;
+  border: 1px solid #000;
   max-width: 100%;
   background-color: transparent;
 }
 
 /* Title and Description */
-.status-title {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 16px;
-  font-weight: 700;
+.ongoing-app-status-title {
+  font-size: 24px;
+  margin: 0;
+  font-weight: 600;
   text-align: left;
 }
 
@@ -59,7 +60,7 @@
 }
 
 /* Table Container */
-.outerContainer {
+.ongoing-app-outerContainer {
   padding-top: 10px;
   background-color: #ffffff;
   border-radius: 8px;

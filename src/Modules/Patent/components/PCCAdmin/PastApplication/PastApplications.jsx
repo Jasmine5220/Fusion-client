@@ -4,7 +4,6 @@ import {
   Button,
   ScrollArea,
   Table,
-  Title,
   Text,
   Loader,
   Badge,
@@ -202,12 +201,10 @@ function PastApplications() {
   }
 
   return (
-    <Box className="status-applications-container">
+    <Box className="past-app-status-applications-container">
       {!selectedApplication ? (
         <>
-          <Title order={2} className="status-title">
-            Past Applications
-          </Title>
+          <Text className="past-app-status-title">Past Applications</Text>
 
           <Group position="apart" mb="md">
             <Button
@@ -232,7 +229,7 @@ function PastApplications() {
             />
           </Group>
 
-          <Box className="outerContainer">
+          <Box className="past-app-outerContainer">
             <ScrollArea style={{ height: "calc(100vh - 250px)" }}>
               <Table highlightOnHover striped>
                 <thead>

@@ -11,10 +11,11 @@
   
   /* Notifications container for flex layout */
   .notification-container {
-    margin-left: 60px;
+    margin-left: 20px;
+    margin-right: 50px;
     display: flex;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: 10px;
   }
   
   /* Notification card */
