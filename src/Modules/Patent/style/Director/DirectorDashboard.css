@@ -1,75 +1,53 @@
 /* Global Body Styling */
 body {
-  background-color: #f7f7f7; /* Light grey background */
-  font-family: Arial, sans-serif; /* Ensure a clean default font */
+  background-color: #f7f7f7;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  width: 100%; /* Prevent horizontal overflow */
+  width: 100%; 
 }
 
 /* Header Styling */
-.header {
+.director-title-dashboard {
   font-size: 26px;
   font-weight: 700;
-  color: #0b0c0c;
-  margin: 24px 0;
+  margin: 0;
   letter-spacing: 0.5px;
   text-align: center;
 }
 
 /* Dashboard Container */
 .dashboard-container {
-  padding: 32px;
+  padding: 50px;
   width: 100%;
   box-sizing: border-box; /* Include padding in width calculation */
 }
 
-/* Workflow Styling */
-.status-progress-container {
-  position: relative;
+.director-overview-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2d3748;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
-.status-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
+.director-overview-icon {
+  margin-bottom: -5px;
+  margin-left: 9px;
 }
 
-.status-label {
+.director-overview-text {
   font-size: 16px;
-  font-weight: bold;
-  color: #1a202c;
-  text-align: center;
-  flex: 1;
+  color: #4a5568;
+  margin-top: 8px;
+  margin-bottom: 24px;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
-/* Downloads Section */
-.downloads-container {
-  margin-left: 32px;
-  margin-right: 32px;
-  width: calc(100% - 64px); /* Ensure container fits within viewport */
-  box-sizing: border-box; /* Include padding in width calculation */
-}
 
-.downloads-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 16px;
-  text-align: left;
-}
-
-.downloads-table th {
-  background-color: #f1f5f9;
-  color: #3182ce;
-  font-weight: bold;
-  padding: 12px 16px;
-}
-
-.downloads-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #e2e8f0;
-}
 
 /* Dashboard Grid */
 .dashboard-grid {
@@ -77,8 +55,10 @@ body {
   flex-wrap: wrap;
   gap: 16px;
   justify-content: center;
-  padding: 16px;
-  margin-top: 16px;
+  padding: 0;
+  margin-top: 0;
+  padding-left: 50px;;
+  padding-right: 50px;
 }
 
 /* Card Styling */
@@ -92,8 +72,8 @@ body {
   justify-content: space-between;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
   cursor: pointer;
-  width: 100%; /* Default width for smaller screens */
-  box-sizing: border-box; /* Include padding in width calculation */
+  width: 100%; 
+  box-sizing: border-box;
 }
 
 .dashboard-card:hover {
@@ -211,4 +191,3 @@ body {
     display: none;
   }
 }
-

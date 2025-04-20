@@ -8,8 +8,6 @@ import {
   Text,
   Loader,
   Alert,
-  Group,
-  Flex,
 } from "@mantine/core";
 import { Eye, ArrowsClockwise } from "@phosphor-icons/react";
 import axios from "axios";
@@ -170,25 +168,13 @@ function SubmittedApplications({ setActiveTab }) {
     <Box className="director-submitted-apps-container">
       {/* Header with title */}
       <Box className="director-submitted-apps-header">
-        <Title
-          order={2}
-          className="director-submitted-apps-title"
-        >
+        <Title order={2} className="director-submitted-apps-title">
           Applications Forwarded by PCC Admin
         </Title>
       </Box>
-      
+
       {/* Description text */}
       <Box className="director-submitted-apps-description">
-        <Text
-          size="md"
-          color="dimmed"
-          className="director-submitted-apps-text"
-        >
-          The following is a list of patent applications forwarded for review.
-          Click "View" to examine details.
-        </Text>
-        
         {/* Refresh button */}
         <Button
           className="director-submitted-apps-refresh"
@@ -199,7 +185,7 @@ function SubmittedApplications({ setActiveTab }) {
           {isRefreshing ? "Refreshing..." : "Refresh"}
         </Button>
       </Box>
-  
+
       <Box className="director-submitted-apps-outer">
         {renderApplicationsTable()}
       </Box>

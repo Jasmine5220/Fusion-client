@@ -13,7 +13,6 @@ import { ArrowsClockwise } from "@phosphor-icons/react";
 import axios from "axios";
 import "../../../style/Director/RecentsView.css";
 
-
 const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
 
 function ReviewedApplications() {
@@ -80,8 +79,7 @@ function ReviewedApplications() {
       setError(null);
     } catch (err) {
       setError(
-        err.response?.data?.message ||
-          "Failed to fetch reviewed applications",
+        err.response?.data?.message || "Failed to fetch reviewed applications",
       );
       console.error("Error fetching applications:", err);
     } finally {
@@ -172,35 +170,30 @@ function ReviewedApplications() {
 
   return (
     <Box className="director-reviewed-apps-container">
-    {/* Header with title */}
-    <Box className="director-reviewed-apps-header">
-      <Title order={2} className="director-reviewed-apps-title">
-        Reviewed Patent Applications
-      </Title>
-    </Box>
+      {/* Header with title */}
+      <Box className="director-reviewed-apps-header">
+        <Title order={2} className="director-reviewed-apps-title">
+          Reviewed Patent Applications
+        </Title>
+      </Box>
 
-    {/* Description text */}
-    <Box className="director-reviewed-apps-description">
-      <Text size="md" color="dimmed" className="director-reviewed-apps-text">
-        List of applications that have been reviewed and their current status
-        in the patent process
-      </Text>
+      {/* Description text */}
+      <Box className="director-reviewed-apps-description">
+        {/* Refresh button */}
+        <Button
+          className="director-reviewed-apps-refresh"
+          onClick={handleRefresh}
+          loading={isRefreshing}
+          leftIcon={<ArrowsClockwise size={16} />}
+        >
+          {isRefreshing ? "Refreshing..." : "Refresh"}
+        </Button>
+      </Box>
 
-      {/* Refresh button */}
-      <Button
-        className="director-reviewed-apps-refresh"
-        onClick={handleRefresh}
-        loading={isRefreshing}
-        leftIcon={<ArrowsClockwise size={16} />}
-      >
-        {isRefreshing ? "Refreshing..." : "Refresh"}
-      </Button>
+      <Box className="director-reviewed-apps-outer">
+        {renderApplicationsTable()}
+      </Box>
     </Box>
-
-    <Box className="director-reviewed-apps-outer">
-      {renderApplicationsTable()}
-    </Box>
-  </Box>
   );
 }
 

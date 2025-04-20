@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Card, Button, Text, Box } from "@mantine/core";
-import "../../../style/Pcc_Admin/PCCAdminNotifications.css";
+import { Card, Button, Text, Box, Grid } from "@mantine/core";
 
 // Dummy data for notifications
 const notificationsData = [
@@ -37,6 +36,65 @@ const notificationsData = [
   },
 ];
 
+const styles = {
+  notificationCard: {
+    padding: "1.5rem",
+    marginBottom: "1rem",
+    boxShadow: "0 5px 8px rgba(0, 0, 0, 0.1)",
+    borderRadius: "8px",
+    backgroundColor: "#f8f9fa",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: "-5px",
+  },
+  notificationTitle: {
+    fontSize: "22px",
+    fontWeight: 500,
+    marginBottom: "0",
+    color: "#1a1b1e",
+  },
+  notificationStatus: {
+    fontSize: "1rem",
+    fontWeight: 500,
+    marginBottom: "0.5rem",
+  },
+  notificationDate: {
+    fontSize: "0.875rem",
+    color: "#666",
+    marginBottom: "1rem",
+  },
+  notificationDescription: {
+    fontSize: "0.875rem",
+    color: "#444",
+    marginBottom: "0",
+    flex: 1,
+  },
+  notificationActions: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "1rem",
+    flexWrap: "wrap",
+    gap: "0.5rem",
+  },
+  actionButton: {
+    flex: "1",
+    minWidth: "120px",
+  },
+  pageTitle: {
+    fontSize: "24px",
+    fontWeight: 600,
+    marginBottom: "5px",
+    color: "#1a1b1e",
+  },
+  container: {
+    width: "100%",
+    padding: "0 1rem",
+    maxWidth: "1800px",
+    margin: "0 50px",
+  },
+};
+
 // Notification card component
 function NotificationCard({
   id,
@@ -64,22 +122,19 @@ function NotificationCard({
   };
 
   return (
-    <Card
-      className="notification-card"
-      style={{ borderLeft: `6px solid ${getStatusColor()}` }}
-    >
-      <Text className="notification-title">{title}</Text>
-      <Text className="notification-status" style={{ color: getStatusColor() }}>
+    <Card style={{ ...styles.notificationCard }}>
+      <Text style={styles.notificationTitle}>{title}</Text>
+      <Text style={{ ...styles.notificationStatus, color: getStatusColor() }}>
         {status}
       </Text>
-      <Text className="notification-date">{`${date} | ${time}`}</Text>
-      <Text className="notification-description">{description}</Text>
+      <Text style={styles.notificationDate}>{`${date} | ${time}`}</Text>
+      <Text style={styles.notificationDescription}>{description}</Text>
 
-      <div className="notification-actions">
+      <div style={styles.notificationActions}>
         {type === "approval" && (
           <Button
             variant="outline"
-            className="forward-button"
+            style={styles.actionButton}
             onClick={() => onForwardToAttorney(id)}
           >
             Forward to Attorney
@@ -89,7 +144,7 @@ function NotificationCard({
         {type === "rejection" && (
           <Button
             variant="outline"
-            className="return-button"
+            style={styles.actionButton}
             onClick={() => onReturnToApplicant(id)}
           >
             Return to Applicant
@@ -98,7 +153,7 @@ function NotificationCard({
 
         <Button
           variant="outline"
-          className="mark-read-button"
+          style={styles.actionButton}
           onClick={() => onMarkAsRead(id)}
         >
           Mark as Read
@@ -143,27 +198,35 @@ function PCCAdminNotifications() {
   };
 
   return (
-    <Box>
+    <Box style={styles.container}>
       {/* Page Title */}
-      <Text className="notif-title">Notifications</Text>
+      <Text style={styles.pageTitle}>Notifications</Text>
 
       {/* Notifications container */}
-      <Box className="notification-container">
-        {notifications.map((notification) => (
-          <NotificationCard
-            key={notification.id}
-            id={notification.id}
-            title={notification.title}
-            status={notification.status}
-            description={notification.description}
-            date={notification.date}
-            time={notification.time}
-            type={notification.type}
-            onMarkAsRead={handleMarkAsRead}
-            onForwardToAttorney={handleForwardToAttorney}
-            onReturnToApplicant={handleReturnToApplicant}
-          />
-        ))}
+      <Box style={{ width: "100%" }}>
+        <Grid gutter="xl" align="stretch" style={{ margin: 0 }}>
+          {notifications.map((notification) => (
+            <Grid.Col
+              span={6}
+              p="md"
+              key={notification.id}
+              style={{ minHeight: "100%" }}
+            >
+              <NotificationCard
+                id={notification.id}
+                title={notification.title}
+                status={notification.status}
+                description={notification.description}
+                date={notification.date}
+                time={notification.time}
+                type={notification.type}
+                onMarkAsRead={handleMarkAsRead}
+                onForwardToAttorney={handleForwardToAttorney}
+                onReturnToApplicant={handleReturnToApplicant}
+              />
+            </Grid.Col>
+          ))}
+        </Grid>
       </Box>
     </Box>
   );

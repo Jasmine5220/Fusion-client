@@ -137,10 +137,13 @@ table tr:hover {
   }
 }
 /* Container Styles */
-.detail-container {
+.director-detail-container {
   padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
+  margin-right: 50px;
+  width: 100%;
+  background-color: #f5f7f8;
 }
 
 .mobile-form-container {
@@ -149,25 +152,45 @@ table tr:hover {
 
 /* Header Styles */
 .detail-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.back-button {
-  margin-bottom: 1.5rem;
+.director-view-back-button {
+  background-color: transparent;
+  color: #4c6ef5;
+  border: none;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  position: absolute;
+  left: 0;
+  cursor: pointer;
+  margin-left: 70px;
 }
 
 .detail-page-title {
   text-align: center;
-  margin-bottom: 2rem;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2d3748;
 }
 
 /* Form Content Styles */
 .form-content {
-  background: white;
+  background: #f5f7f8;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 0;
 }
 
 /* Section Styles */

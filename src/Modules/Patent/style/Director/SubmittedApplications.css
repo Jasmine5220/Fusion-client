@@ -4,6 +4,8 @@
 .director-submitted-apps-container {
   position: relative;
   width: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 /* Header styles */
@@ -43,6 +45,8 @@
   font-weight: 500;
   transition: background-color 0.3s ease, color 0.3s ease;
   width: auto;
+  margin-top: 12px;
+  margin-bottom: -32px;
 }
 
 .director-submitted-apps-refresh:hover {
@@ -54,10 +58,10 @@
 .director-submitted-apps-outer {
   max-width: 100%;
   padding: 24px 32px;
-  background-color: #f8f9fa;
+  background-color: #f5f7f8;
   border-radius: 12px;
   margin-bottom: 20px;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0);
   overflow: hidden;
   transition: all 0.3s ease;
 }
@@ -87,7 +91,7 @@
 .director-submitted-apps-outer .fusionTableHeader th {
   padding: 16px 20px;
   text-align: left;
-  background-color: #f0f4f8;
+  background-color: #f5f7f8;
   font-weight: 600;
   color: #444;
   position: sticky;
@@ -102,15 +106,19 @@
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
+.director-submitted-apps-outer .tableRow:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
 .director-submitted-apps-outer .tableRow:hover {
-  background-color: #f8fbff;
+  background-color: #f0f4f8;
   transform: translateY(-1px);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
 .director-submitted-apps-outer .tableRow td {
   padding: 14px 20px;
-  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #eaeaea;
   vertical-align: middle;
 }
 

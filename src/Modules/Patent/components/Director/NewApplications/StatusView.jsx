@@ -132,9 +132,7 @@ function PatentApplication() {
 
         const attorneyOptions = response.data.map((attorney) => ({
           value: attorney.id.toString(),
-          label: `${attorney.name} (${attorney.specialization || "Attorney"}) - ${
-            attorney.assigned_applications_count || 0
-          } case${attorney.assigned_applications_count !== 1 ? "s" : ""}`,
+          label: `${attorney.name} (${attorney.specialization || "Attorney"})`,
         }));
 
         setAttorneys(attorneyOptions);
@@ -335,7 +333,7 @@ function PatentApplication() {
 
   return (
     <Container
-      className={`detail-container ${isMobile ? "mobile-form-container" : ""}`}
+      className={`director-detail-container ${isMobile ? "mobile-form-container" : ""}`}
     >
       <div className="detail-header">
         <Button
@@ -343,9 +341,9 @@ function PatentApplication() {
           variant="outline"
           color="blue"
           leftIcon={<ArrowLeft size={18} />}
-          className="back-button"
+          className="director-view-back-button"
         >
-          Back to Applications
+          Back
         </Button>
         <Title
           className={`detail-page-title ${

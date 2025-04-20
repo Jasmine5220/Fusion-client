@@ -868,15 +868,15 @@ function ApplicationView({ setActiveTab }) {
                 <div className="key-date-value">
                   {dates?.decision_date
                     ? new Date(dates.decision_date).toLocaleDateString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        },
-                      )
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          },
+                        )
                     : "No decision yet"}
-                </div>
+                  </div>
               </div> */}
 
                 <div className="key-date-card">
