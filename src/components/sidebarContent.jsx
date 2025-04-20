@@ -30,6 +30,7 @@ import {
   User as ProfileIcon,
   Gear as SettingsIcon,
   Scroll as PatentIcon,
+  AmazonLogo as CourseManagementIcon,
   CaretRight,
   CaretLeft,
 } from "@phosphor-icons/react";
@@ -40,146 +41,198 @@ import { useSelector, useDispatch } from "react-redux";
 import IIITLOGO from "../assets/IIITJ_logo.webp";
 import { setCurrentModule } from "../redux/moduleslice";
 
-const Modules = [
-  {
-    label: "Home",
-    id: "home",
-    icon: <HomeIcon size={18} />,
-    url: "/dashboard",
-  },
-  // { label: "Course Management", id:"course_management", icon: <OtherIcon size={18} />, url: "/" },
-  {
-    label: "Academics",
-    id: "course_registration",
-    icon: <AcademicsIcon size={18} />,
-    url: "/academics",
-  },
-  {
-    label: "Program & Curriculum",
-    id: "program_and_curriculum",
-    icon: <CurriculumIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Mess Management",
-    id: "mess_management",
-    icon: <MessIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Visitor's Hostel",
-    id: "visitor_hostel",
-    icon: <GuestIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "HealthCare Center",
-    id: "phc",
-    icon: <HealthIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "File Tracking",
-    id: "fts",
-    icon: <FileTrackingIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Scholarship Portal",
-    id: "spacs",
-    icon: <ScholarshipIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Complaint System",
-    id: "complaint_management",
-    icon: <ComplaintIcon size={18} />,
-    url: "/complaints",
-  },
-  {
-    label: "Placement Cell",
-    id: "placement_cell",
-    icon: <PlacementIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Department Portal",
-    id: "department",
-    icon: <DepartmentIcon size={18} />,
-    url: "/",
-  },
-  { label: "Research", id: "rspc", icon: <ResearchIcon size={18} />, url: "/" },
-  {
-    label: "Purchase and Store",
-    id: "purchase_and_store",
-    icon: <StoreIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Human Resource",
-    id: "hr",
-    icon: <HumanResourceIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Examination",
-    id: "examinations",
-    icon: <ExamIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Gymkhana",
-    id: "gymkhana", 
-    icon: <GymkhanaIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Institute Work Departments",
-    id: "iwd",
-    icon: <IWDIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Hostel Management",
-    id: "hostel_management",
-    icon: <HostelIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Other Academic Procedure",
-    id: "other_academics",
-    icon: <OtherAcademicIcon size={18} />,
-    url: "/",
-  },
-  {
-    label: "Patent Management System",
-    id: "patent_management",
-    icon: <PatentIcon size={18} />,
-    url: "/patent/",
-  },
-];
-
-const otherItems = [
-  { label: "Profile", icon: <ProfileIcon size={18} /> },
-  { label: "Settings", icon: <SettingsIcon size={18} /> },
-  { label: "Help", icon: <HelpIcon size={18} /> },
-];
-
-// Roles Allowed in Patent Management
-const applicantRoles = [
-  "student", "alumini", "Professor", "Associate Professor", "Assistant Professor", 
-  "Research Engineer", "HOD (CSE)", "HOD (ECE)", "HOD (ME)", "HOD (NS)", 
-  "HOD (Design)", "HOD (Liberal Arts)", "Dean Academic", "dean_s", 
-  "dean_rspc", "Dean (P&D)", "Dean (R&D)"
-];
-
-// Role-Based Redirection Map
-const patentRoutes = {
-  "PCC Admin": "/patent/pccAdmin",
-  "Director": "/patent/director",
-};
-
 function SidebarContent({ isCollapsed, toggleSidebar }) {
+  const role = useSelector((state) => state.user.role);
+
+  const deployedModules = [
+    "complaint_management",
+    "fts",
+    "home",
+    "mess_management",
+    "visitor_hostel",
+    "hostel_management",
+    "department",
+    "gymkhana",
+    "iwd",
+    "phc",
+    "spacs",
+    "placement_cell",
+    "purchase_and_store",
+    "rspc",
+    "inventory_management",
+    "program_and_curriculum",
+    "course_registration",
+    "examinations",
+    "other_academics",
+    "hr",
+    "course_management",
+  ];
+
+  const Modules = [
+    {
+      label: "Home",
+      id: "home",
+      icon: <HomeIcon size={18} />,
+      url: "/dashboard",
+    },
+    {
+      label: "Academics",
+      id: "course_registration",
+      icon: <AcademicsIcon size={18} />,
+      url: "/academics",
+    },
+    {
+      label: "Program & Curriculum",
+      id: "program_and_curriculum",
+      icon: <CurriculumIcon size={18} />,
+      url:
+        role === "acadadmin" || role === "studentacadadmin"
+          ? "/programme_curriculum/acad_view_all_programme"
+          : role === "student"
+            ? "/programme_curriculum/view_all_programmes"
+            : "/programme_curriculum/faculty_view_all_programmes",
+    },
+    {
+      label: "Mess Management",
+      id: "mess_management",
+      icon: <MessIcon size={18} />,
+      url: "/mess",
+    },
+    {
+      label: "Visitor's Hostel",
+      id: "visitor_hostel",
+      icon: <GuestIcon size={18} />,
+      url: "/visitors_hostel",
+    },
+    {
+      label: "HealthCare Center",
+      id: "phc",
+      icon: <HealthIcon size={18} />,
+      url: "/healthcenter",
+    },
+    {
+      label: "File Tracking",
+      id: "fts",
+      icon: <FileTrackingIcon size={18} />,
+      url: "/filetracking",
+    },
+    {
+      label: "Scholarship Portal",
+      id: "spacs",
+      icon: <ScholarshipIcon size={18} />,
+      url: "/scholarship",
+    },
+    {
+      label: "Complaint System",
+      id: "complaint_management",
+      icon: <ComplaintIcon size={18} />,
+      url: "/complaints",
+    },
+    {
+      label: "Placement Cell",
+      id: "placement_cell",
+      icon: <PlacementIcon size={18} />,
+      url: "/placement-cell",
+    },
+    {
+      label: "Department Portal",
+      id: "department",
+      icon: <DepartmentIcon size={18} />,
+      url: "/department",
+    },
+    {
+      label: "Research Projects",
+      id: "rspc",
+      icon: <ResearchIcon size={18} />,
+      url: "/research",
+    },
+    {
+      label: "Inventory",
+      id: "inventory_management",
+      icon: <ResearchIcon size={18} />,
+      url: "/inventory",
+    },
+    {
+      label: "Purchase and Store",
+      id: "purchase_and_store",
+      icon: <StoreIcon size={18} />,
+      url: "/purchase",
+    },
+    {
+      label: "Human Resource",
+      id: "hr",
+      icon: <HumanResourceIcon size={18} />,
+      url: "/hr",
+    },
+    {
+      label: "Examination",
+      id: "examinations",
+      icon: <ExamIcon size={18} />,
+      url: "/examination",
+    },
+    {
+      label: "Gymkhana",
+      id: "gymkhana",
+      icon: <GymkhanaIcon size={18} />,
+      url: "/GymKhana",
+    },
+    {
+      label: "Institute Work Departments",
+      id: "iwd",
+      icon: <IWDIcon size={18} />,
+      url: "/iwd",
+    },
+    {
+      label: "Hostel Management",
+      id: "hostel_management",
+      icon: <HostelIcon size={18} />,
+      url: "/hostel",
+    },
+    {
+      label: "Other Academic Procedure",
+      id: "other_academics",
+      icon: <OtherAcademicIcon size={18} />,
+      url: "/otherAcadProcedures",
+    },
+    {
+      label: "Course Management",
+      id: "course_management",
+      icon: <CourseManagementIcon size={18} />,
+      url: "/course-management",
+    },
+    {
+      label: "Patent Management System",
+      id: "patent_management",
+      icon: <PatentIcon size={18} />,
+      url: "/patent/",
+    },
+  ];
+
+  const otherItems = [
+    {
+      label: "Profile",
+      id: "profile",
+      icon: <ProfileIcon size={18} />,
+      url: role === "student" ? "/profile" : "/facultyprofessionalprofile",
+    },
+    { label: "Settings", icon: <SettingsIcon size={18} /> },
+    { label: "Help", icon: <HelpIcon size={18} /> },
+  ];
+
+  // Roles Allowed in Patent Management
+  const applicantRoles = [
+    "student", "alumini", "Professor", "Associate Professor", "Assistant Professor", 
+    "Research Engineer", "HOD (CSE)", "HOD (ECE)", "HOD (ME)", "HOD (NS)", 
+    "HOD (Design)", "HOD (Liberal Arts)", "Dean Academic", "dean_s", 
+    "dean_rspc", "Dean (P&D)", "Dean (R&D)"
+  ];
+
+  // Role-Based Redirection Map
+  const patentRoutes = {
+    "PCC Admin": "/patent/pccAdmin",
+    "Director": "/patent/director",
+  };
+
   const dispatch = useDispatch();
   const [hover, setHover] = useState(null);
   const [selected, setSelected] = useState(null);
@@ -198,21 +251,40 @@ function SidebarContent({ isCollapsed, toggleSidebar }) {
   }, [accessibleModules]);
 
   const handleModuleClick = (item) => {
+    let path = item.url;
+
+    // HealthCare Center icon clicked navigation
+    if (item.id === "phc") {
+      if (role === "Compounder") {
+        path = "/healthcenter/compounder/patient-log";
+      } else if (role === "student" || role === "Professor") {
+        path = "/healthcenter/student/history";
+      }
+    }
+    
+    if (item.id === "patent_management") {
+      path = patentRoutes[role] || (applicantRoles.includes(role) ? "/patent/applicant" : "/dashboard");
+    }
+
     setSelected(item.label);
     dispatch(setCurrentModule(item.label));
 
     let targetUrl = item.url;
     if (item.id === "patent_management") {
-      targetUrl = patentRoutes[role] || (applicantRoles.includes(role) ? "/patent/applicant" : "/unauthorized");
+      targetUrl = patentRoutes[role] || (applicantRoles.includes(role) ? "/patent/applicant" : "/dashboard");
     }
-
     navigate(targetUrl);
-    toggleSidebar();
   };
 
   return (
     <>
-      <Flex gap={32} align="center" h={64} justify="center">
+      <Flex
+        gap={32}
+        align="center"
+        h={64}
+        justify="center"
+        w={{ xxs: "300px" }}
+      >
         {!isCollapsed && (
           <img src={IIITLOGO} alt="IIIT Logo" style={{ maxWidth: "150px" }} />
         )}
@@ -249,6 +321,7 @@ function SidebarContent({ isCollapsed, toggleSidebar }) {
               >
                 <Button
                   key={item.label}
+                  disabled={!deployedModules.includes(item.id)}
                   variant={
                     hover === item.label
                       ? "subtle"
@@ -293,6 +366,7 @@ function SidebarContent({ isCollapsed, toggleSidebar }) {
               }
               onMouseEnter={() => setHover(item.label)}
               onMouseLeave={() => setHover(null)}
+              onClick={() => handleModuleClick(item)}
             >
               {!isCollapsed && item.label}
             </Button>
