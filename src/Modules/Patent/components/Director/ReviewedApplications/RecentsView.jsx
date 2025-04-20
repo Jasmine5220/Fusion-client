@@ -12,8 +12,9 @@ import {
 import { ArrowsClockwise } from "@phosphor-icons/react";
 import axios from "axios";
 import "../../../style/Director/RecentsView.css";
+import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
-const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
+const API_BASE_URL = `${host}/patentsystem`;
 
 function ReviewedApplications() {
   const [applicationsData, setApplicationsData] = useState([]);

@@ -1,6 +1,7 @@
 import axios from "axios";
+import { host } from "../../../routes/globalRoutes/index.jsx";
 
-const API_BASE = "http://127.0.0.1:8000/patentsystem";
+const API_BASE = `${host}/patentsystem`;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("authToken");

@@ -19,6 +19,7 @@ import {
 } from "@mantine/core";
 import { ArrowLeft, Download } from "phosphor-react"; // Changed DownloadSimple to Download
 import "../../../style/Pcc_Admin/ViewNewApplication.css";
+import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 // Field component for detail view
 function FormField({ label, value }) {
@@ -128,7 +129,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
   const [forwardModalOpen, setForwardModalOpen] = useState(false);
   const [modificationModalOpen, setModificationModalOpen] = useState(false);
 
-  const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
+  const API_BASE_URL = `${host}/patentsystem`;
   const authToken = localStorage.getItem("authToken");
 
   useEffect(() => {

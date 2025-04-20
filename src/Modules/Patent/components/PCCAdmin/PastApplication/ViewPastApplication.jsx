@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import { ArrowLeft, DownloadSimple } from "phosphor-react";
 import "../../../style/Pcc_Admin/PastApplications.css";
+import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 // Field component for detail view
 function FormField({ label, value }) {
@@ -118,7 +119,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
   const [error, setError] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
+  const API_BASE_URL = `${host}/patentsystem`;
   const authToken = localStorage.getItem("authToken");
 
   useEffect(() => {
@@ -258,7 +259,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
         <div
           style={{
             position: "absolute",
-            left: "50px",
+            left: "30px",
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 20,
@@ -292,7 +293,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
         <div
           style={{
             position: "absolute",
-            right: "50px",
+            right: "110px",
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 20,
@@ -336,7 +337,6 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
         style={{
           backgroundColor: "#f5f7f8",
           boxShadow: "0px 5px 15px rgba(0, 0, 0, 0)",
-          marginTop: "-30px",
           paddingRight: "80px",
         }}
       >

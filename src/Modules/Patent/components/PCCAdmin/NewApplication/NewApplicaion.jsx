@@ -12,6 +12,7 @@ import {
 import { Eye, ArrowsClockwise } from "@phosphor-icons/react";
 import axios from "axios";
 import ViewNewApplication from "./ViewNewApplication";
+import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 function NewApplication() {
   const [selectedApplicationId, setSelectedApplicationId] = useState(null);
@@ -132,7 +133,7 @@ function NewApplication() {
       }
 
       const response = await axios.get(
-        "http://127.0.0.1:8000/patentsystem/pccAdmin/applications/new/",
+        `${host}/patentsystem/pccAdmin/applications/new/`,
         {
           headers: {
             Authorization: `Token ${localStorage.getItem("authToken")}`,

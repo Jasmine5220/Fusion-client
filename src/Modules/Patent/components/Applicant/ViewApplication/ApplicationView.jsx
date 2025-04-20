@@ -26,9 +26,10 @@ import {
 import PropTypes from "prop-types";
 import axios from "axios";
 import "../../../style/Applicant/ApplicationView.css";
+import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 // Define API_BASE_URL
-const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
+const API_BASE_URL = `${host}/patentsystem`;
 
 // Progress Bar Component
 function PatentProgressBar({ currentStatus, isMobile }) {

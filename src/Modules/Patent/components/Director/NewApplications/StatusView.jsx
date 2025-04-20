@@ -15,6 +15,7 @@ import {
 } from "@mantine/core";
 import { ArrowLeft, DownloadSimple } from "phosphor-react";
 import "../../../style/Director/StatusView.css";
+import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 function FormField({ label, value }) {
   return (
@@ -112,7 +113,7 @@ function PatentApplication() {
   const [attorneys, setAttorneys] = useState([]);
   const [selectedAttorneyId, setSelectedAttorneyId] = useState("");
   const [attorneysLoading, setAttorneysLoading] = useState(true);
-  const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
+  const API_BASE_URL = `${host}/patentsystem`;
   const authToken = localStorage.getItem("authToken");
   // Add this useEffect hook near your existing useEffect hooks
   // Add authToken to dependency array

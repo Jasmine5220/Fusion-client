@@ -21,6 +21,7 @@ import {
   CircleNotch,
   ArrowRight,
 } from "phosphor-react";
+import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 // Field component for detail view
 function FormField({ label, value }) {
@@ -308,7 +309,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [statusUpdateMessage, setStatusUpdateMessage] = useState(null);
 
-  const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
+  const API_BASE_URL = `${host}/patentsystem`;
   const authToken = localStorage.getItem("authToken");
 
   // These statuses must match the backend's expected REVIEW_STATUSES

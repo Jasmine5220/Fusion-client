@@ -12,6 +12,7 @@ import {
 import { Eye, ArrowsClockwise, Warning } from "@phosphor-icons/react";
 import axios from "axios";
 import ViewOngoingApplication from "./ViewOngoingApplication";
+import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 function OngoingApplication() {
   const [applications, setApplications] = useState([]);
@@ -188,7 +189,7 @@ function OngoingApplication() {
         setLoading(true);
       }
       const { data } = await axios.get(
-        "http://127.0.0.1:8000/patentsystem/pccAdmin/applications/ongoing/",
+        `${host}/patentsystem/pccAdmin/applications/ongoing/`,
         {
           headers: {
             Authorization: `Token ${localStorage.getItem("authToken")}`,

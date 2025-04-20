@@ -14,6 +14,7 @@ import { Eye, ArrowsClockwise, Warning, Calendar } from "@phosphor-icons/react";
 import axios from "axios";
 import ViewPastApplication from "./ViewPastApplication";
 import "../../../style/Pcc_Admin/PastApplications.css";
+import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 function PastApplications() {
   const [applications, setApplications] = useState([]);
@@ -73,7 +74,7 @@ function PastApplications() {
       }
 
       const { data } = await axios.get(
-        "http://127.0.0.1:8000/patentsystem/pccAdmin/applications/past/",
+        `${host}/patentsystem/pccAdmin/applications/past/`,
         {
           headers: {
             Authorization: `Token ${localStorage.getItem("authToken")}`,

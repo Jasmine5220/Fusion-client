@@ -12,7 +12,7 @@ export default function PatentRoutes() {
 
   return (
     <Routes>
-      {/* Applicant Routes - Only for applicants */}
+      {/* Applicant Routes - Only for applicants or inventors */}
       {[
         "student",
         "alumini",

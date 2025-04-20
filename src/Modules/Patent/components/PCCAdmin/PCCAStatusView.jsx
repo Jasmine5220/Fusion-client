@@ -18,6 +18,7 @@ import {
 } from "@tabler/icons-react";
 import { CheckCircle, CircleNotch, ArrowRight } from "phosphor-react";
 import "../../style/Pcc_Admin/PCCAStatus.css";
+import { host } from "../../../../routes/globalRoutes/index.jsx";
 
 // Progress Bar Component
 function PatentProgressBar({ currentStatus, isMobile }) {
@@ -151,7 +152,7 @@ function PCCAStatusView({ applicationId }) {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://127.0.0.1:8000/patentsystem/pccAdmin/applications/status/details/${applicationId}/`,
+          `${host}/patentsystem/pccAdmin/applications/status/details/${applicationId}/`,
           {
             headers: {
               Authorization: `Token ${localStorage.getItem("authToken")}`,

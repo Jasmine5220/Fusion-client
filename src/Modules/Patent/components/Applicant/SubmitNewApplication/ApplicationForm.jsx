@@ -18,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useMediaQuery } from "@mantine/hooks";
+import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 function ApplicationForm() {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -297,7 +298,7 @@ function ApplicationForm() {
       if (!yourToken) throw new Error("No token found!");
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/patentsystem/applicant/applications/submit/",
+        `${host}/patentsystem/applicant/applications/submit/`,
         formData,
         {
           headers: {
