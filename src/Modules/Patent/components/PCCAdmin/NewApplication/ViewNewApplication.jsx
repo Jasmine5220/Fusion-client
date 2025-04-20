@@ -425,26 +425,48 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
 
   return (
     <Container
-      className={`detail-container1 ${isMobile ? "mobile-form-container" : ""}`}
-      size={isMobile ? "sm" : "lg"}
+      className={`k-detail-container1 ${isMobile ? "mobile-form-container" : ""}`}
+      size="xl"
+      px={0}
+      fluid
     >
-      <div className="detail-header">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          position: "relative",
+          marginBottom: "0",
+        }}
+      >
         <Button
           onClick={handleBackToList}
-          variant="outline"
+          variant="subtle"
           color="blue"
           leftIcon={<ArrowLeft size={18} />}
-          className="back-button"
+          style={{
+            position: "absolute",
+            left: "50px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            border: "none",
+            padding: "10px",
+            fontWeight: "500",
+          }}
         >
-          Back to Applications
+          Back
         </Button>
 
-        <Title
+        <Text
           className={`detail-page-title ${isMobile ? "mobile-detail-page-title" : ""}`}
-          order={2}
+          style={{
+            fontSize: "24px",
+            fontWeight: "600",
+            textAlign: "center",
+            margin: "0 auto",
+          }}
         >
           Application Details
-        </Title>
+        </Text>
       </div>
 
       {actionSuccess && (
@@ -454,51 +476,80 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
       )}
 
       {/* Action buttons at the top of the form */}
-      <Card
-        p="md"
-        radius="md"
-        withBorder
-        mb="lg"
-        className="action-buttons-card"
-      >
-        <Group position="center" spacing="md" className="action-buttons-group">
+      <Card className="action-buttons-card">
+        <Group
+          position="center"
+          spacing="md"
+          className="action-buttons-group"
+          style={{ justifyContent: "center" }}
+        >
           <Button
             component="a"
             href={`${API_BASE_URL}/download/${application_id}/`}
             target="_blank"
             download={`Application-${application_id}.pdf`}
             size="md"
+            variant="outline"
             color="blue"
-            leftIcon={<Download size={18} />} // Changed from DownloadSimple to Download
+            leftIcon={<Download size={18} />}
             className="action-button"
+            sx={(theme) => ({
+              borderColor: theme.colors.blue[6],
+              color: theme.colors.blue[6],
+              backgroundColor: "transparent",
+              "&:hover": {
+                backgroundColor: `${theme.colors.blue[6]} !important`,
+                color: "white !important",
+              },
+            })}
           >
             Download Application
           </Button>
 
           <Button
             size="md"
+            variant="outline"
             color="green"
             leftIcon={<ActionIcon size={18} />}
             onClick={openForwardModal}
             className="action-button"
+            sx={(theme) => ({
+              borderColor: theme.colors.green[6],
+              color: theme.colors.green[6],
+              backgroundColor: "transparent",
+              "&:hover": {
+                backgroundColor: `${theme.colors.green[6]} !important`,
+                color: "white !important",
+              },
+            })}
           >
             Forward to Director
           </Button>
 
           <Button
             size="md"
+            variant="outline"
             color="orange"
             leftIcon={<ActionIcon size={18} />}
             onClick={openModificationModal}
             className="action-button"
+            sx={(theme) => ({
+              borderColor: theme.colors.orange[6],
+              color: theme.colors.orange[6],
+              backgroundColor: "transparent",
+              "&:hover": {
+                backgroundColor: `${theme.colors.orange[6]} !important`,
+                color: "white !important",
+              },
+            })}
           >
             Request Modification
           </Button>
         </Group>
       </Card>
 
-      <div className="form-content">
-        <FormSection title="Application Overview">
+      <div className="pcc-form-content">
+        <FormSection title="Application Overview" className="pcc-form-section">
           <Grid>
             <Grid.Col span={12} md={4}>
               <FormField label="Application ID:" value={application_id} />
@@ -816,7 +867,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
           </Grid>
         </FormSection>
 
-        <FormSection title="Applicants">
+        <FormSection title="Inventors">
           {applicants && applicants.length > 0 ? (
             <Grid>
               {applicants.map((applicant, index) => (
@@ -828,7 +879,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
                     withBorder
                   >
                     <Text weight={600} size="lg" mb="xs">
-                      Applicant {index + 1}
+                      Inventor {index + 1}
                     </Text>
                     <FormField label="Name:" value={applicant.name} />
                     <FormField label="Email:" value={applicant.email} />
@@ -856,52 +907,69 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
       <Modal
         opened={forwardModalOpen}
         onClose={() => setForwardModalOpen(false)}
-        title={<Title order={3}>Forward to Director</Title>}
+        title={
+          <Text style={{ fontSize: "22px", fontWeight: 600, color: "#1a1b1e" }}>
+            Forward to Director
+          </Text>
+        }
         size="lg"
-        classNames={{
-          title: "modal-title",
-          body: "modal-body",
+        padding="xl"
+        radius="md"
+        overlayProps={{
+          opacity: 0.55,
+          blur: 3,
         }}
+        centered
       >
-        <Box className="modal-content">
+        <Box sx={{ padding: "0 10px" }}>
           {actionError && (
-            <Alert color="red" title="Error" mb="md">
+            <Alert color="red" title="Error" mb="xl" radius="md">
               {actionError}
             </Alert>
           )}
 
           <Select
             data={attorneys}
-            label="Select Attorney"
+            label={
+              <Text weight={500} mb={5}>
+                Select Attorney <span style={{ color: "red" }}>*</span>
+              </Text>
+            }
             placeholder="Choose an attorney"
             value={selectedAttorneyId}
             onChange={setSelectedAttorneyId}
             required
-            mb="md"
+            mb="xl"
             size="md"
-            className="select-field"
+            radius="md"
             error={
               !selectedAttorneyId && actionLoading
                 ? "Attorney selection is required"
                 : null
             }
+            withAsterisk={false}
           />
 
           <Textarea
-            label="Comments for Director (Required)"
+            label={
+              <Text weight={500} mb={5}>
+                Comments for Director <span style={{ color: "red" }}>*</span>
+              </Text>
+            }
             placeholder="Add detailed comments for the director about this application"
             value={comments}
             onChange={(e) => setComments(e.target.value)}
             minRows={4}
             maxRows={6}
-            mb="md"
+            mb="xl"
             size="md"
-            className="textarea-field"
+            radius="md"
             error={commentError}
             required
+            withAsterisk={false}
           />
 
-          <Text size="sm" color="dimmed" mb="lg">
+          <Text size="sm" color="dimmed" mb="xl" italic>
             Please provide detailed instructions or notes for the director to
             review this application.
           </Text>
@@ -910,19 +978,34 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
             <Button
               variant="outline"
               size="md"
+              radius="md"
               onClick={() => {
                 setForwardModalOpen(false);
                 setActionError(null);
                 setCommentError(null);
               }}
+              sx={(theme) => ({
+                borderColor: theme.colors.gray[5],
+                color: theme.colors.gray[7],
+                "&:hover": {
+                  backgroundColor: theme.colors.gray[1],
+                },
+              })}
             >
               Cancel
             </Button>
             <Button
               color="green"
               size="md"
+              radius="md"
               onClick={handleForwardToDirector}
               loading={actionLoading}
+              sx={(theme) => ({
+                backgroundColor: theme.colors.green[6],
+                "&:hover": {
+                  backgroundColor: theme.colors.green[7],
+                },
+              })}
             >
               Forward to Director
             </Button>
@@ -934,40 +1017,52 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
       <Modal
         opened={modificationModalOpen}
         onClose={() => setModificationModalOpen(false)}
-        title={<Title order={3}>Request Modification</Title>}
+        title={
+          <Text style={{ fontSize: "22px", fontWeight: 600, color: "#1a1b1e" }}>
+            Request Modification
+          </Text>
+        }
         size="lg"
-        classNames={{
-          title: "modal-title",
-          body: "modal-body",
+        padding="xl"
+        radius="md"
+        overlayProps={{
+          opacity: 0.55,
+          blur: 3,
         }}
+        centered
       >
-        <Box className="modal-content">
+        <Box sx={{ padding: "0 10px" }}>
           {actionError && (
-            <Alert color="red" title="Error" mb="md">
+            <Alert color="red" title="Error" mb="xl" radius="md">
               {actionError}
             </Alert>
           )}
 
-          <Text size="md" mb="md">
+          <Text size="md" mb="xl" weight={500}>
             Please specify what aspects of the application need to be modified
             by the applicant.
           </Text>
 
           <Textarea
-            label="Modification Comments (Required)"
+            label={
+              <Text weight={500} mb={5}>
+                Modification Comments <span style={{ color: "red" }}>*</span>
+              </Text>
+            }
             placeholder="Provide detailed instructions about what needs to be modified in the application"
             value={comments}
             onChange={(e) => setComments(e.target.value)}
             minRows={5}
             maxRows={8}
-            mb="md"
+            mb="xl"
             size="md"
-            className="textarea-field"
+            radius="md"
             error={commentError}
             required
+            withAsterisk={false}
           />
 
-          <Text size="sm" color="dimmed" mb="lg">
+          <Text size="sm" color="dimmed" mb="xl" italic>
             Be specific about what information is incorrect, missing, or needs
             clarification. These comments will be sent directly to the
             applicant.
@@ -977,19 +1072,34 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
             <Button
               variant="outline"
               size="md"
+              radius="md"
               onClick={() => {
                 setModificationModalOpen(false);
                 setActionError(null);
                 setCommentError(null);
               }}
+              sx={(theme) => ({
+                borderColor: theme.colors.gray[5],
+                color: theme.colors.gray[7],
+                "&:hover": {
+                  backgroundColor: theme.colors.gray[1],
+                },
+              })}
             >
               Cancel
             </Button>
             <Button
               color="orange"
               size="md"
+              radius="md"
               onClick={handleRequestModification}
               loading={actionLoading}
+              sx={(theme) => ({
+                backgroundColor: theme.colors.orange[6],
+                "&:hover": {
+                  backgroundColor: theme.colors.orange[7],
+                },
+              })}
             >
               Request Modification
             </Button>

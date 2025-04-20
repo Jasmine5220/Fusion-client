@@ -6,7 +6,6 @@ import {
   Table,
   Text,
   Loader,
-  Badge,
   Group,
   Divider,
   Select,
@@ -229,46 +228,159 @@ function PastApplications() {
             />
           </Group>
 
-          <Box className="past-app-outerContainer">
+          <Box
+            className="past-app-outerContainer"
+            style={{ marginRight: "50px" }}
+          >
             <ScrollArea style={{ height: "calc(100vh - 250px)" }}>
-              <Table highlightOnHover striped>
-                <thead>
+              <Table highlightOnHover striped withBorder>
+                <thead className="fusionTableHeader">
                   <tr>
-                    {columnNames.map((name, idx) => (
-                      <th key={idx}>{name}</th>
+                    {columnNames.map((columnName, index) => (
+                      <th
+                        key={index}
+                        style={{
+                          padding: "12px 16px",
+                          fontWeight: 600,
+                          color: "#333",
+                          textAlign: "left",
+                          borderBottom: "2px solid #dee2e6",
+                          backgroundColor: "#f8f9fa",
+                        }}
+                      >
+                        {columnName}
+                      </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredApplications.map((app, idx) => (
-                    <tr key={app.id}>
-                      <td>{idx + 1}</td>
-                      <td>{app.id}</td>
-                      <td>{app.token_no}</td>
-                      <td title={app.title}>{app.title}</td>
-                      <td>{app.submitted_by}</td>
-                      <td>{app.designation}</td>
-                      <td>{app.department}</td>
-                      <td>{formatDate(app.submitted_on)}</td>
-                      <td>
-                        <Badge
-                          color={getStatusColor(app.status)}
-                          variant="filled"
-                          size="sm"
-                        >
-                          {app.status}
-                        </Badge>
+                  {filteredApplications.map((application, index) => (
+                    <tr
+                      key={application.id}
+                      style={{
+                        backgroundColor:
+                          index % 2 === 0 ? "#ffffff" : "#f8f9fa",
+                      }}
+                    >
+                      <td
+                        style={{
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {index + 1}
                       </td>
-                      <td>
+                      <td
+                        style={{
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {application.id}
+                      </td>
+                      <td
+                        style={{
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {application.token_no}
+                      </td>
+                      <td
+                        style={{
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                        title={application.title}
+                      >
+                        {application.title}
+                      </td>
+                      <td
+                        style={{
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {application.submitted_by}
+                      </td>
+                      <td
+                        style={{
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {application.designation}
+                      </td>
+                      <td
+                        style={{
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {application.department}
+                      </td>
+                      <td
+                        style={{
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {formatDate(application.submitted_on)}
+                      </td>
+                      <td
+                        style={{
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "inline-block",
+                            padding: "4px 8px",
+                            borderRadius: "4px",
+                            backgroundColor: getStatusColor(application.status),
+                            color: "#fff",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {application.status}
+                        </div>
+                      </td>
+                      <td
+                        style={{
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
                         <Button
                           variant="outline"
                           color="blue"
-                          size="xs"
-                          className="view-button"
-                          onClick={() => handleViewClick(app.id)}
+                          size="sm"
+                          onClick={() => handleViewClick(application.id)}
+                          style={{
+                            backgroundColor: "#fff",
+                            color: "#0073e6",
+                            border: "1px solid #0073e6",
+                            fontWeight: 500,
+                            transition: "all 0.2s ease",
+                            ":hover": {
+                              backgroundColor: "#0073e6",
+                              color: "#fff",
+                            },
+                          }}
                         >
-                          <Eye size={16} weight="bold" />
-                          <span>View</span>
+                          <Eye size={16} /> <span>View</span>
                         </Button>
                       </td>
                     </tr>

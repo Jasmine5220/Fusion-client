@@ -268,6 +268,12 @@ body {
 /* Mark as Read button */
 .markReadButton {
   margin-top: 16px;
+  background-color: #fff;
+  color: #0073e6;
+  font-weight: 500;
+}
+
+.markReadButton:hover {
   background-color: #0073e6;
   color: #F7FAFC;
 }

@@ -114,7 +114,6 @@ function PatentApplication() {
   const [attorneysLoading, setAttorneysLoading] = useState(true);
   const API_BASE_URL = "http://127.0.0.1:8000/patentsystem";
   const authToken = localStorage.getItem("authToken");
-
   // Add this useEffect hook near your existing useEffect hooks
   // Add authToken to dependency array
   useEffect(() => {
@@ -248,6 +247,7 @@ function PatentApplication() {
 
         if (response.data) {
           setApplicationData(response.data);
+          setApplicationId(response.data.application_id);
           setError(null);
         }
       } catch (err) {

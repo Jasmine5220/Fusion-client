@@ -241,7 +241,7 @@ function ApplicationForm() {
 
     const data = {
       title: applicationTitle,
-      ip_types: ipTypes,
+      ip_type: ipTypes,
       user_id: 7108,
       inventors: inventors.map((inventor) => ({
         name: inventor.name,
@@ -423,10 +423,12 @@ function ApplicationForm() {
     <Paper
       p="xl"
       radius="md"
-      bg="#f8f9fa"
+      bg="#f5f7f8"
       style={{
         width: "100%",
         maxWidth: "100%",
+        marginLeft: "50px",
+        marginRight: "50px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

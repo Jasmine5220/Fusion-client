@@ -146,7 +146,13 @@ function ReviewedApplications() {
                 <td>{item.arrivalDate}</td>
                 <td>{item.reviewedDate}</td>
                 <td>{item.assignedAttorney}</td>
-                <td>
+                <td
+                  style={{
+                    border: "none",
+                    borderTop: "1px solid #ddd",
+                    borderRight: "1px solid #ddd",
+                  }}
+                >
                   <Text
                     color={
                       item.currentStatus === "Patent Granted"
@@ -156,6 +162,8 @@ function ReviewedApplications() {
                           : "blue"
                     }
                     weight={500}
+                    style={{ fontSize: "14px" }}
+                    mt={10}
                   >
                     {item.currentStatus}
                   </Text>

@@ -168,7 +168,7 @@ function ManageAttorneys() {
           </div>
 
           <Paper className="manage-attorney-table-card">
-            <ScrollArea style={{ marginLeft: "-50px" }}>
+            <ScrollArea>
               <Table
                 highlightOnHover
                 striped

@@ -39,7 +39,10 @@ function PCCAdminDashboard({ setActiveTab }) {
       <Text className="dashboard-title">Patent & Copyright Cell Dashboard</Text>
 
       {/* Combined Overview and Insights Section */}
-      <Paper className="combined-section">
+      <Paper
+        className="combined-section"
+        style={{ marginLeft: "50px", marginRight: "50px" }}
+      >
         {/* Overview Section */}
         <Box className="overview-section">
           <Text className="overview-title">

@@ -89,6 +89,7 @@ function ApplicantDashboard({ setActiveTab }) {
           <Box
             className="status-progress-container"
             display={{ base: "none", sm: "block" }}
+            style={{ position: "relative" }}
           >
             <Progress
               size="xl"
@@ -109,7 +110,7 @@ function ApplicantDashboard({ setActiveTab }) {
               style={{
                 position: "absolute",
                 top: "40%",
-                left: "0",
+                left: 0,
                 width: "100%",
                 display: "flex",
                 justifyContent: "space-between",

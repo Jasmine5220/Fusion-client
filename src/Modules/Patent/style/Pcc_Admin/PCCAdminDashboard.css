@@ -3,6 +3,7 @@
   font-size: 26px;
   font-weight: bold;
   text-align: center;
+  color: #333;
   margin: 0;
 }
 
@@ -21,8 +22,8 @@
 /* Overview Section */
 .overview-section {
   margin: 0;
-  margin-left: 50px;
-  margin-right: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .overview-title, .table-title {
@@ -31,6 +32,7 @@
   display: flex;
   align-items: left;
   gap: 8px;
+  color: #333;
 }
 
 .overview-icon {
@@ -47,8 +49,8 @@
 /* Insights Section */
 .insights-section {
   margin: 0 auto;
-  margin-left: 50px;
-  margin-right: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .dashboard-overview-description {

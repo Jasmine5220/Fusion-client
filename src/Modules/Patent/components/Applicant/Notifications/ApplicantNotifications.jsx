@@ -1,8 +1,64 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Card, Button, Text, Box, Divider } from "@mantine/core";
+import { Card, Button, Text, Box, Grid, Divider } from "@mantine/core";
 import { Check } from "phosphor-react";
-import "../../../style/Applicant/ApplicantNotifications.css";
+
+// Define styles at the top level like in DirectorNotifications
+const styles = {
+  notificationCard: {
+    padding: "1.5rem",
+    marginBottom: "1rem",
+    boxShadow: "0 5px 8px rgba(0, 0, 0, 0.1)",
+    borderRadius: "8px",
+    backgroundColor: "#f8f9fa",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: "-10px",
+  },
+  notificationTitle: {
+    fontSize: "22px",
+    fontWeight: 500,
+    marginBottom: "0",
+    color: "#1a1b1e",
+  },
+  notificationStatus: {
+    fontSize: "1rem",
+    fontWeight: 500,
+    marginBottom: "0.5rem",
+  },
+  notificationDate: {
+    fontSize: "0.875rem",
+    color: "#666",
+    marginBottom: "1rem",
+  },
+  notificationDescription: {
+    fontSize: "0.875rem",
+    color: "#444",
+    marginBottom: "0",
+    flex: 1,
+  },
+  markReadButton: {
+    width: "100%",
+    marginTop: "auto",
+    backgroundColor: "#f8f9fa",
+    color: "#4c6ef5",
+    border: "1px solid #4c6ef5",
+    fontWeight: 500,
+  },
+  pageTitle: {
+    fontSize: "24px",
+    fontWeight: 600,
+    marginBottom: "10px",
+    color: "#1a1b1e",
+  },
+  container: {
+    width: "100%",
+    padding: "0 1rem",
+    maxWidth: "1800px",
+    margin: "0 50px",
+  },
+};
 
 // Dummy data for notifications
 const notificationsData = [
@@ -50,27 +106,17 @@ function NotificationCard({
   onMarkAsRead,
 }) {
   return (
-    <Card className="notification-card" style={{ borderLeft: `6px solid ${color}` }}>
-      <Text className="card-title" weight={600} size="lg">
-        {title}
-      </Text>
-      <Text className="card-status" style={{ color }}>
-        {status}
-      </Text>
-      <Text className="card-details" size="sm" color="dimmed">
-        {date} | {time}
-      </Text>
+    <Card style={styles.notificationCard}>
+      <Text style={styles.notificationTitle}>{title}</Text>
+      <Text style={{ ...styles.notificationStatus, color }}>{status}</Text>
+      <Text style={styles.notificationDate}>{`${date} | ${time}`}</Text>
       <Divider my="sm" />
-      <Text className="card-description" size="sm">
-        {description}
-      </Text>
+      <Text style={styles.notificationDescription}>{description}</Text>
       <Button
-        variant="light"
+        variant="outline"
         leftIcon={<Check size={16} />}
-        className="markReadButton"
+        style={styles.markReadButton}
         onClick={() => onMarkAsRead(id)}
-        fullWidth
-        mt="sm"
       >
         Mark as Read
       </Button>
@@ -96,32 +142,38 @@ function NotificationsPage() {
 
   const handleMarkAsRead = (id) => {
     setNotifications(
-      notifications.filter((notification) => notification.id !== id)
+      notifications.filter((notification) => notification.id !== id),
     );
   };
 
   return (
-    <Box style={{ padding: "16px" }}>
-      {/* Header */}
-      <Text className="notif-header-text" size="xl" weight={700}>
-        Notifications
-      </Text>
+    <Box style={styles.container}>
+      {/* Page Title */}
+      <Text style={styles.pageTitle}>Notifications</Text>
 
       {/* Notifications container */}
-      <Box className="notif-container">
-        {notifications.map((notification) => (
-          <NotificationCard
-            key={notification.id}
-            id={notification.id}
-            title={notification.title}
-            status={notification.status}
-            description={notification.description}
-            date={notification.date}
-            time={notification.time}
-            color={notification.color}
-            onMarkAsRead={handleMarkAsRead}
-          />
-        ))}
+      <Box style={{ width: "100%" }}>
+        <Grid gutter="xl" align="stretch" style={{ margin: 0 }}>
+          {notifications.map((notification) => (
+            <Grid.Col
+              span={6}
+              p="md"
+              key={notification.id}
+              style={{ minHeight: "100%" }}
+            >
+              <NotificationCard
+                id={notification.id}
+                title={notification.title}
+                status={notification.status}
+                description={notification.description}
+                date={notification.date}
+                time={notification.time}
+                color={notification.color}
+                onMarkAsRead={handleMarkAsRead}
+              />
+            </Grid.Col>
+          ))}
+        </Grid>
       </Box>
     </Box>
   );

@@ -141,7 +141,6 @@ table tr:hover {
   padding: 2rem;
   max-width: 100%;
   margin: 0;
-  margin-right: 50px;
   width: 100%;
   background-color: #f5f7f8;
 }
@@ -187,9 +186,8 @@ table tr:hover {
 /* Form Content Styles */
 .form-content {
   background: #f5f7f8;
-  padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
   margin-top: 0;
 }
 

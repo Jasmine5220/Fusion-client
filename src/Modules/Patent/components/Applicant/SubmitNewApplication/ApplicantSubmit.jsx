@@ -15,7 +15,7 @@ function SubmitNewApplication({ setActiveTab }) {
         Submit New Application
       </Text>
 
-      <Box className="submit-card-container">
+      <Box className="submit-card-container" style={{ marginLeft: "50px" }}>
         <Card className="submit-application-card">
           <Text className="submit-card-title" weight={600} size="lg">
             Intellectual Property Filing Form

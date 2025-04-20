@@ -557,25 +557,101 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
       className={`detail-container ${isMobile ? "mobile-form-container" : ""}`}
       size={isMobile ? "sm" : "lg"}
     >
-      <div className="detail-header">
-        <Button
-          onClick={handleBackToList}
-          variant="outline"
-          color="blue"
-          leftIcon={<ArrowLeft size={18} />}
-          className="back-button"
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          position: "relative",
+          marginBottom: "0",
+          backgroundColor: "#f5f7f8",
+          height: "60px",
+          zIndex: 10,
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            left: "50px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: 20,
+            cursor: "pointer",
+          }}
         >
-          Back to Applications
-        </Button>
+          <Button
+            variant="subtle"
+            color="blue"
+            leftIcon={<ArrowLeft size={18} />}
+            style={{
+              border: "none",
+              padding: "10px",
+              background: "none",
+              cursor: "pointer",
+              fontWeight: "500",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (typeof handleBackToList === "function") {
+                handleBackToList();
+              } else {
+                window.history.back();
+              }
+            }}
+          >
+            Back
+          </Button>
+        </div>
 
-        <Title
+        <div
+          style={{
+            position: "absolute",
+            right: "50px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: 20,
+          }}
+        >
+          <Button
+            component="a"
+            href={`${API_BASE_URL}/download/${application_id}/`}
+            target="_blank"
+            download={`Application-${application_id}.pdf`}
+            variant="subtle"
+            color="blue"
+            rightIcon={<DownloadSimple size={18} />}
+            style={{
+              border: "none",
+              padding: "10px",
+              background: "none",
+              cursor: "pointer",
+              fontWeight: "500",
+            }}
+          >
+            Download
+          </Button>
+        </div>
+
+        <Text
           className={`detail-page-title ${isMobile ? "mobile-detail-page-title" : ""}`}
+          style={{
+            fontSize: "24px",
+            fontWeight: "600",
+            textAlign: "center",
+            margin: "0 auto",
+          }}
         >
           Application Details
-        </Title>
+        </Text>
       </div>
 
-      <div className="form-content">
+      <div
+        className="form-content"
+        style={{
+          backgroundColor: "#f5f7f8",
+          boxShadow: "0px 5px 15px rgba(0, 0, 0, 0)",
+          marginTop: "-30px",
+        }}
+      >
         <FormSection title="Application Overview">
           <Grid>
             <Grid.Col span={12} md={4}>
@@ -1019,21 +1095,6 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
             </Group>
           </div>
         </FormSection>
-
-        <div className="form-actions">
-          <Button
-            component="a"
-            href={`${API_BASE_URL}/download/${application_id}/`}
-            target="_blank"
-            download={`Application-${application_id}.pdf`}
-            size="md"
-            color="blue"
-            leftIcon={<DownloadSimple size={18} />}
-            fullWidth={isMobile}
-          >
-            Download Application
-          </Button>
-        </div>
       </div>
     </Container>
   );

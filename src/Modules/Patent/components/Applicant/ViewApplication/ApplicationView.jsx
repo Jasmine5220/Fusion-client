@@ -690,21 +690,29 @@ function ApplicationView({ setActiveTab }) {
         style={{ maxWidth: "100%", padding: "2rem" }}
       >
         <div className="application-view-detail-header">
+          <Button
+            onClick={handleBackToList}
+            leftIcon={<ArrowLeft size={18} />}
+            className="application-view-back-button"
+          >
+            Back
+          </Button>
           <Text className="application-view-page-title">
             {application_id} : {title}
           </Text>
           <Button
-            onClick={handleBackToList}
-            variant="outline"
-            color="blue"
-            leftIcon={<ArrowLeft size={18} />}
-            className="application-view-back-button"
+            component="a"
+            href={`${API_BASE_URL}/download/${application_id}/`}
+            target="_blank"
+            download={`Application-${application_id}.pdf`}
+            className="application-view-download-button"
+            rightIcon={<DownloadSimple size={18} />}
           >
-            Back to Applications
+            Download
           </Button>
         </div>
 
-        <div className="form-content">
+        <div>
           <FormSection
             title="Application Overview"
             className="application-view-form-section"
@@ -1068,21 +1076,6 @@ function ApplicationView({ setActiveTab }) {
           <FormSection title="Application Progress">
             <PatentProgressBar currentStatus={status} isMobile={isMobile} />
           </FormSection>
-
-          <div className="form-actions">
-            <Button
-              component="a"
-              href={`${API_BASE_URL}/download/${application_id}/`}
-              target="_blank"
-              download={`Application-${application_id}.pdf`}
-              size="md"
-              color="blue"
-              leftIcon={<DownloadSimple size={18} />}
-              fullWidth={isMobile}
-            >
-              Download Application
-            </Button>
-          </div>
         </div>
       </Container>
     );

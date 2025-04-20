@@ -65,7 +65,12 @@ function DirectorDashboard({ setActiveTab }) {
         Patent & Copyright Management Dashboard
       </Text>
       <Box>
-        <Paper shadow="md" radius="lg" className="combined-section">
+        <Paper
+          shadow="md"
+          radius="lg"
+          className="combined-section"
+          style={{ marginLeft: "50px" }}
+        >
           <Text className="director-overview-title">
             Patent Management System (PMS)
             <Buildings size={24} className="director-overview-icon" />

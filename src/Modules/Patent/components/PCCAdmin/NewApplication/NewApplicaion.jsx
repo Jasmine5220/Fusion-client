@@ -23,6 +23,7 @@ function NewApplication() {
   const columnNames = [
     "S.No.",
     "Application Number",
+    "Token Number",
     "Patent Title",
     "Inventor 1",
     "Designation",
@@ -43,14 +44,13 @@ function NewApplication() {
       fontWeight: 600,
       textAlign: "left",
       margin: "0 auto",
-      paddingLeft: "50px",
+      paddingLeft: "0",
       position: "relative",
     },
     outerContainer: {
       maxWidth: "100%",
-      padding: "24px 50px",
+      padding: "12px 50px",
       backgroundColor: "transparent",
-      marginLeft: "25px",
       borderRadius: "12px",
       marginBottom: "20px",
       boxShadow: "0px 5px 15px rgba(0, 0, 0, 0)",
@@ -73,6 +73,7 @@ function NewApplication() {
       overflow: "hidden",
       transition: "all 0.3s ease",
       boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.05)",
+      marginRight: "50px",
     },
     tableHeader: {
       padding: "16px 20px",
@@ -143,6 +144,7 @@ function NewApplication() {
       const applicationsArray = Object.entries(response.data.applications).map(
         ([appId, appData]) => ({
           id: appId,
+          token_no: appData.token_no || "Not Assigned",
           ...appData,
         }),
       );
@@ -206,12 +208,22 @@ function NewApplication() {
     }
 
     return (
-      <ScrollArea style={styles.tableWrapper}>
-        <Table highlightOnHover striped withBorder style={styles.table}>
-          <thead>
+      <ScrollArea style={{ height: "calc(100vh - 250px)" }}>
+        <Table highlightOnHover striped withBorder>
+          <thead className="fusionTableHeader">
             <tr>
               {columnNames.map((columnName, index) => (
-                <th key={index} style={styles.tableHeader}>
+                <th
+                  key={index}
+                  style={{
+                    padding: "12px 16px",
+                    fontWeight: 600,
+                    color: "#333",
+                    textAlign: "left",
+                    borderBottom: "2px solid #dee2e6",
+                    backgroundColor: "#f8f9fa",
+                  }}
+                >
                   {columnName}
                 </th>
               ))}
@@ -219,26 +231,114 @@ function NewApplication() {
           </thead>
           <tbody>
             {applications.map((application, index) => (
-              <tr key={application.id} style={styles.tableRow}>
-                <td style={styles.tableCell}>{index + 1}</td>
-                <td style={styles.tableCell}>{application.id}</td>
-                <td style={styles.tableCell} title={application.title}>
+              <tr
+                key={application.id}
+                style={{
+                  backgroundColor: index % 2 === 0 ? "#ffffff" : "#f8f9fa",
+                }}
+              >
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    color: "#333",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  {index + 1}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    color: "#333",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  {application.id}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    color: "#333",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  {application.token_no || "Not Assigned"}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    color: "#333",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                  title={application.title}
+                >
                   {application.title}
                 </td>
-                <td style={styles.tableCell}>{application.submitted_by}</td>
-                <td style={styles.tableCell}>{application.designation}</td>
-                <td style={styles.tableCell}>{application.department}</td>
-                <td style={styles.tableCell}>{application.submitted_on}</td>
-                <td style={styles.tableCell}>
-                  <Button
-                    variant="outline"
-                    color="blue"
-                    size="sm"
-                    onClick={() => handleViewClick(application.id)}
-                    style={styles.viewButton}
-                  >
-                    <Eye size={16} /> <span>View</span>
-                  </Button>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    color: "#333",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  {application.submitted_by}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    color: "#333",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  {application.designation}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    color: "#333",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  {application.department}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    color: "#333",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  {application.submitted_on}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    color: "#333",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  <Group position="left" spacing="xs">
+                    <Button
+                      variant="outline"
+                      color="blue"
+                      size="sm"
+                      onClick={() => handleViewClick(application.id)}
+                      style={{
+                        backgroundColor: "#fff",
+                        color: "#0073e6",
+                        border: "1px solid #0073e6",
+                        fontWeight: 500,
+                        transition: "all 0.2s ease",
+                        ":hover": {
+                          backgroundColor: "#0073e6",
+                          color: "#fff",
+                        },
+                      }}
+                    >
+                      <Eye size={16} />
+                      <span>View</span>
+                    </Button>
+                  </Group>
                 </td>
               </tr>
             ))}
@@ -257,21 +357,21 @@ function NewApplication() {
               textAlign: "left",
               fontSize: "24px",
               fontWeight: 600,
-              marginLeft: "75px",
+              marginLeft: "50px",
             }}
           >
             New Applications
           </Text>
           <Text size="md" color="dimmed" style={{ textAlign: "left" }} />
 
-          <Group position="right" mb="sm">
+          <Group position="left" mb="sm">
             <Button
               variant="subtle"
               color="blue"
               size="sm"
               onClick={handleRefresh}
               loading={isRefreshing}
-              style={{ marginLeft: "55px" }}
+              style={{ marginLeft: "50px" }}
               leftIcon={<ArrowsClockwise size={16} />}
             >
               {isRefreshing ? "Refreshing..." : "Refresh"}

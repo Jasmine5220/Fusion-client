@@ -2,10 +2,11 @@
 .application-view-container {
   width: 100%;
   padding: 0;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 0px;
+  padding-right: 0px;
   max-width: 100%;
-  margin: 0;
+  margin: 0 50px;
+  background-color: #f5f7f8;
 }
 
 /* Page Title */
@@ -14,7 +15,6 @@
   font-weight: 600;
   color: #2d3748;
   letter-spacing: 0.5px;
-  padding-left: 0;
   margin-bottom: 10px;
   margin-top: 0;
   text-align: left;
@@ -36,18 +36,17 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  margin: 0;
-  margin-left: -50px;
+  margin: 0 auto;
   padding: 0;
   width: 100%;
+  max-width: 100%;
 }
 
 /* Application Card */
 .application-card {
-  border-left: 6px solid #ffffff;
-  padding: 14px;
+  padding: 20px;
   border-radius: 12px;
-  background-color: #f8f9fa;
+  background-color: #fff;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   height: 100%;
@@ -61,9 +60,8 @@
 
 /* Card Title */
 .app-card-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 8px;
+  font-size: 21px;
+  font-weight: 500;
   color: #2d3748;
 }
 
@@ -131,35 +129,37 @@
   width: 100%;
   max-width: 100%;
   margin: 0;
-  padding: 0;
-  background-color: #f8f9fa;
+  padding: 0px;
+  background-color: #f5f7f8;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
 }
 
 /* Form Content */
 .form-content {
-  background: #f8f9fa;
+  background: #f5f7f8;
   border-radius: 8px;
   padding: 0;
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
 }
 
 /* Sections */
 .detail-section {
-  margin-bottom: 15px;
-  padding: 12px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   width: 100%;
+  background-color: #ffffff;
 }
 
 .form-section {
   padding: 0;
-  margin: 0;
+  margin: 0 0 20px 0;
   width: 100%;
   max-width: 100%;
 }
@@ -168,8 +168,8 @@
   font-size: 1.2rem;
   color: #333;
   margin: 0;
-  padding: 12px;
-  background-color: #f8f9fa;
+  padding: 15px 20px;
+  background-color: #ffffff;
   border-bottom: 1px solid #e9ecef;
   width: 100%;
   line-height: 1.2;
@@ -209,43 +209,60 @@
 /* Header Section */
 .application-view-detail-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  position: relative;
+  margin-bottom: 30px;
   width: 100%;
 }
 
-.view-application-back-button {
-  background-color: #4c6ef5;
-  color: white;
+.application-view-back-button {
+  position: absolute;
+  left: 0;
+  background-color: transparent;
+  color: #4c6ef5;
   border: none;
   padding: 8px 16px;
-  border-radius: 6px;
   font-weight: 500;
-  font-size: 14px;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 36px;
 }
 
-.view-application-back-button:hover {
-  background-color: #3b5bdb;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.application-view-back-button:hover {
+  background-color: rgba(210, 217, 244, 0.1);
+  color: #4c6ef5;
+  box-shadow: none;
+}
+
+/* Add styling for download button */
+.application-view-download-button {
+  position: absolute;
+  right: 0;
+  background-color: transparent;
+  color: #4c6ef5;
+  border: none;
+  padding: 8px 16px;
+  font-weight: 500;
+}
+
+.application-view-download-button:hover {
+  background-color: rgba(76, 110, 245, 0.1);
+  color: #4c6ef5;
+  box-shadow: none;
 }
 
 .view-application-back-button:active {
   transform: translateY(0);
+  font-weight: 500;
 }
 
-.form-title {
+.application-view-page-title {
   font-size: 24px;
   font-weight: 600;
   color: #2d3748;
-  margin: 0;
-  flex: 1;
+  letter-spacing: 0.5px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0;
+  max-width: 80%;
 }
 
 .not-submitted-text {
@@ -256,12 +273,13 @@
 
 /* Section Titles - Consistent styling */
 .section-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  color: #4c6ef5;
+  color: #2d3748;
   margin-bottom: 20px;
-  padding-bottom: 8px;
+  padding-bottom: 10px;
   position: relative;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .section-title::after {

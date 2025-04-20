@@ -6,7 +6,6 @@ import {
   Table,
   Text,
   Loader,
-  Badge,
   Group,
   Divider,
 } from "@mantine/core";
@@ -51,9 +50,8 @@ function OngoingApplication() {
     },
     outerContainer: {
       maxWidth: "100%",
-      padding: "24px 50px",
+      padding: "0px 50px",
       backgroundColor: "transparent",
-      marginLeft: "25px",
       borderRadius: "12px",
       marginBottom: "20px",
       boxShadow: "0px 5px 15px rgba(0, 0, 0, 0)",
@@ -314,51 +312,167 @@ function OngoingApplication() {
           </Group>
 
           <Box style={styles.outerContainer}>
-            <ScrollArea style={{ height: "calc(100vh - 250px)" }}>
-              <Table highlightOnHover striped style={styles.table}>
-                <thead>
+            <ScrollArea style={styles.tableWrapper}>
+              <Table highlightOnHover striped withBorder style={styles.table}>
+                <thead className="fusionTableHeader">
                   <tr>
-                    {columnNames.map((name, idx) => (
-                      <th key={idx} style={styles.tableHeader}>
-                        {name}
+                    {columnNames.map((columnName, index) => (
+                      <th
+                        key={index}
+                        style={{
+                          padding: "12px 16px",
+                          fontWeight: 600,
+                          color: "#333",
+                          textAlign: "left",
+                          borderBottom: "2px solid #dee2e6",
+                          backgroundColor: "#f8f9fa",
+                        }}
+                      >
+                        {columnName}
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {applications.map((app, idx) => (
-                    <tr key={app.id} style={styles.tableRow}>
-                      <td style={styles.tableCell}>{idx + 1}</td>
-                      <td style={styles.tableCell}>{app.id}</td>
-                      <td style={styles.tableCell}>{app.token_no}</td>
-                      <td style={styles.tableCell} title={app.title}>
-                        {app.title}
+                  {applications.map((application, index) => (
+                    <tr
+                      key={application.id}
+                      style={{
+                        ...styles.tableRow,
+                        backgroundColor:
+                          index % 2 === 0 ? "#ffffff" : "#f8f9fa",
+                      }}
+                    >
+                      <td
+                        style={{
+                          ...styles.tableCell,
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {index + 1}
                       </td>
-                      <td style={styles.tableCell}>{app.submitted_by}</td>
-                      <td style={styles.tableCell}>{app.designation}</td>
-                      <td style={styles.tableCell}>{app.department}</td>
-                      <td style={styles.tableCell}>
-                        {formatDate(app.submitted_on)}
+                      <td
+                        style={{
+                          ...styles.tableCell,
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {application.id}
                       </td>
-                      <td style={styles.tableCell}>
-                        <Badge
-                          color={getStatusColor(app.status)}
-                          variant="filled"
-                          size="sm"
+                      <td
+                        style={{
+                          ...styles.tableCell,
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {application.token_no}
+                      </td>
+                      <td
+                        style={{
+                          ...styles.tableCell,
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                        title={application.title}
+                      >
+                        {application.title}
+                      </td>
+                      <td
+                        style={{
+                          ...styles.tableCell,
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {application.submitted_by}
+                      </td>
+                      <td
+                        style={{
+                          ...styles.tableCell,
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {application.designation}
+                      </td>
+                      <td
+                        style={{
+                          ...styles.tableCell,
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {application.department}
+                      </td>
+                      <td
+                        style={{
+                          ...styles.tableCell,
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        {formatDate(application.submitted_on)}
+                      </td>
+                      <td
+                        style={{
+                          ...styles.tableCell,
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "inline-block",
+                            padding: "4px 8px",
+                            borderRadius: "4px",
+                            backgroundColor: getStatusColor(application.status),
+                            color: "#fff",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                          }}
                         >
-                          {app.status}
-                        </Badge>
+                          {application.status}
+                        </div>
                       </td>
-                      <td style={styles.tableCell}>
+                      <td
+                        style={{
+                          ...styles.tableCell,
+                          padding: "12px 16px",
+                          color: "#333",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
                         <Button
                           variant="outline"
                           color="blue"
-                          size="xs"
-                          style={styles.viewButton}
-                          onClick={() => handleViewClick(app.id)}
+                          size="sm"
+                          onClick={() => handleViewClick(application.id)}
+                          style={{
+                            ...styles.viewButton,
+                            backgroundColor: "#fff",
+                            color: "#0073e6",
+                            border: "1px solid #0073e6",
+                            fontWeight: 500,
+                            transition: "all 0.2s ease",
+                            ":hover": {
+                              backgroundColor: "#0073e6",
+                              color: "#fff",
+                            },
+                          }}
                         >
-                          <Eye size={16} weight="bold" />
-                          <span>View</span>
+                          <Eye size={16} /> <span>View</span>
                         </Button>
                       </td>
                     </tr>
