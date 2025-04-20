@@ -2,14 +2,17 @@ import PropTypes from "prop-types";
 import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
 import { Tabs, Button, Flex, Badge, Text } from "@mantine/core";
 import { useRef } from "react";
+import { useMediaQuery } from "@mantine/hooks";
 import { useDispatch } from "react-redux";
 import { setActiveTab_ } from "../redux/moduleslice";
 import classes from "../Modules/Dashboard/Dashboard.module.css";
 
 function ModuleTabs({ tabs, activeTab, setActiveTab, badges = [] }) {
+  const isMobile = useMediaQuery("(max-width: 500px)");
   const tabsListRef = useRef(null);
+  const tabsListContainerRef = useRef(null);
   const dispatch = useDispatch();
-
+  console.log(isMobile);
   const handleTabChange = (direction) => {
     const currentIndex = parseInt(activeTab, 10);
     const newIndex =
@@ -18,7 +21,6 @@ function ModuleTabs({ tabs, activeTab, setActiveTab, badges = [] }) {
         : Math.max(currentIndex - 1, 0);
     setActiveTab(String(newIndex));
     dispatch(setActiveTab_(tabs[newIndex].title));
-
     tabsListRef.current.scrollBy({
       left: direction === "next" ? 50 : -50,
       behavior: "smooth",

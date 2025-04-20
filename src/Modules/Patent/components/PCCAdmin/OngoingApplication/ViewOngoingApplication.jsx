@@ -650,7 +650,6 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
         style={{
           backgroundColor: "#f5f7f8",
           boxShadow: "0px 5px 15px rgba(0, 0, 0, 0)",
-          marginTop: "-30px",
         }}
       >
         <FormSection title="Application Overview">
