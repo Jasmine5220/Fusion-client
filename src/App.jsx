@@ -6,6 +6,16 @@ import "@mantine/notifications/styles.css";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { Notifications } from "@mantine/notifications";
 import { Layout } from "./components/layout";
+import Dashboard from "./Modules/Dashboard/dashboardNotifications";
+import ComplaintSystem from "./Modules/ComplaintManagement/index";
+import Profile from "./Modules/Profile/profile";
+import LoginPage from "./pages/login";
+import ForgotPassword from "./pages/forgotPassword";
+import AcademicPage from "./Modules/Academic/index";
+import ValidateAuth from "./helper/validateauth";
+import FacultyProfessionalProfile from "./Modules/facultyProfessionalProfile/facultyProfessionalProfile";
+import InactivityHandler from "./helper/inactivityhandler";
+import PatentRoutes from "./Modules/Patent/routes/PatentRoutes";
 import InventoryIndex from "./Modules/Inventory/components/InventoryIndex";
 import PurchaseRoutes from "./Modules/Purchase/PurchaseRoute.jsx";
 
@@ -397,6 +407,8 @@ export default function App() {
             </Layout>
           }
         />
+
+        <Route path="/patent/*" element={<PatentRoutes />} />
         <Route
           path="/department"
           element={

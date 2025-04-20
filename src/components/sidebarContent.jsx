@@ -29,6 +29,7 @@ import {
   Question as HelpIcon,
   User as ProfileIcon,
   Gear as SettingsIcon,
+  Scroll as PatentIcon,
   AmazonLogo as CourseManagementIcon,
   CaretRight,
   CaretLeft,
@@ -199,6 +200,12 @@ function SidebarContent({ isCollapsed, toggleSidebar }) {
       icon: <CourseManagementIcon size={18} />,
       url: "/course-management",
     },
+    {
+      label: "Patent Management System",
+      id: "patent_management",
+      icon: <PatentIcon size={18} />,
+      url: "/patent/",
+    },
   ];
 
   const otherItems = [
@@ -212,6 +219,20 @@ function SidebarContent({ isCollapsed, toggleSidebar }) {
     { label: "Help", icon: <HelpIcon size={18} /> },
   ];
 
+  // Roles Allowed in Patent Management
+  const applicantRoles = [
+    "student", "alumini", "Professor", "Associate Professor", "Assistant Professor", 
+    "Research Engineer", "HOD (CSE)", "HOD (ECE)", "HOD (ME)", "HOD (NS)", 
+    "HOD (Design)", "HOD (Liberal Arts)", "Dean Academic", "dean_s", 
+    "dean_rspc", "Dean (P&D)", "Dean (R&D)"
+  ];
+
+  // Role-Based Redirection Map
+  const patentRoutes = {
+    "PCC Admin": "/patent/pccAdmin",
+    "Director": "/patent/director",
+  };
+
   const dispatch = useDispatch();
   const [hover, setHover] = useState(null);
   const [selected, setSelected] = useState(null);
@@ -220,6 +241,7 @@ function SidebarContent({ isCollapsed, toggleSidebar }) {
     (state) => state.user.currentAccessibleModules,
   );
   const navigate = useNavigate();
+  const role = useSelector((state) => state.user.role);
 
   useEffect(() => {
     const filterModules = Modules.filter(
@@ -239,11 +261,19 @@ function SidebarContent({ isCollapsed, toggleSidebar }) {
         path = "/healthcenter/student/history";
       }
     }
+    
+    if (item.id === "patent_management") {
+      path = patentRoutes[role] || (applicantRoles.includes(role) ? "/patent/applicant" : "/dashboard");
+    }
 
     setSelected(item.label);
-    toggleSidebar();
     dispatch(setCurrentModule(item.label));
-    navigate(path);
+
+    let targetUrl = item.url;
+    if (item.id === "patent_management") {
+      targetUrl = patentRoutes[role] || (applicantRoles.includes(role) ? "/patent/applicant" : "/dashboard");
+    }
+    navigate(targetUrl);
   };
 
   return (
