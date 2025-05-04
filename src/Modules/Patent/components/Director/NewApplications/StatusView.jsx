@@ -19,9 +19,9 @@ import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 function FormField({ label, value }) {
   return (
-    <div className="form-field">
-      <Text className="field-label">{label}</Text>
-      <Text className="field-value">{value || "Not provided"}</Text>
+    <div id="pms-new-status-form-field">
+      <Text id="pms-new-status-field-label">{label}</Text>
+      <Text id="pms-new-status-field-value">{value || "Not provided"}</Text>
     </div>
   );
 }
@@ -67,12 +67,12 @@ FileDownloadButton.propTypes = {
 
 function FormFieldWithDownload({ label, value, fileUrl, fileLabel }) {
   return (
-    <div className="form-field-with-download">
-      <div className="field-label-container">
-        <Text className="field-label">{label}</Text>
-        <Text className="field-value">{value || "Not provided"}</Text>
+    <div id="pms-new-status-form-field-with-download">
+      <div id="pms-new-status-field-label-container">
+        <Text id="pms-new-status-field-label">{label}</Text>
+        <Text id="pms-new-status-field-value">{value || "Not provided"}</Text>
       </div>
-      <div className="download-button-wrapper">
+      <div id="pms-new-status-download-button-wrapper">
         <FileDownloadButton
           fileUrl={fileUrl}
           label={fileLabel}
@@ -92,8 +92,14 @@ FormFieldWithDownload.propTypes = {
 
 function FormSection({ title, children }) {
   return (
-    <Card className="detail-section" p="lg" radius="md" withBorder mb="md">
-      <Title className="section-title">{title}</Title>
+    <Card
+      id="pms-new-status-detail-section"
+      p="lg"
+      radius="md"
+      withBorder
+      mb="md"
+    >
+      <Title id="pms-new-status-section-title">{title}</Title>
       {children}
     </Card>
   );
@@ -273,7 +279,7 @@ function PatentApplication() {
 
   if (loading) {
     return (
-      <Container className="loader-container">
+      <Container id="pms-new-status-loader-container">
         <Loader size="lg" color="blue" />
         <Text mt="md">Loading application details...</Text>
       </Container>
@@ -282,7 +288,7 @@ function PatentApplication() {
 
   if (error) {
     return (
-      <Container className="error-container">
+      <Container id="pms-new-status-error-container">
         <Alert color="red" title="Error">
           {error}
         </Alert>
@@ -295,7 +301,7 @@ function PatentApplication() {
 
   if (!applicationData) {
     return (
-      <Container className="error-container">
+      <Container id="pms-new-status-error-container">
         <Alert color="blue" title="No Data">
           No application data found
         </Alert>
@@ -334,28 +340,19 @@ function PatentApplication() {
 
   return (
     <Container
-      className={`director-detail-container ${isMobile ? "mobile-form-container" : ""}`}
+      className={`pms-new-status-director-detail-container ${isMobile ? "mobile-form-container" : ""}`}
     >
-      <div className="detail-header">
-        <Button
-          onClick={() => window.history.back()}
-          variant="outline"
-          color="blue"
-          leftIcon={<ArrowLeft size={18} />}
-          className="director-view-back-button"
-        >
-          Back
-        </Button>
-        <Title
-          className={`detail-page-title ${
-            isMobile ? "mobile-detail-page-title" : ""
-          }`}
-        >
-          Application Details
-        </Title>
-      </div>
+      <Button
+        onClick={() => window.history.back()}
+        variant="outline"
+        color="blue"
+        leftIcon={<ArrowLeft size={18} />}
+        id="pms-new-status-director-view-back-button"
+      >
+        Back
+      </Button>
 
-      <div className="form-content">
+      <div id="pms-new-status-form-content">
         <FormSection title="Application Overview">
           <Grid>
             <Grid.Col span={12} md={4}>
@@ -400,84 +397,85 @@ function PatentApplication() {
           </Grid>
         </FormSection>
         <FormSection title="Key Dates">
-          <div className="key-dates-grid">
-            <div className="key-date-card">
-              <div className="key-date-title">Submitted</div>
-              <div className="key-date-value">
+          <div id="pms-new-status-key-dates-grid">
+            <div id="pms-new-status-key-date-card">
+              <div id="pms-new-status-key-date-title">Submitted</div>
+              <div id="pms-new-status-key-date-value">
                 {formatDate(dates?.submitted_date, "Not yet submitted")}
               </div>
             </div>
-            <div className="key-date-card">
-              <div className="key-date-title">Reviewed by PCC</div>
-              <div className="key-date-value">
-                {formatDate(dates?.reviewed_by_pcc_date, "Not yet reviewed")}
+
+            <div id="pms-new-status-key-date-card">
+              <div id="pms-new-status-key-date-title">
+                Forwarded to Director
               </div>
-            </div>
-            <div className="key-date-card">
-              <div className="key-date-title">Forwarded to Director</div>
-              <div className="key-date-value">
+              <div id="pms-new-status-key-date-value">
                 {formatDate(
                   dates?.forwarded_to_director_date,
                   "Not yet forwarded",
                 )}
               </div>
             </div>
-            <div className="key-date-card">
-              <div className="key-date-title">Director Approval</div>
-              <div className="key-date-value">
+            <div id="pms-new-status-key-date-card">
+              <div id="pms-new-status-key-date-title">Director Approval</div>
+              <div id="pms-new-status-key-date-value">
                 {formatDate(dates?.director_approval_date, "Not yet approved")}
               </div>
             </div>
-            <div className="key-date-card">
-              <div className="key-date-title">Patentability Check Started</div>
-              <div className="key-date-value">
+            <div id="pms-new-status-key-date-card">
+              <div id="pms-new-status-key-date-title">
+                Patentability Check Started
+              </div>
+              <div id="pms-new-status-key-date-value">
                 {formatDate(
                   dates?.patentability_check_start_date,
                   "Not started",
                 )}
               </div>
             </div>
-            <div className="key-date-card">
-              <div className="key-date-title">
+            <div id="pms-new-status-key-date-card">
+              <div id="pms-new-status-key-date-title">
                 Patentability Check Completed
               </div>
-              <div className="key-date-value">
+              <div id="pms-new-status-key-date-value">
                 {formatDate(
                   dates?.patentability_check_completed_date,
                   "Not completed",
                 )}
               </div>
             </div>
-            <div className="key-date-card">
-              <div className="key-date-title">Search Report Generated</div>
-              <div className="key-date-value">
+            <div id="pms-new-status-key-date-card">
+              <div id="pms-new-status-key-date-title">
+                Search Report Generated
+              </div>
+              <div id="pms-new-status-key-date-value">
                 {formatDate(
                   dates?.search_report_generated_date,
                   "Not generated",
                 )}
               </div>
             </div>
-            <div className="key-date-card">
-              <div className="key-date-title">Patent Filed</div>
-              <div className="key-date-value">
+            <div id="pms-new-status-key-date-card">
+              <div id="pms-new-status-key-date-title">Patent Filed</div>
+              <div id="pms-new-status-key-date-value">
                 {formatDate(dates?.patent_filed_date, "Not filed")}
               </div>
             </div>
-            <div className="key-date-card">
-              <div className="key-date-title">Patent Published</div>
-              <div className="key-date-value">
+            <div id="pms-new-status-key-date-card">
+              <div id="pms-new-status-key-date-title">Patent Published</div>
+              <div id="pms-new-status-key-date-value">
                 {formatDate(dates?.patent_published_date, "Not published")}
               </div>
             </div>
-            <div className="key-date-card">
-              <div className="key-date-title">Final Decision</div>
-              <div className="key-date-value">
+            <div id="pms-new-status-key-date-card">
+              <div id="pms-new-status-key-date-title">Final Decision</div>
+              <div id="pms-new-status-key-date-value">
                 {formatDate(dates?.final_decision_date, "No final decision")}
               </div>
             </div>
-            <div className="key-date-card">
-              <div className="key-date-title">Decision Date</div>
-              <div className="key-date-value">
+            <div id="pms-new-status-key-date-card">
+              <div id="pms-new-status-key-date-title">Decision Date</div>
+              <div id="pms-new-status-key-date-value">
                 {formatDate(dates?.decision_date, "No decision")}
               </div>
             </div>
@@ -619,7 +617,7 @@ function PatentApplication() {
             <Grid>
               {applicants.map((applicant, index) => (
                 <Grid.Col key={index} span={12} md={6}>
-                  <Card className="applicant-card">
+                  <Card id="pms-new-status-applicant-card">
                     <Text weight={600} size="lg" mb="xs">
                       Applicant {index + 1}
                     </Text>
@@ -644,8 +642,8 @@ function PatentApplication() {
           )}
         </FormSection>
         <FormSection title="Application Decision">
-          <div className="decision-section">
-            <div className="assign-attorney-section">
+          <div id="pms-new-status-decision-section">
+            <div id="pms-new-status-assign-attorney-section">
               <Text size="lg" weight={500} mb="sm">
                 Modify Assigned Attorney
               </Text>
@@ -664,20 +662,20 @@ function PatentApplication() {
                   value={selectedAttorneyId}
                   onChange={setSelectedAttorneyId}
                   mb="md"
-                  className="attorney-select"
+                  id="pms-new-status-attorney-select"
                   disabled={attorneysLoading}
                   nothingFound="No attorneys available"
                 />
               )}
             </div>
 
-            <div className="decision-buttons">
+            <div id="pms-new-status-decision-buttons">
               <Group spacing="md">
                 <Button
                   color="green"
                   size="md"
                   onClick={handleAccept}
-                  className="decision-button"
+                  id="pms-new-status-decision-button"
                 >
                   Approve
                 </Button>
@@ -685,7 +683,7 @@ function PatentApplication() {
                   color="red"
                   size="md"
                   onClick={handleReject}
-                  className="decision-button"
+                  id="pms-new-status-decision-button"
                 >
                   Revert
                 </Button>

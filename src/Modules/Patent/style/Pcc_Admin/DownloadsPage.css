@@ -1,16 +1,7 @@
-/* DownloadsPage.css */
-
-/* Use the same container styling as ManageAttorneyAssignment */
-.manage-attorney-container {
-  width: 100%;
-  max-width: 1250px;
-  margin: 0 auto;
-  padding: 0;
-  margin-left: 0; /* Ensure content is aligned to the left */
-}
+/* DownloadsPage#pms-pcc-css */
 
 /* Title styling */
-.downloads-title {
+#pms-pcc-downloads-title {
   margin-bottom: 0px;
   margin-top: 0px;
   font-size: 26px;
@@ -20,7 +11,7 @@
 }
 
 /* Description styling */
-.downloads-description {
+#pms-pcc-downloads-description {
   font-size: 14px;
   color: #555;
   text-align: left;
@@ -29,7 +20,7 @@
 }
 
 /* Card styling for table */
-.table-card {
+#pms-pcc-table-card {
   padding: 24px;
   border-radius: 12px;
   background-color: #fff;
@@ -38,123 +29,142 @@
 }
 
 /* Table styling */
-.downloads-container {
+#pms-pcc-downloads-container {
   padding: 1rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-.downloads-table {
+#pms-pcc-downloads-table {
   width: 100%;
   border-collapse: collapse;
   margin: 0 auto;
   background-color: transparent;
 }
 
-.downloads-table th,
-.downloads-table td {
+#pms-pcc-downloads-table th,
+#pms-pcc-downloads-table td {
   padding: 1rem;
   text-align: left;
   border-bottom: 1px solid #eaeaea;
 }
 
-.downloads-table th {
+#pms-pcc-downloads-table th {
   background-color: #f5f7f8;
   font-weight: 600;
   white-space: nowrap;
   text-align: center;
 }
 
-.downloads-table td {
+#pms-pcc-downloads-table td {
   text-align: left;
   vertical-align: middle;
 }
 
-.downloads-table tr:hover {
+#pms-pcc-downloads-table tr:hover {
   background-color: #f8f9fa;
 }
 
 /* Button styling */
-.download-button, .delete-button {
+#pms-pcc-download-button, #pms-pcc-delete-button {
   min-width: 120px;
   transition: all 0.2s ease;
 }
 
-.download-button:hover, .delete-button:hover {
+#pms-pcc-download-button:hover, #pms-pcc-delete-button:hover {
   transform: translateY(-1px);
 }
 
 /* Desktop-specific styles */
 @media (min-width: 769px) {
-  .manage-attorney-container {
+  #pms-pcc-manage-attorney-container {
     margin-left: 30px; /* Shift container to the right */
   }
 }
 
 /* Responsive styles for smaller screens */
 @media (max-width: 768px) {
-  .manage-attorney-container {
+  #pms-pcc-manage-attorney-container {
     padding: 1rem;
   }
 
-  .downloads-container {
+  #pms-pcc-downloads-container {
     padding: 0.5rem;
   }
 
-  .add-document-form {
+  #pms-pcc-add-document-form {
     padding: 1rem;
   }
 
-  .downloads-table th,
-  .downloads-table td {
+  #pms-pcc-downloads-table th,
+  #pms-pcc-downloads-table td {
     padding: 0.75rem;
   }
 
-  .page-heading-title {
+  #pms-pcc-page-heading-title {
     font-size: 1.5rem;
   }
 
-  .description {
+  #pms-pcc-description {
     font-size: 12px;
   }
 }
 
+/* ...existing styles above... */
+
+/* Alternate row colors for downloads table */
+#pms-pcc-downloads-table tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+#pms-pcc-downloads-table tbody tr:nth-child(even) {
+  background-color: #f5f7f8;
+}
+
+/* Optional: Keep hover effect above the alternates */
+#pms-pcc-downloads-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* ...rest of your styles... */
+
+
 @media (max-width: 480px) {
-  .page-heading-title {
+  #pms-pcc-page-heading-title {
     font-size: 20px;
   }
 
-  .description {
+  #pms-pcc-description {
     font-size: 11px;
   }
 
-  .downloads-container {
+  #pms-pcc-downloads-container {
     padding: 0.5rem;
   }
 
-  .add-document-form {
+  #pms-pcc-add-document-form {
     padding: 0.75rem;
   }
 
-  .downloads-table th,
-  .downloads-table td {
+  #pms-pcc-downloads-table th,
+  #pms-pcc-downloads-table td {
     padding: 0.5rem;
   }
 
-  .download-button, .delete-button {
+  #pms-pcc-download-button, #pms-pcc-delete-button {
     font-size: 12px;
     padding: 4px 8px;
   }
 }
 
-.add-document-form {
+#pms-pcc-add-document-form {
   background-color: #f8f9fa;
   padding: 1.5rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
 }
 
-.add-document-form-title {
+#pms-pcc-add-document-form-title {
   color: #333;
   font-size: 18px;
   font-weight: 600;
@@ -162,14 +172,14 @@
   text-align: center;
 }
 
-.add-document-button {
-  color: #4c6ef5;
+#pms-pcc-add-document-button {
+  color: #0073e6;
   background-color: #fff;
-  border-color: #4c6ef5;
+  border-color: #0073e6;
 }
 
-.add-document-button:hover {
-  background-color: #4c6ef5;
+#pms-pcc-add-document-button:hover {
+  background-color: #0073e6;
   color: #fff;
 }
 

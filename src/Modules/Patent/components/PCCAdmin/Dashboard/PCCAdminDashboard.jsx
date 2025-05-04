@@ -15,17 +15,19 @@ import InsightsPage from "./InsightsPage";
 
 function PCCAdminDashboard({ setActiveTab }) {
   const renderDashboardCard = (icon, title, description, tabId) => (
-    <Box className="dashboard-card">
-      <Text className="dashboard-card-title">
+    <Box id="pms-pcc-dashboard-cards">
+      <Text id="pms-dashboard-card-title">
         {icon} {title}
       </Text>
-      <Divider className="card-divider" />
+      <Divider id="pms-card-divider" />
       <Text size="sm" mt="sm">
         {description}
       </Text>
       <Button
         variant="outline"
-        className="dashboard-button add"
+        fullWidth
+        mt="md"
+        size="sm"
         onClick={() => setActiveTab(tabId)}
       >
         {title}
@@ -36,20 +38,22 @@ function PCCAdminDashboard({ setActiveTab }) {
   return (
     <Box>
       {/* Page Title */}
-      <Text className="dashboard-title">Patent & Copyright Cell Dashboard</Text>
+      <Text id="pms-pcc-dashboard-title">
+        Patent & Copyright Cell Dashboard
+      </Text>
 
       {/* Combined Overview and Insights Section */}
       <Paper
-        className="combined-section"
+        id="pms-pcc-combined-section"
         style={{ marginLeft: "50px", marginRight: "50px" }}
       >
         {/* Overview Section */}
-        <Box className="overview-section">
-          <Text className="overview-title">
+        <Box id="pms-pcc-overview-section">
+          <Text id="pms-pcc-overview-title">
             Patent Management System (PMS)
-            <Buildings size={24} className="overview-icon" />
+            <Buildings size={24} id="pms-pcc-overview-icon" />
           </Text>
-          <Text className="overview-text">
+          <Text id="pms-pcc-overview-text">
             The Patent Management System at IIITDM Jabalpur focuses on fostering
             research and development activities, particularly in IT-enabled
             design and manufacturing, as well as the design of IT systems. Here,
@@ -58,25 +62,25 @@ function PCCAdminDashboard({ setActiveTab }) {
           </Text>
         </Box>
 
-        <Divider my="xl" />
+        <Divider my="xl" id="pms-dashboard-card-divider" />
 
         {/* Insights Section */}
-        <Box className="insights-section">
+        <Box id="pms-pcc-insights-section">
           <InsightsPage />
         </Box>
 
-        <Divider my="xl" />
+        <Divider my="xl" id="pms-dashboard-card-divider" />
 
         {/* Downloads Section */}
         <DownloadsPage />
       </Paper>
 
       {/* Dashboard Cards Section */}
-      <Grid mt="xl" className="dashboard-grid">
+      <Grid mt="xl" id="pms-pcc-dashboard-grid">
         {/* New Applications Card */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
           {renderDashboardCard(
-            <Eye size={20} className="icon" />,
+            <Eye size={20} id="pms-pcc-icon" />,
             "New Applications",
             "Review and provide feedback on the latest applications.",
             "1",
@@ -86,7 +90,7 @@ function PCCAdminDashboard({ setActiveTab }) {
         {/* Ongoing Applications Card */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
           {renderDashboardCard(
-            <List size={20} className="icon" />,
+            <List size={20} id="pms-pcc-icon" />,
             "Ongoing Applications",
             "Track the current status of all the ongoing applications.",
             "2",
@@ -96,7 +100,7 @@ function PCCAdminDashboard({ setActiveTab }) {
         {/* Past Applications Card */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
           {renderDashboardCard(
-            <Briefcase size={20} className="icon" />,
+            <Briefcase size={20} id="pms-pcc-icon" />,
             "Past Applications",
             "Track record of all the filed and reeted applications.",
             "3",
@@ -106,20 +110,20 @@ function PCCAdminDashboard({ setActiveTab }) {
         {/* Manage Attorney Details Card */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
           {renderDashboardCard(
-            <Briefcase size={20} className="icon" />,
+            <Briefcase size={20} id="pms-pcc-icon" />,
             "Manage Attorney Details",
             "Manage and update attorney information.",
-            "3",
+            "4",
           )}
         </Grid.Col>
 
         {/* Notifications Card */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
           {renderDashboardCard(
-            <ArrowCircleDown size={20} className="icon" />,
+            <ArrowCircleDown size={20} id="pms-pcc-icon" />,
             "Notifications",
             "Get notifications regarding status updates and other important information.",
-            "4",
+            "5",
           )}
         </Grid.Col>
       </Grid>

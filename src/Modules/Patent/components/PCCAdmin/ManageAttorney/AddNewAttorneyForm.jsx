@@ -29,26 +29,26 @@ function NewAttorneyForm({ onSubmit, onBack }) {
   };
 
   return (
-    <div className="new-attorney-form-container">
-      <div className="new-attorney-form-header">
-        <Title order={2} className="new-attorney-form-title">
+    <div id="pcc-new-attorney-form-container">
+      <div id="pcc-new-attorney-form-header">
+        <Title order={2} id="pcc-new-attorney-form-title">
           Add New Attorney
         </Title>
         <Button
           variant="subtle"
           leftIcon={<ArrowLeft size={20} weight="bold" />}
           onClick={onBack}
-          className="new-attorney-back-btn"
+          id="pcc-new-attorney-back-btn"
         >
-          Back
+          Close
         </Button>
       </div>
 
-      <form onSubmit={handleSubmit} className="new-attorney-form-content">
-        <div className="new-attorney-form-section">
-          <div className="new-attorney-form-field">
-            <div className="new-attorney-form-label">
-              <UserCircle size={20} className="new-attorney-form-icon" />
+      <form onSubmit={handleSubmit} id="pcc-new-attorney-form-content">
+        <div id="pcc-new-attorney-form-section">
+          <div id="pcc-new-attorney-form-field">
+            <div id="pcc-new-attorney-form-label">
+              <UserCircle size={20} id="pcc-new-attorney-form-icon" />
               <span>Attorney Name</span>
             </div>
             <TextInput
@@ -56,13 +56,13 @@ function NewAttorneyForm({ onSubmit, onBack }) {
               value={formData.name}
               onChange={handleChange}
               required
-              className="new-attorney-form-input"
+              id="pcc-new-attorney-form-input"
             />
           </div>
 
-          <div className="new-attorney-form-field">
-            <div className="new-attorney-form-label">
-              <Envelope size={20} className="new-attorney-form-icon" />
+          <div id="pcc-new-attorney-form-field">
+            <div id="pcc-new-attorney-form-label">
+              <Envelope size={20} id="pcc-new-attorney-form-icon" />
               <span>Email</span>
             </div>
             <TextInput
@@ -70,15 +70,15 @@ function NewAttorneyForm({ onSubmit, onBack }) {
               value={formData.email}
               onChange={handleChange}
               required
-              className="new-attorney-form-input"
+              id="pcc-new-attorney-form-input"
             />
           </div>
         </div>
 
-        <div className="new-attorney-form-section">
-          <div className="new-attorney-form-field">
-            <div className="new-attorney-form-label">
-              <Phone size={20} className="new-attorney-form-icon" />
+        <div id="pcc-new-attorney-form-section">
+          <div id="pcc-new-attorney-form-field">
+            <div id="pcc-new-attorney-form-label">
+              <Phone size={20} id="pcc-new-attorney-form-icon" />
               <span>Phone Number</span>
             </div>
             <TextInput
@@ -86,30 +86,30 @@ function NewAttorneyForm({ onSubmit, onBack }) {
               value={formData.phone}
               onChange={handleChange}
               required
-              className="new-attorney-form-input"
+              id="pcc-new-attorney-form-input"
             />
           </div>
 
-          <div className="new-attorney-form-field">
-            <div className="new-attorney-form-label">
-              <Briefcase size={20} className="new-attorney-form-icon" />
+          <div id="pcc-new-attorney-form-field">
+            <div id="pcc-new-attorney-form-label">
+              <Briefcase size={20} id="pcc-new-attorney-form-icon" />
               <span>Law Firm</span>
             </div>
             <TextInput
               name="firm_name"
               value={formData.firm_name}
               onChange={handleChange}
-              className="new-attorney-form-input"
+              id="pcc-new-attorney-form-input"
             />
           </div>
         </div>
 
-        <div className="new-attorney-form-footer">
+        <div id="pcc-new-attorney-form-footer">
           <Button
             type="submit"
             variant="filled"
             color="blue"
-            className="new-attorney-form-submit-btn"
+            id="pcc-new-attorney-form-submit-btn"
           >
             Add Attorney
           </Button>

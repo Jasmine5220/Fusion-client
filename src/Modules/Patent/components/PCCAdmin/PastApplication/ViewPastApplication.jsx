@@ -12,15 +12,15 @@ import {
   Title,
 } from "@mantine/core";
 import { ArrowLeft, DownloadSimple } from "phosphor-react";
-import "../../../style/Pcc_Admin/PastApplications.css";
+import "../../../style/Pcc_Admin/ViewPastApplications.css";
 import { host } from "../../../../../routes/globalRoutes/index.jsx";
 
 // Field component for detail view
 function FormField({ label, value }) {
   return (
-    <div className="form-field">
-      <Text className="field-label">{label}</Text>
-      <Text className="field-value">{value || "Not provided"}</Text>
+    <div id="pms-pcc-past-form-field">
+      <Text id="pms-pcc-past-field-label">{label}</Text>
+      <Text id="pms-pcc-past-field-value">{value || "Not provided"}</Text>
     </div>
   );
 }
@@ -33,12 +33,12 @@ FormField.propTypes = {
 // Field with download button for direct file URLs
 function FormFieldWithDownload({ label, value, fileUrl, fileLabel }) {
   return (
-    <div className="form-field-with-download">
-      <div className="field-label-container">
-        <Text className="field-label">{label}</Text>
-        <Text className="field-value">{value || "Not provided"}</Text>
+    <div id="pms-pcc-past-form-field-with-download">
+      <div id="pms-pcc-past-field-label-container">
+        <Text id="pms-pcc-past-field-label">{label}</Text>
+        <Text id="pms-pcc-past-field-value">{value || "Not provided"}</Text>
       </div>
-      <div className="download-button-wrapper">
+      <div id="pms-pcc-past-download-button-wrapper">
         <FileDownloadButton
           fileUrl={fileUrl}
           label={fileLabel}
@@ -95,14 +95,14 @@ FileDownloadButton.propTypes = {
 function FormSection({ title, children }) {
   return (
     <Card
-      className="detail-section"
+      id="pms-pcc-past-detail-section"
       p="lg"
       radius="md"
       withBorder
       mb="md"
       style={{ width: "100%" }}
     >
-      <Title className="section-title">{title}</Title>
+      <Title id="pms-pcc-past-section-title">{title}</Title>
       {children}
     </Card>
   );
@@ -169,7 +169,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
 
   if (loading) {
     return (
-      <Container className="loader-container">
+      <Container id="pms-pcc-past-loader-container">
         <Loader size="lg" color="blue" />
         <Text mt="md">Loading application details...</Text>
       </Container>
@@ -178,7 +178,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
 
   if (error) {
     return (
-      <Container className="error-container">
+      <Container id="pms-pcc-past-error-container">
         <Alert color="red" title="Error">
           {error}
         </Alert>
@@ -191,7 +191,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
 
   if (!selectedApplication) {
     return (
-      <Container className="error-container">
+      <Container id="pms-pcc-past-error-container">
         <Alert color="blue" title="No Data">
           No application data found
         </Alert>
@@ -333,7 +333,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
       </div>
 
       <div
-        className="form-content"
+        id="pms-pcc-past-form-content"
         style={{
           backgroundColor: "#f5f7f8",
           boxShadow: "0px 5px 15px rgba(0, 0, 0, 0)",
@@ -376,11 +376,11 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
         </FormSection>
 
         <FormSection title="Key Dates">
-          <div className="key-dates-container">
-            <div className="key-dates-grid">
-              {/* <div className="key-date-card">
-                <div className="key-date-title">Reviewed by PCC</div>
-                <div className="key-date-value">
+          <div id="pms-pcc-past-key-dates-container">
+            <div id="pms-pcc-past-key-dates-grid">
+              {/* <div id="pms-pcc-past-key-date-card">
+                <div id="pms-pcc-past-key-date-title">Reviewed by PCC</div>
+                <div id="pms-pcc-past-key-date-value">
                   {dates?.reviewed_by_pcc_date
                     ? new Date(dates.reviewed_by_pcc_date).toLocaleDateString(
                         "en-US",
@@ -394,9 +394,11 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                 </div>
               </div> */}
 
-              <div className="key-date-card">
-                <div className="key-date-title">Forwarded to Director</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-past-key-date-card">
+                <div id="pms-pcc-past-key-date-title">
+                  Forwarded to Director
+                </div>
+                <div id="pms-pcc-past-key-date-value">
                   {dates?.forwarded_to_director_date
                     ? new Date(
                         dates.forwarded_to_director_date,
@@ -409,9 +411,9 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Director Approval</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-past-key-date-card">
+                <div id="pms-pcc-past-key-date-title">Director Approval</div>
+                <div id="pms-pcc-past-key-date-value">
                   {dates?.director_approval_date
                     ? new Date(dates.director_approval_date).toLocaleDateString(
                         "en-US",
@@ -425,9 +427,11 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Patentability Check Start</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-past-key-date-card">
+                <div id="pms-pcc-past-key-date-title">
+                  Patentability Check Start
+                </div>
+                <div id="pms-pcc-past-key-date-value">
                   {dates?.patentability_check_start_date
                     ? new Date(
                         dates.patentability_check_start_date,
@@ -440,11 +444,11 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">
+              <div id="pms-pcc-past-key-date-card">
+                <div id="pms-pcc-past-key-date-title">
                   Patentability Check Completed
                 </div>
-                <div className="key-date-value">
+                <div id="pms-pcc-past-key-date-value">
                   {dates?.patentability_check_completed_date
                     ? new Date(
                         dates.patentability_check_completed_date,
@@ -457,9 +461,11 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Search Report Generated</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-past-key-date-card">
+                <div id="pms-pcc-past-key-date-title">
+                  Search Report Generated
+                </div>
+                <div id="pms-pcc-past-key-date-value">
                   {dates?.search_report_generated_date
                     ? new Date(
                         dates.search_report_generated_date,
@@ -472,9 +478,9 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Date of Filing</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-past-key-date-card">
+                <div id="pms-pcc-past-key-date-title">Date of Filing</div>
+                <div id="pms-pcc-past-key-date-value">
                   {dates?.patent_filed_date
                     ? new Date(dates.patent_filed_date).toLocaleDateString(
                         "en-US",
@@ -488,9 +494,9 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Date of Publication</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-past-key-date-card">
+                <div id="pms-pcc-past-key-date-title">Date of Publication</div>
+                <div id="pms-pcc-past-key-date-value">
                   {dates?.patent_published_date
                     ? new Date(dates.patent_published_date).toLocaleDateString(
                         "en-US",
@@ -504,9 +510,9 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              {/* <div className="key-date-card">
-                <div className="key-date-title">Decision Date</div>
-                <div className="key-date-value">
+              {/* <div id="pms-pcc-past-key-date-card">
+                <div id="pms-pcc-past-key-date-title">Decision Date</div>
+                <div id="pms-pcc-past-key-date-value">
                   {dates?.decision_date
                     ? new Date(dates.decision_date).toLocaleDateString(
                         "en-US",
@@ -520,9 +526,9 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
                 </div>
               </div> */}
 
-              <div className="key-date-card">
-                <div className="key-date-title">Date of Granting</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-past-key-date-card">
+                <div id="pms-pcc-past-key-date-title">Date of Granting</div>
+                <div id="pms-pcc-past-key-date-value">
                   {dates?.final_decision_date
                     ? new Date(dates.final_decision_date).toLocaleDateString(
                         "en-US",
@@ -676,7 +682,7 @@ function ViewPastApplication({ applicationId, handleBackToList }) {
               {applicants.map((applicant, index) => (
                 <Grid.Col key={index} span={12} md={6}>
                   <Card
-                    className="applicant-card"
+                    id="pms-pcc-past-applicant-card"
                     p="md"
                     radius="sm"
                     withBorder

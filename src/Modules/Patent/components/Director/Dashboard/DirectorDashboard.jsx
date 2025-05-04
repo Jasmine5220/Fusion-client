@@ -34,25 +34,19 @@ function DirectorDashboard({ setActiveTab }) {
 
   const featuresData = [
     {
-      icon: <Eye size={28} className="feature-icon" />,
+      icon: <Eye size={28} id="pms-director-dashboard-feature-icon" />,
       title: "Application Management and Review",
       description:
         "Track and review patent applications, view submission details, and monitor status updates.",
     },
-    // {
-    //   icon: <Briefcase size={28} className="feature-icon" />,
-    //   title: "Attorney Feedback and Communication",
-    //   description:
-    //     "Integrate feedback from attorneys, facilitate communication, and track application history.",
-    // },
     {
-      icon: <Clock size={28} className="feature-icon" />,
+      icon: <Clock size={28} id="pms-director-dashboard-feature-icon" />,
       title: "Transparent Record-Keeping and Status Visibility",
       description:
         "Real-time status updates, detailed history tracking, and archive functionality.",
     },
     {
-      icon: <ChartBar size={28} className="feature-icon" />,
+      icon: <ChartBar size={28} id="pms-director-dashboard-feature-icon" />,
       title: "Dashboard Analytics and Insights",
       description:
         "Analyze application volume, performance metrics, and trends to support data-driven decisions.",
@@ -60,38 +54,38 @@ function DirectorDashboard({ setActiveTab }) {
   ];
 
   return (
-    <div className="director-dashboard">
-      <Text className="director-title-dashboard">
+    <div id="pms-director-dashboard-container">
+      <Text id="pms-director-dashboard-title">
         Patent & Copyright Management Dashboard
       </Text>
-      <Box>
+      <Box align="center">
         <Paper
           shadow="md"
           radius="lg"
-          className="combined-section"
-          style={{ marginLeft: "50px" }}
+          id="pms-director-dashboard-combined-section"
+          align="left"
         >
-          <Text className="director-overview-title">
+          <Text id="pms-director-dashboard-overview-title" ml={10}>
             Patent Management System (PMS)
-            <Buildings size={24} className="director-overview-icon" />
+            <Buildings size={24} id="pms-director-overview-icon" />
           </Text>
-          <Text className="director-overview-text">
+          <Text id="pms-director-dashboard-overview-text" m={10} mb={30}>
             The Patent Management System at IIITDM Jabalpur focuses on fostering
             research and development activities, particularly in IT-enabled
             design and manufacturing, as well as the design of IT systems.
           </Text>
 
-          <Divider my="xl" />
-
-          <Box className="feature-box-container">
+          <Box id="pms-director-dashboard-feature-box-container">
             <Grid>
               {featuresData.map((feature, index) => (
                 <Grid.Col span={12} key={index}>
-                  <Box className="feature-box-with-hover">
-                    {feature.icon}
+                  <Box id="pms-director-dashboard-feature-box-with-hover">
+                    <div id="pms-director-dashboard-feature-icon">
+                      {feature.icon}
+                    </div>
                     <Text>
-                      <span className="feature-box-title">
-                        {feature.title}:{" "}
+                      <span id="pms-director-dashboard-feature-box-title">
+                        <b>{feature.title}</b>:{" "}
                       </span>
                       {feature.description}
                     </Text>
@@ -101,21 +95,24 @@ function DirectorDashboard({ setActiveTab }) {
             </Grid>
           </Box>
 
-          <Divider my="xl" />
+          <Divider my="xl" id="pms-dashboard-divider" />
+
           <DownloadsSection />
 
-          <Divider my="xl" />
+          <Divider my="xl" id="pms-dashboard-divider" />
+
           <div style={{ marginLeft: "12px", marginRight: "12px" }}>
             <InsightsPage />
           </div>
         </Paper>
-        <Grid mt="xl" className="dashboard-grid">
+        <Grid mt="xl" id="pms-director-dashboard-grid">
           <Grid.Col span={{ base: 12, sm: 6 }}>
-            <Box className="dashboard-cards">
-              <Text className="dashboard-card-title">
-                <ClipboardText size={20} className="icon" /> New Applications
+            <Box id="pms-director-dashboard-cards">
+              <Text id="pms-director-dashboard-card-title">
+                <ClipboardText size={20} id="pms-director-dashboard-icon" /> New
+                Applications
               </Text>
-              <Divider className="card-divider" />
+              <Divider id="pms-director-dashboard-card-divider" />
               <Text size="sm" mt="sm">
                 View all applications forwarded by PCC Admin for your review.
                 okay
@@ -126,7 +123,7 @@ function DirectorDashboard({ setActiveTab }) {
                 mt="md"
                 size="sm"
                 onClick={() => setActiveTab(TabKeys.NEW_APPLICATIONS)}
-                className="markReadButton"
+                id="pms-director-dashboard-button"
               >
                 View Submitted Applications
               </Button>
@@ -134,11 +131,12 @@ function DirectorDashboard({ setActiveTab }) {
           </Grid.Col>
 
           <Grid.Col span={{ base: 12, sm: 6 }}>
-            <Box className="dashboard-cards">
-              <Text className="dashboard-card-title">
-                <CheckCircle size={20} className="icon" /> Reviewed Applications
+            <Box id="pms-director-dashboard-cards">
+              <Text id="pms-director-dashboard-card-title">
+                <CheckCircle size={20} id="pms-director-dashboard-icon" />{" "}
+                Reviewed Applications
               </Text>
-              <Divider className="card-divider" />
+              <Divider id="pms-director-dashboard-card-divider" />
               <Text size="sm" mt="sm">
                 Access applications that have been reviewed.
               </Text>
@@ -148,7 +146,7 @@ function DirectorDashboard({ setActiveTab }) {
                 mt="md"
                 size="sm"
                 onClick={() => setActiveTab(TabKeys.REVIEWED_APPLICATIONS)}
-                className="markReadButton"
+                id="pms-director-dashboard-button"
               >
                 View Reviewed Applications
               </Button>
@@ -156,11 +154,12 @@ function DirectorDashboard({ setActiveTab }) {
           </Grid.Col>
 
           <Grid.Col span={{ base: 12, sm: 6 }}>
-            <Box className="dashboard-cards">
-              <Text className="dashboard-card-title">
-                <Bell size={20} className="icon" /> Notifications
+            <Box id="pms-director-dashboard-cards">
+              <Text id="pms-director-dashboard-card-title">
+                <Bell size={20} id="pms-director-dashboard-icon" />{" "}
+                Notifications
               </Text>
-              <Divider className="card-divider" />
+              <Divider id="pms-director-dashboard-card-divider" />
               <Text size="sm" mt="sm">
                 Stay updated with the latest notifications regarding your patent
                 applications.
@@ -171,7 +170,7 @@ function DirectorDashboard({ setActiveTab }) {
                 mt="md"
                 size="sm"
                 onClick={() => setActiveTab(TabKeys.NOTIFICATIONS)}
-                className="markReadButton"
+                id="pms-director-dashboard-button"
               >
                 View Notifications
               </Button>

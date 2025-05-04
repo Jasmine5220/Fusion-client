@@ -67,11 +67,8 @@ function PastApplications() {
 
   const fetchApplications = async (refresh = false) => {
     try {
-      if (refresh) {
-        setIsRefreshing(true);
-      } else {
-        setLoading(true);
-      }
+      if (refresh) setIsRefreshing(true);
+      else setLoading(true);
 
       const { data } = await axios.get(
         `${host}/patentsystem/pccAdmin/applications/past/`,
@@ -119,9 +116,7 @@ function PastApplications() {
       setError("Failed to load applications. Please try again later.");
     } finally {
       setLoading(false);
-      if (refresh) {
-        setIsRefreshing(false);
-      }
+      if (refresh) setIsRefreshing(false);
     }
   };
 
@@ -146,7 +141,7 @@ function PastApplications() {
 
   if (loading) {
     return (
-      <Box className="loading-container">
+      <Box id="pms-pcc-past-loading-container">
         <Loader size="lg" color="#4a90e2" />
         <Text mt="md" align="center" size="md" color="#555">
           Loading applications...
@@ -157,7 +152,7 @@ function PastApplications() {
 
   if (error) {
     return (
-      <Box className="error-container">
+      <Box id="pms-pcc-past-error-container">
         <Group mb="lg" align="center">
           <Warning size={32} color="#ff4d4f" weight="fill" />
           <Text color="#ff4d4f" size="lg" weight={500}>
@@ -181,7 +176,7 @@ function PastApplications() {
 
   if (!applications || applications.length === 0) {
     return (
-      <Box className="empty-container">
+      <Box id="pms-pcc-past-empty-container">
         <Text size="lg" align="center" mb="md" weight={500} color="#faad14">
           No applications found
         </Text>
@@ -201,11 +196,10 @@ function PastApplications() {
   }
 
   return (
-    <Box className="past-app-status-applications-container">
+    <Box id="pms-pcc-past-past-app-status-applications-container">
       {!selectedApplication ? (
         <>
-          <Text className="past-app-status-title">Past Applications</Text>
-
+          <Text id="pms-pcc-past-past-app-status-title">Past Applications</Text>
           <Group position="apart" mb="md">
             <Button
               variant="subtle"
@@ -225,17 +219,17 @@ function PastApplications() {
               value={selectedYears}
               onChange={handleYearChange}
               icon={<Calendar size={16} />}
-              className="year-filter"
+              id="pms-pcc-past-year-filter"
             />
           </Group>
 
           <Box
-            className="past-app-outerContainer"
+            id="pms-pcc-past-past-app-outerContainer"
             style={{ marginRight: "50px" }}
           >
             <ScrollArea style={{ height: "calc(100vh - 250px)" }}>
               <Table highlightOnHover striped withBorder>
-                <thead className="fusionTableHeader">
+                <thead id="pms-pcc-past-fusionTableHeader">
                   <tr>
                     {columnNames.map((columnName, index) => (
                       <th
@@ -243,7 +237,7 @@ function PastApplications() {
                         style={{
                           padding: "12px 16px",
                           fontWeight: 600,
-                          color: "#333",
+                          fontSize: "17px",
                           textAlign: "left",
                           borderBottom: "2px solid #dee2e6",
                           backgroundColor: "#f8f9fa",
@@ -375,10 +369,6 @@ function PastApplications() {
                             border: "1px solid #0073e6",
                             fontWeight: 500,
                             transition: "all 0.2s ease",
-                            ":hover": {
-                              backgroundColor: "#0073e6",
-                              color: "#fff",
-                            },
                           }}
                         >
                           <Eye size={16} /> <span>View</span>
@@ -392,7 +382,7 @@ function PastApplications() {
           </Box>
         </>
       ) : (
-        <Box className="detail-view-container">
+        <Box id="pms-pcc-past-detail-view-container">
           <Divider my="lg" />
           <ViewPastApplication
             applicationId={selectedApplication}

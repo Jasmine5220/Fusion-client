@@ -10,6 +10,7 @@ import {
   Badge,
   Loader,
   Title,
+  Divider,
 } from "@mantine/core";
 import {
   CalendarCheck,
@@ -70,21 +71,21 @@ function PatentProgressBar({ currentStatus, isMobile }) {
   }
 
   return (
-    <div className={`progress-container ${isRejected ? "rejected" : ""}`}>
+    <div id={`pms-progress-container ${isRejected ? "rejected" : ""}`}>
       {isRejected && (
-        <Text color="red" size="lg" weight={600} className="rejection-label">
+        <Text color="red" size="lg" weight={600} id="pms-rejection-label">
           Application Rejected
         </Text>
       )}
 
       {!isMobile ? (
         // Desktop view
-        <div className="desktop-stepper">
+        <div id="pms-desktop-stepper">
           {isRefused ? (
             // Simple two-step progress for refused patents
             <Stepper
               active={1}
-              className="workflow-stepper"
+              id="pms-workflow-stepper"
               size="md"
               color="red"
               orientation="horizontal"
@@ -96,14 +97,14 @@ function PatentProgressBar({ currentStatus, isMobile }) {
                 icon={<CheckCircle size={18} />}
                 label="Stage 1"
                 description="Submitted"
-                className="completed-step"
+                id="pms-completed-step"
               />
               <Stepper.Step
                 key="Patent Refused"
                 icon={<CircleNotch size={18} />}
                 label="Stage 2"
                 description="Patent Refused"
-                className="completed-step"
+                id="pms-completed-step"
               />
             </Stepper>
           ) : (
@@ -111,7 +112,7 @@ function PatentProgressBar({ currentStatus, isMobile }) {
             <>
               <Stepper
                 active={isGranted ? 4 : currentStep}
-                className="workflow-stepper"
+                id="pms-workflow-stepper"
                 size="md"
                 color={isRejected ? "red" : "blue"}
                 orientation="horizontal"
@@ -132,17 +133,17 @@ function PatentProgressBar({ currentStatus, isMobile }) {
                     }
                     label={`Stage ${index + 1}`}
                     description={status}
-                    className={
+                    id={
                       isGranted || index <= currentStep
-                        ? "completed-step"
-                        : "pending-step"
+                        ? "pms-completed-step"
+                        : "pms-pending-step"
                     }
                   />
                 ))}
               </Stepper>
               <Stepper
                 active={isGranted ? 7 : Math.max(0, currentStep - 4)} // All steps active if granted
-                className="workflow-stepper second-row"
+                id="pms-workflow-stepper second-row"
                 size="md"
                 color={isRejected ? "red" : "blue"}
                 orientation="horizontal"
@@ -163,10 +164,10 @@ function PatentProgressBar({ currentStatus, isMobile }) {
                     }
                     label={`Stage ${index + 5}`}
                     description={status}
-                    className={
+                    id={
                       isGranted || index + 4 <= currentStep
-                        ? "completed-step"
-                        : "pending-step"
+                        ? "pms-completed-step"
+                        : "pms-pending-step"
                     }
                   />
                 ))}
@@ -180,7 +181,7 @@ function PatentProgressBar({ currentStatus, isMobile }) {
           active={
             isRefused ? 1 : isGranted ? displayStatuses.length - 1 : currentStep
           }
-          className="workflow-stepper mobile-view"
+          id="pms-workflow-stepper mobile-view"
           size="sm"
           color={isRefused ? "red" : isRejected ? "red" : "blue"}
           orientation="vertical"
@@ -200,7 +201,7 @@ function PatentProgressBar({ currentStatus, isMobile }) {
               }
               label={`Stage ${index + 1}`}
               description={status}
-              className={
+              id={
                 isGranted || index <= (isRefused ? 1 : currentStep)
                   ? "completed-step"
                   : "pending-step"
@@ -254,48 +255,40 @@ function ApplicationCard({
     : "Not available";
 
   return (
-    <Card
-      className="application-card"
-      shadow="sm"
-      p="lg"
-      radius="md"
-      withBorder
-    >
-      <Text className="app-card-title" weight={700} size="lg" mb="md">
+    <Card id="pms-application-card" shadow="sm" p="lg" radius="md" withBorder>
+      <Text id="pms-app-card-title" weight={700} size="lg" mb="md">
         {title}
       </Text>
 
-      <div className="app-card-info">
-        <div className="info-item">
+      <div id="pms-app-card-info">
+        <div id="pms-info-item">
           <CalendarCheck size={18} />
-          <Text className="info-text">{formattedDate}</Text>
+          <Text id="pms-info-text">{formattedDate}</Text>
         </div>
 
-        <div className="info-item">
+        <div id="pms-info-item">
           <FileText size={18} />
-          <Text className="info-text">Application #{applicationNumber}</Text>
+          <Text id="pms-info-text">Application #{applicationNumber}</Text>
         </div>
 
         {tokenNumber ? (
-          <div className="info-item">
+          <div id="pms-info-item">
             <Key size={18} />
-            <Text className="info-text">Tracking Token: {tokenNumber}</Text>
+            <Text id="pms-info-text">Tracking Token: {tokenNumber}</Text>
           </div>
         ) : (
-          <div className="info-item">
+          <div id="pms-info-item">
             <Hourglass size={18} />
-            <Text className="info-text">Token: Awaiting assignment</Text>
+            <Text id="pms-info-text">Token: Awaiting assignment</Text>
           </div>
         )}
 
-        <div className="info-item">
+        <div id="pms-info-item">
           <User size={18} />
-          <Text className="info-text">
-            {attorney || "No Attorney Assigned"}
-          </Text>
+          <Text id="pms-info-text">{attorney || "No Attorney Assigned"}</Text>
         </div>
 
-        <div className="card-badge-container">
+        <div id="pms-card-badge-container">
           <Badge color={getStatusColor(status)} size="lg">
             {status}
           </Badge>
@@ -308,7 +301,7 @@ function ApplicationCard({
         fullWidth
         mt="md"
         onClick={() => onViewApplication(applicationNumber)}
-        className="view-application-button"
+        id="pms-view-application-button"
       >
         View Details
       </Button>
@@ -331,13 +324,13 @@ function ConditionalFileDownload({ filePath, label, value }) {
   const fileUrl = encodedFilePath ? `${API_BASE_URL}${encodedFilePath}` : null;
 
   return (
-    <div className="form-field-with-download">
-      <div className="field-label-container">
-        <Text className="field-label">{label}</Text>
-        <Text className="field-value">{value || "Not provided"}</Text>
+    <div id="pms-form-field-with-download">
+      <div id="pms-field-label-container">
+        <Text id="pms-field-label">{label}</Text>
+        <Text id="pms-field-value">{value || "Not provided"}</Text>
       </div>
       {fileUrl ? (
-        <div className="download-button-wrapper">
+        <div id="pms-download-button-wrapper">
           <Button
             component="a"
             href={fileUrl}
@@ -399,27 +392,23 @@ FileDownloadButton.propTypes = {
   disabled: PropTypes.bool,
 };
 
-// Field component for detail view - moved outside of the render function
 function FormField({ label, value }) {
+  const isMobile = window.innerWidth <= 768;
+
   return (
     <div
-      className={`form-field ${
-        window.innerWidth <= 768 ? "mobile-form-field" : ""
-      }`}
+      className={`pms-form-field-label-and-value ${isMobile ? "pms-mobile-form-field" : ""}`}
+      style={{ padding: "10px" }}
     >
       <Text
-        className={`field-label ${
-          window.innerWidth <= 768 ? "mobile-field-label" : ""
-        }`}
+        className={`pms-form-field-label ${isMobile ? "pms-mobile-field-label" : ""}`}
       >
         {label}
       </Text>
       <Text
-        className={`field-value ${
-          window.innerWidth <= 768 ? "mobile-field-value" : ""
-        }`}
+        className={`pms-form-field-value ${isMobile ? "pms-mobile-field-value" : ""}`}
       >
-        {value || "Not provided"}
+        {value?.trim() ? value : "Not provided"}
       </Text>
     </div>
   );
@@ -433,12 +422,12 @@ FormField.propTypes = {
 // Field with download button - moved outside of the render function
 function FormFieldWithDownload({ label, value, fileUrl, fileLabel }) {
   return (
-    <div className="form-field-with-download">
-      <div className="field-label-container">
-        <Text className="field-label">{label}</Text>
-        <Text className="field-value">{value || "Not provided"}</Text>
+    <div className="pms-form-field-with-download">
+      <div className="pms-form-field-label-and-value">
+        <Text className="pms-form-field-label">{label}</Text>
+        <Text className="pms-form-field-value">{value || "Not provided"}</Text>
       </div>
-      <div className="download-button-wrapper">
+      <div id="pms-download-button-wrapper">
         <FileDownloadButton
           fileUrl={fileUrl}
           label={fileLabel}
@@ -448,6 +437,7 @@ function FormFieldWithDownload({ label, value, fileUrl, fileLabel }) {
     </div>
   );
 }
+
 FormFieldWithDownload.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -459,19 +449,19 @@ FormFieldWithDownload.propTypes = {
 function FormSection({ title, children }) {
   return (
     <Card
-      className={`detail-section ${
+      id={`pms-detail-section ${
         window.innerWidth <= 768 ? "mobile-form-section" : ""
       }`}
-      p="lg"
       radius="md"
       withBorder
       mb="md"
+      p={40}
+      style={{
+        borderRadius: "20px",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      }}
     >
-      <Title
-        className={`section-title ${
-          window.innerWidth <= 768 ? "mobile-section-title" : ""
-        }`}
-      >
+      <Title className="pms-form-section-title" style={{ marginLeft: "-10px" }}>
         {title}
       </Title>
       {children}
@@ -592,38 +582,55 @@ function ApplicationView({ setActiveTab }) {
   // Render application list view with improved loading and error states
   const renderApplicationList = () => (
     // Replace the Grid component with this structure:
-    <Box className="applications-container">
-      <Text className="view-app-page-title">Your Patent Applications</Text>
+    <Box id="pms-applications-container">
+      <Text id="pms-view-app-page-title">Your Patent Applications</Text>
 
       {loading ? (
-        <div className="loader-container">
+        <div id="pms-loader-container">
           <Loader size="lg" color="blue" />
           <Text mt="md">Loading your applications...</Text>
         </div>
       ) : error ? (
-        <Card className="error-card" p="xl" radius="md" withBorder>
-          <Text color="red" size="lg" weight={500}>
-            {error}
+        <Card id="pms-empty-state-card" p="xl" radius="md" withBorder>
+          <Text style={{ fontSize: "22px", fontWeight: 500 }}>
+            Unable to Load Applications
           </Text>
-          <Button mt="md" color="blue" onClick={() => window.location.reload()}>
+          <Divider
+            w="100%"
+            style={{ margin: "0 0", border: "0.5px solid rgb(215, 215, 215)" }}
+          />
+          <Text size="sm" color="dimmed" mt="sm">
+            We encountered an issue while loading your applications. Please try
+            again.
+          </Text>
+          <Button
+            mt="lg"
+            color="blue"
+            onClick={() => window.location.reload()}
+            fullWidth
+          >
             Try Again
           </Button>
         </Card>
       ) : applications.length === 0 ? (
-        <Card className="empty-state-card" p="xl" radius="md" withBorder>
-          <Text size="lg" align="center">
+        <Card id="pms-empty-state-card" p="xl" radius="md" withBorder>
+          <Text size="lg" align="center" weight={500}>
+            No Applications Found
+          </Text>
+          <Text size="sm" color="dimmed" align="center" mt="sm">
             You haven't submitted any patent applications yet.
           </Text>
           <Button
             mt="lg"
             color="blue"
             onClick={() => setActiveTab("newApplication")}
+            fullWidth
           >
-            Create Your First Application
+            Start New Application
           </Button>
         </Card>
       ) : (
-        <div className="view-applications-grid">
+        <div id="pms-view-applications-grid">
           {applications.map((app, index) => (
             <ApplicationCard
               key={index}
@@ -684,29 +691,29 @@ function ApplicationView({ setActiveTab }) {
 
     return (
       <Container
-        className={`detail-container ${
-          isMobile ? "mobile-form-container" : ""
+        id={`pms-detail-container ${
+          isMobile ? "pms-mobile-form-container" : ""
         }`}
         size="100%"
         style={{ maxWidth: "100%", padding: "2rem" }}
       >
-        <div className="application-view-detail-header">
+        <div id="pms-application-view-detail-header">
           <Button
             onClick={handleBackToList}
             leftIcon={<ArrowLeft size={18} />}
-            className="application-view-back-button"
+            id="pms-application-view-back-button"
           >
             Back
           </Button>
-          <Text className="application-view-page-title">
-            {application_id} : {title}
+          <Text id="pms-application-view-page-title">
+            Application ID : {application_id}
           </Text>
           <Button
             component="a"
             href={`${API_BASE_URL}/download/${application_id}/`}
             target="_blank"
             download={`Application-${application_id}.pdf`}
-            className="application-view-download-button"
+            id="pms-application-view-download-button"
             rightIcon={<DownloadSimple size={18} />}
           >
             Download
@@ -716,39 +723,40 @@ function ApplicationView({ setActiveTab }) {
         <div>
           <FormSection
             title="Application Overview"
-            className="application-view-form-section"
+            id="pms-application-view-form-section"
           >
             <Grid>
-              <Grid.Col span={12} md={4}>
+              <Grid.Col span={12} md={4} className="pms-form-field-container">
                 <FormField label="Title of Application:" value={title} />
               </Grid.Col>
-              <Grid.Col span={12} md={4}>
+
+              <Grid.Col span={12} md={4} className="pms-form-field-container">
                 <FormField label="Submission Date:" value={submittedDate} />
               </Grid.Col>
-              <Grid.Col span={12} md={4}>
+              <Grid.Col span={12} md={4} className="pms-form-field-container">
                 <FormField label="Token Number:" value={token_no} />
               </Grid.Col>
-              <Grid.Col span={12} md={4}>
+              <Grid.Col span={12} md={4} className="pms-form-field-container">
                 <FormField label="Attorney:" value={attorney_name} />
               </Grid.Col>
-              <Grid.Col span={12} md={4}>
+              <Grid.Col span={12} md={4} className="pms-form-field-container">
                 <FormField label="Status:" value={status} />
               </Grid.Col>
-              <Grid.Col span={12} md={4}>
+              <Grid.Col span={12} md={4} className="pms-form-field-container">
                 <FormField label="Decision Status:" value={decision_status} />
               </Grid.Col>
-              <Grid.Col span={12}>
+              <Grid.Col span={12} className="pms-form-field-container">
                 <FormField label="Comments:" value={comments} />
               </Grid.Col>
             </Grid>
           </FormSection>
 
           <FormSection title="Key Dates">
-            <div className="key-dates-container">
-              <div className="key-dates-grid">
-                {/* <div className="key-date-card">
-                <div className="key-date-title">Reviewed by PCC</div>
-                <div className="key-date-value">
+            <div id="pms-key-dates-container">
+              <div id="pms-key-dates-grid">
+                {/* <div id="pms-key-date-card">
+                <div id="pms-key-date-title">Reviewed by PCC</div>
+                <div id="pms-key-date-value">
                   {dates?.reviewed_by_pcc_date
                     ? new Date(dates.reviewed_by_pcc_date).toLocaleDateString(
                         "en-US",
@@ -762,9 +770,9 @@ function ApplicationView({ setActiveTab }) {
                 </div>
               </div> */}
 
-                <div className="key-date-card">
-                  <div className="key-date-title">Forwarded to Director</div>
-                  <div className="key-date-value">
+                <div id="pms-key-date-card">
+                  <div id="pms-key-date-title">Forwarded to Director</div>
+                  <div id="pms-key-date-value">
                     {dates?.forwarded_to_director_date
                       ? new Date(
                           dates.forwarded_to_director_date,
@@ -777,9 +785,9 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                <div className="key-date-card">
-                  <div className="key-date-title">Director Approval</div>
-                  <div className="key-date-value">
+                <div id="pms-key-date-card">
+                  <div id="pms-key-date-title">Director Approval</div>
+                  <div id="pms-key-date-value">
                     {dates?.director_approval_date
                       ? new Date(
                           dates.director_approval_date,
@@ -792,11 +800,9 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                <div className="key-date-card">
-                  <div className="key-date-title">
-                    Patentability Check Start
-                  </div>
-                  <div className="key-date-value">
+                <div id="pms-key-date-card">
+                  <div id="pms-key-date-title">Patentability Check Start</div>
+                  <div id="pms-key-date-value">
                     {dates?.patentability_check_start_date
                       ? new Date(
                           dates.patentability_check_start_date,
@@ -809,11 +815,11 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                <div className="key-date-card">
-                  <div className="key-date-title">
+                <div id="pms-key-date-card">
+                  <div id="pms-key-date-title">
                     Patentability Check Completed
                   </div>
-                  <div className="key-date-value">
+                  <div id="pms-key-date-value">
                     {dates?.patentability_check_completed_date
                       ? new Date(
                           dates.patentability_check_completed_date,
@@ -826,9 +832,9 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                <div className="key-date-card">
-                  <div className="key-date-title">Search Report Generated</div>
-                  <div className="key-date-value">
+                <div id="pms-key-date-card">
+                  <div id="pms-key-date-title">Search Report Generated</div>
+                  <div id="pms-key-date-value">
                     {dates?.search_report_generated_date
                       ? new Date(
                           dates.search_report_generated_date,
@@ -841,9 +847,9 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                <div className="key-date-card">
-                  <div className="key-date-title">Date of Filing</div>
-                  <div className="key-date-value">
+                <div id="pms-key-date-card">
+                  <div id="pms-key-date-title">Date of Filing</div>
+                  <div id="pms-key-date-value">
                     {dates?.patent_filed_date
                       ? new Date(dates.patent_filed_date).toLocaleDateString(
                           "en-US",
@@ -857,9 +863,9 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                <div className="key-date-card">
-                  <div className="key-date-title">Date of Publication</div>
-                  <div className="key-date-value">
+                <div id="pms-key-date-card">
+                  <div id="pms-key-date-title">Date of Publication</div>
+                  <div id="pms-key-date-value">
                     {dates?.patent_published_date
                       ? new Date(
                           dates.patent_published_date,
@@ -872,9 +878,9 @@ function ApplicationView({ setActiveTab }) {
                   </div>
                 </div>
 
-                {/* <div className="key-date-card">
-                <div className="key-date-title">Decision Date</div>
-                <div className="key-date-value">
+                {/* <div id="pms-key-date-card">
+                <div id="pms-key-date-title">Decision Date</div>
+                <div id="pms-key-date-value">
                   {dates?.decision_date
                     ? new Date(dates.decision_date).toLocaleDateString(
                           "en-US",
@@ -888,9 +894,9 @@ function ApplicationView({ setActiveTab }) {
                   </div>
               </div> */}
 
-                <div className="key-date-card">
-                  <div className="key-date-title"> Date of Granting</div>
-                  <div className="key-date-value">
+                <div id="pms-key-date-card">
+                  <div id="pms-key-date-title"> Date of Granting</div>
+                  <div id="pms-key-date-value">
                     {dates?.final_decision_date
                       ? new Date(dates.final_decision_date).toLocaleDateString(
                           "en-US",
@@ -909,31 +915,31 @@ function ApplicationView({ setActiveTab }) {
 
           <FormSection title="Section I: Administrative and Technical Details">
             <Grid>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Area of the invention:"
                   value={section_I?.area}
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Problem in the area:"
                   value={section_I?.problem}
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Objective of your invention:"
                   value={section_I?.objective}
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField label="Novelty:" value={section_I?.novelty} />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField label="Advantages:" value={section_I?.advantages} />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Tested:"
                   value={
@@ -945,7 +951,7 @@ function ApplicationView({ setActiveTab }) {
                   }
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormFieldWithDownload
                   label="POC Details:"
                   value={section_I?.poc_details}
@@ -953,7 +959,7 @@ function ApplicationView({ setActiveTab }) {
                   fileLabel="POC File"
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Applications:"
                   value={section_I?.applications}
@@ -964,19 +970,19 @@ function ApplicationView({ setActiveTab }) {
 
           <FormSection title="Section II: IPR Ownership">
             <Grid>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Funding Details:"
                   value={section_II?.funding_details}
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Funding Source:"
                   value={section_II?.funding_source}
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormFieldWithDownload
                   label="Source Agreement:"
                   value={section_II?.source_agreement}
@@ -984,13 +990,13 @@ function ApplicationView({ setActiveTab }) {
                   fileLabel="Source Agreement"
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Publication Details:"
                   value={section_II?.publication_details}
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormFieldWithDownload
                   label="MOU Details:"
                   value={section_II?.mou_details}
@@ -998,7 +1004,7 @@ function ApplicationView({ setActiveTab }) {
                   fileLabel="MOU File"
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Research Details:"
                   value={section_II?.research_details}
@@ -1009,25 +1015,25 @@ function ApplicationView({ setActiveTab }) {
 
           <FormSection title="Section III: Commercialization">
             <Grid>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Company Name:"
                   value={section_III?.company_name}
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Contact Person:"
                   value={section_III?.contact_person}
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormField
                   label="Contact Number:"
                   value={section_III?.contact_no}
                 />
               </Grid.Col>
-              <Grid.Col span={12} md={6}>
+              <Grid.Col span={12} md={6} className="pms-form-field-container">
                 <FormFieldWithDownload
                   label="Development Stage:"
                   value={section_III?.development_stage}
@@ -1040,11 +1046,11 @@ function ApplicationView({ setActiveTab }) {
 
           <FormSection title="Inventor">
             {applicants && applicants.length > 0 ? (
-              <div className="inventors-container">
+              <div id="pms-inventors-container">
                 {applicants.map((applicant, index) => (
                   <Card
                     key={index}
-                    className="inventor-card"
+                    id="pms-inventor-card"
                     p="md"
                     radius="sm"
                     withBorder
@@ -1052,11 +1058,27 @@ function ApplicationView({ setActiveTab }) {
                     <Text weight={600} size="lg" mb="xs" align="center">
                       Inventor {index + 1}
                     </Text>
-                    <div className="inventor-details">
-                      <FormField label="Name:" value={applicant.name} />
-                      <FormField label="Email:" value={applicant.email} />
-                      <FormField label="Mobile:" value={applicant.mobile} />
-                      <FormField label="Address:" value={applicant.address} />
+                    <div id="pms-inventor-details">
+                      <FormField
+                        className="pms-form-field-container"
+                        label="Name:"
+                        value={applicant.name}
+                      />
+                      <FormField
+                        className="pms-form-field-container"
+                        label="Email:"
+                        value={applicant.email}
+                      />
+                      <FormField
+                        className="pms-form-field-container"
+                        label="Mobile:"
+                        value={applicant.mobile}
+                      />
+                      <FormField
+                        className="pms-form-field-container"
+                        label="Address:"
+                        value={applicant.address}
+                      />
                       <FormField
                         label="Share Percentage:"
                         value={
@@ -1083,7 +1105,7 @@ function ApplicationView({ setActiveTab }) {
   };
 
   return (
-    <Box className="application-view-container">
+    <Box id="pms-application-view-container">
       {viewMode === "list"
         ? renderApplicationList()
         : renderApplicationDetail()}

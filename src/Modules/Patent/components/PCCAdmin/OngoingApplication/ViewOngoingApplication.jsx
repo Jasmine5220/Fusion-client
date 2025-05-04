@@ -22,13 +22,14 @@ import {
   ArrowRight,
 } from "phosphor-react";
 import { host } from "../../../../../routes/globalRoutes/index.jsx";
+import "../../../style/Pcc_Admin/ViewOngoingApplication.css";
 
 // Field component for detail view
 function FormField({ label, value }) {
   return (
-    <div className="form-field">
-      <Text className="field-label">{label}</Text>
-      <Text className="field-value">{value || "Not provided"}</Text>
+    <div id="pms-pcc-form-field">
+      <Text id="pms-pcc-field-label">{label}</Text>
+      <Text id="pms-pcc-field-value">{value || "Not provided"}</Text>
     </div>
   );
 }
@@ -41,12 +42,12 @@ FormField.propTypes = {
 // Field with download button for direct file URLs
 function FormFieldWithDownload({ label, value, fileUrl, fileLabel }) {
   return (
-    <div className="form-field-with-download">
-      <div className="field-label-container">
-        <Text className="field-label">{label}</Text>
-        <Text className="field-value">{value || "Not provided"}</Text>
+    <div id="pms-pcc-form-field-with-download">
+      <div id="pms-pcc-field-label-container">
+        <Text id="pms-pcc-field-label">{label}</Text>
+        <Text id="pms-pcc-field-value">{value || "Not provided"}</Text>
       </div>
-      <div className="download-button-wrapper">
+      <div id="pms-pcc-download-button-wrapper">
         <FileDownloadButton
           fileUrl={fileUrl}
           label={fileLabel}
@@ -102,8 +103,8 @@ FileDownloadButton.propTypes = {
 // Section component for detail view
 function FormSection({ title, children }) {
   return (
-    <Card className="detail-section" p="lg" radius="md" withBorder mb="md">
-      <Title className="section-title">{title}</Title>
+    <Card id="pms-pcc-detail-section" p="lg" radius="md" withBorder mb="md">
+      <Title id="pms-pcc-section-title">{title}</Title>
       {children}
     </Card>
   );
@@ -155,19 +156,19 @@ function PatentProgressBar({ currentStatus, isMobile }) {
   return (
     <div className={`progress-container ${isRejected ? "rejected" : ""}`}>
       {isRejected && (
-        <Text color="red" size="lg" weight={600} className="rejection-label">
+        <Text color="red" size="lg" weight={600} id="pms-pcc-rejection-label">
           Application Rejected
         </Text>
       )}
 
       {!isMobile ? (
         // Desktop view
-        <div className="desktop-stepper">
+        <div id="pms-pcc-desktop-stepper">
           {isRefused ? (
             // Simple two-step progress for refused patents
             <Stepper
               active={1}
-              className="workflow-stepper"
+              id="pms-pcc-workflow-stepper"
               size="md"
               color="red"
               orientation="horizontal"
@@ -179,14 +180,14 @@ function PatentProgressBar({ currentStatus, isMobile }) {
                 icon={<CheckCircle size={18} />}
                 label="Stage 1"
                 description="Submitted"
-                className="completed-step"
+                id="pms-pcc-completed-step"
               />
               <Stepper.Step
                 key="Patent Refused"
                 icon={<CircleNotch size={18} />}
                 label="Stage 2"
                 description="Patent Refused"
-                className="completed-step"
+                id="pms-pcc-completed-step"
               />
             </Stepper>
           ) : (
@@ -194,7 +195,7 @@ function PatentProgressBar({ currentStatus, isMobile }) {
             <>
               <Stepper
                 active={isGranted ? 4 : currentStep}
-                className="workflow-stepper"
+                id="pms-pcc-workflow-stepper"
                 size="md"
                 color={isRejected ? "red" : "blue"}
                 orientation="horizontal"
@@ -225,7 +226,7 @@ function PatentProgressBar({ currentStatus, isMobile }) {
               </Stepper>
               <Stepper
                 active={isGranted ? 7 : Math.max(0, currentStep - 4)} // All steps active if granted
-                className="workflow-stepper second-row"
+                id="pms-pcc-workflow-stepper second-row"
                 size="md"
                 color={isRejected ? "red" : "blue"}
                 orientation="horizontal"
@@ -263,7 +264,7 @@ function PatentProgressBar({ currentStatus, isMobile }) {
           active={
             isRefused ? 1 : isGranted ? displayStatuses.length - 1 : currentStep
           }
-          className="workflow-stepper mobile-view"
+          id="pms-pcc-workflow-stepper mobile-view"
           size="sm"
           color={isRefused ? "red" : isRejected ? "red" : "blue"}
           orientation="vertical"
@@ -465,7 +466,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
 
   if (loading) {
     return (
-      <Container className="loader-container">
+      <Container id="pms-pcc-loader-container">
         <Loader size="lg" color="blue" />
         <Text mt="md">Loading application details...</Text>
       </Container>
@@ -474,7 +475,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
 
   if (error) {
     return (
-      <Container className="error-container">
+      <Container id="pms-pcc-error-container">
         <Alert color="red" title="Error">
           {error}
         </Alert>
@@ -487,7 +488,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
 
   if (!selectedApplication) {
     return (
-      <Container className="error-container">
+      <Container id="pms-pcc-error-container">
         <Alert color="blue" title="No Data">
           No application data found
         </Alert>
@@ -555,15 +556,14 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
 
   return (
     <Container
-      className={`detail-container ${isMobile ? "mobile-form-container" : ""}`}
-      size={isMobile ? "sm" : "lg"}
+      className={`pms-pcc-ongoing-detail-container ${isMobile ? "mobile-form-container" : ""}`}
     >
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           position: "relative",
-          marginBottom: "0",
+          marginBottom: "-20px",
           backgroundColor: "#f5f7f8",
           height: "60px",
           zIndex: 10,
@@ -631,22 +631,10 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
             Download
           </Button>
         </div>
-
-        <Text
-          className={`detail-page-title ${isMobile ? "mobile-detail-page-title" : ""}`}
-          style={{
-            fontSize: "24px",
-            fontWeight: "600",
-            textAlign: "center",
-            margin: "0 auto",
-          }}
-        >
-          Application Details
-        </Text>
       </div>
 
       <div
-        className="form-content"
+        id="pms-pcc-form-content"
         style={{
           backgroundColor: "#f5f7f8",
           boxShadow: "0px 5px 15px rgba(0, 0, 0, 0)",
@@ -688,11 +676,11 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
         </FormSection>
 
         <FormSection title="Key Dates">
-          <div className="key-dates-container">
-            <div className="key-dates-grid">
-              {/* <div className="key-date-card">
-                <div className="key-date-title">Reviewed by PCC</div>
-                <div className="key-date-value">
+          <div id="pms-pcc-key-dates-container">
+            <div id="pms-pcc-key-dates-grid">
+              {/* <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Reviewed by PCC</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.reviewed_by_pcc_date
                     ? new Date(dates.reviewed_by_pcc_date).toLocaleDateString(
                         "en-US",
@@ -706,9 +694,9 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 </div>
               </div> */}
 
-              <div className="key-date-card">
-                <div className="key-date-title">Forwarded to Director</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Forwarded to Director</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.forwarded_to_director_date
                     ? new Date(
                         dates.forwarded_to_director_date,
@@ -721,9 +709,9 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Director Approval</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Director Approval</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.director_approval_date
                     ? new Date(dates.director_approval_date).toLocaleDateString(
                         "en-US",
@@ -737,9 +725,9 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Patentability Check Start</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Patentability Check Start</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.patentability_check_start_date
                     ? new Date(
                         dates.patentability_check_start_date,
@@ -752,11 +740,11 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">
                   Patentability Check Completed
                 </div>
-                <div className="key-date-value">
+                <div id="pms-pcc-key-date-value">
                   {dates?.patentability_check_completed_date
                     ? new Date(
                         dates.patentability_check_completed_date,
@@ -769,9 +757,9 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Search Report Generated</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Search Report Generated</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.search_report_generated_date
                     ? new Date(
                         dates.search_report_generated_date,
@@ -784,9 +772,9 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Date of Filing</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Date of Filing</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.patent_filed_date
                     ? new Date(dates.patent_filed_date).toLocaleDateString(
                         "en-US",
@@ -800,9 +788,9 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Date of Publication</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Date of Publication</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.patent_published_date
                     ? new Date(dates.patent_published_date).toLocaleDateString(
                         "en-US",
@@ -816,9 +804,9 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              {/* <div className="key-date-card">
-                <div className="key-date-title">Decision Date</div>
-                <div className="key-date-value">
+              {/* <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Decision Date</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.decision_date
                     ? new Date(dates.decision_date).toLocaleDateString(
                         "en-US",
@@ -832,9 +820,9 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 </div>
               </div> */}
 
-              <div className="key-date-card">
-                <div className="key-date-title"> Date of Granting</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title"> Date of Granting</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.final_decision_date
                     ? new Date(dates.final_decision_date).toLocaleDateString(
                         "en-US",
@@ -995,7 +983,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
               {applicants.map((applicant, index) => (
                 <Grid.Col key={index} span={12} md={6}>
                   <Card
-                    className="applicant-card"
+                    id="pms-pcc-applicant-card"
                     p="md"
                     radius="sm"
                     withBorder
@@ -1027,7 +1015,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
         <FormSection title="Application Progress">
           <PatentProgressBar currentStatus={status} isMobile={isMobile} />
 
-          <div className="status-update-section">
+          <div id="pms-pcc-status-update-section">
             <Text size="md" weight={500} mb="xs" mt="lg">
               Update Application Status
             </Text>
@@ -1049,7 +1037,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
             <Group
               position="apart"
               align="flex-end"
-              className="status-update-group"
+              id="pms-pcc-status-update-group"
             >
               <Select
                 label="Select New Status"
@@ -1061,7 +1049,7 @@ function ViewOngoingApplication({ applicationId, handleBackToList }) {
                 disabled={updatingStatus}
               />
 
-              <div className="status-button-group">
+              <div id="pms-pcc-status-button-group">
                 <Button
                   color="blue"
                   loading={updatingStatus}

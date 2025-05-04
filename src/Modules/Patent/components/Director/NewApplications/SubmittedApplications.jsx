@@ -102,7 +102,7 @@ function SubmittedApplications({ setActiveTab }) {
   const renderApplicationsTable = () => {
     if (loading) {
       return (
-        <Box className="loader-container">
+        <Box id="pms-director-submitted-loader-container">
           <Loader size="lg" color="blue" />
           <Text mt={10}>Loading applications...</Text>
         </Box>
@@ -126,9 +126,14 @@ function SubmittedApplications({ setActiveTab }) {
     }
 
     return (
-      <ScrollArea className="tableWrapper">
-        <Table highlightOnHover striped withBorder className="styledTable">
-          <thead className="fusionTableHeader">
+      <ScrollArea id="pms-director-submitted-tableWrapper">
+        <Table
+          highlightOnHover
+          striped
+          withBorder
+          id="pms-director-submitted-styledTable"
+        >
+          <thead id="pms-director-submitted-fusionTableHeader">
             <tr>
               {columnNames.map((columnName, index) => (
                 <th key={index}>{columnName}</th>
@@ -137,7 +142,10 @@ function SubmittedApplications({ setActiveTab }) {
           </thead>
           <tbody>
             {applicationsData.map((application) => (
-              <tr key={application.applicationId} className="tableRow">
+              <tr
+                key={application.applicationId}
+                id="pms-director-submitted-tableRow"
+              >
                 <td>{application.id}</td>
                 <td>{application.applicationId}</td>
                 <td>{application.tokenNumber}</td>
@@ -152,7 +160,7 @@ function SubmittedApplications({ setActiveTab }) {
                     color="blue"
                     size="sm"
                     onClick={() => handleViewDetails(application)}
-                    className="viewButton"
+                    id="pms-director-submitted-viewButton"
                   >
                     <Eye size={16} /> <span>View</span>
                   </Button>
@@ -166,19 +174,22 @@ function SubmittedApplications({ setActiveTab }) {
   };
 
   return (
-    <Box className="director-submitted-apps-container">
+    <Box id="pms-director-submitted-director-submitted-apps-container">
       {/* Header with title */}
-      <Box className="director-submitted-apps-header">
-        <Title order={2} className="director-submitted-apps-title">
+      <Box id="pms-director-submitted-director-submitted-apps-header">
+        <Title
+          order={2}
+          id="pms-director-submitted-director-submitted-apps-title"
+        >
           Applications Forwarded by PCC Admin
         </Title>
       </Box>
 
       {/* Description text */}
-      <Box className="director-submitted-apps-description">
+      <Box id="pms-director-submitted-director-submitted-apps-description">
         {/* Refresh button */}
         <Button
-          className="director-submitted-apps-refresh"
+          id="pms-director-submitted-director-submitted-apps-refresh"
           onClick={handleRefresh}
           loading={isRefreshing}
           leftIcon={<ArrowsClockwise size={16} />}
@@ -187,7 +198,7 @@ function SubmittedApplications({ setActiveTab }) {
         </Button>
       </Box>
 
-      <Box className="director-submitted-apps-outer">
+      <Box id="pms-director-submitted-director-submitted-apps-outer">
         {renderApplicationsTable()}
       </Box>
     </Box>

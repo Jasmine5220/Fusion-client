@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Card, Button, Text, Box, Grid, Divider } from "@mantine/core";
+import { Card, Button, Text, Box, Grid } from "@mantine/core";
 import { Check } from "phosphor-react";
 
 // Define styles at the top level like in DirectorNotifications
@@ -10,7 +10,8 @@ const styles = {
     marginBottom: "1rem",
     boxShadow: "0 5px 8px rgba(0, 0, 0, 0.1)",
     borderRadius: "8px",
-    backgroundColor: "#f8f9fa",
+    borderLeft: "10px solid #3182ce",
+    backgroundColor: "#fff",
     height: "100%",
     display: "flex",
     flexDirection: "column",
@@ -41,9 +42,7 @@ const styles = {
   markReadButton: {
     width: "100%",
     marginTop: "auto",
-    backgroundColor: "#f8f9fa",
-    color: "#4c6ef5",
-    border: "1px solid #4c6ef5",
+    color: "#3182ce",
     fontWeight: 500,
   },
   pageTitle: {
@@ -70,7 +69,7 @@ const notificationsData = [
       "Application approved by Director and sent to Attorney for Patentability check.",
     date: "2024-10-23",
     time: "14:30:00",
-    color: "#4CAF50",
+    color: "#3182ce",
   },
   {
     id: 2,
@@ -110,7 +109,6 @@ function NotificationCard({
       <Text style={styles.notificationTitle}>{title}</Text>
       <Text style={{ ...styles.notificationStatus, color }}>{status}</Text>
       <Text style={styles.notificationDate}>{`${date} | ${time}`}</Text>
-      <Divider my="sm" />
       <Text style={styles.notificationDescription}>{description}</Text>
       <Button
         variant="outline"

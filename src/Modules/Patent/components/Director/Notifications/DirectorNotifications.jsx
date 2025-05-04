@@ -1,66 +1,93 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Card, Button, Text, Box, Grid } from "@mantine/core";
+import { Card, Button, Text, Box, SimpleGrid } from "@mantine/core";
 import notificationsData from "../../../data/director/notificationsData";
 
 const styles = {
   notificationCard: {
-    padding: "1.5rem",
-    marginBottom: "1rem",
-    boxShadow: "0 5px 8px rgba(0, 0, 0, 0.1)",
+    padding: "1.3rem 2rem",
+    marginBottom: "8px",
+    boxShadow: "0 3px 6px rgba(0, 0, 0, 0.10)",
     borderRadius: "8px",
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#fff",
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    marginLeft: "-10px",
+    borderLeft: "8px solid #3182ce",
   },
   notificationTitle: {
-    fontSize: "22px",
+    fontSize: "20px",
     fontWeight: 500,
-    marginBottom: "0",
-    color: "#1a1b1e",
+    marginBottom: "2.2px",
+    lineHeight: 1.2,
   },
   notificationStatus: {
-    fontSize: "1rem",
+    fontSize: "0.97rem",
     fontWeight: 500,
-    marginBottom: "0.5rem",
+    marginBottom: "10px",
+    lineHeight: 1.2,
   },
   notificationToken: {
-    fontSize: "0.875rem",
+    fontSize: "0.83rem",
     color: "#666",
-    marginBottom: "0.5rem",
+    marginBottom: "5px",
+    lineHeight: 1.2,
   },
   notificationDate: {
-    fontSize: "0.875rem",
+    fontSize: "0.83rem",
     color: "#666",
-    marginBottom: "1rem",
+    marginBottom: "10px",
+    lineHeight: 1.2,
   },
   notificationDescription: {
-    fontSize: "0.875rem",
+    fontSize: "0.83rem",
     color: "#444",
-    marginBottom: "0",
+    padding: "0",
     flex: 1,
+    marginBottom: "8px",
+    lineHeight: 1.25,
   },
-  markReadButton: {
-    width: "100%",
-    marginTop: "auto",
+  notificationActions: {
+    display: "flex",
+    justifyContent: "flex-end",
+    flexWrap: "wrap",
+    gap: "0.4rem",
+    marginTop: "0.3rem",
+  },
+  actionButton: {
+    flex: "1",
+    minWidth: "200px",
+    fontWeight: "500",
+    fontSize: "0.9rem",
+    padding: "10px 0",
+    height: "35px",
+    backgroundColor: "#fff",
+    color: "#0073e6",
+    border: "1px solid #0073e6",
+    transition: "background 0.18s, color 0.18s",
+    cursor: "pointer",
+  },
+  actionButtonHover: {
+    backgroundColor: "#0073e6",
+    color: "#fff",
+    border: "1px solid #0073e6",
   },
   pageTitle: {
     fontSize: "24px",
+    marginTop: "-6px",
     fontWeight: 600,
-    marginBottom: "0",
+    marginBottom: "8px",
     color: "#1a1b1e",
+    lineHeight: 1.2,
   },
   container: {
     width: "100%",
-    padding: "0 1rem",
+    padding: "0",
     maxWidth: "1800px",
     margin: "0 50px",
   },
 };
 
-// Notification card component
 function NotificationCard({
   id,
   token,
@@ -73,25 +100,43 @@ function NotificationCard({
   onMarkAsRead,
   isRead,
 }) {
+  const [hover, setHover] = useState(false);
+
+  const getStatusColor = () => color || "#3182ce";
+  const buttonStyle = {
+    ...styles.actionButton,
+    ...(hover ? styles.actionButtonHover : {}),
+    ...(isRead && {
+      backgroundColor: "#f3f3f3",
+      color: "#888",
+      border: "1px solid #ddd",
+    }),
+  };
+
   return (
     <Card style={styles.notificationCard}>
       <Text style={styles.notificationTitle}>{title}</Text>
-      <Text style={{ ...styles.notificationStatus, color }}>{status}</Text>
+      <Text style={{ ...styles.notificationStatus, color: getStatusColor() }}>
+        {status}
+      </Text>
       <Text style={styles.notificationToken}>{token}</Text>
       <Text style={styles.notificationDate}>{`${date} | ${time}`}</Text>
       <Text style={styles.notificationDescription}>{description}</Text>
-      <Button
-        variant={isRead ? "default" : "outline"}
-        style={styles.markReadButton}
-        onClick={() => onMarkAsRead(id)}
-      >
-        {isRead ? "Remove Notification" : "Mark as Read"}
-      </Button>
+      <div style={styles.notificationActions}>
+        <Button
+          variant={isRead ? "default" : "outline"}
+          style={buttonStyle}
+          onClick={() => onMarkAsRead(id)}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+        >
+          {isRead ? "Remove Notification" : "Mark as Read"}
+        </Button>
+      </div>
     </Card>
   );
 }
 
-// PropTypes validation for NotificationCard
 NotificationCard.propTypes = {
   id: PropTypes.number.isRequired,
   token: PropTypes.string.isRequired,
@@ -100,75 +145,49 @@ NotificationCard.propTypes = {
   description: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
   onMarkAsRead: PropTypes.func.isRequired,
   isRead: PropTypes.bool.isRequired,
 };
 
-// Main DirectorNotifications component
 function DirectorNotifications() {
   const [notifications, setNotifications] = useState(notificationsData);
   const [readNotifications, setReadNotifications] = useState([]);
 
   const handleMarkAsRead = (id) => {
     if (readNotifications.includes(id)) {
-      // Permanently remove the notification if already read
-      setNotifications(
-        notifications.filter((notification) => notification.id !== id),
-      );
+      setNotifications(notifications.filter((n) => n.id !== id));
       setReadNotifications(readNotifications.filter((readId) => readId !== id));
     } else {
-      // Mark as read but do not remove
       setReadNotifications([...readNotifications, id]);
     }
   };
 
-  // // Add a new notification dynamically for demo purposes
-  // const handleAddNotification = () => {
-  //   const newNotification = {
-  //     id: notifications.length + 1,
-  //     title: "New Patent Application - Advanced Robotics",
-  //     status: "Pending",
-  //     description:
-  //       "A new patent application has been submitted for review.",
-  //     date: new Date().toISOString().split("T")[0],
-  //     time: new Date().toLocaleTimeString(),
-  //     color: "blue",
-  //   };
-
-  //   setNotifications([newNotification, ...notifications]);
-  // };
-
   return (
     <Box style={styles.container}>
-      {/* Page Title */}
       <Text style={styles.pageTitle}>Notifications</Text>
-
-      {/* Notifications container */}
       <Box style={{ width: "100%" }}>
-        <Grid gutter="xl" align="stretch" style={{ margin: 0 }}>
+        <SimpleGrid
+          cols={{ base: 1, sm: 2, lg: 2 }}
+          spacing={{ base: "md", sm: "xl" }}
+          verticalSpacing={{ base: "md", sm: "xl" }}
+        >
           {notifications.map((notification) => (
-            <Grid.Col
-              span={6}
-              p="md"
+            <NotificationCard
+              token={notification.token}
+              id={notification.id}
+              title={notification.title}
+              status={notification.status}
+              description={notification.description}
+              date={notification.date}
+              time={notification.time}
+              color={notification.color}
+              onMarkAsRead={handleMarkAsRead}
+              isRead={readNotifications.includes(notification.id)}
               key={notification.id}
-              style={{ minHeight: "100%" }}
-            >
-              <NotificationCard
-                token={notification.token}
-                id={notification.id}
-                title={notification.title}
-                status={notification.status}
-                description={notification.description}
-                date={notification.date}
-                time={notification.time}
-                color={notification.color}
-                onMarkAsRead={handleMarkAsRead}
-                isRead={readNotifications.includes(notification.id)}
-              />
-            </Grid.Col>
+            />
           ))}
-        </Grid>
+        </SimpleGrid>
       </Box>
     </Box>
   );

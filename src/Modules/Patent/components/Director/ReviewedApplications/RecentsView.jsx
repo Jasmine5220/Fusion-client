@@ -102,7 +102,7 @@ function ReviewedApplications() {
   const renderApplicationsTable = () => {
     if (loading) {
       return (
-        <Box className="loader-container">
+        <Box id="pms-reviewed-loader-container">
           <Loader size="lg" color="blue" />
           <Text mt={10}>Loading reviewed applications...</Text>
         </Box>
@@ -126,9 +126,14 @@ function ReviewedApplications() {
     }
 
     return (
-      <ScrollArea className="tableWrapper">
-        <Table highlightOnHover striped withBorder className="styledTable">
-          <thead className="fusionTableHeader">
+      <ScrollArea id="pms-reviewed-tableWrapper">
+        <Table
+          highlightOnHover
+          striped
+          withBorder
+          id="pms-reviewed-styledTable"
+        >
+          <thead id="pms-reviewed-fusionTableHeader">
             <tr>
               {columnNames.map((columnName, index) => (
                 <th key={index}>{columnName}</th>
@@ -137,7 +142,7 @@ function ReviewedApplications() {
           </thead>
           <tbody>
             {applicationsData.map((item) => (
-              <tr key={item.applicationId} className="tableRow">
+              <tr key={item.applicationId} id="pms-reviewed-tableRow">
                 <td>{item.id}</td>
                 <td>{item.applicationId}</td>
                 <td>{item.tokenNumber}</td>
@@ -147,24 +152,17 @@ function ReviewedApplications() {
                 <td>{item.arrivalDate}</td>
                 <td>{item.reviewedDate}</td>
                 <td>{item.assignedAttorney}</td>
-                <td
-                  style={{
-                    border: "none",
-                    borderTop: "1px solid #ddd",
-                    borderRight: "1px solid #ddd",
-                  }}
-                >
+                <td>
                   <Text
-                    color={
+                    id={
                       item.currentStatus === "Patent Granted"
-                        ? "green"
+                        ? "pms-status-granted"
                         : item.currentStatus === "Patent Refused"
-                          ? "red"
-                          : "blue"
+                          ? "pms-status-refused"
+                          : "pms-status-pending"
                     }
                     weight={500}
                     style={{ fontSize: "14px" }}
-                    mt={10}
                   >
                     {item.currentStatus}
                   </Text>
@@ -178,19 +176,19 @@ function ReviewedApplications() {
   };
 
   return (
-    <Box className="director-reviewed-apps-container">
+    <Box id="pms-reviewed-apps-container">
       {/* Header with title */}
-      <Box className="director-reviewed-apps-header">
-        <Title order={2} className="director-reviewed-apps-title">
+      <Box id="pms-reviewed-apps-header">
+        <Title order={2} id="pms-reviewed-apps-title">
           Reviewed Patent Applications
         </Title>
       </Box>
 
       {/* Description text */}
-      <Box className="director-reviewed-apps-description">
+      <Box id="pms-reviewed-apps-description">
         {/* Refresh button */}
         <Button
-          className="director-reviewed-apps-refresh"
+          id="pms-reviewed-apps-refresh"
           onClick={handleRefresh}
           loading={isRefreshing}
           leftIcon={<ArrowsClockwise size={16} />}
@@ -199,9 +197,7 @@ function ReviewedApplications() {
         </Button>
       </Box>
 
-      <Box className="director-reviewed-apps-outer">
-        {renderApplicationsTable()}
-      </Box>
+      <Box id="pms-reviewed-apps-outer">{renderApplicationsTable()}</Box>
     </Box>
   );
 }

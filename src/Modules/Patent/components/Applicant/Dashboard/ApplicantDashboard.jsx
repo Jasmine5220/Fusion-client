@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types";
 import {
   Grid,
   Box,
@@ -15,20 +15,14 @@ import DownloadsSection from "./DownloadsSection";
 
 function ApplicantDashboard({ setActiveTab }) {
   return (
-    <Box
-      style={{
-        width: "100vw",
-        maxWidth: "100%",
-        overflowX: "hidden",
-      }}
-    >
-      {" "}
+    <Box>
       {/* Page Title */}
-      <Text className="title-dashboard">Patent & Copyright Cell Dashboard</Text>
+      <Text id="pms-dashboard-title">Patent & Copyright Dashboard</Text>
+
       {/* Content Below Title */}
-      <Container className="content-container">
+      <Container id="pms-dashboard-content-container">
         {/* Feature Description */}
-        <Text mt="sm" mb="lg" className="feature-text">
+        <Text mt="sm" mb="lg" pb="lg">
           Welcome to the Patent Application Management System. This platform
           enables you to efficiently manage your patent applications, monitor
           their progress, and access essential resources. Please follow the
@@ -36,13 +30,13 @@ function ApplicantDashboard({ setActiveTab }) {
         </Text>
 
         {/* Feature Points */}
-        <Box className="feature-box-container">
+        <Box id="pms-dashboard-feature-box-container">
           <Grid>
             <Grid.Col span={12}>
-              <Box className="feature-box-with-hover">
-                <ClipboardText size={28} className="feature-icon" />
+              <Box id="pms-dashboard-feature-box-with-hover">
+                <ClipboardText size={28} id="pms-dashboard-feature-icon" />
                 <Text>
-                  <span className="feature-box-title">
+                  <span id="pms-dashboard-feature-box-title">
                     Application Tracking:{" "}
                   </span>
                   Monitor the status of your patent applications with real-time
@@ -51,10 +45,10 @@ function ApplicantDashboard({ setActiveTab }) {
               </Box>
             </Grid.Col>
             <Grid.Col span={12}>
-              <Box className="feature-box-with-hover">
-                <FilePlus size={28} className="feature-icon" />
+              <Box id="pms-dashboard-feature-box-with-hover">
+                <FilePlus size={28} id="pms-dashboard-feature-icon" />
                 <Text>
-                  <span className="feature-box-title">
+                  <span id="pms-dashboard-feature-box-title">
                     Structured Process:{" "}
                   </span>
                   Follow our systematic approach for completing patent
@@ -63,10 +57,10 @@ function ApplicantDashboard({ setActiveTab }) {
               </Box>
             </Grid.Col>
             <Grid.Col span={12}>
-              <Box className="feature-box-with-hover">
-                <Archive size={28} className="feature-icon" />
+              <Box id="pms-dashboard-feature-box-with-hover">
+                <Archive size={28} id="pms-dashboard-feature-icon" />
                 <Text>
-                  <span className="feature-box-title">
+                  <span id="pms-dashboard-feature-box-title">
                     Resource Management:{" "}
                   </span>
                   Access comprehensive documentation, guidelines, and forms
@@ -77,17 +71,17 @@ function ApplicantDashboard({ setActiveTab }) {
           </Grid>
         </Box>
 
-        <Divider className="dashboard-divider" />
+        <Divider id="pms-dashboard-divider" />
 
         {/* Application Workflow */}
-        <Container className="workflow-container">
-          <Text className="dashboard-section-title" mb="lg">
+        <Container id="pms-dashboard-workflow-container">
+          <Text id="pms-dashboard-section-title" mb="lg">
             Application Workflow
           </Text>
 
           {/* Horizontal Progress Bar for Larger Screens */}
           <Box
-            className="status-progress-container"
+            id="pms-status-progress-container"
             display={{ base: "none", sm: "block" }}
             style={{ position: "relative" }}
           >
@@ -177,10 +171,10 @@ function ApplicantDashboard({ setActiveTab }) {
 
           {/* Vertical Progress Bar for Mobile Screens */}
           <Box
-            className="mobile-progress-container"
+            id="pms-dashboard-mobile-progress-container"
             display={{ base: "flex", sm: "none" }}
           >
-            <Box className="mobile-progress-bar">
+            <Box id="pms-dashboard-mobile-progress-bar">
               <Progress
                 size="xl"
                 radius="lg"
@@ -197,7 +191,7 @@ function ApplicantDashboard({ setActiveTab }) {
                 style={{ height: "300px" }}
               />
             </Box>
-            <Box className="mobile-progress-labels">
+            <Box id="pms-dashboard-mobile-progress-labels">
               {[
                 { label: "Submitted", color: "#b3cde0" },
                 { label: "PCCAdmin", color: "#8cb3d9" },
@@ -207,9 +201,9 @@ function ApplicantDashboard({ setActiveTab }) {
                 { label: "Search Report", color: "#003366" },
                 { label: "Patent Filed", color: "black" },
               ].map((step, index) => (
-                <Box key={index} className="mobile-progress-label">
+                <Box key={index} id="pms-dashboard-mobile-progress-label">
                   <Box
-                    className="mobile-progress-dot"
+                    id="pms-dashboard-mobile-progress-dot"
                     style={{ backgroundColor: step.color }}
                   />
                   <Text>{step.label}</Text>
@@ -218,19 +212,23 @@ function ApplicantDashboard({ setActiveTab }) {
             </Box>
           </Box>
         </Container>
-        <Divider className="dashboard-divider" />
+
+        <Divider id="pms-dashboard-divider" />
+
         {/* Downloads Section */}
         <DownloadsSection />
       </Container>
+
       {/* Dashboard Sections */}
-      <Grid mt="xl" className="dashboard-grid">
+      <Grid mt="xl" id="pms-dashboard-grid">
         {/* Submit New Application */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
-          <Box className="dashboard-cards">
-            <Text className="dashboard-card-title">
-              <FilePlus size={20} className="icon" /> Submit New Application
+          <Box id="pms-dashboard-cards">
+            <Text id="pms-dashboard-card-title">
+              <FilePlus size={20} id="pms-dashboard-icon" /> Submit New
+              Application
             </Text>
-            <Divider className="card-divider" />
+            <Divider id="pms-dashboard-card-divider" />
             <Text size="sm" mt="sm">
               Initiate the patent application process through our comprehensive
               submission system.
@@ -241,7 +239,6 @@ function ApplicantDashboard({ setActiveTab }) {
               mt="md"
               size="sm"
               onClick={() => setActiveTab("1")}
-              className="markReadButton"
             >
               Begin Application
             </Button>
@@ -250,11 +247,12 @@ function ApplicantDashboard({ setActiveTab }) {
 
         {/* View Applications */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
-          <Box className="dashboard-cards">
-            <Text className="dashboard-card-title">
-              <ClipboardText size={20} className="icon" /> View Applications
+          <Box id="pms-dashboard-cards">
+            <Text id="pms-dashboard-card-title">
+              <ClipboardText size={20} id="pms-dashboard-icon" /> View
+              Applications
             </Text>
-            <Divider className="card-divider" />
+            <Divider id="pms-dashboard-card-divider" />
             <Text size="sm" mt="sm">
               Access and monitor the status of all your submitted patent
               applications.
@@ -265,7 +263,6 @@ function ApplicantDashboard({ setActiveTab }) {
               mt="md"
               size="sm"
               onClick={() => setActiveTab("2")}
-              className="markReadButton"
             >
               View Applications
             </Button>
@@ -274,11 +271,11 @@ function ApplicantDashboard({ setActiveTab }) {
 
         {/* Saved Drafts */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
-          <Box className="dashboard-cards">
-            <Text className="dashboard-card-title">
-              <Archive size={20} className="icon" /> Saved Drafts
+          <Box id="pms-dashboard-cards">
+            <Text id="pms-dashboard-card-title">
+              <Archive size={20} id="pms-dashboard-icon" /> Saved Drafts
             </Text>
-            <Divider className="card-divider" />
+            <Divider id="pms-dashboard-card-divider" />
             <Text size="sm" mt="sm">
               Continue working on applications that have been saved as drafts.
             </Text>
@@ -288,7 +285,6 @@ function ApplicantDashboard({ setActiveTab }) {
               mt="md"
               size="sm"
               onClick={() => setActiveTab("3")}
-              className="markReadButton"
             >
               Access Drafts
             </Button>
@@ -297,11 +293,11 @@ function ApplicantDashboard({ setActiveTab }) {
 
         {/* Notifications */}
         <Grid.Col span={{ base: 12, sm: 6 }}>
-          <Box className="dashboard-cards">
-            <Text className="dashboard-card-title">
-              <Bell size={20} className="icon" /> Notifications
+          <Box id="pms-dashboard-cards">
+            <Text id="pms-dashboard-card-title">
+              <Bell size={20} id="icon" /> Notifications
             </Text>
-            <Divider className="card-divider" />
+            <Divider id="pms-dashboard-card-divider" />
             <Text size="sm" mt="sm">
               Receive and review important updates regarding your patent
               applications.
@@ -312,7 +308,6 @@ function ApplicantDashboard({ setActiveTab }) {
               mt="md"
               size="sm"
               onClick={() => setActiveTab("4")}
-              className="markReadButton"
             >
               View Notifications
             </Button>

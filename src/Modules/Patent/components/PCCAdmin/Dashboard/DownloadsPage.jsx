@@ -69,22 +69,22 @@ function DownloadsPage() {
   return (
     <Container
       size="xl"
-      className="downloads-container"
+      id="pms-pcc-downloads-container"
       style={{ position: "relative" }}
     >
       <LoadingOverlay visible={loading} overlayBlur={2} />
 
-      <Text align="center" className="downloads-title" mb={20}>
+      <Text align="center" id="pms-pcc-downloads-title" mb={20}>
         Download Forms and Documents
       </Text>
-      <Text align="center" className="downloads-description" mb={20}>
+      <Text align="center" id="pms-pcc-downloads-description" mb={20}>
         You can review the document title and click the "Download" button to
         access the desired file.
       </Text>
 
       {/* Add Document Form */}
-      <div className="add-document-form">
-        <Text className="add-document-form-title">Add New Document</Text>
+      <div id="pms-pcc-add-document-form">
+        <Text id="pms-pcc-add-document-form-title">Add New Document</Text>
         <Group spacing="sm">
           <TextInput
             placeholder="Document Title"
@@ -106,7 +106,7 @@ function DownloadsPage() {
             onClick={handleAddDocument}
             color="green"
             leftIcon={<Plus size={16} />}
-            className="add-document-button"
+            id="pms-pcc-add-document-button"
           >
             Add
           </Button>
@@ -114,7 +114,7 @@ function DownloadsPage() {
       </div>
 
       <div style={{ overflowX: "auto", width: "100%" }}>
-        <table className="downloads-table">
+        <table id="pms-pcc-downloads-table">
           <thead>
             <tr>
               <th style={{ width: "8%" }}>S.No.</th>
@@ -135,7 +135,7 @@ function DownloadsPage() {
                     target="_blank"
                     color="blue"
                     variant="outline"
-                    className="download-button"
+                    id="pms-pcc-download-button"
                     fullWidth
                   >
                     <ArrowCircleDown size={16} style={{ marginRight: "8px" }} />
@@ -148,7 +148,7 @@ function DownloadsPage() {
                     variant="outline"
                     onClick={() => handleDeleteDocument(download.id)}
                     fullWidth
-                    className="delete-button"
+                    id="pms-pcc-delete-button"
                   >
                     <Trash size={16} />
                   </Button>

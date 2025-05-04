@@ -1,22 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Card,
-  Button,
-  Text,
-  Box,
-  Divider,
-  Center,
-  ThemeIcon,
-} from "@mantine/core";
+import { Card, Button, Text, Box, Center, ThemeIcon } from "@mantine/core";
 import { ArrowRight, FileText } from "phosphor-react";
 import "../../../style/Applicant/ApplicationDraft.css";
 
 // Empty state component
 function EmptyDraftsState({ onStartNew }) {
   return (
-    <Card className="saved-draft-card empty-state-card">
-      <Center style={{ flexDirection: "column", padding: "16px 12px" }}>
+    <Card id="patent-system-saved-draft-card">
+      <Center style={{ flexDirection: "column", padding: "14px 12px" }}>
         <ThemeIcon
           size="lg"
           radius="xl"
@@ -32,12 +24,12 @@ function EmptyDraftsState({ onStartNew }) {
         <Text size="xs" align="center" style={{ marginBottom: 6 }}>
           You haven't saved any patent application drafts yet.
         </Text>
-        <Divider style={{ width: "100%", margin: "10px 0" }} />
         <Button
           variant="outline"
           leftIcon={<ArrowRight size={14} />}
           onClick={onStartNew}
-          size="xs"
+          size="sm"
+          style={{ width: "100%" }}
         >
           Start New Application
         </Button>
@@ -53,12 +45,12 @@ EmptyDraftsState.propTypes = {
 // Main component
 function SavedDraftsPage({ setActiveTab }) {
   return (
-    <Box style={{ padding: "16px" }}>
-      <Text className="draft-header-text" size="xl" weight={700}>
+    <Box style={{ width: "100%" }}>
+      <Text id="patent-system-draft-header-text" size="xl" weight={700}>
         Saved Drafts
       </Text>
 
-      <Box className="draft-app-container">
+      <Box id="patent-system-draft-app-container">
         <EmptyDraftsState onStartNew={() => setActiveTab("1.1")} />
       </Box>
     </Box>

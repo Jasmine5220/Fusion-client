@@ -57,9 +57,10 @@ function ManageAttorneys() {
     setIsAddingNewAttorney(false);
   };
 
-  const handleBackToList = () => {
+  const handleBackToList = async () => {
     setSelectedAttorney(null);
     setIsAddingNewAttorney(false);
+    await fetchAttorneys(); // 💡 Fetch updated data
   };
 
   const handleAddAttorney = async (newAttorney) => {
@@ -141,18 +142,18 @@ function ManageAttorneys() {
   }
 
   return (
-    <Container className="manage-attorneys-container">
+    <Container id="pms-pcc-manage-attorneys-container">
       {!selectedAttorney ? (
         <>
-          <Text className="page-heading-title">Manage Attorney Details</Text>
+          <Text id="pms-pcc-page-heading-title">Manage Attorney Details</Text>
 
           {/* Action Buttons */}
-          <div className="button-group">
+          <div id="pms-pcc-button-group">
             <Button
               variant="outline"
               color="blue"
               onClick={handleAddNewClick}
-              className="add-new-attorney-button"
+              id="pms-pcc-add-new-attorney-button"
             >
               + Add New Attorney
             </Button>
@@ -161,21 +162,21 @@ function ManageAttorneys() {
               variant="outline"
               color="red"
               onClick={toggleRemovalMode}
-              className="remove-attorney-button"
+              id="pms-pcc-remove-attorney-button"
             >
               {isRemovalMode ? "Cancel Remove" : "Remove Attorney"}
             </Button>
           </div>
 
-          <Paper className="manage-attorney-table-card">
+          <Paper id="pms-pcc-manage-attorney-table-card">
             <ScrollArea>
               <Table
                 highlightOnHover
                 striped
                 withBorder
-                className="manage-attorney-styledTable"
+                id="pms-pcc-manage-attorney-styledTable"
               >
-                <thead className="fusionTableHeader">
+                <thead id="pms-pcc-fusionTableHeader">
                   <tr>
                     {isRemovalMode && <th>Select</th>}
                     <th>Name</th>
@@ -202,7 +203,7 @@ function ManageAttorneys() {
                               checked={selectedRows.has(attorney.id)}
                               onChange={() => handleRowSelect(attorney.id)}
                             />
-                            {/* <span className="visually-hidden">
+                            {/* <span id="pms-pcc-visually-hidden">
                               Select Attorney
                             </span> */}
                           </label>
@@ -220,7 +221,7 @@ function ManageAttorneys() {
                           variant="subtle"
                           color="blue"
                           onClick={() => handleViewDetails(attorney)}
-                          className="view-details-button"
+                          id="pms-pcc-view-details-button"
                         >
                           View Details
                         </Button>
@@ -238,7 +239,7 @@ function ManageAttorneys() {
               variant="filled"
               color="red"
               onClick={handleRemoveAttorneys}
-              className="remove-selected-button"
+              id="pms-pcc-remove-selected-button"
             >
               Remove Selected ({selectedRows.size})
             </Button>

@@ -1,28 +1,33 @@
-/* NewAttorneyForm.css */
+/* NewAttorneyForm#pcc-css */
 
-.new-attorney-form-container {
-  margin: 0 auto;
-  padding: 32px;
+#pcc-new-attorney-form-container {
+  margin: 0 50px;
+  padding: 40px 32px;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1800px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
 }
 
-.new-attorney-form-header {
+#pcc-new-attorney-form-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 32px;
-  position: relative;
   padding-bottom: 16px;
   border-bottom: 1px solid #e9ecef;
 }
 
-.new-attorney-back-btn {
+#pcc-new-attorney-back-btn {
   padding: 8px 16px;
   font-weight: 500;
+  font-size: 14px;
   color: #0073e6;
   border: 1px solid #0073e6;
-  background-color: transparent;
-  border-radius: 4px;
+  background-color: white;
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -31,41 +36,41 @@
   cursor: pointer;
 }
 
-.new-attorney-back-btn:hover {
-  background-color: transparent;
-  color: #333;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+#pcc-new-attorney-back-btn:hover {
+  background-color: #0073e6;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.new-attorney-form-title {
-  font-size: 24px;
+#pcc-new-attorney-form-title {
+  font-size: 28px;
   font-weight: 600;
-  color: #333;
-  margin: 0 auto;
-  text-align: left;
-  flex: 1;
+  color: #212529;
+  margin: 0;
 }
 
-.new-attorney-form-content {
+#pcc-new-attorney-form-content {
   display: flex;
   gap: 48px;
-  margin-bottom: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
 }
 
-.new-attorney-form-section {
+#pcc-new-attorney-form-section {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
+  min-width: 300px;
 }
 
-.new-attorney-form-field {
+#pcc-new-attorney-form-field {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
-.new-attorney-form-label {
+#pcc-new-attorney-form-label {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -74,86 +79,79 @@
   color: #495057;
 }
 
-.new-attorney-form-icon {
+#pcc-new-attorney-form-icon {
   color: #228be6;
   flex-shrink: 0;
 }
 
-.new-attorney-form-input {
-  width: 100%;
-}
-
-.new-attorney-form-input .mantine-TextInput-input {
+#pcc-new-attorney-form-input input {
   height: 40px;
   font-size: 14px;
-  border-radius: 4px;
+  border-radius: 6px;
   border: 1px solid #ced4da;
-  transition: border-color 0.2s ease;
   padding: 0 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.new-attorney-form-input .mantine-TextInput-input:focus {
+#pcc-new-attorney-form-input input:focus {
   border-color: #228be6;
-  box-shadow: 0 0 0 2px rgba(34, 139, 230, 0.1);
+  box-shadow: 0 0 0 3px rgba(34, 139, 230, 0.15);
 }
 
-.new-attorney-form-footer {
+#pcc-new-attorney-form-footer {
   display: flex;
   justify-content: center;
-  padding-top: 32px;
+  padding-top: 24px;
   border-top: 1px solid #e9ecef;
-  margin-top: 16px;
 }
 
-.new-attorney-form-submit-btn {
+#pcc-new-attorney-form-submit-btn {
   width: 240px;
-  height: 40px;
-  font-size: 14px;
-  font-weight: 500;
+  height: 44px;
+  font-size: 15px;
+  font-weight: 600;
   background-color: #228be6;
-  color: white;
+  color: #fff;
   border: none;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-.new-attorney-form-submit-btn:hover {
+#pcc-new-attorney-form-submit-btn:hover {
   background-color: #1c7ed6;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
 /* Modal specific styles */
-.new-attorney-modal .mantine-Modal-body {
+#pcc-new-attorney-modal #pcc-mantine-Modal-body {
   padding: 24px;
 }
 
-.new-attorney-modal .mantine-Modal-title {
+#pcc-new-attorney-modal #pcc-mantine-Modal-title {
   font-size: 20px;
   font-weight: 600;
   color: #333;
 }
 
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
-  .new-attorney-form-container {
+  #pcc-new-attorney-form-container {
     padding: 24px;
   }
 
-  .new-attorney-form-content {
+  #pcc-new-attorney-form-content {
     flex-direction: column;
-    gap: 32px;
-  }
-
-  .new-attorney-form-section {
     gap: 24px;
   }
 
-  .new-attorney-form-title {
-    font-size: 20px;
+  #pcc-new-attorney-form-title {
+    font-size: 22px;
   }
 
-  .new-attorney-form-submit-btn {
+  #pcc-new-attorney-form-submit-btn {
     width: 100%;
     max-width: 240px;
   }
 }
-  

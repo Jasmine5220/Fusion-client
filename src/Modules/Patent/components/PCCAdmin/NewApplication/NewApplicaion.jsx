@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Button,
-  ScrollArea,
-  Table,
-  Text,
-  Loader,
-  Alert,
-  Group,
-} from "@mantine/core";
+import { Box, Button, Table, Text, Loader, Alert, Group } from "@mantine/core";
 import { Eye, ArrowsClockwise } from "@phosphor-icons/react";
 import axios from "axios";
 import ViewNewApplication from "./ViewNewApplication";
@@ -33,96 +24,18 @@ function NewApplication() {
     "Actions",
   ];
 
-  // Styles
-  const styles = {
-    container: {
-      position: "relative",
-      width: "100%",
-      maxWidth: "100%",
-    },
-    title: {
-      fontSize: "24px",
-      fontWeight: 600,
-      textAlign: "left",
-      margin: "0 auto",
-      paddingLeft: "0",
-      position: "relative",
-    },
-    outerContainer: {
-      maxWidth: "100%",
-      padding: "12px 50px",
-      backgroundColor: "transparent",
-      borderRadius: "12px",
-      marginBottom: "20px",
-      boxShadow: "0px 5px 15px rgba(0, 0, 0, 0)",
-    },
-    tableWrapper: {
-      overflowX: "auto",
-      width: "100%",
-      backgroundColor: "inherit",
-      paddingBottom: 0,
-      marginBottom: 0,
-    },
-    table: {
-      width: "100%",
-      minWidth: "100%",
-      fontSize: "14px",
-      backgroundColor: "#ffffff",
-      borderSpacing: 0,
-      borderCollapse: "separate",
-      borderRadius: "8px",
-      overflow: "hidden",
-      transition: "all 0.3s ease",
-      boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.05)",
-      marginRight: "50px",
-    },
-    tableHeader: {
-      padding: "16px 20px",
-      textAlign: "left",
-      backgroundColor: "#f2f2f2",
-      fontWeight: 600,
-      color: "#444",
-      position: "sticky",
-      top: 0,
-      zIndex: 10,
-      transition: "background-color 0.2s ease",
-      whiteSpace: "nowrap",
-    },
-    tableRow: {
-      backgroundColor: "#ffffff",
-      transition: "all 0.2s ease",
-      "&:hover": {
-        backgroundColor: "#f8fbff",
-        transform: "translateY(-1px)",
-        boxShadow: "0 3px 6px rgba(0, 0, 0, 0.05)",
-      },
-    },
-    tableCell: {
-      padding: "14px 20px",
-      borderTop: "1px solid #f0f0f0",
-      verticalAlign: "middle",
-    },
-    viewButton: {
-      display: "flex",
-      alignItems: "center",
-      gap: "6px",
-      fontWeight: 600,
-      transition: "all 0.2s ease",
-      borderRadius: "6px",
-      padding: "8px 12px",
-      "&:hover": {
-        transform: "translateY(-2px)",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      },
-    },
-    loaderContainer: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "40px 0",
-    },
-  };
+  // Assign percent widths to each column (total 100%)
+  const columnPercents = [
+    "5%", // S.No.
+    "12%", // Application Number
+    "10%", // Token Number
+    "22%", // Patent Title
+    "11%", // Inventor 1
+    "10%", // Designation
+    "10%", // Department
+    "10%", // Date
+    "10%", // Actions
+  ];
 
   const fetchApplications = async (showRefresh = false) => {
     try {
@@ -131,7 +44,6 @@ function NewApplication() {
       } else {
         setLoading(true);
       }
-
       const response = await axios.get(
         `${host}/patentsystem/pccAdmin/applications/new/`,
         {
@@ -140,8 +52,6 @@ function NewApplication() {
           },
         },
       );
-
-      // Transform data into array format
       const applicationsArray = Object.entries(response.data.applications).map(
         ([appId, appData]) => ({
           id: appId,
@@ -149,11 +59,9 @@ function NewApplication() {
           ...appData,
         }),
       );
-
       setApplications(applicationsArray);
       setError(null);
     } catch (err) {
-      console.error("Error fetching applications:", err);
       setError(
         err.response?.data?.message ||
           "Unable to fetch applications. Please try again later.",
@@ -185,7 +93,15 @@ function NewApplication() {
   const renderApplicationsTable = () => {
     if (loading) {
       return (
-        <Box style={styles.loaderContainer}>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "40px 0",
+          }}
+        >
           <Loader size="lg" color="blue" />
           <Text mt={10}>Loading applications...</Text>
         </Box>
@@ -209,148 +125,164 @@ function NewApplication() {
     }
 
     return (
-      <ScrollArea style={{ height: "calc(100vh - 250px)" }}>
-        <Table highlightOnHover striped withBorder>
-          <thead className="fusionTableHeader">
-            <tr>
-              {columnNames.map((columnName, index) => (
-                <th
-                  key={index}
-                  style={{
-                    padding: "12px 16px",
-                    fontWeight: 600,
-                    color: "#333",
-                    textAlign: "left",
-                    borderBottom: "2px solid #dee2e6",
-                    backgroundColor: "#f8f9fa",
-                  }}
-                >
-                  {columnName}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {applications.map((application, index) => (
-              <tr
-                key={application.id}
+      <Table
+        striped
+        highlightOnHover
+        withBorder
+        style={{
+          width: "100%",
+          tableLayout: "fixed", // force columns to squeeze
+          fontSize: "14px",
+        }}
+      >
+        <thead>
+          <tr>
+            {columnNames.map((col, idx) => (
+              <th
+                key={col}
                 style={{
-                  backgroundColor: index % 2 === 0 ? "#ffffff" : "#f8f9fa",
+                  width: columnPercents[idx],
+                  padding: "8px 6px",
+                  fontWeight: 600,
+                  color: "#333",
+                  textAlign: "left",
+                  background: "#f8f9fa",
+                  borderBottom: "2px solid #dee2e6",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
               >
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    color: "#333",
-                    borderBottom: "1px solid #dee2e6",
-                  }}
-                >
-                  {index + 1}
-                </td>
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    color: "#333",
-                    borderBottom: "1px solid #dee2e6",
-                  }}
-                >
-                  {application.id}
-                </td>
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    color: "#333",
-                    borderBottom: "1px solid #dee2e6",
-                  }}
-                >
-                  {application.token_no || "Not Assigned"}
-                </td>
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    color: "#333",
-                    borderBottom: "1px solid #dee2e6",
-                  }}
-                  title={application.title}
-                >
-                  {application.title}
-                </td>
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    color: "#333",
-                    borderBottom: "1px solid #dee2e6",
-                  }}
-                >
-                  {application.submitted_by}
-                </td>
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    color: "#333",
-                    borderBottom: "1px solid #dee2e6",
-                  }}
-                >
-                  {application.designation}
-                </td>
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    color: "#333",
-                    borderBottom: "1px solid #dee2e6",
-                  }}
-                >
-                  {application.department}
-                </td>
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    color: "#333",
-                    borderBottom: "1px solid #dee2e6",
-                  }}
-                >
-                  {application.submitted_on}
-                </td>
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    color: "#333",
-                    borderBottom: "1px solid #dee2e6",
-                  }}
-                >
-                  <Group position="left" spacing="xs">
-                    <Button
-                      variant="outline"
-                      color="blue"
-                      size="sm"
-                      onClick={() => handleViewClick(application.id)}
-                      style={{
-                        backgroundColor: "#fff",
-                        color: "#0073e6",
-                        border: "1px solid #0073e6",
-                        fontWeight: 500,
-                        transition: "all 0.2s ease",
-                        ":hover": {
-                          backgroundColor: "#0073e6",
-                          color: "#fff",
-                        },
-                      }}
-                    >
-                      <Eye size={16} />
-                      <span>View</span>
-                    </Button>
-                  </Group>
-                </td>
-              </tr>
+                {col}
+              </th>
             ))}
-          </tbody>
-        </Table>
-      </ScrollArea>
+          </tr>
+        </thead>
+        <tbody>
+          {applications.map((application, index) => (
+            <tr
+              key={application.id}
+              style={{
+                backgroundColor: index % 2 === 0 ? "#fff" : "#f6f6fb",
+              }}
+            >
+              <td
+                style={{
+                  width: columnPercents[0],
+                  padding: "8px 6px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {index + 1}
+              </td>
+              <td
+                style={{
+                  width: columnPercents[1],
+                  padding: "8px 6px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {application.id}
+              </td>
+              <td
+                style={{
+                  width: columnPercents[2],
+                  padding: "8px 6px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {application.token_no || "Not Assigned"}
+              </td>
+              <td
+                style={{
+                  width: columnPercents[3],
+                  padding: "8px 6px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+                title={application.title}
+              >
+                {application.title}
+              </td>
+              <td
+                style={{
+                  width: columnPercents[4],
+                  padding: "8px 6px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {application.submitted_by}
+              </td>
+              <td
+                style={{
+                  width: columnPercents[5],
+                  padding: "8px 6px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {application.designation}
+              </td>
+              <td
+                style={{
+                  width: columnPercents[6],
+                  padding: "8px 6px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {application.department}
+              </td>
+              <td
+                style={{
+                  width: columnPercents[7],
+                  padding: "8px 6px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {application.submitted_on}
+              </td>
+              <td style={{ width: columnPercents[8], padding: "8px 6px" }}>
+                <Group position="left" spacing="xs">
+                  <Button
+                    variant="outline"
+                    color="blue"
+                    size="sm"
+                    onClick={() => handleViewClick(application.id)}
+                  >
+                    <Eye size={16} />
+                    <span>View</span>
+                  </Button>
+                </Group>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     );
   };
 
   return (
-    <Box style={styles.container}>
+    <Box
+      style={{
+        position: "relative",
+        width: "100%",
+        maxWidth: "100%",
+      }}
+    >
       {!selectedApplicationId ? (
         <>
           <Text
@@ -379,7 +311,18 @@ function NewApplication() {
             </Button>
           </Group>
 
-          <Box style={styles.outerContainer}>{renderApplicationsTable()}</Box>
+          <Box
+            style={{
+              maxWidth: "100%",
+              padding: "12px 50px",
+              backgroundColor: "transparent",
+              borderRadius: "12px",
+              marginBottom: "20px",
+              boxShadow: "0px 5px 15px rgba(0, 0, 0, 0)",
+            }}
+          >
+            {renderApplicationsTable()}
+          </Box>
         </>
       ) : (
         <ViewNewApplication

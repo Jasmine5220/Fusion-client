@@ -45,144 +45,137 @@ function InsightsPage() {
   };
 
   return (
-    <Container style={{ padding: "0px", marginLeft: "0px", marginTop: "0px" }}>
-      <Text order={2} align="left" className="overview-title">
+    <Container id="pms-insights-page">
+      <Text order={2} align="left" id="pms-page-title">
         Applications Overview - {selectedYear}
       </Text>
-      <Text
-        align="left"
-        size="sm"
-        mb="lg"
-        className="dashboard-overview-description"
-      >
+      <Text align="left" size="sm" mb="lg" id="pms-description">
         Select a year from the dropdown below to view the statistics of
         applications for that year. You can also download the data as a CSV file
         for further analysis.
       </Text>
-      <div className="insights-page">
-        <div className="filter">
-          <Text size="sm" weight={600}>
-            Select Year:
-          </Text>
-          <Select
-            id="year-select"
-            data={Object.keys(applicationsByYear)}
-            value={selectedYear}
-            onChange={(value) => setSelectedYear(value)}
-            radius="md"
-            size="sm"
-            styles={{
-              dropdown: { padding: "10px" },
-            }}
-          />
-        </div>
 
-        <div className="insights-content-section">
-          <div className="chart-section">
-            <svg width="300" height="300" viewBox="0 0 100 100">
-              {
-                applications.reduce(
-                  (acc, app, index) => {
-                    const { startAngle } = acc;
-                    const sweepAngle = (app.count / totalApplications) * 360;
-                    const endAngle = startAngle + sweepAngle;
+      <div id="pms-filter">
+        <Text size="sm" weight={600}>
+          Select Year:
+        </Text>
+        <Select
+          id="pms-year-select"
+          data={Object.keys(applicationsByYear)}
+          value={selectedYear}
+          onChange={(value) => setSelectedYear(value)}
+          radius="md"
+          size="sm"
+        />
+      </div>
 
-                    const largeArcFlag = sweepAngle > 180 ? 1 : 0;
-                    const [startX, startY] = [
-                      50 + 40 * Math.cos((Math.PI * startAngle) / 180),
-                      50 + 40 * Math.sin((Math.PI * startAngle) / 180),
-                    ];
-                    const [endX, endY] = [
-                      50 + 40 * Math.cos((Math.PI * endAngle) / 180),
-                      50 + 40 * Math.sin((Math.PI * endAngle) / 180),
-                    ];
-
-                    const midAngle = startAngle + sweepAngle / 2;
-                    const [textX, textY] = [
-                      50 + 25 * Math.cos((Math.PI * midAngle) / 180),
-                      50 + 25 * Math.sin((Math.PI * midAngle) / 180),
-                    ];
-
-                    acc.slices.push(
-                      <g key={index}>
-                        <path
-                          d={`M50,50 L${startX},${startY} A40,40 0 ${largeArcFlag} 1 ${endX},${endY} Z`}
-                          fill={app.color}
-                        />
-                        <text
-                          x={textX}
-                          y={textY}
-                          fontSize="4"
-                          fill="#fff"
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                        >
-                          {((app.count / totalApplications) * 100).toFixed(1)}%
-                        </text>
-                      </g>,
-                    );
-
-                    acc.startAngle = endAngle;
-                    return acc;
-                  },
-                  { slices: [], startAngle: 0 },
-                ).slices
-              }
-            </svg>
-
-            <div className="legend">
-              {applications.map((app, index) => (
-                <div key={index} className="legend-item">
-                  <div
-                    className="legend-color"
-                    style={{ backgroundColor: app.color }}
-                  />
-                  <span className="legend-label">{app.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="table-section">
-            <Text className="table-title" align="center" mb="md">
-              Applications Data
-            </Text>
-            <Table highlightOnHover>
-              <thead>
-                <tr>
-                  <th>Status</th>
-                  <th>Count</th>
-                  <th>Percentage</th>
-                </tr>
-              </thead>
-              <tbody>
-                {applications.map((app, index) => (
-                  <tr key={index}>
-                    <td>{app.label}</td>
-                    <td>{app.count}</td>
-                    <td>
-                      {((app.count / totalApplications) * 100).toFixed(2)}%
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        </div>
-
-        <br />
-        <div className="download-csv-button">
-          <Button
-            radius="md"
-            size="md"
-            variant="outline"
-            leftIcon={<DownloadSimple size={16} />}
-            onClick={handleDownload}
-            className="download-button"
+      <div id="pms-insights-content">
+        <div id="pms-chart-section">
+          <svg
+            width="100%"
+            height="300"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="xMidYMid meet"
           >
-            Download CSV
-          </Button>
+            {
+              applications.reduce(
+                (acc, app, index) => {
+                  const { startAngle } = acc;
+                  const sweepAngle = (app.count / totalApplications) * 360;
+                  const endAngle = startAngle + sweepAngle;
+
+                  const largeArcFlag = sweepAngle > 180 ? 1 : 0;
+                  const [startX, startY] = [
+                    50 + 40 * Math.cos((Math.PI * startAngle) / 180),
+                    50 + 40 * Math.sin((Math.PI * startAngle) / 180),
+                  ];
+                  const [endX, endY] = [
+                    50 + 40 * Math.cos((Math.PI * endAngle) / 180),
+                    50 + 40 * Math.sin((Math.PI * endAngle) / 180),
+                  ];
+
+                  const midAngle = startAngle + sweepAngle / 2;
+                  const [textX, textY] = [
+                    50 + 25 * Math.cos((Math.PI * midAngle) / 180),
+                    50 + 25 * Math.sin((Math.PI * midAngle) / 180),
+                  ];
+
+                  acc.slices.push(
+                    <g key={index}>
+                      <path
+                        d={`M50,50 L${startX},${startY} A40,40 0 ${largeArcFlag} 1 ${endX},${endY} Z`}
+                        fill={app.color}
+                      />
+                      <text
+                        x={textX}
+                        y={textY}
+                        fontSize="4"
+                        fill="#fff"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                      >
+                        {((app.count / totalApplications) * 100).toFixed(1)}%
+                      </text>
+                    </g>,
+                  );
+
+                  acc.startAngle = endAngle;
+                  return acc;
+                },
+                { slices: [], startAngle: 0 },
+              ).slices
+            }
+          </svg>
+
+          <div id="pms-legend">
+            {applications.map((app, index) => (
+              <div key={index} id="pms-legend-item">
+                <div
+                  id="pms-legend-color"
+                  style={{ backgroundColor: app.color }}
+                />
+                <span id="pms-legend-label">{app.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
+
+        <div id="pms-table-section">
+          <Text id="pms-table-title" align="center" mb="md">
+            Applications Data
+          </Text>
+          <Table highlightOnHover>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Count</th>
+                <th>Percentage</th>
+              </tr>
+            </thead>
+            <tbody>
+              {applications.map((app, index) => (
+                <tr key={index}>
+                  <td>{app.label}</td>
+                  <td>{app.count}</td>
+                  <td>{((app.count / totalApplications) * 100).toFixed(2)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      </div>
+
+      <div id="pms-download-csv-button">
+        <Button
+          radius="md"
+          size="md"
+          variant="outline"
+          leftIcon={<DownloadSimple size={16} />}
+          onClick={handleDownload}
+          id="pms-download-button"
+        >
+          Download CSV
+        </Button>
       </div>
     </Container>
   );

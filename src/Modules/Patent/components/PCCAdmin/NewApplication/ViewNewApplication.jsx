@@ -24,9 +24,9 @@ import { host } from "../../../../../routes/globalRoutes/index.jsx";
 // Field component for detail view
 function FormField({ label, value }) {
   return (
-    <div className="form-field">
-      <Text className="field-label">{label}</Text>
-      <Text className="field-value">{value || "Not provided"}</Text>
+    <div id="pms-pcc-form-field">
+      <Text id="pms-pcc-field-label">{label}</Text>
+      <Text id="pms-pcc-field-value">{value || "Not provided"}</Text>
     </div>
   );
 }
@@ -39,12 +39,12 @@ FormField.propTypes = {
 // Field with download button for direct file URLs
 function FormFieldWithDownload({ label, value, fileUrl, fileLabel }) {
   return (
-    <div className="form-field-with-download">
-      <div className="field-label-container">
-        <Text className="field-label">{label}</Text>
-        <Text className="field-value">{value || "Not provided"}</Text>
+    <div id="pms-pcc-form-field-with-download">
+      <div id="pms-pcc-field-label-container">
+        <Text id="pms-pcc-field-label">{label}</Text>
+        <Text id="pms-pcc-field-value">{value || "Not provided"}</Text>
       </div>
-      <div className="download-button-wrapper">
+      <div id="pms-pcc-download-button-wrapper">
         <FileDownloadButton
           fileUrl={fileUrl}
           label={fileLabel}
@@ -100,8 +100,8 @@ FileDownloadButton.propTypes = {
 // Section component for detail view
 function FormSection({ title, children }) {
   return (
-    <Card className="detail-section" p="lg" radius="md" withBorder mb="md">
-      <Title className="section-title">{title}</Title>
+    <Card id="pms-pcc-detail-section" p="lg" radius="md" withBorder mb="md">
+      <Title id="pms-pcc-section-title">{title}</Title>
       {children}
     </Card>
   );
@@ -354,7 +354,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
 
   if (loading) {
     return (
-      <Container className="loader-container">
+      <Container id="pms-pcc-loader-container">
         <Loader size="lg" color="blue" />
         <Text mt="md">Loading application details...</Text>
       </Container>
@@ -363,7 +363,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
 
   if (error) {
     return (
-      <Container className="error-container">
+      <Container id="pms-pcc-error-container">
         <Alert color="red" title="Error">
           {error}
         </Alert>
@@ -376,7 +376,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
 
   if (!selectedApplication) {
     return (
-      <Container className="error-container">
+      <Container id="pms-pcc-error-container">
         <Alert color="blue" title="No Data">
           No application data found
         </Alert>
@@ -426,7 +426,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
 
   return (
     <Container
-      className={`k-detail-container1 ${isMobile ? "mobile-form-container" : ""}`}
+      id={`pms-pcc-new-app-detail-container1 ${isMobile ? "mobile-form-container" : ""}`}
       size="xl"
       px={0}
       fluid
@@ -458,7 +458,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
         </Button>
 
         <Text
-          className={`detail-page-title ${isMobile ? "mobile-detail-page-title" : ""}`}
+          id={`pms-pcc-detail-page-title ${isMobile ? "mobile-detail-page-title" : ""}`}
           style={{
             fontSize: "24px",
             fontWeight: "600",
@@ -477,11 +477,11 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
       )}
 
       {/* Action buttons at the top of the form */}
-      <Card className="action-buttons-card">
+      <Card id="pms-pcc-action-buttons-card" style={{ margin: "0 50px" }}>
         <Group
           position="center"
           spacing="md"
-          className="action-buttons-group"
+          id="pms-pcc-action-buttons-group"
           style={{ justifyContent: "center" }}
         >
           <Button
@@ -493,7 +493,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
             variant="outline"
             color="blue"
             leftIcon={<Download size={18} />}
-            className="action-button"
+            id="pms-pcc-action-button"
             sx={(theme) => ({
               borderColor: theme.colors.blue[6],
               color: theme.colors.blue[6],
@@ -513,7 +513,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
             color="green"
             leftIcon={<ActionIcon size={18} />}
             onClick={openForwardModal}
-            className="action-button"
+            id="pms-pcc-action-button"
             sx={(theme) => ({
               borderColor: theme.colors.green[6],
               color: theme.colors.green[6],
@@ -533,7 +533,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
             color="orange"
             leftIcon={<ActionIcon size={18} />}
             onClick={openModificationModal}
-            className="action-button"
+            id="pms-pcc-action-button"
             sx={(theme) => ({
               borderColor: theme.colors.orange[6],
               color: theme.colors.orange[6],
@@ -549,8 +549,8 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
         </Group>
       </Card>
 
-      <div className="pcc-form-content">
-        <FormSection title="Application Overview" className="pcc-form-section">
+      <div id="pms-pcc-pcc-form-content">
+        <FormSection title="Application Overview" id="pms-pcc-pcc-form-section">
           <Grid>
             <Grid.Col span={12} md={4}>
               <FormField label="Application ID:" value={application_id} />
@@ -583,11 +583,11 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
         </FormSection>
 
         <FormSection title="Key Dates">
-          <div className="key-dates-container">
-            <div className="key-dates-grid">
-              <div className="key-date-card">
-                <div className="key-date-title">Forwarded to Director</div>
-                <div className="key-date-value">
+          <div id="pms-pcc-key-dates-container">
+            <div id="pms-pcc-key-dates-grid">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Forwarded to Director</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.forwarded_to_director_date
                     ? new Date(
                         dates.forwarded_to_director_date,
@@ -600,9 +600,9 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Director Approval</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Director Approval</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.director_approval_date
                     ? new Date(dates.director_approval_date).toLocaleDateString(
                         "en-US",
@@ -616,9 +616,9 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Patentability Check Start</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Patentability Check Start</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.patentability_check_start_date
                     ? new Date(
                         dates.patentability_check_start_date,
@@ -631,11 +631,11 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">
                   Patentability Check Completed
                 </div>
-                <div className="key-date-value">
+                <div id="pms-pcc-key-date-value">
                   {dates?.patentability_check_completed_date
                     ? new Date(
                         dates.patentability_check_completed_date,
@@ -648,9 +648,9 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Search Report Generated</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Search Report Generated</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.search_report_generated_date
                     ? new Date(
                         dates.search_report_generated_date,
@@ -663,9 +663,9 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Date of Filing</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Date of Filing</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.patent_filed_date
                     ? new Date(dates.patent_filed_date).toLocaleDateString(
                         "en-US",
@@ -679,9 +679,9 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Date of Publication</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Date of Publication</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.patent_published_date
                     ? new Date(dates.patent_published_date).toLocaleDateString(
                         "en-US",
@@ -695,9 +695,9 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Decision Date</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Decision Date</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.decision_date
                     ? new Date(dates.decision_date).toLocaleDateString(
                         "en-US",
@@ -711,9 +711,9 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
                 </div>
               </div>
 
-              <div className="key-date-card">
-                <div className="key-date-title">Final Decision Date</div>
-                <div className="key-date-value">
+              <div id="pms-pcc-key-date-card">
+                <div id="pms-pcc-key-date-title">Final Decision Date</div>
+                <div id="pms-pcc-key-date-value">
                   {dates?.final_decision_date
                     ? new Date(dates.final_decision_date).toLocaleDateString(
                         "en-US",
@@ -874,7 +874,7 @@ function ViewNewApplication({ applicationId, handleBackToList }) {
               {applicants.map((applicant, index) => (
                 <Grid.Col key={index} span={12} md={6}>
                   <Card
-                    className="applicant-card"
+                    id="pms-pcc-applicant-card"
                     p="md"
                     radius="sm"
                     withBorder

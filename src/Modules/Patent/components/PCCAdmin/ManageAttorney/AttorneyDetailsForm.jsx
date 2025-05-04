@@ -101,16 +101,14 @@ function AttorneyForm({ attorneyId, onBack }) {
   }
 
   return (
-    <div className="attorney-details-container">
-      {/* Attorney Details Heading */}
-      <Text className="attorney-details-heading">Details of Attorney</Text>
+    <div id="pms-pcc-attorney-details-container">
       {/* Header with Back and Edit Buttons */}
-      <div className="top-nav-container">
+      <div id="pms-pcc-top-nav-container">
         <Button
           variant="subtle"
           leftIcon={<CaretLeft size={20} weight="bold" />}
           onClick={onBack}
-          className="attorney-back-btn"
+          id="pms-pcc-attorney-back-btn"
         >
           Back
         </Button>
@@ -121,7 +119,7 @@ function AttorneyForm({ attorneyId, onBack }) {
               color="blue"
               leftIcon={<Check size={20} />}
               onClick={handleEditSubmit}
-              className="save-button"
+              id="pms-pcc-save-button"
             >
               Save Changes
             </Button>
@@ -130,7 +128,7 @@ function AttorneyForm({ attorneyId, onBack }) {
               color="red"
               leftIcon={<X size={20} />}
               onClick={handleCancel}
-              className="cancel-button"
+              id="pms-pcc-cancel-button"
             >
               Cancel
             </Button>
@@ -141,7 +139,7 @@ function AttorneyForm({ attorneyId, onBack }) {
             color="blue"
             leftIcon={<PencilSimple size={20} />}
             onClick={() => setIsEditing(true)}
-            className="edit-details-button"
+            id="pms-pcc-edit-details-button"
           >
             Edit Details
           </Button>
@@ -149,7 +147,7 @@ function AttorneyForm({ attorneyId, onBack }) {
       </div>
 
       {/* Attorney Details Grid */}
-      <Box className="attorney-details-grid">
+      <Box id="pms-pcc-attorney-details-grid">
         <div className={`detail-item ${isEditing ? "editing" : ""}`}>
           <Tooltip label="Name of the Attorney" position="right">
             {isEditing ? (
@@ -158,12 +156,12 @@ function AttorneyForm({ attorneyId, onBack }) {
                 name="name"
                 value={updatedData.name}
                 onChange={handleInputChange}
-                className="edit-input"
+                id="pms-pcc-edit-input"
                 required
               />
             ) : (
-              <Text className="attorney-detail">
-                <Briefcase size={20} className="icon" />
+              <Text id="pms-pcc-attorney-detail">
+                <Briefcase size={20} id="pms-pcc-icon" />
                 <strong>Name:</strong> {attorney.name}
               </Text>
             )}
@@ -178,12 +176,12 @@ function AttorneyForm({ attorneyId, onBack }) {
                 name="email"
                 value={updatedData.email}
                 onChange={handleInputChange}
-                className="edit-input"
+                id="pms-pcc-edit-input"
                 required
               />
             ) : (
-              <Text className="attorney-detail">
-                <EnvelopeSimple size={20} className="icon" />
+              <Text id="pms-pcc-attorney-detail">
+                <EnvelopeSimple size={20} id="pms-pcc-icon" />
                 <strong>Email:</strong> {attorney.email}
               </Text>
             )}
@@ -198,11 +196,11 @@ function AttorneyForm({ attorneyId, onBack }) {
                 name="phone"
                 value={updatedData.phone}
                 onChange={handleInputChange}
-                className="edit-input"
+                id="pms-pcc-edit-input"
               />
             ) : (
-              <Text className="attorney-detail">
-                <Phone size={20} className="icon" />
+              <Text id="pms-pcc-attorney-detail">
+                <Phone size={20} id="pms-pcc-icon" />
                 <strong>Phone:</strong> {attorney.phone || "Not Available"}
               </Text>
             )}
@@ -217,11 +215,11 @@ function AttorneyForm({ attorneyId, onBack }) {
                 name="firm_name"
                 value={updatedData.firm_name}
                 onChange={handleInputChange}
-                className="edit-input"
+                id="pms-pcc-edit-input"
               />
             ) : (
-              <Text className="attorney-detail">
-                <Briefcase size={20} className="icon" />
+              <Text id="pms-pcc-attorney-detail">
+                <Briefcase size={20} id="pms-pcc-icon" />
                 <strong>Law Firm:</strong>{" "}
                 {attorney.firm_name || "Not Available"}
               </Text>
@@ -230,16 +228,16 @@ function AttorneyForm({ attorneyId, onBack }) {
         </div>
 
         {/* Assigned Cases Section - Full Width */}
-        <div className="detail-item assigned-cases">
-          <Text className="attorney-detail">
-            <Briefcase size={20} className="icon" />
+        <div id="pms-pcc-detail-item-assigned-cases">
+          <Text id="pms-pcc-attorney-detail">
+            <Briefcase size={20} id="pms-pcc-icon" />
             <strong>Assigned Cases:</strong>{" "}
             {attorney.assigned_applications_count || 0}
           </Text>
           {attorney.applications && attorney.applications.length > 0 ? (
-            <div className="assigned-cases-list">
+            <div id="pms-pcc-assigned-cases-list">
               {attorney.applications.map((app) => (
-                <div key={app.id} className="assigned-case-item">
+                <div key={app.id} id="pms-pcc-assigned-case-item">
                   <Text>
                     <strong>Application {app.id}:</strong> {app.title}
                   </Text>
@@ -247,7 +245,7 @@ function AttorneyForm({ attorneyId, onBack }) {
               ))}
             </div>
           ) : (
-            <Text className="no-applications-text" color="dimmed" size="sm">
+            <Text id="pms-pcc-no-applications-text" color="dimmed" size="sm">
               No applications assigned
             </Text>
           )}
