@@ -213,7 +213,7 @@ function EventApprovals({ clubName }) {
         await forwardFile({
           fileId,
           receiver: FICName, // based on clubname & under which fraternity we have filter from relatedClubData
-          receiverDesignation: "Professor",
+          receiverDesignation: "FIC",
           remarks: "Approved by Co-ordinator",
           fileExtraJSON: {
             approved_by: "Co-ordinator",
